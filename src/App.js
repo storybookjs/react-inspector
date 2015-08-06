@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 
 import ObjectInspector from './ObjectInspector';
-import MinimalObjectInspector from './MinimalObjectInspector';
-import PlainObjectInspector from './PlainObjectInspector';
 
 function testFunction(){
   console.log("hello world");
@@ -81,7 +79,131 @@ export default class App extends Component {
         "updated_at": "2015-08-03T18:05:52Z"
     };
 
-    const testObjects = [undefined, testFunction, null, true, false, "testString", 42, NaN, testObject, test2, test3, test4, [], ["a"], ["a", 1]];
+    const test5 = {
+        "glossary": {
+            "title": "example glossary",
+    		"GlossDiv": {
+                "title": "S",
+    			"GlossList": {
+                    "GlossEntry": {
+                        "ID": "SGML",
+    					"SortAs": "SGML",
+    					"GlossTerm": "Standard Generalized Markup Language",
+    					"Acronym": "SGML",
+    					"Abbrev": "ISO 8879:1986",
+    					"GlossDef": {
+                            "para": "A meta-markup language, used to create markup languages such as DocBook.",
+    						"GlossSeeAlso": ["GML", "XML"]
+                        },
+    					"GlossSee": "markup"
+                    }
+                }
+            }
+        }
+    };
+
+    const test6 = {
+      "basics": {
+        "name": "John Doe",
+        "label": "Programmer",
+        "picture": "",
+        "email": "john@gmail.com",
+        "phone": "(912) 555-4321",
+        "website": "http://johndoe.com",
+        "summary": "A summary of John Doe...",
+        "location": {
+          "address": "2712 Broadway St",
+          "postalCode": "CA 94115",
+          "city": "San Francisco",
+          "countryCode": "US",
+          "region": "California"
+        },
+        "profiles": [{
+          "network": "Twitter",
+          "username": "john",
+          "url": "http://twitter.com/john"
+        }]
+      },
+      "work": [{
+        "company": "Company",
+        "position": "President",
+        "website": "http://company.com",
+        "startDate": "2013-01-01",
+        "endDate": "2014-01-01",
+        "summary": "Description...",
+        "highlights": [
+          "Started the company"
+        ]
+      }],
+      "volunteer": [{
+        "organization": "Organization",
+        "position": "Volunteer",
+        "website": "http://organization.com/",
+        "startDate": "2012-01-01",
+        "endDate": "2013-01-01",
+        "summary": "Description...",
+        "highlights": [
+          "Awarded 'Volunteer of the Month'"
+        ]
+      }],
+      "education": [{
+        "institution": "University",
+        "area": "Software Development",
+        "studyType": "Bachelor",
+        "startDate": "2011-01-01",
+        "endDate": "2013-01-01",
+        "gpa": "4.0",
+        "courses": [
+          "DB1101 - Basic SQL"
+        ]
+      }],
+      "awards": [{
+        "title": "Award",
+        "date": "2014-11-01",
+        "awarder": "Company",
+        "summary": "There is no spoon."
+      }],
+      "publications": [{
+        "name": "Publication",
+        "publisher": "Company",
+        "releaseDate": "2014-10-01",
+        "website": "http://publication.com",
+        "summary": "Description..."
+      }],
+      "skills": [{
+        "name": "Web Development",
+        "level": "Master",
+        "keywords": [
+          "HTML",
+          "CSS",
+          "Javascript"
+        ]
+      }],
+      "languages": [{
+        "language": "English",
+        "fluency": "Native speaker"
+      }],
+      "interests": [{
+        "name": "Wildlife",
+        "keywords": [
+          "Ferrets",
+          "Unicorns"
+        ]
+      }],
+      "references": [{
+        "name": "Jane Doe",
+        "reference": "Reference..."
+      }]
+    };
+
+    // usage:
+    // {
+    //   "a": function(){
+    //     // iife ajax call
+    //   }
+    // }
+
+    const testObjects = [undefined, testFunction, null, true, false, "testString", 42, NaN, testObject, test2, test3, test4, test5, test6, [], ["a"], ["a", 1]];
 
     return (
       <div>
@@ -93,8 +215,6 @@ export default class App extends Component {
                     </ObjectInspector>);
           });
         })()}
-        <MinimalObjectInspector data={testObject}/>
-        <PlainObjectInspector data={testObject}/>
       </div>
     );
   }
