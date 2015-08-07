@@ -89,7 +89,7 @@ export default class ObjectInspector extends Component {
 
     return (
       <div className="ObjectInspector">
-        <span className="ObjectInspector-property" onClick={this.handleClick.bind(this)}>
+        <span className="ObjectInspector-property" onTouchStart={this.handleClick.bind(this)} onClick={this.handleClick.bind(this)}>
           <span className="ObjectInspector-expand-control ObjectInspector-unselectable">{expandGlyph}</span>
           {(() => {
             if (typeof name !== 'undefined') {

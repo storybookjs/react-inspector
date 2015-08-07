@@ -102,7 +102,6 @@ export default class App extends Component {
         }
     };
 
-    // usage:
     // {
     //   "a": function(){
     //     // iife ajax call
@@ -115,7 +114,6 @@ export default class App extends Component {
       <div>
         {(() => {
           // https://facebook.github.io/react/tips/if-else-in-JSX.html
-          // TODO: key props here
           return testObjects.map(function(object, index){
             return (
                   <div style={{marginBottom:"10px"}}>
