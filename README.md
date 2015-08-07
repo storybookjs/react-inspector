@@ -3,7 +3,9 @@ react-object-inspector
 
 Simple object inspector made with [React](http://facebook.github.io/react/), an alternative to `<pre>JSON.stringify(data, null, 2)</pre>`. You can use this tool to inspect Javascript Objects. Styled similarly to [Chrome DevTools](https://developer.chrome.com/devtools).
 
-Demo
+![](http://xyc.github.io/react-object-inspector/screenshot.png)
+
+[Demo](http://xyc.github.io/react-object-inspector/)
 
 Tree state is saved at root. If you click to expand some elements in the hierarchy, the state will be preserved after the element is unmounted.
 
