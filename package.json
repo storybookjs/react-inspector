@@ -1,32 +1,44 @@
 {
-  "name": "react-hot-boilerplate",
-  "version": "1.0.0",
-  "description": "Boilerplate for ReactJS project with hot code reloading",
+  "name": "react-object-inspector",
+  "version": "0.1.0",
+  "description": "Simple object inspector styled similarly to Chrome DevTools",
+  "main": "lib/ObjectInspector.js",
+  "directories": {
+    "example": "example"
+  },
   "scripts": {
     "start": "node server.js",
-    "lint": "eslint src"
+    "build": "babel src --out-dir lib && webpack --config webpack.prod.config.js",
+    "lint": "eslint lib example",
+    "release": ""
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gaearon/react-hot-boilerplate.git"
+    "url": "https://github.com/xyc/react-object-inspector.git"
   },
   "keywords": [
     "react",
     "reactjs",
-    "boilerplate",
-    "hot",
-    "reload",
-    "hmr",
-    "live",
-    "edit",
-    "webpack"
+    "object",
+    "object-inspector",
+    "object-inspector",
+    "treeview",
+    "tree-view",
+    "tree",
+    "view",
+    "inspector",
+    "react-component",
+    "ui"
   ],
-  "author": "Dan Abramov <dan.abramov@me.com> (http://github.com/gaearon)",
+  "author": "Xiaoyi Chen <cxychina@gmail.com> (http://github.com/xyc)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gaearon/react-hot-boilerplate/issues"
+    "url": "https://github.com/xyc/react-object-inspector/issues"
   },
-  "homepage": "https://github.com/gaearon/react-hot-boilerplate",
+  "homepage": "https://github.com/xyc/react-object-inspector",
+  "dependencies": {
+    "react": "^0.13.0"
+  },
   "devDependencies": {
     "babel-core": "^5.4.7",
     "babel-eslint": "^3.1.9",
@@ -36,8 +48,5 @@
     "react-hot-loader": "^1.2.7",
     "webpack": "^1.9.6",
     "webpack-dev-server": "^1.8.2"
-  },
-  "dependencies": {
-    "react": "^0.13.0"
   }
 }
