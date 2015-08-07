@@ -175,7 +175,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        { className: 'ObjectInspector' },
 	        _react2['default'].createElement(
 	          'span',
-	          { className: 'ObjectInspector-property', onClick: this.handleClick.bind(this) },
+	          { className: 'ObjectInspector-property', onTouchStart: this.handleClick.bind(this), onClick: this.handleClick.bind(this) },
 	          _react2['default'].createElement(
 	            'span',
 	            { className: 'ObjectInspector-expand-control ObjectInspector-unselectable' },
