@@ -1,0 +1,60 @@
+.ObjectInspector{
+  font-family: Menlo, monospace;
+  font-size: 11px;
+  line-height: 14px;
+  cursor: default;
+}
+
+.ObjectInspector-unselectable{
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.ObjectInspector-expand-control {
+  color: #6e6e6e;
+  font-size: 10px;
+  margin-right: 3px;
+  white-space: pre;
+}
+
+.ObjectInspector-property{
+  padding-top: 2px;
+}
+
+.ObjectInspector-object-name {
+  color: rgb(136, 19, 145);
+}
+
+.ObjectInspector-object-value-null, .ObjectInspector-object-value-undefined{
+  color: rgb(128, 128, 128);
+}
+
+.ObjectInspector-object-value-string{
+  color: rgb(196, 26, 22);
+}
+
+.ObjectInspector-object-value-number, .ObjectInspector-object-value-boolean {
+  color: rgb(28, 0, 207);
+}
+
+.ObjectInspector-object-value-function-keyword{
+  color: rgb(170, 13, 145);
+  font-style: italic;
+}
+
+.ObjectInspector-object-value-function-name{
+  font-style: italic;
+}
+
+.ObjectInspector-object-preview{
+  font-style: italic;
+}
+
+.ObjectInspector-property-nodes-container{
+  padding-left: 12px
+}
