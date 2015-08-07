@@ -211,8 +211,11 @@ export default class App extends Component {
           // https://facebook.github.io/react/tips/if-else-in-JSX.html
           // TODO: key props here
           return testObjects.map(function(object, index){
-            return (<ObjectInspector style={{marginBottom:"10px"}} key={index} data={object}>
-                    </ObjectInspector>);
+            return (
+                  <div style={{marginBottom:"10px"}}>
+                    <ObjectInspector key={index} data={object}>
+                    </ObjectInspector>
+                  </div>);
           });
         })()}
       </div>
