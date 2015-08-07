@@ -72,24 +72,25 @@ class ObjectPreview extends Component {
 export default class ObjectInspector extends Component {
 
   propTypes: {
-    name: PropTypes.string;
-    data: PropTypes.object;
-    depth: PropTypes.number;
+    name: PropTypes.string,
+    data: PropTypes.object,
+    depth: PropTypes.number,
+    objectinspectorid: PropTypes.string
   }
 
   static defaultProps = {
       name: void 0,
       data: {},
       depth: 0,
+      objectinspectorid: String(void 0)
   }
 
   constructor(props) {
     super(props);
 
-    this.state = {expanded: false};
     if(props.depth === 0){
-      this.state.expandedTree = {'0': {}};
-      this.state.expandedTree['0'][props.name] = false;
+      this.state = {expandedTree: {}};
+      this.state.expandedTree[props.objectinspectorid] = false;
     }
   }
 
@@ -97,37 +98,30 @@ export default class ObjectInspector extends Component {
     return (typeof data === 'object' && data !== null && Object.keys(data).length > 0);
   }
 
-  // getExpanded(path){
-  //   {path: }
-  // }
-
-  getExpanded(depth, name){
-    
-
+  getExpanded(objectinspectorid){
     const expandedTree = this.state.expandedTree;
-    if (typeof expandedTree[depth] !== 'undefined') {
-      return expandedTree[depth][name];
+    if (typeof expandedTree[objectinspectorid] !== 'undefined') {
+      return expandedTree[objectinspectorid];
     }
     return false;
   }
 
-  setExpanded(depth, name, expanded){
+  setExpanded(objectinspectorid, expanded){
     const expandedTree = this.state.expandedTree;
-    if(typeof expandedTree[depth] === 'undefined'){
-      expandedTree[depth] = {};
-    }
-    expandedTree[depth][name] = expanded;
+    expandedTree[objectinspectorid] = expanded;
     this.setState({expandedTree: expandedTree});
   }
 
   handleClick() {
     console.log(this.props.data);
+    console.log(this.props.objectinspectorid);
+
     if (ObjectInspector.isExpandable(this.props.data)) {
       if (this.props.depth > 0) {
-        this.props.setExpanded(this.props.depth, this.props.name, !this.props.getExpanded(this.props.depth, this.props.name));
+        this.props.setExpanded(this.props.objectinspectorid, !this.props.getExpanded(this.props.objectinspectorid));
       }
       else{
-        this.setExpanded(this.props.depth, this.props.name, !this.getExpanded(this.props.depth, this.props.name));
+        this.setExpanded(this.props.objectinspectorid, !this.getExpanded(this.props.objectinspectorid));
       }
     }
   }
@@ -138,7 +132,8 @@ export default class ObjectInspector extends Component {
 
     const setExpanded = (this.props.depth === 0) ? (this.setExpanded.bind(this)) : this.props.setExpanded;
     const getExpanded = (this.props.depth === 0) ? (this.getExpanded.bind(this)) : this.props.getExpanded;
-    const expanded = getExpanded(this.props.depth, this.props.name);
+    // const expanded = getExpanded(this.props.depth, this.props.name);
+    const expanded = getExpanded(this.props.objectinspectorid);
 
     const expandGlyph = ObjectInspector.isExpandable(data) ? (expanded ? '▼' : '▶') : (typeof name === 'undefined' ? '' : ' ');
 
@@ -151,6 +146,7 @@ export default class ObjectInspector extends Component {
         if(data.hasOwnProperty(propertyName)){
           propertyNodes.push(<ObjectInspector getExpanded={getExpanded}
                                               setExpanded={setExpanded}
+                                              objectinspectorid={`${this.props.objectinspectorid}.${propertyName}`}
                                               depth={this.props.depth + 1}
                                               key={propertyName}
                                               name={propertyName}
@@ -162,7 +158,7 @@ export default class ObjectInspector extends Component {
     }
 
     return (
-      <div className="ObjectInspector">
+      <div {...this.props} className="ObjectInspector">
         <span className="ObjectInspector-property" onClick={this.handleClick.bind(this)}>
           <span className="ObjectInspector-expand-control ObjectInspector-unselectable">{expandGlyph}</span>
           {(() => {
@@ -179,13 +175,6 @@ export default class ObjectInspector extends Component {
           })()}
         </span>
         {propertyNodesContainer}
-        {(()=>{
-            if(this.props.depth === 0){
-              return (<pre>expandedTree:
-                      {JSON.stringify(this.state.expandedTree, null, 2)}
-                      </pre>)
-            }
-          })()}
       </div>
     );
   }
