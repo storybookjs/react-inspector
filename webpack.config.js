@@ -6,10 +6,10 @@ module.exports = {
   entry: [
     'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',
-    './example/index'
+    './example/index.js'
   ],
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, 'example'),
     filename: 'bundle.js',
     publicPath: '/static/'
   },
@@ -23,9 +23,9 @@ module.exports = {
   module: {
     loaders: [
       {
-      test: /\.jsx?$/,
-      loaders: ['react-hot', 'babel'],
-      include: path.join(__dirname, 'src')
+        test: /\.(js|jsx)$/,
+        loaders: ['react-hot', 'babel'],
+        include: [path.join(__dirname, 'src'), path.join(__dirname, 'example')]
       },
       {
         test: /\.css$/,

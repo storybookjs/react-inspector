@@ -165,20 +165,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        propertyNodesContainer = _react2['default'].createElement(
 	          'div',
-	          { style: { paddingLeft: "12px" }, className: "ObjectInspector-property-nodes-container" },
+	          { style: { paddingLeft: "12px" }, className: 'ObjectInspector-property-nodes-container' },
 	          propertyNodes
 	        );
 	      }
 	
 	      return _react2['default'].createElement(
 	        'div',
-	        { className: "ObjectInspector" },
+	        { className: 'ObjectInspector' },
 	        _react2['default'].createElement(
 	          'span',
-	          { className: "ObjectInspector-property", onClick: this.handleClick.bind(this) },
+	          { className: 'ObjectInspector-property', onClick: this.handleClick.bind(this) },
 	          _react2['default'].createElement(
 	            'span',
-	            { className: "ObjectInspector-expand-control ObjectInspector-unselectable" },
+	            { className: 'ObjectInspector-expand-control ObjectInspector-unselectable' },
 	            expandGlyph
 	          ),
 	          (function () {
@@ -188,7 +188,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                null,
 	                _react2['default'].createElement(
 	                  'span',
-	                  { className: "ObjectInspector-object-name" },
+	                  { className: 'ObjectInspector-object-name' },
 	                  name
 	                ),
 	                _react2['default'].createElement(
@@ -247,11 +247,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _react = __webpack_require__(1);
 	
+	var _react2 = _interopRequireDefault(_react);
+	
 	/**
 	 * A short description of the object
 	 */
-	
-	var _react2 = _interopRequireDefault(_react);
 	
 	var ObjectDescription = (function (_Component) {
 	  _inherits(ObjectDescription, _Component);
@@ -270,13 +270,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        case 'number':
 	          return _react2['default'].createElement(
 	            'span',
-	            { className: "ObjectInspector-object-value-number" },
+	            { className: 'ObjectInspector-object-value-number' },
 	            object
 	          );
 	        case 'string':
 	          return _react2['default'].createElement(
 	            'span',
-	            { className: "ObjectInspector-object-value-string" },
+	            { className: 'ObjectInspector-object-value-string' },
 	            '"',
 	            object,
 	            '"'
@@ -284,20 +284,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	        case 'boolean':
 	          return _react2['default'].createElement(
 	            'span',
-	            { className: "ObjectInspector-object-value-boolean" },
+	            { className: 'ObjectInspector-object-value-boolean' },
 	            String(object)
 	          ); // why simple {object} won't work?
 	        case 'undefined':
 	          return _react2['default'].createElement(
 	            'span',
-	            { className: "ObjectInspector-object-value-undefined" },
+	            { className: 'ObjectInspector-object-value-undefined' },
 	            'undefined'
 	          );
 	        case 'object':
 	          if (object === null) {
 	            return _react2['default'].createElement(
 	              'span',
-	              { className: "ObjectInspector-object-value-null" },
+	              { className: 'ObjectInspector-object-value-null' },
 	              'null'
 	            );
 	          }
@@ -310,7 +310,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 	          return _react2['default'].createElement(
 	            'span',
-	            { className: "ObjectInspector-object-value-object" },
+	            { className: 'ObjectInspector-object-value-object' },
 	            'Object'
 	          );
 	        case 'function':
@@ -319,12 +319,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	            null,
 	            _react2['default'].createElement(
 	              'span',
-	              { className: "ObjectInspector-object-value-function-keyword" },
+	              { className: 'ObjectInspector-object-value-function-keyword' },
 	              'function'
 	            ),
 	            _react2['default'].createElement(
 	              'span',
-	              { className: "ObjectInspector-object-value-function-name" },
+	              { className: 'ObjectInspector-object-value-function-name' },
 	              ' ',
 	              object.name,
 	              '()'
@@ -405,7 +405,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (Array.isArray(object)) {
 	        return _react2['default'].createElement(
 	          'span',
-	          { className: "ObjectInspector-object-preview" },
+	          { className: 'ObjectInspector-object-preview' },
 	          '[',
 	          intersperse(object.map(function (element, index) {
 	            return _react2['default'].createElement(_ObjectDescription2['default'], { key: index, object: element });
@@ -430,7 +430,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	              { key: propertyName },
 	              _react2['default'].createElement(
 	                'span',
-	                { className: "ObjectInspector-object-name" },
+	                { className: 'ObjectInspector-object-name' },
 	                propertyName
 	              ),
 	              ': ',
@@ -443,7 +443,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        return _react2['default'].createElement(
 	          'span',
-	          { className: "ObjectInspector-object-preview" },
+	          { className: 'ObjectInspector-object-preview' },
 	          'Object {',
 	          intersperse(propertyNodes, ", "),
 	          '}'

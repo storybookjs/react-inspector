@@ -5,7 +5,7 @@ Simple object inspector made with [React](http://facebook.github.io/react/), an 
 
 Demo
 
-Tree state is saved at root. For example, if you click to expand some elements in the hierarchy, the state will be preserved after the element is unmounted.
+Tree state is saved at root. If you click to expand some elements in the hierarchy, the state will be preserved after the element is unmounted.
 
 ### Install
 

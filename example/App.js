@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import ObjectInspector from './ObjectInspector';
+import ObjectInspector from '../src/ObjectInspector';
 
 function testFunction(){
   console.log("hello world");
