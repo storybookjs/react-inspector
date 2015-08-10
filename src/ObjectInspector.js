@@ -58,6 +58,10 @@ export default class ObjectInspector extends Component {
     }
   }
 
+  componentWillMount(){
+    React.initializeTouchEvents(true);
+  }
+
   render() {
     const data = this.props.data;
     const name = this.props.name;
