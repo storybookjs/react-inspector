@@ -108,7 +108,7 @@ export default class App extends Component {
     //   }
     // }
 
-    const testObjects = [undefined, testFunction, null, true, false, "testString", 42, NaN, testObject, test2, test3, test4, test5, [], ["a"], ["a", 1]];
+    const testObjects = [undefined, testFunction, null, true, false, "testString", 42, NaN, Symbol('foo'), testObject, test2, test3, test4, test5, [], ["a"], ["a", 1]];
 
     return (
       <div>

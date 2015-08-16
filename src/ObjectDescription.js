@@ -28,7 +28,8 @@ export default class ObjectDescription extends Component{
                   <span className="ObjectInspector-object-value-function-keyword">function</span>
                   <span className="ObjectInspector-object-value-function-name">&nbsp;{object.name}()</span>
                 </span>);
-      //TODO: case 'Symbol':
+      case 'symbol':
+        return (<span className="ObjectInspector-object-value-symbol">Symbol()</span>)
       default:
         return (<span></span>);
     }

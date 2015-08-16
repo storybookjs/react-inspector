@@ -38,6 +38,10 @@
   color: rgb(196, 26, 22);
 }
 
+.ObjectInspector-object-value-symbol{
+  color: rgb(196, 26, 22);
+}
+
 .ObjectInspector-object-value-number, .ObjectInspector-object-value-boolean {
   color: rgb(28, 0, 207);
 }
