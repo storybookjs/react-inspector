@@ -14,7 +14,7 @@ export default class ObjectInspector extends Component {
 
   static defaultProps = {
       name: void 0,
-      data: {},
+      data: undefined,
       depth: 0,
       objectinspectorid: String(void 0)
   }
