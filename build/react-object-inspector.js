@@ -89,7 +89,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'defaultProps',
 	    value: {
 	      name: void 0,
-	      data: {},
+	      data: undefined,
 	      depth: 0,
 	      objectinspectorid: String(void 0)
 	    },
@@ -134,6 +134,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.setExpanded(this.props.objectinspectorid, !this.getExpanded(this.props.objectinspectorid));
 	        }
 	      }
+	    }
+	  }, {
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      _react2['default'].initializeTouchEvents(true);
 	    }
 	  }, {
 	    key: 'render',
@@ -301,6 +306,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	              'null'
 	            );
 	          }
+	          if (object instanceof Date) {
+	            return _react2['default'].createElement(
+	              'span',
+	              null,
+	              object.toString()
+	            );
+	          }
 	          if (Array.isArray(object)) {
 	            return _react2['default'].createElement(
 	              'span',
@@ -330,7 +342,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	              '()'
 	            )
 	          );
-	        //TODO: case 'Symbol':
+	        case 'symbol':
+	          return _react2['default'].createElement(
+	            'span',
+	            { className: 'ObjectInspector-object-value-symbol' },
+	            'Symbol()'
+	          );
 	        default:
 	          return _react2['default'].createElement('span', null);
 	      }
@@ -411,6 +428,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return _react2['default'].createElement(_ObjectDescription2['default'], { key: index, object: element });
 	          }), ", "),
 	          ']'
+	        );
+	      } else if (object instanceof Date) {
+	        return _react2['default'].createElement(
+	          'span',
+	          null,
+	          object.toString()
 	        );
 	      } else {
 	        var propertyNodes = [];
