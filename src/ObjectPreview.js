@@ -37,6 +37,9 @@ export default class ObjectPreview extends Component {
         }), ", ")}
       ]</span>;
     }
+    else if (object instanceof Date) {
+      return <span>{object.toString()}</span>;
+    }
     else {
       let propertyNodes = [];
       for(let propertyName in object){

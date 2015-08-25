@@ -19,6 +19,9 @@ export default class ObjectDescription extends Component{
         if(object === null){
           return (<span className="ObjectInspector-object-value-null">null</span>)
         }
+        if(object instanceof Date){
+          return (<span>{object.toString()}</span>);
+        }
         if(Array.isArray(object)){
           return (<span>{`Array[${object.length}]`}</span>);
         }
