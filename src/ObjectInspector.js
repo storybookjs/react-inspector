@@ -59,7 +59,9 @@ export default class ObjectInspector extends Component {
   }
 
   componentWillMount(){
-    React.initializeTouchEvents(true);
+    if (typeof React.initializeTouchEvents === 'function') {
+      React.initializeTouchEvents(true);
+    }
   }
 
   render() {
