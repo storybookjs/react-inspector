@@ -1,6 +1,16 @@
 // Karma configuration
 // Generated on Sun Sep 13 2015 21:58:59 GMT-0700 (PDT)
 
+var webpackConfig = {
+  module: {
+    loaders: [
+      {
+        test: /\.js$/, loader: 'babel', include: [path.resolve('./src'), path.resolve('./test')],
+      },
+    ]
+  }
+};
+
 module.exports = function(config) {
   config.set({
 
@@ -24,11 +34,19 @@ module.exports = function(config) {
     exclude: [
     ],
 
+    webpack: webpackConfig,
+    webpackMiddleware: {
+      noInfo: true
+    },
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
     },
+
+    plugins: [
+      require("karma-webpack")
+    ],
 
 
     // test results reporter to use
