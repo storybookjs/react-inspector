@@ -1,11 +1,14 @@
 // Karma configuration
 // Generated on Sun Sep 13 2015 21:58:59 GMT-0700 (PDT)
 
+
+var path = require('path');
+
 var webpackConfig = {
   module: {
     loaders: [
       {
-        test: /\.js$/, loader: 'babel', include: [path.resolve('./src'), path.resolve('./test')],
+        test: /\.(js|jsx)$/, loader: 'babel', include: [path.resolve('./src'), path.resolve('./test')],
       },
     ]
   }
@@ -45,6 +48,8 @@ module.exports = function(config) {
     },
 
     plugins: [
+      'karma-jasmine',
+      'karma-phantomjs-launcher',
       require("karma-webpack")
     ],
 
