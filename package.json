@@ -43,6 +43,11 @@
     "css-loader": "^0.15.6",
     "eslint-plugin-react": "^2.3.0",
     "react": "^0.14.0",
+    "jasmine-core": "^2.3.4",
+    "karma": "^0.13.9",
+    "karma-jasmine": "^0.3.6",
+    "karma-phantomjs-launcher": "^0.2.1",
+    "phantomjs": "^1.9.18",
     "react-hot-loader": "^1.2.7",
     "webpack": "^1.9.6",
     "webpack-dev-server": "^1.8.2"

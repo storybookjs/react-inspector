@@ -9,22 +9,49 @@ export default class ObjectInspector extends Component {
     name: PropTypes.string,
     data: PropTypes.object,
     depth: PropTypes.number,
-    objectinspectorid: PropTypes.string
+    initialExpandedState: PropTypes.object,
+    objectinspectorid: PropTypes.string,  // id to indentify the node in the expanded state
   }
 
   static defaultProps = {
-      name: void 0,
-      data: undefined,
-      depth: 0,
-      objectinspectorid: String(void 0)
+    name: void 0,
+    data: undefined,
+    depth: 0,
+    initialExpandedState: undefined,
+
+    // initialExpandedPath:
+    // path is a sequence of object names. (object names should not contain a "dot")
+    // path: a simpler interface to the whole state, can we specify path and state simultaneously?
+    // initalExpandedPath: "undefined.glossary.GlossDiv"?
+    // "undefined.*.*", ... DSL here '.'.join(['*', .])
+    //  Array(6).join('*').split('').join('.')
+    // "undefined.\*" escape multiply
+    //
+    // undefined.glossary.GlossDiv
+    // ->
+    // undefined
+    // undefined.glossary
+    // undefined.glossary.GlossDiv
+
+    // specify initialExpandedState will invalidate initialExpandedPath
+
+    objectinspectorid: String(void 0)
   }
 
   constructor(props) {
     super(props);
 
     if(props.depth === 0){
-      this.state = {expandedTree: {}};
-      this.state.expandedTree[props.objectinspectorid] = false;
+
+      if(typeof props.initialExpandedState !== 'undefined')
+        this.state = {expandedTree: props.initialExpandedState};
+      else{
+        this.state = {expandedTree: {}};
+        //this.state.expandedTree[props.objectinspectorid] = false;
+        // will default to false if not found
+      }
+      // this.state = {expandedTree: {}};
+      // this.state.expandedTree[props.objectinspectorid] = false;
     }
   }
 
@@ -95,6 +122,9 @@ export default class ObjectInspector extends Component {
 
     return (
       <div className="ObjectInspector">
+        {(() => {
+          return (this.props.depth === 0) ? (<pre>{JSON.stringify(this.state.expandedTree, null, 2)}</pre>) : undefined
+        })()}
         <span className="ObjectInspector-property" onTouchStart={this.handleClick.bind(this)} onClick={this.handleClick.bind(this)}>
           <span className="ObjectInspector-expand-control ObjectInspector-unselectable">{expandGlyph}</span>
           {(() => {
