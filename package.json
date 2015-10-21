@@ -42,12 +42,12 @@
     "babel-loader": "^5.1.2",
     "css-loader": "^0.15.6",
     "eslint-plugin-react": "^2.3.0",
-    "react": "^0.13.0",
+    "react": "^0.14.0",
     "react-hot-loader": "^1.2.7",
     "webpack": "^1.9.6",
     "webpack-dev-server": "^1.8.2"
   },
   "peerDependencies": {
-    "react": "^0.13.0 || ^0.14.0-rc1"
+    "react": "^0.13.0 || ^0.14.0"
   }
 }
