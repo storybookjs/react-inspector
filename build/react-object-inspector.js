@@ -138,7 +138,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      _react2['default'].initializeTouchEvents(true);
+	      if (typeof _react2['default'].initializeTouchEvents === 'function') {
+	        _react2['default'].initializeTouchEvents(true);
+	      }
 	    }
 	  }, {
 	    key: 'render',
