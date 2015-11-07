@@ -1,6 +1,7 @@
 react-object-inspector
 =====================
 
+[![build status](https://img.shields.io/travis/xyc/react-object-inspector/master.svg?style=flat-square)](https://travis-ci.org/xyc/react-object-inspector)
 [![npm version](https://img.shields.io/npm/v/react-object-inspector.svg?style=flat-square)](https://www.npmjs.com/package/react-object-inspector)
 
 Simple object inspector made with [React](http://facebook.github.io/react/) styled similarly to [Chrome DevTools](https://developer.chrome.com/devtools). You can use this tool to inspect Javascript Objects as an alternative to `<pre>JSON.stringify(data, null, 2)</pre>`.
