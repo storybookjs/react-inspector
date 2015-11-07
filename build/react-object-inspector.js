@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define(["react"], factory);
 	else if(typeof exports === 'object')
-		exports["TreeView"] = factory(require("react"));
+		exports["ObjectInspector"] = factory(require("react"));
 	else
-		root["TreeView"] = factory(root["React"]);
+		root["ObjectInspector"] = factory(root["React"]);
 })(this, function(__WEBPACK_EXTERNAL_MODULE_1__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache

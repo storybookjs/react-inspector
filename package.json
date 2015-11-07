@@ -9,7 +9,9 @@
   "scripts": {
     "start": "node server.js",
     "build": "babel src --out-dir lib && webpack --config webpack.prod.config.js",
-    "lint": "eslint lib example",
+    "lint": "eslint lib",
+    "test": "karma start ./karma.conf.js --single-run",
+    "prepublish": "npm run build",
     "release": ""
   },
   "repository": {
