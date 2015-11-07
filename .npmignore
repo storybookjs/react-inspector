@@ -1,6 +1,7 @@
 .eslintrc
 .gitignore
 .npmignore
+jsconfig.json
 build/
 example
 server.js

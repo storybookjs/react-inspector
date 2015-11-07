@@ -1,6 +1,7 @@
-import React, {addons, PropTypes} from 'react/addons';
+import React, {PropTypes} from 'react';
+import ReactDOM from 'react-dom';
+import TestUtils from 'react-addons-test-utils';
 
-const TestUtils = addons.TestUtils;
 const ObjectDescription = require('../src/ObjectDescription');
 
 describe('ObjectDescription', () => {
@@ -13,14 +14,14 @@ describe('ObjectDescription', () => {
     const desc = TestUtils.renderIntoDocument(<ObjectDescription object={0} />);
     const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
 
-    expect(React.findDOMNode(span).textContent).toBe("0");
+    expect(ReactDOM.findDOMNode(span).textContent).toBe("0");
   });
 
   it('string', () => {
     const desc = TestUtils.renderIntoDocument(<ObjectDescription object={"octocat"} />);
     const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
 
-    expect(React.findDOMNode(span).textContent).toBe("\"octocat\"");
+    expect(ReactDOM.findDOMNode(span).textContent).toBe("\"octocat\"");
   });
 
   it('boolean', () => {
@@ -28,7 +29,7 @@ describe('ObjectDescription', () => {
       const desc = TestUtils.renderIntoDocument(<ObjectDescription object={value} />);
       const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
 
-      expect(React.findDOMNode(span).textContent).toBe(value.toString());
+      expect(ReactDOM.findDOMNode(span).textContent).toBe(value.toString());
     }
   });
 
@@ -36,42 +37,44 @@ describe('ObjectDescription', () => {
     const desc = TestUtils.renderIntoDocument(<ObjectDescription />);
     const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
 
-    expect(React.findDOMNode(span).textContent).toBe("undefined");
+    expect(ReactDOM.findDOMNode(span).textContent).toBe("undefined");
   });
 
   it('null', () => {
     const desc = TestUtils.renderIntoDocument(<ObjectDescription object={null}/>);
     const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
 
-    expect(React.findDOMNode(span).textContent).toBe("null");
+    expect(ReactDOM.findDOMNode(span).textContent).toBe("null");
   });
 
   it('date', () => {
-    const desc = TestUtils.renderIntoDocument(<ObjectDescription object={new Date('December 17, 1995 03:24:00')}/>);
+    const dateString = 'December 17, 1995 03:24:00';
+    const date = new Date(dateString);
+    const desc = TestUtils.renderIntoDocument(<ObjectDescription object={date}/>);
     const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
 
-    expect(React.findDOMNode(span).textContent).toBe("Sun Dec 17 1995 03:24:00 GMT-0800 (PST)");
+    expect(ReactDOM.findDOMNode(span).textContent).toBe((new Date(dateString)).toString());
   });
 
   it('array', () => {
     const desc = TestUtils.renderIntoDocument(<ObjectDescription object={[1,2,3,4,5]}/>);
     const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
 
-    expect(React.findDOMNode(span).textContent).toBe("Array[5]");
+    expect(ReactDOM.findDOMNode(span).textContent).toBe("Array[5]");
   });
 
   it('object: empty object', () => {
     const desc = TestUtils.renderIntoDocument(<ObjectDescription object={{}}/>);
     const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
 
-    expect(React.findDOMNode(span).textContent).toBe("Object");
+    expect(ReactDOM.findDOMNode(span).textContent).toBe("Object");
   });
 
   it('object', () => {
     const desc = TestUtils.renderIntoDocument(<ObjectDescription object={{'k': 'v'}}/>);
     const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
 
-    expect(React.findDOMNode(span).textContent).toBe("Object");
+    expect(ReactDOM.findDOMNode(span).textContent).toBe("Object");
   });
 
   it('function', () => {
@@ -86,7 +89,7 @@ describe('ObjectDescription', () => {
     const spans = TestUtils.scryRenderedDOMComponentsWithTag(desc, 'span');
 
     expect(spans.length).toBe(3);
-    expect(React.findDOMNode(spans[0]).textContent).toBe("function\xa0id()");
+    expect(ReactDOM.findDOMNode(spans[0]).textContent).toBe("function\xa0id()");
   });
 
   // Need phantomjs 2

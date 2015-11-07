@@ -44,10 +44,9 @@
     "babel-eslint": "^4.1.0",
     "babel-loader": "^5.1.4",
     "core-js": "^1.1.4",
-    "css-loader": "^0.15.6",
+    "es5-shim": "^4.2.0",
     "eslint": "^1.7.1",
     "eslint-plugin-react": "^2.3.0",
-    "react": "^0.14.0",
     "jasmine-core": "^2.3.4",
     "karma": "^0.13.9",
     "karma-firefox-launcher": "^0.1.6",
@@ -55,11 +54,14 @@
     "karma-phantomjs-launcher": "^0.2.1",
     "karma-webpack": "^1.7.0",
     "phantomjs": "^1.9.18",
+    "react": "^0.14.2",
+    "react-addons-test-utils": "^0.14.2",
+    "react-dom": "^0.14.2",
     "react-hot-loader": "^1.2.7",
     "webpack": "^1.9.6",
     "webpack-dev-server": "^1.8.2"
   },
   "peerDependencies": {
-    "react": "^0.13.0 || ^0.14.0"
+    "react": "^0.14.0"
   }
 }
