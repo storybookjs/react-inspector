@@ -10,7 +10,7 @@ var config = {
     publicPath: 'build/',
     filename: 'react-object-inspector.js',
     sourceMapFilename: 'react-object-inspector.map',
-    library: 'TreeView',
+    library: 'ObjectInspector',
     libraryTarget: 'umd',
   },
   module: {

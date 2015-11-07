@@ -111,12 +111,6 @@ export default class App extends Component {
 
     const testObjects = [undefined, testFunction, null, true, false, "testString", 42, NaN, Symbol('foo'), testObject, test2, test3, test4, test5, [], ["a"], ["a", 1], new Date()];
 
-    const initialExpandedState = {
-      "undefined": true,
-      "undefined.glossary": true,
-      "undefined.glossary.GlossDiv": true,
-    };
-
     return (
       <div>
         {(() => {
@@ -129,9 +123,6 @@ export default class App extends Component {
                   </div>);
           });
         })()}
-
-        <ObjectInspector data={test5} initialExpandedState={initialExpandedState}>
-        </ObjectInspector>
       </div>
     );
   }
