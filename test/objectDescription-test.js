@@ -10,21 +10,21 @@ describe('ObjectDescription', () => {
 
   });
 
-  it('number', () => {
+  it('should render number', () => {
     const desc = TestUtils.renderIntoDocument(<ObjectDescription object={0} />);
     const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
 
     expect(ReactDOM.findDOMNode(span).textContent).toBe("0");
   });
 
-  it('string', () => {
+  it('should render string with quotes', () => {
     const desc = TestUtils.renderIntoDocument(<ObjectDescription object={"octocat"} />);
     const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
 
     expect(ReactDOM.findDOMNode(span).textContent).toBe("\"octocat\"");
   });
 
-  it('boolean', () => {
+  it('should render boolean', () => {
     for(let value of [true, false]){
       const desc = TestUtils.renderIntoDocument(<ObjectDescription object={value} />);
       const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
@@ -33,21 +33,21 @@ describe('ObjectDescription', () => {
     }
   });
 
-  it('undefined', () => {
+  it('should render undefined', () => {
     const desc = TestUtils.renderIntoDocument(<ObjectDescription />);
     const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
 
     expect(ReactDOM.findDOMNode(span).textContent).toBe("undefined");
   });
 
-  it('null', () => {
+  it('shoudl render null', () => {
     const desc = TestUtils.renderIntoDocument(<ObjectDescription object={null}/>);
     const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
 
     expect(ReactDOM.findDOMNode(span).textContent).toBe("null");
   });
 
-  it('date', () => {
+  it('should display date correctly', () => {
     const dateString = 'December 17, 1995 03:24:00';
     const date = new Date(dateString);
     const desc = TestUtils.renderIntoDocument(<ObjectDescription object={date}/>);
@@ -56,35 +56,35 @@ describe('ObjectDescription', () => {
     expect(ReactDOM.findDOMNode(span).textContent).toBe((new Date(dateString)).toString());
   });
 
-  it('array', () => {
+  it('should render array with length information', () => {
     const desc = TestUtils.renderIntoDocument(<ObjectDescription object={[1,2,3,4,5]}/>);
     const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
 
     expect(ReactDOM.findDOMNode(span).textContent).toBe("Array[5]");
   });
 
-  it('object: empty object', () => {
+  it('should render an empty object', () => {
     const desc = TestUtils.renderIntoDocument(<ObjectDescription object={{}}/>);
     const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
 
     expect(ReactDOM.findDOMNode(span).textContent).toBe("Object");
   });
 
-  it('object', () => {
+  it('should render a simple object', () => {
     const desc = TestUtils.renderIntoDocument(<ObjectDescription object={{'k': 'v'}}/>);
     const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
 
     expect(ReactDOM.findDOMNode(span).textContent).toBe("Object");
   });
 
-  it('function', () => {
+  it('should render an anonymous function', () => {
     const desc = TestUtils.renderIntoDocument(<ObjectDescription object={function(){}}/>);
     const spans = TestUtils.scryRenderedDOMComponentsWithTag(desc, 'span');
 
     expect(spans.length).toBe(3);
   });
 
-  it('function: id function', () => {
+  it('should render a named function', () => {
     const desc = TestUtils.renderIntoDocument(<ObjectDescription object={function id(a){return a;}}/>);
     const spans = TestUtils.scryRenderedDOMComponentsWithTag(desc, 'span');
 
