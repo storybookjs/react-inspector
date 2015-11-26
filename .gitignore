@@ -3,6 +3,7 @@ npm-debug.log
 .DS_Store
 jsconfig.json
 
+react-codemod
 dev
 lib
 gh-pages/

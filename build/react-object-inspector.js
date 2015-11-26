@@ -91,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      name: void 0,
 	      data: undefined,
 	      depth: 0,
-	      objectinspectorid: String(void 0)
+	      path: String(void 0)
 	    },
 	    enumerable: true
 	  }]);
@@ -103,24 +103,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    if (props.depth === 0) {
 	      this.state = { expandedTree: {} };
-	      this.state.expandedTree[props.objectinspectorid] = false;
+	      this.state.expandedTree[props.path] = false;
 	    }
 	  }
 	
 	  _createClass(ObjectInspector, [{
 	    key: 'getExpanded',
-	    value: function getExpanded(objectinspectorid) {
+	    value: function getExpanded(path) {
 	      var expandedTree = this.state.expandedTree;
-	      if (typeof expandedTree[objectinspectorid] !== 'undefined') {
-	        return expandedTree[objectinspectorid];
+	      if (typeof expandedTree[path] !== 'undefined') {
+	        return expandedTree[path];
 	      }
 	      return false;
 	    }
 	  }, {
 	    key: 'setExpanded',
-	    value: function setExpanded(objectinspectorid, expanded) {
+	    value: function setExpanded(path, expanded) {
 	      var expandedTree = this.state.expandedTree;
-	      expandedTree[objectinspectorid] = expanded;
+	      expandedTree[path] = expanded;
 	      this.setState({ expandedTree: expandedTree });
 	    }
 	  }, {
@@ -129,9 +129,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      // console.log(this.props.data);
 	      if (ObjectInspector.isExpandable(this.props.data)) {
 	        if (this.props.depth > 0) {
-	          this.props.setExpanded(this.props.objectinspectorid, !this.props.getExpanded(this.props.objectinspectorid));
+	          this.props.setExpanded(this.props.path, !this.props.getExpanded(this.props.path));
 	        } else {
-	          this.setExpanded(this.props.objectinspectorid, !this.getExpanded(this.props.objectinspectorid));
+	          this.setExpanded(this.props.path, !this.getExpanded(this.props.path));
 	        }
 	      }
 	    }
@@ -150,7 +150,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      var setExpanded = this.props.depth === 0 ? this.setExpanded.bind(this) : this.props.setExpanded;
 	      var getExpanded = this.props.depth === 0 ? this.getExpanded.bind(this) : this.props.getExpanded;
-	      var expanded = getExpanded(this.props.objectinspectorid);
+	      var expanded = getExpanded(this.props.path);
 	
 	      var expandGlyph = ObjectInspector.isExpandable(data) ? expanded ? '▼' : '▶' : typeof name === 'undefined' ? '' : ' ';
 	
@@ -163,7 +163,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          if (data.hasOwnProperty(propertyName)) {
 	            propertyNodes.push(_react2['default'].createElement(ObjectInspector, { getExpanded: getExpanded,
 	              setExpanded: setExpanded,
-	              objectinspectorid: this.props.objectinspectorid + '.' + propertyName,
+	              path: this.props.path + '.' + propertyName,
 	              depth: this.props.depth + 1,
 	              key: propertyName,
 	              name: propertyName,

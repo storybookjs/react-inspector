@@ -2,6 +2,10 @@
 .gitignore
 .npmignore
 jsconfig.json
+
+react-codemod
+dev
+
 build/
 example
 server.js
