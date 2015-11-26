@@ -25,13 +25,12 @@ export default class ObjectInspector extends Component {
     super(props);
 
     if(props.depth === 0){
+      this.state = {expandedPaths: {}};
+      this.state.expandedPaths[props.path] = false;
 
-      // feed initialExpandedPaths into expandedTree
+      // feed initialExpandedPaths into expandedPaths
       if(typeof props.initialExpandedPaths !== 'undefined'){
-        // this.state.expandedTree
-        this.state = {expandedTree: {}};
-
-        this.state.expandedTree[props.path] = false;
+        // this.state.expandedPaths
 
         //const paths = [];
         // let paths = props.initialExpandedPaths;
@@ -41,29 +40,30 @@ export default class ObjectInspector extends Component {
           if(typeof expandedPath === 'string'){
             console.debug(expandedPath);
 
-            // name can be "*" (or use true?)
             const names = expandedPath.split('.');
             const paths = [];
-            function nameToPaths(curObject, curPath, i){
+            // name can be "*" (or use true?)
+            function wildcardPathToPaths(curObject, curPath, i){
+              const WILDCARD = "*";
               if(i === names.length){
                 paths.push(curPath);
                 return;
               }
               const name = names[i];
               if(i === 0){
-                if(name === props.name || name === 'root' || name === '*'){
-                  nameToPaths(curObject, 'root', i + 1);
+                if(name === props.name || name === 'root' || name === WILDCARD){
+                  wildcardPathToPaths(curObject, 'root', i + 1);
                 }
               }
               else{
-                if(name === '*'){
+                if(name === WILDCARD){
                   // console.debug(curObject);
                   for(const propertyName in curObject){
                     if(curObject.hasOwnProperty(propertyName)){
                       const propertyValue = curObject[propertyName];
                       if(ObjectInspector.isExpandable(propertyValue)){
                         console.debug(propertyValue);
-                        nameToPaths(propertyValue, curPath + '.' + propertyName, i + 1);
+                        wildcardPathToPaths(propertyValue, curPath + '.' + propertyName, i + 1);
                       }
                       else{
                         continue;
@@ -74,25 +74,21 @@ export default class ObjectInspector extends Component {
                 else{
                   const propertyValue = curObject[name];
                   if(ObjectInspector.isExpandable(propertyValue)){
-                    nameToPaths(propertyValue, curPath + '.' + name, i + 1);
+                    wildcardPathToPaths(propertyValue, curPath + '.' + name, i + 1);
                   }
-                  // nameToPaths(cur)
+                  // wildcardPathToPaths(cur)
                 }
               }
             }
-            nameToPaths(props.data, '', 0);
+            wildcardPathToPaths(props.data, '', 0);
 
             paths.map((path)=>{
-              this.state.expandedTree[path] = true;
+              this.state.expandedPaths[path] = true;
             })
 
           }
         });
-        console.debug(this.state.expandedTree);
-      }
-      else{
-        this.state = {expandedTree: {}};
-        this.state.expandedTree[props.path] = false;
+        console.debug(this.state.expandedPaths);
       }
     }
   }
@@ -102,17 +98,17 @@ export default class ObjectInspector extends Component {
   }
 
   getExpanded(path){
-    const expandedTree = this.state.expandedTree;
-    if (typeof expandedTree[path] !== 'undefined') {
-      return expandedTree[path];
+    const expandedPaths = this.state.expandedPaths;
+    if (typeof expandedPaths[path] !== 'undefined') {
+      return expandedPaths[path];
     }
     return false;
   }
 
   setExpanded(path, expanded){
-    const expandedTree = this.state.expandedTree;
-    expandedTree[path] = expanded;
-    this.setState({expandedTree: expandedTree});
+    const expandedPaths = this.state.expandedPaths;
+    expandedPaths[path] = expanded;
+    this.setState({expandedPaths: expandedPaths});
   }
 
   handleClick() {
@@ -173,7 +169,7 @@ export default class ObjectInspector extends Component {
                                       {
                                         // DEBUG
                                         // state could be null
-                                        (this.state)?JSON.stringify(this.state.expandedTree, null, 2)
+                                        (this.state)?JSON.stringify(this.state.expandedPaths, null, 2)
                                                     :null
                                       }
                                     </pre> )

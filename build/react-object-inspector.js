@@ -102,26 +102,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _get(Object.getPrototypeOf(ObjectInspector.prototype), 'constructor', this).call(this, props);
 	
 	    if (props.depth === 0) {
-	      this.state = { expandedTree: {} };
-	      this.state.expandedTree[props.path] = false;
+	      this.state = { expandedPaths: {} };
+	      this.state.expandedPaths[props.path] = false;
 	    }
 	  }
 	
 	  _createClass(ObjectInspector, [{
 	    key: 'getExpanded',
 	    value: function getExpanded(path) {
-	      var expandedTree = this.state.expandedTree;
-	      if (typeof expandedTree[path] !== 'undefined') {
-	        return expandedTree[path];
+	      var expandedPaths = this.state.expandedPaths;
+	      if (typeof expandedPaths[path] !== 'undefined') {
+	        return expandedPaths[path];
 	      }
 	      return false;
 	    }
 	  }, {
 	    key: 'setExpanded',
 	    value: function setExpanded(path, expanded) {
-	      var expandedTree = this.state.expandedTree;
-	      expandedTree[path] = expanded;
-	      this.setState({ expandedTree: expandedTree });
+	      var expandedPaths = this.state.expandedPaths;
+	      expandedPaths[path] = expanded;
+	      this.setState({ expandedPaths: expandedPaths });
 	    }
 	  }, {
 	    key: 'handleClick',
