@@ -1,6 +1,6 @@
 ## 0.2.0 (11/26/2015)
+- issue #4: inline styles
 - issue #5: Initial expanded paths
-- CSS and JS bundled together in the build by default
 
 ## 0.1.6 (10/26/2015)
 - Upgrade to React 0.14

@@ -3,18 +3,40 @@ import React, { Component } from 'react';
 import ObjectDescription from './ObjectDescription';
 import ObjectPreview from './ObjectPreview';
 
-import '../react-object-inspector.css';
-
+// Constants
 const DEFAULT_ROOT_PATH='root';
 
-// const styles = {
-//   base: {
-//     fontFamily: 'Menlo, monospace',
-//     fontSize: 11,
-//     lineHeight: 14,
-//     cursor: 'default'
-//   }
-// }
+// Styles
+import objectStyles from './objectStyles';
+const styles = {
+  base: {
+    fontFamily: 'Menlo, monospace',
+    fontSize: '11px',
+    lineHeight: '14px',
+    cursor: 'default',
+  },
+  propertyNodesContainer: {
+    paddingLeft: '12px',
+  },
+  unselectable: {
+    WebkitTouchCallout: 'none',
+    WebkitUserSelect: 'none',
+    KhtmlUserSelect: 'none',
+    MozUserSelect: 'none',
+    msUserSelect: 'none',
+    OUserSelect: 'none',
+    userSelect: 'none',
+  },
+  expandControl: {
+    color: '#6e6e6e',
+    fontSize: '10px',
+    marginRight: '3px',
+    whiteSpace: 'pre',
+  },
+  property: {
+    paddingTop: '2px',
+  },
+};
 
 export default class ObjectInspector extends Component {
 
@@ -158,17 +180,17 @@ export default class ObjectInspector extends Component {
                                               data={propertyValue}></ObjectInspector>);
         }
       }
-      propertyNodesContainer = (<div style={{paddingLeft:"12px"}} className="ObjectInspector-property-nodes-container">{propertyNodes}</div>);
+      propertyNodesContainer = (<div style={styles.propertyNodesContainer}>{propertyNodes}</div>);
     }
 
     return (
-      <div className="ObjectInspector">
-        <span className="ObjectInspector-property" onClick={this.handleClick.bind(this)}>
-          <span className="ObjectInspector-expand-control ObjectInspector-unselectable">{expandGlyph}</span>
+      <div style={styles.base}>
+        <span style={styles.property} onClick={this.handleClick.bind(this)}>
+          <span style={{...styles.expandControl, ...styles.unselectable}}>{expandGlyph}</span>
           {(() => {
             if (typeof name !== 'undefined') {
               return (<span>
-                        <span className="ObjectInspector-object-name">{name}</span>
+                        <span style={objectStyles.name}>{name}</span>
                         <span>: </span>
                         <ObjectDescription object={data} />
                       </span>);

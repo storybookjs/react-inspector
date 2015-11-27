@@ -11,7 +11,8 @@
     "build": "babel src --out-dir lib && webpack --config webpack.prod.config.js",
     "lint": "eslint lib",
     "test": "karma start ./karma.conf.js --single-run",
-    "prepublish": "npm run build",
+    "clean": "rimraf lib",
+    "prerelease": "npm run lint && npm run test && npm run clean && npm run build",
     "release": ""
   },
   "repository": {
@@ -60,6 +61,7 @@
     "react-dom": "^0.14.2",
     "react-hot-loader": "^1.2.7",
     "style-loader": "^0.13.0",
+    "rimraf": "^2.4.4",
     "webpack": "^1.9.6",
     "webpack-dev-server": "^1.8.2"
   },

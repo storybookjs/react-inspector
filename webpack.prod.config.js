@@ -17,12 +17,7 @@ var config = {
     loaders: [{
       test: /\.(js|jsx)/,
       loader: 'babel',
-    },
-    {
-      test: /\.css$/,
-      loader: 'style!css',
-      include: __dirname
-    }
+    },    
     ],
   },
   plugins: [],

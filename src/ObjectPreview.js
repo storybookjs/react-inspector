@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 
 import ObjectDescription from './ObjectDescription';
 
+// Styles
+import objectStyles from './objectStyles';
+const styles = {
+  preview: {
+    fontStyle: 'italic',
+  }
+}
+
 function intersperse(arr, sep){
   if (arr.length === 0) {
     return [];
@@ -31,7 +39,7 @@ export default class ObjectPreview extends Component {
     }
 
     if (Array.isArray(object)) {
-      return <span className="ObjectInspector-object-preview">[
+      return <span style={styles.preview}>[
         {intersperse(object.map(function(element, index){
           return (<ObjectDescription key={index} object={element} />)
         }), ", ")}
@@ -52,7 +60,7 @@ export default class ObjectPreview extends Component {
           }
           propertyNodes.push(
             <span key={propertyName}>
-              <span className="ObjectInspector-object-name">{propertyName}</span>
+              <span style={objectStyles.name}>{propertyName}</span>
               :&nbsp;
               <ObjectDescription object={propertyValue} />
               {ellipsis}
@@ -63,7 +71,7 @@ export default class ObjectPreview extends Component {
         }
       }
 
-      return (<span className="ObjectInspector-object-preview">
+      return (<span style={styles.preview}>
                   {'Object {'}
                   {intersperse(propertyNodes, ", ")}
                   {'}'}
