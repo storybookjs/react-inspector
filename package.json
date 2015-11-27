@@ -1,6 +1,6 @@
 {
   "name": "react-object-inspector",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "description": "Simple object inspector styled similarly to Chrome DevTools",
   "main": "lib/ObjectInspector.js",
   "directories": {
@@ -44,6 +44,7 @@
     "babel-eslint": "^4.1.0",
     "babel-loader": "^5.1.4",
     "core-js": "^1.1.4",
+    "css-loader": "^0.23.0",
     "es5-shim": "^4.2.0",
     "eslint": "^1.7.1",
     "eslint-plugin-react": "^2.3.0",
@@ -58,6 +59,7 @@
     "react-addons-test-utils": "^0.14.2",
     "react-dom": "^0.14.2",
     "react-hot-loader": "^1.2.7",
+    "style-loader": "^0.13.0",
     "webpack": "^1.9.6",
     "webpack-dev-server": "^1.8.2"
   },

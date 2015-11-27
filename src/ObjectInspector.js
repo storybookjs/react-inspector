@@ -3,6 +3,19 @@ import React, { Component } from 'react';
 import ObjectDescription from './ObjectDescription';
 import ObjectPreview from './ObjectPreview';
 
+import '../react-object-inspector.css';
+
+const DEFAULT_ROOT_PATH='root';
+
+// const styles = {
+//   base: {
+//     fontFamily: 'Menlo, monospace',
+//     fontSize: 11,
+//     lineHeight: 14,
+//     cursor: 'default'
+//   }
+// }
+
 export default class ObjectInspector extends Component {
 
   propTypes: {
@@ -18,7 +31,7 @@ export default class ObjectInspector extends Component {
     data: undefined,
     initialExpandedPaths: undefined,
     depth: 0,
-    path: 'root' //String(void 0)
+    path: DEFAULT_ROOT_PATH
   }
 
   constructor(props) {
@@ -28,21 +41,12 @@ export default class ObjectInspector extends Component {
       this.state = {expandedPaths: {}};
       this.state.expandedPaths[props.path] = false;
 
-      // feed initialExpandedPaths into expandedPaths
+      // initialize expandedPaths with initialExpandedPaths
       if(typeof props.initialExpandedPaths !== 'undefined'){
-        // this.state.expandedPaths
-
-        //const paths = [];
-        // let paths = props.initialExpandedPaths;
-        console.debug(props.initialExpandedPaths);
-
         props.initialExpandedPaths.map((expandedPath)=>{
           if(typeof expandedPath === 'string'){
-            console.debug(expandedPath);
-
-            const names = expandedPath.split('.');
+            const names = expandedPath.split('.'); // wildcard names
             const paths = [];
-            // name can be "*" (or use true?)
             function wildcardPathToPaths(curObject, curPath, i){
               const WILDCARD = "*";
               if(i === names.length){
@@ -51,18 +55,16 @@ export default class ObjectInspector extends Component {
               }
               const name = names[i];
               if(i === 0){
-                if(name === props.name || name === 'root' || name === WILDCARD){
+                if(name === props.name || name === DEFAULT_ROOT_PATH || name === WILDCARD){
                   wildcardPathToPaths(curObject, 'root', i + 1);
                 }
               }
               else{
                 if(name === WILDCARD){
-                  // console.debug(curObject);
                   for(const propertyName in curObject){
                     if(curObject.hasOwnProperty(propertyName)){
                       const propertyValue = curObject[propertyName];
                       if(ObjectInspector.isExpandable(propertyValue)){
-                        console.debug(propertyValue);
                         wildcardPathToPaths(propertyValue, curPath + '.' + propertyName, i + 1);
                       }
                       else{
@@ -76,7 +78,6 @@ export default class ObjectInspector extends Component {
                   if(ObjectInspector.isExpandable(propertyValue)){
                     wildcardPathToPaths(propertyValue, curPath + '.' + name, i + 1);
                   }
-                  // wildcardPathToPaths(cur)
                 }
               }
             }
@@ -85,10 +86,8 @@ export default class ObjectInspector extends Component {
             paths.map((path)=>{
               this.state.expandedPaths[path] = true;
             })
-
           }
         });
-        console.debug(this.state.expandedPaths);
       }
     }
   }
@@ -164,18 +163,6 @@ export default class ObjectInspector extends Component {
 
     return (
       <div className="ObjectInspector">
-
-        {(this.props.depth === 0)?( <pre>
-                                      {
-                                        // DEBUG
-                                        // state could be null
-                                        (this.state)?JSON.stringify(this.state.expandedPaths, null, 2)
-                                                    :null
-                                      }
-                                    </pre> )
-                                 :undefined
-        }
-
         <span className="ObjectInspector-property" onClick={this.handleClick.bind(this)}>
           <span className="ObjectInspector-expand-control ObjectInspector-unselectable">{expandGlyph}</span>
           {(() => {

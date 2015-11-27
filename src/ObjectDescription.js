@@ -12,7 +12,7 @@ export default class ObjectDescription extends Component{
       case 'string':
         return (<span className="ObjectInspector-object-value-string">&quot;{object}&quot;</span>);
       case 'boolean':
-        return (<span className="ObjectInspector-object-value-boolean">{String(object)}</span>); // why simple {object} won't work?
+        return (<span className="ObjectInspector-object-value-boolean">{String(object)}</span>);
       case 'undefined':
         return (<span className="ObjectInspector-object-value-undefined">undefined</span>);
       case 'object':
