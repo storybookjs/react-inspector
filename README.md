@@ -24,7 +24,7 @@ Starting from 0.2.0, react-object-inspector uses inline styles and you don't nee
 The component accepts the following props:
 #### `data`: the Javascript object you would like to inspect
 
-#### `name`: specify the name of the root node, default to undefined
+#### `name`: specify the name of the root node, default to `'root'`
 
 #### `initialExpandedPaths`: an array containing all the paths that should be expanded when the component is initialized.
 - A path is a dot separated string like `root.foo.bar`
