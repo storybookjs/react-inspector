@@ -5,6 +5,7 @@ jsconfig.json
 
 react-codemod
 dev
+gh-pages
 
 build/
 example
