@@ -30,7 +30,7 @@ The component accepts the following props:
 - A path is a dot separated string like `root.foo.bar`
 - By default you can refer to root's path as `'root'`, or the name prop if name is defined
   - For example, `['root']` expands the first level nodes
-  - `['myCustomName']` can also expand the first level nodes if the component is setup as `<ObjectInspector name="myCustomName" data={/*...*/} initialExpandedPaths=['myCustomName', /*...*/]>`.
+  - `['myCustomName']` can also expand the first level nodes if the component is setup as `<ObjectInspector name="myCustomName" data={{/*...*/}} initialExpandedPaths={['myCustomName', /*...*/]}>`.
   - `['root.foo.bar']` expands the path `root.foo.bar` if `root.foo.bar` is an existing property
 - You can use wildcard to expand all paths on a specific level
   - For example, to expand all first level and second level nodes, use `['root', 'root.*']`
