@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import ObjectInspector from '../src/ObjectInspector';
 
+import TableInspector from '../src/TableInspector';
+
 function testFunction(){
   console.log("hello world");
 }
@@ -113,16 +115,21 @@ export default class App extends Component {
 
     return (
       <div>
-        {(() => {
+        {/*(() => {
           // https://facebook.github.io/react/tips/if-else-in-JSX.html
           return testObjects.map(function(object, index){
             return (
                   <div key={index} style={{marginBottom:"10px"}}>
+
                     <ObjectInspector data={object}>
                     </ObjectInspector>
                   </div>);
           });
-        })()}
+        })()*/}
+
+        <TableInspector data={[['Name', 'Address', 'Phone'],
+                                ['Appleseed', '42 Galaxy Street', '111-111-1111']]}>
+        </TableInspector>
       </div>
     );
   }
