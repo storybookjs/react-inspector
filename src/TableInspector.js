@@ -1,5 +1,5 @@
 // https://developer.chrome.com/devtools/docs/commandline-api#tabledata-columns
-// console.table([['Name', 'Address', 'Phone'],['Grizzly', '123 Fake St']])
+// f=()=>{console.table([['Name', 'Address', 'Phone'],['Grizzly', '123 Fake St']])};f();
 
 import React, { Component } from 'react';
 
@@ -64,6 +64,55 @@ const styles = {
   },
 }
 
+function getHeaders(data){
+  if(typeof(data) === 'object'){
+    // is an array
+    if(Array.isArray(data)){
+      // 0..nRows-1 are row indexes
+      const nRows = data.length
+
+      // nCol is the max number of columns in all rows
+      // Time complexity: O(nRows)
+      const nCols = data.reduce((nCols, row) => {
+        if(row.length > nCols){
+          nCols = row.length
+        }
+        return nCols
+      }, 0)
+
+      return {
+        rowHeaders: [...Array(nRows).keys()], // 0..nRows - 1
+        colHeaders: [...Array(nCols).keys()], // 0..nCols - 1
+      }
+    }
+    // is an object
+    else if(data !== null){
+      // keys are row indexes
+      const keys = Object.keys(data)
+
+      // Time complexity: O(nRows * nCols)
+      const colHeaders = keys.reduce((colHeaders, key) => {
+        const row = data[key]
+        if(typeof(row) === 'object' && row !== null){
+          const cols = Object.keys(row)
+          cols.reduce((xs, x) => {
+            if(!xs.includes(x)){
+              xs.push(x)
+            }
+            return xs
+          }, colHeaders)
+        }
+        return colHeaders
+      }, [])
+      return {
+        rowHeaders: keys,
+        colHeaders: colHeaders,
+      }
+    }
+  }
+  // return undefined
+}
+
 const HeaderContainer = ({ columns, sortColumn, sortAscending }) => (
   <div style={{
     top: 0,
@@ -92,22 +141,20 @@ const HeaderContainer = ({ columns, sortColumn, sortAscending }) => (
             <div style={styles.th_div}>(index)</div>
           </th>
 
-          <th style={{...styles.th, ...styles.leftBorder.solid}}>
-            <div style={styles.th_div}>0</div>
-          </th>
-          <th style={{...styles.th, ...styles.leftBorder.solid}}>
-            <div style={styles.th_div}>1</div>
-          </th>
-          <th style={{...styles.th, ...styles.leftBorder.solid}}>
-            <div style={styles.th_div}>2</div>
-          </th>
+          {
+            columns.map((column) => (
+              <th key={column} style={{...styles.th, ...styles.leftBorder.solid}}>
+                <div style={styles.th_div}>{column}</div>
+              </th>
+            ))
+          }
         </tr>
       </tbody>
     </table>
   </div>
 )
 
-const DataContainer = ({ }) => (
+const DataContainer = ({ rows, rowsData }) => (
   <div style={{
     position: 'static',
     top: '17px',
@@ -172,7 +219,7 @@ const DataContainer = ({ }) => (
             g
           </td>
           <td style={{...styles.td, ...styles.leftBorder.solid}}>
-            <ObjectPreview object={"hello"}/>
+            <ObjectPreview object={Infinity}/>
           </td>
         </tr>
         <tr style={{
@@ -197,15 +244,34 @@ const DataContainer = ({ }) => (
 )
 
 export default class TableInspector extends Component {
+  static defaultProps = {
+    columns: undefined
+  }
+
   render() {
     const data = this.props.data
+    const columns = this.props.columns
+    let { rowHeaders, colHeaders } = getHeaders(data)
+    if(columns !== undefined){
+      colHeaders = columns
+    }
 
-    return (<div style={styles.base}>
+// data.map((data) => )
+//
+//     data.
+//     rowsData = []
+//     row = data[rowHeader]
+//     rowData = []
+//       (colHeader)=>{
+//       if(row.hasOwnProperty(colHeader)){
+//         rowData.push(row[colHeader])
+//       }
+//     }
 
+    return (<div style={styles.base} >
               {/*data*/}
-
-              <HeaderContainer />
-              <DataContainer />
+              <HeaderContainer columns={colHeaders}/>
+              <DataContainer rows={rowHeaders} rowsData={undefined} />
             </div>)
   }
 }
