@@ -115,6 +115,33 @@ function getHeaders(data){
   // return undefined
 }
 
+class TH extends Component {
+  constructor(props){
+    super(props)
+    this.state = { hovered: false }
+  }
+
+  toggleHovered(){
+    this.setState({hovered: !this.state.hovered})
+  }
+
+  render() {
+    return (
+      <th {...this.props}
+         style={{...styles.th,
+                  ...this.props.borderStyle,
+                  ...((this.state.hovered) ? this.props.hoveredStyle : {})
+                }}
+          onMouseEnter={ this.toggleHovered.bind(this) }
+          onMouseLeave={ this.toggleHovered.bind(this) }>
+        <div style={styles.th_div}>
+          {this.props.children}
+        </div>
+      </th>
+    )
+  }
+}
+
 const HeaderContainer = ({ columns, sortColumn, sortAscending }) => (
   <div style={{
     top: 0,
@@ -130,24 +157,23 @@ const HeaderContainer = ({ columns, sortColumn, sortAscending }) => (
       height: '100%',
       width: '100%',
     }}>
+    {/*
       <colgroup>
-      {/*
-        <col style="width: 236px"/>
-        <col style="width: 236px"/>
-        <col style="width: 236px"/>
-        <col style="width: 236px"/>*/}
-      </colgroup>
+        <col style={{width: 236}}/>
+        <col style={{width: 236}}/>
+        <col style={{width: 236}}/>
+        <col style={{width: 236}}/>
+      </colgroup>*/ }
       <tbody>
         <tr>
-          <th style={{...styles.th, ...styles.leftBorder.none}}>
-            <div style={styles.th_div}>(index)</div>
-          </th>
-
+          <TH hoveredStyle={styles['th:hover']} borderStyle={styles.leftBorder.none}>
+            (index)
+          </TH>
           {
             columns.map((column) => (
-              <th key={column} style={{...styles.th, ...styles.leftBorder.solid}}>
-                <div style={styles.th_div}>{column}</div>
-              </th>
+              <TH key={column} hoveredStyle={styles['th:hover']} borderStyle={styles.leftBorder.solid}>
+                {column}
+              </TH>
             ))
           }
         </tr>
@@ -177,7 +203,6 @@ const DataContainer = ({ rows, columns, rowsData }) => (
     </pre>
   */}
     <table style={{
-      // table.data
       positon: 'static',
       left: 0,
       top: 0,
@@ -230,16 +255,16 @@ const DataContainer = ({ rows, columns, rowsData }) => (
 )
 
 export default class TableInspector extends Component {
-  static defaultProps = {
-    data: [],
-    columns: undefined
-  }
-
   render() {
     const data = this.props.data
     const columns = this.props.columns
+    if(typeof data !== 'object'){
+      return (<div></div>)
+    }
+
     let { rowHeaders, colHeaders } = getHeaders(data)
 
+    // columns to be displayed are specified
     // NOTE: there's some space for optimization here
     if(columns !== undefined){
       colHeaders = columns
@@ -253,4 +278,17 @@ export default class TableInspector extends Component {
               <DataContainer rows={rowHeaders} columns={colHeaders} rowsData={rowsData} />
             </div>)
   }
+}
+
+TableInspector.propTypes = {
+  data: React.PropTypes.oneOfType([
+      React.PropTypes.array,
+      React.PropTypes.object,
+    ]),
+  columns: React.PropTypes.array
+}
+
+TableInspector.defaultProps = {
+  data: [],
+  columns: undefined
 }

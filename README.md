@@ -16,14 +16,12 @@ Tree state is saved at root. If you click to expand some elements in the hierarc
 #### TableInspector
 Like `console.table`.
 
-### Install
+## Install
 
 NPM:
 ```sh
 npm install react-inspector
 ```
-
-Starting from 0.2.0, react-object-inspector uses inline styles and you don't need to include any additional CSS files.
 
 ## API
 #### &lt;ObjectInspector />
@@ -72,3 +70,7 @@ Checkout `example/App.js` for more examples. One common usage is embedding this 
 npm install && npm start
 ```
 Open http://localhost:3000/example/index.html
+
+## Notes
+- `react-object-inspector` package is renamed to `react-inspector`
+- Starting from 0.2.0, react-object-inspector uses inline styles and you don't need to include any additional CSS files.
