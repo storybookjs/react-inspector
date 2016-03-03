@@ -63,7 +63,7 @@ ReactDOM.render(
   document.getElementById('root')
 );
 ```
-Checkout `example/App.js` for more examples. Try embedding this inside a component's render() method to provide a live view (If you are using hot reloading) for its props/state.
+Checkout `example/App.js` for more examples. Try embedding this inside a component's render() method to provide a live view (Works even better if you are using hot reloading) for its props/state.
 
 ### Install the example
 ```sh

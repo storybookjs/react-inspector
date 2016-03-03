@@ -11,7 +11,8 @@ const styles = {
     fontFamily: 'Menlo, monospace',
     fontSize: '11px',
     lineHeight: '120%',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    cursor: 'default'
   },
   table: {
   },
@@ -131,10 +132,12 @@ const SortIconContainer = (props) => (
 )
 
 import { upArrow, downArrow } from '../styles/glyphs'
+import unselectable from '../styles/unselectable'
+
 const SortIcon = ({ sortAscending }) => {
   const glyph = sortAscending ? upArrow : downArrow
   return (
-    <div style={{
+    <div style={Object.assign({
         display: 'block',
         marginRight: 3, // 4,
         width: 8,
@@ -144,7 +147,7 @@ const SortIcon = ({ sortAscending }) => {
         color: '#6e6e6e',//'rgb(48, 57, 66)'
         fontSize: 12,
         // lineHeight: 14
-      }}>
+      }, unselectable)}>
       {glyph}
     </div>
   )
@@ -161,23 +164,9 @@ class TH extends Component {
   }
 
   render() {
+    // either not sorted, sort ascending or sort descending
     const sortAscending = this.props.sortAscending
     const sorted = this.props.sorted
-
-    let thChildren
-    if(sorted){
-      thChildren = [<div style={styles.th_div}>
-                      {this.props.children}
-                    </div>,
-                    <SortIconContainer>
-                      <SortIcon sortAscending={sortAscending} />
-                    </SortIconContainer>]
-    }
-    else{
-      thChildren = (<div style={styles.th_div}>
-                      {this.props.children}
-                    </div>)
-    }
 
     return (
       <th {...this.props}
@@ -188,7 +177,18 @@ class TH extends Component {
           onMouseEnter={ this.toggleHovered.bind(this) }
           onMouseLeave={ this.toggleHovered.bind(this) }
           onClick={ this.props.onClick } >
-        {thChildren}
+        <div style={styles.th_div}>
+          {this.props.children}
+        </div>
+        {(() => {
+          if(sorted){
+            return (
+              <SortIconContainer>
+                <SortIcon sortAscending={sortAscending} />
+              </SortIconContainer>
+            )
+          }
+        })()}
       </th>
     )
   }
@@ -202,7 +202,7 @@ TH.defaultProps = {
   onClick: undefined
 }
 
-const HeaderContainer = ({ indexColumnText, columns, onTHClick, onIndexTHClick /*, sortColumn, sortAscending */ }) => (
+const HeaderContainer = ({ indexColumnText, columns, sorted, sortIndexColumn, sortColumn, sortAscending, onTHClick, onIndexTHClick }) => (
   <div style={{
     top: 0,
     height: '17px',
@@ -226,12 +226,18 @@ const HeaderContainer = ({ indexColumnText, columns, onTHClick, onIndexTHClick /
       </colgroup>*/ }
       <tbody>
         <tr>
-          <TH borderStyle={styles.leftBorder.none} onClick={onIndexTHClick}>
+          <TH borderStyle={styles.leftBorder.none}
+              sorted={sorted && sortIndexColumn}
+              sortAscending={sortAscending}
+              onClick={onIndexTHClick}>
             {indexColumnText}
           </TH>
           {
             columns.map((column) => (
-              <TH key={column} onClick={onTHClick.bind(this, column)}>
+              <TH key={column}
+                  sorted={sorted && sortColumn === column}
+                  sortAscending={sortAscending}
+                  onClick={onTHClick.bind(this, column)}>
                 {column}
               </TH>
             ))
@@ -326,10 +332,10 @@ export default class TableInspector extends Component {
     super(props)
 
     this.state = {
-      sorted: false,
-      sortIndexColumn: false,
-      sortColumn: undefined,
-      sortAscending: false
+      sorted: false, // has user ever clicked the <th> tag to sort?
+      sortIndexColumn: false, // is index column sorted?
+      sortColumn: undefined, // which column is sorted?
+      sortAscending: false // is sorting ascending or descending?
     }
   }
 
@@ -338,7 +344,8 @@ export default class TableInspector extends Component {
     this.setState(
       {
         sorted: true,
-        sortIndexColumn: !this.state.sortIndexColumn,
+        sortIndexColumn: true,
+        sortColumn: undefined,
         sortAscending: !this.state.sortAscending
       })
   }
@@ -348,6 +355,7 @@ export default class TableInspector extends Component {
     this.setState(
       {
         sorted: true,
+        sortIndexColumn: false,
         sortColumn: col,
         sortAscending: !this.state.sortAscending
       }
@@ -375,9 +383,16 @@ export default class TableInspector extends Component {
               {/*data*/}
               <ObjectInspector data={this.state} />
               <HeaderContainer columns={colHeaders}
+                               /* for sorting */
+                               sorted={this.state.sorted}
+                               sortIndexColumn={this.state.sortIndexColumn}
+                               sortColumn={this.state.sortColumn}
+                               sortAscending={this.state.sortAscending}
                                onTHClick={this.handleTHClick.bind(this)}
                                onIndexTHClick={this.handleIndexTHClick.bind(this)}/>
-              <DataContainer rows={rowHeaders} columns={colHeaders} rowsData={rowsData} />
+              <DataContainer rows={rowHeaders}
+                             columns={colHeaders}
+                             rowsData={rowsData} />
             </div>)
   }
 }
