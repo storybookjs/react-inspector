@@ -111,13 +111,32 @@ export default class App extends Component {
     //   }
     // }
 
-    const testObjects = [undefined, testFunction, null, true, false, "testString", 42, NaN, Symbol('foo'), testObject, test2, test3, test4, test5, [], ["a"], ["a", 1], new Date()];
+    const objectTests = [undefined, testFunction, null, true, false, "testString", 42, NaN, Symbol('foo'), testObject, test2, test3, test4, test5, [], ["a"], ["a", 1], new Date()];
+
+    const tableTests = [
+      [['Name', 'Address', 'Age', 'Phone'],['John Appleseed', '42 Galaxy drive', '20', '111-111-1111']],
+      {
+        0: { firstName: "John", lastName: "Smith" },
+        1: { firstName: "Martin", middleName: "Luther", lastName: "King" }
+      },
+      [
+        [0,5,2,0,4,6,9,0,0],
+      	[8,0,9,0,3,0,6,0,4],
+      	[0,0,0,1,0,0,0,8,0],
+      	[6,7,4,0,0,8,0,0,5],
+      	[1,0,0,0,0,0,0,0,3],
+      	[5,0,0,7,0,0,2,4,8],
+      	[0,6,0,0,0,2,0,0,0],
+      	[9,0,5,0,1,0,4,0,7],
+      	[0,0,7,5,8,0,3,1,0]
+      ]
+    ]
 
     return (
       <div>
-        {/*(() => {
+        {(() => {
           // https://facebook.github.io/react/tips/if-else-in-JSX.html
-          return testObjects.map(function(object, index){
+          return objectTests.map(function(object, index){
             return (
                   <div key={index} style={{marginBottom:"10px"}}>
 
@@ -125,11 +144,18 @@ export default class App extends Component {
                     </ObjectInspector>
                   </div>);
           });
-        })()*/}
+        })()}
 
-        <TableInspector data={[['Name', 'Address', 'Phone'],
-                                ['Appleseed', '42 Galaxy Street', '111-111-1111']]}>
-        </TableInspector>
+        {(() =>
+          tableTests.map((object, index) =>
+            (
+              <div key={index} style={{marginBottom:"10px"}}>
+                <TableInspector data={object}>
+                </TableInspector>
+              </div>)
+            )
+        )()}
+
       </div>
     );
   }

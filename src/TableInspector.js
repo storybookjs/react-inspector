@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 
-import ObjectPreview from './ObjectPreview'
+import ObjectDescription from './ObjectDescription'
 
 const styles = {
   base: {
@@ -168,7 +168,14 @@ const DataContainer = ({ rows, columns, rowsData }) => (
     right: 0,
     overflowX: 'hidden',
   }}>
-  {JSON.stringify(rowsData, null, 2)}
+  {/*
+    // TODO: remove this view
+    <pre>
+      {JSON.stringify(rows)}
+      <br></br>
+      {JSON.stringify(rowsData)}
+    </pre>
+  */}
     <table style={{
       // table.data
       positon: 'static',
@@ -193,49 +200,30 @@ const DataContainer = ({ rows, columns, rowsData }) => (
       <colgroup>
       </colgroup>
       <tbody>
+        {
+          rows.map((row) => (
+            <tr key={row} style={styles.tr}>
+              <td style={{...styles.td, ...styles.leftBorder.none}}>
+                {row}
+              </td>
 
-        <tr style={styles.tr}>
-          <td style={{...styles.td, ...styles.leftBorder.none}}>
-            a
-          </td>
-          <td style={{...styles.td, ...styles.leftBorder.solid}}>
-            b
-          </td>
-          <td style={{...styles.td, ...styles.leftBorder.solid}}>
-            c
-          </td>
-          <td style={{...styles.td, ...styles.leftBorder.solid}}>
-            d
-          </td>
-        </tr>
-        <tr style={styles.tr}>
-          <td style={{...styles.td, ...styles.leftBorder.none}}>
-            e
-          </td>
-          <td style={{...styles.td, ...styles.leftBorder.solid}}>
-            f
-          </td>
-          <td style={{...styles.td, ...styles.leftBorder.solid}}>
-            g
-          </td>
-          <td style={{...styles.td, ...styles.leftBorder.solid}}>
-            <ObjectPreview object={Infinity}/>
-          </td>
-        </tr>
-        <tr style={styles.tr}>
-          <td style={{...styles.td, ...styles.leftBorder.none}}>
-            e
-          </td>
-          <td style={{...styles.td, ...styles.leftBorder.solid}}>
-            f
-          </td>
-          <td style={{...styles.td, ...styles.leftBorder.solid}}>
-            g
-          </td>
-          <td style={{...styles.td, ...styles.leftBorder.solid}}>
-            <ObjectPreview object={"hello"}/>
-          </td>
-        </tr>
+              {
+                columns.map((column) => {
+                  const rowData = rowsData[row]
+                  if(rowData.hasOwnProperty(column)){
+                    return (<td key={column} style={{...styles.td, ...styles.leftBorder.solid}}>
+                              <ObjectDescription object={rowData[column]}/>
+                            </td>)
+                  }
+                  else{
+                    return (<td key={column} style={{...styles.td, ...styles.leftBorder.solid}}>
+                            </td>)
+                  }
+                })
+              }
+            </tr>
+          ))
+        }
       </tbody>
     </table>
   </div>
@@ -243,6 +231,7 @@ const DataContainer = ({ rows, columns, rowsData }) => (
 
 export default class TableInspector extends Component {
   static defaultProps = {
+    data: [],
     columns: undefined
   }
 
@@ -261,7 +250,7 @@ export default class TableInspector extends Component {
     return (<div style={styles.base} >
               {/*data*/}
               <HeaderContainer columns={colHeaders}/>
-              <DataContainer rows={rowHeaders} columns={columns} rowsData={rowsData} />
+              <DataContainer rows={rowHeaders} columns={colHeaders} rowsData={rowsData} />
             </div>)
   }
 }
