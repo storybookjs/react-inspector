@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import ObjectInspector from '../src/ObjectInspector';
 
-import TableInspector from '../src/TableInspector';
+import TableInspector from '../src/table-inspector/TableInspector';
 
 function testFunction(){
   console.log("hello world");
@@ -162,7 +162,9 @@ export default class App extends Component {
         {(() =>
           tableTests.map((test, index) =>
             (
-              <div key={index} style={{marginBottom:"10px"}}>
+              <div key={index}
+                   style={{ marginBottom:"10px",
+                            /* width: 800 */}}>
                 <TableInspector data={test.data} columns={test.columns}>
                 </TableInspector>
               </div>)

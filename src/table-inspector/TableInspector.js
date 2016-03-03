@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 
-import ObjectDescription from './ObjectDescription'
+import ObjectDescription from '../ObjectDescription'
 
 const styles = {
   base: {
@@ -16,6 +16,7 @@ const styles = {
   table: {
   },
   th: {
+    position: 'relative', // anchor for sort icon container
     height: 'auto',
     textAlign: 'left',
     backgroundColor: '#eee',
@@ -115,34 +116,93 @@ function getHeaders(data){
   // return undefined
 }
 
+
+const SortIconContainer = (props) => (
+  <div style={{
+      position: 'absolute',
+      top: 1,
+      right: 0,
+      bottom: 1,
+      display: 'flex',
+      alignItems: 'center'
+    }}>
+    {props.children}
+  </div>
+)
+
+import { upArrow, downArrow } from '../styles/glyphs'
+const SortIcon = ({ sortAscending }) => {
+  const glyph = sortAscending ? upArrow : downArrow
+  return (
+    <div style={{
+        display: 'block',
+        marginRight: 3, // 4,
+        width: 8,
+        height: 7,
+
+        marginTop: -7,
+        color: '#6e6e6e',//'rgb(48, 57, 66)'
+        fontSize: 12,
+        // lineHeight: 14
+      }}>
+      {glyph}
+    </div>
+  )
+}
+
 class TH extends Component {
   constructor(props){
     super(props)
     this.state = { hovered: false }
   }
 
-  toggleHovered(){
+  toggleHovered(e){
     this.setState({hovered: !this.state.hovered})
   }
 
   render() {
+    const sortAscending = this.props.sortAscending
+    const sorted = this.props.sorted
+
+    let thChildren
+    if(sorted){
+      thChildren = [<div style={styles.th_div}>
+                      {this.props.children}
+                    </div>,
+                    <SortIconContainer>
+                      <SortIcon sortAscending={sortAscending} />
+                    </SortIconContainer>]
+    }
+    else{
+      thChildren = (<div style={styles.th_div}>
+                      {this.props.children}
+                    </div>)
+    }
+
     return (
       <th {...this.props}
-         style={{...styles.th,
+          style={{...styles.th,
                   ...this.props.borderStyle,
                   ...((this.state.hovered) ? this.props.hoveredStyle : {})
                 }}
           onMouseEnter={ this.toggleHovered.bind(this) }
-          onMouseLeave={ this.toggleHovered.bind(this) }>
-        <div style={styles.th_div}>
-          {this.props.children}
-        </div>
+          onMouseLeave={ this.toggleHovered.bind(this) }
+          onClick={ this.props.onClick } >
+        {thChildren}
       </th>
     )
   }
 }
 
-const HeaderContainer = ({ columns, sortColumn, sortAscending }) => (
+TH.defaultProps = {
+  sortAscending: false,
+  sorted: false,
+  hoveredStyle: styles['th:hover'],
+  borderStyle: styles.leftBorder.solid,
+  onClick: undefined
+}
+
+const HeaderContainer = ({ indexColumnText, columns, onTHClick, onIndexTHClick /*, sortColumn, sortAscending */ }) => (
   <div style={{
     top: 0,
     height: '17px',
@@ -166,12 +226,12 @@ const HeaderContainer = ({ columns, sortColumn, sortAscending }) => (
       </colgroup>*/ }
       <tbody>
         <tr>
-          <TH hoveredStyle={styles['th:hover']} borderStyle={styles.leftBorder.none}>
-            (index)
+          <TH borderStyle={styles.leftBorder.none} onClick={onIndexTHClick}>
+            {indexColumnText}
           </TH>
           {
             columns.map((column) => (
-              <TH key={column} hoveredStyle={styles['th:hover']} borderStyle={styles.leftBorder.solid}>
+              <TH key={column} onClick={onTHClick.bind(this, column)}>
                 {column}
               </TH>
             ))
@@ -181,6 +241,10 @@ const HeaderContainer = ({ columns, sortColumn, sortAscending }) => (
     </table>
   </div>
 )
+
+HeaderContainer.defaultProps = {
+  indexColumnText: '(index)'
+}
 
 const DataContainer = ({ rows, columns, rowsData }) => (
   <div style={{
@@ -254,7 +318,42 @@ const DataContainer = ({ rows, columns, rowsData }) => (
   </div>
 )
 
+import ObjectInspector from '../ObjectInspector'
+
 export default class TableInspector extends Component {
+
+  constructor(props){
+    super(props)
+
+    this.state = {
+      sorted: false,
+      sortIndexColumn: false,
+      sortColumn: undefined,
+      sortAscending: false
+    }
+  }
+
+  handleIndexTHClick(){
+    console.log(`index th clicked`)
+    this.setState(
+      {
+        sorted: true,
+        sortIndexColumn: !this.state.sortIndexColumn,
+        sortAscending: !this.state.sortAscending
+      })
+  }
+
+  handleTHClick(col){
+    console.log(col)
+    this.setState(
+      {
+        sorted: true,
+        sortColumn: col,
+        sortAscending: !this.state.sortAscending
+      }
+    )
+  }
+
   render() {
     const data = this.props.data
     const columns = this.props.columns
@@ -274,7 +373,10 @@ export default class TableInspector extends Component {
 
     return (<div style={styles.base} >
               {/*data*/}
-              <HeaderContainer columns={colHeaders}/>
+              <ObjectInspector data={this.state} />
+              <HeaderContainer columns={colHeaders}
+                               onTHClick={this.handleTHClick.bind(this)}
+                               onIndexTHClick={this.handleIndexTHClick.bind(this)}/>
               <DataContainer rows={rowHeaders} columns={colHeaders} rowsData={rowsData} />
             </div>)
   }
