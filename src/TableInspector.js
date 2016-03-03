@@ -1,5 +1,4 @@
 // https://developer.chrome.com/devtools/docs/commandline-api#tabledata-columns
-// f=()=>{console.table([['Name', 'Address', 'Phone'],['Grizzly', '123 Fake St']])};f();
 
 import React, { Component } from 'react';
 
@@ -42,6 +41,9 @@ const styles = {
     // otherwise it's overriden by user agent stylesheet
     fontSize: '11px',
     lineHeight: '120%',
+  },
+  tr: {
+    display: 'table-row',
   },
   td: {
     height: '16px',
@@ -154,7 +156,7 @@ const HeaderContainer = ({ columns, sortColumn, sortAscending }) => (
   </div>
 )
 
-const DataContainer = ({ rows, rowsData }) => (
+const DataContainer = ({ rows, columns, rowsData }) => (
   <div style={{
     position: 'static',
     top: '17px',
@@ -166,6 +168,7 @@ const DataContainer = ({ rows, rowsData }) => (
     right: 0,
     overflowX: 'hidden',
   }}>
+  {JSON.stringify(rowsData, null, 2)}
     <table style={{
       // table.data
       positon: 'static',
@@ -190,9 +193,8 @@ const DataContainer = ({ rows, rowsData }) => (
       <colgroup>
       </colgroup>
       <tbody>
-        <tr style={{
-          display: 'table-row'
-        }}>
+
+        <tr style={styles.tr}>
           <td style={{...styles.td, ...styles.leftBorder.none}}>
             a
           </td>
@@ -206,9 +208,7 @@ const DataContainer = ({ rows, rowsData }) => (
             d
           </td>
         </tr>
-        <tr style={{
-          display: 'table-row'
-        }}>
+        <tr style={styles.tr}>
           <td style={{...styles.td, ...styles.leftBorder.none}}>
             e
           </td>
@@ -222,9 +222,7 @@ const DataContainer = ({ rows, rowsData }) => (
             <ObjectPreview object={Infinity}/>
           </td>
         </tr>
-        <tr style={{
-          display: 'table-row'
-        }}>
+        <tr style={styles.tr}>
           <td style={{...styles.td, ...styles.leftBorder.none}}>
             e
           </td>
@@ -252,26 +250,18 @@ export default class TableInspector extends Component {
     const data = this.props.data
     const columns = this.props.columns
     let { rowHeaders, colHeaders } = getHeaders(data)
+
+    // NOTE: there's some space for optimization here
     if(columns !== undefined){
       colHeaders = columns
     }
 
-// data.map((data) => )
-//
-//     data.
-//     rowsData = []
-//     row = data[rowHeader]
-//     rowData = []
-//       (colHeader)=>{
-//       if(row.hasOwnProperty(colHeader)){
-//         rowData.push(row[colHeader])
-//       }
-//     }
+    const rowsData = rowHeaders.map((rowHeader) => data[rowHeader])
 
     return (<div style={styles.base} >
               {/*data*/}
               <HeaderContainer columns={colHeaders}/>
-              <DataContainer rows={rowHeaders} rowsData={undefined} />
+              <DataContainer rows={rowHeaders} columns={columns} rowsData={rowsData} />
             </div>)
   }
 }
