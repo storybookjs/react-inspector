@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-import ObjectDescription from './ObjectDescription';
-import ObjectPreview from './ObjectPreview';
+import ObjectDescription from '../object/ObjectDescription';
+import ObjectPreview from '../object/ObjectPreview';
 
 // Styles
-import objectStyles from './objectStyles';
+import objectStyles from '../object/objectStyles';
 const styles = {
   base: {
     fontFamily: 'Menlo, monospace',

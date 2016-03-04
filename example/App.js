@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
-import ObjectInspector from '../src/ObjectInspector';
-
+import ObjectInspector from '../src/object-inspector/ObjectInspector';
 import TableInspector from '../src/table-inspector/TableInspector';
 
 function testFunction(){
@@ -159,12 +158,18 @@ export default class App extends Component {
       {
         data: undefined
       },
-      // // should be nothing
-      // {
-      //   data: [
-      //     undefined
-      //   ]
-      // },
+      // should be 1 * 0 table (chrome console.table is nothing)
+      {
+        data: [
+          undefined
+        ]
+      },
+      // should be 1 * 0 table
+      {
+        data: [
+          [1,2]
+        ]
+      },
       // should be 1 * 0 table
       {
         data: [
@@ -175,7 +180,7 @@ export default class App extends Component {
 
     return (
       <div>
-        {/*(() => {
+        {(() => {
           // https://facebook.github.io/react/tips/if-else-in-JSX.html
           return objectTests.map(function(object, index){
             return (
@@ -185,7 +190,7 @@ export default class App extends Component {
                     </ObjectInspector>
                   </div>);
           });
-        })()*/}
+        })()}
 
         {(() =>
           tableTests.map((test, index) =>

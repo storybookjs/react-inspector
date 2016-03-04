@@ -1,8 +1,12 @@
-// https://developer.chrome.com/devtools/docs/commandline-api#tabledata-columns
+/**
+ * Specs:
+ * https://developer.chrome.com/devtools/docs/commandline-api#tabledata-columns
+ * https://developer.mozilla.org/en-US/docs/Web/API/Console/table
+ */
 
 import React, { Component } from 'react';
 
-import ObjectDescription from '../ObjectDescription'
+import ObjectDescription from '../object/ObjectDescription'
 
 const styles = {
   base: {
@@ -78,10 +82,15 @@ function getHeaders(data){
       // nCol is the max number of columns in all rows
       // Time complexity: O(nRows)
       const nCols = data.reduce((nCols, row) => {
-        if(row.length > nCols){
-          nCols = row.length
+        if(Array.isArray(row)){
+          if(row.length > nCols){
+            nCols = row.length
+          }
+          return nCols
         }
-        return nCols
+        else{
+          return 0
+        }
       }, 0)
 
       return {
@@ -114,7 +123,7 @@ function getHeaders(data){
       }
     }
   }
-  // return undefined
+  return undefined
 }
 
 
@@ -321,7 +330,7 @@ const DataContainer = ({ rows, columns, rowsData }) =>
     </table>
   </div>
 
-import ObjectInspector from '../ObjectInspector'
+// import ObjectInspector from '../object-inspector/ObjectInspector'
 
 export default class TableInspector extends Component {
 
@@ -337,7 +346,6 @@ export default class TableInspector extends Component {
   }
 
   handleIndexTHClick(){
-    console.log(`index th clicked`)
     this.setState(
       {
         sorted: true,
@@ -349,7 +357,6 @@ export default class TableInspector extends Component {
   }
 
   handleTHClick(col){
-    console.log(col)
     this.setState(
       {
         sorted: true,
@@ -440,7 +447,6 @@ export default class TableInspector extends Component {
       rowsData = sortedRowIndexes.map((i) => rowsData[i])
     }
 
-    console.log(this.props)
     return (<div style={styles.base} >
               {/*<ObjectInspector data={data} />*/}
               {/*
