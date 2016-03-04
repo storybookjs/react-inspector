@@ -41,3 +41,7 @@ export default class ObjectDescription extends Component{
     }
   }
 }
+
+ObjectDescription.propTypes = {
+  object: React.PropTypes.any
+}

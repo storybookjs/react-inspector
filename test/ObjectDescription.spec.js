@@ -1,3 +1,22 @@
+import React, { PropTypes } from 'react'
+import TestUtils from 'react-addons-test-utils'
+import expect from 'expect'
+import ObjectDescription from '../src/object/ObjectDescription'
+
+const renderer = TestUtils.createRenderer()
+
+describe('ObjectDescription', () => {
+  beforeEach(() => {
+  })
+
+  it('should render', () => {
+    console.log(ObjectDescription)
+    const tree = renderer.render(<ObjectDescription object={0} />)
+    expect(1).toBe(1)
+  })
+})
+
+/*
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
@@ -101,3 +120,5 @@ describe('ObjectDescription', () => {
   // });
 
 });
+
+ */

@@ -535,8 +535,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  return ObjectDescription;
 	}(_react.Component);
-
+	
 	exports.default = ObjectDescription;
+	
+	
+	ObjectDescription.propTypes = {
+	  object: _react2.default.PropTypes.object
+	};
 
 /***/ },
 /* 4 */
@@ -775,7 +780,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    boxSizing: 'border-box',
 	    cursor: 'default'
 	  },
-	  table: {},
+	  // table: {
+	  // },
 	  th: {
 	    position: 'relative', // anchor for sort icon container
 	    height: 'auto',
