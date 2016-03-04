@@ -3,9 +3,6 @@ import React, { Component } from 'react';
 import ObjectDescription from './ObjectDescription';
 import ObjectPreview from './ObjectPreview';
 
-// Constants
-const DEFAULT_ROOT_PATH='root';
-
 // Styles
 import objectStyles from './objectStyles';
 const styles = {
@@ -38,6 +35,64 @@ const styles = {
   },
 };
 
+const DEFAULT_ROOT_PATH='root';
+/**
+ * Convert wild card paths to concrete paths
+ * @param  {array} initialExpandedPaths  wild card paths
+ * @param  {object} data                 data object
+ * @param  {string} rootName             optional root name (if not specified will use DEFAULT_ROOT_PATH)
+ * @return {array}                       concrete paths
+ */
+const pathsFromWildcardPaths = (wildcardPaths, data, rootName = DEFAULT_ROOT_PATH) => {
+  const paths = []
+  if(wildcardPaths === undefined){
+    return paths;
+  }
+  wildcardPaths.map((expandedPath)=>{
+    if(typeof expandedPath === 'string'){
+      const names = expandedPath.split('.'); // wildcard names
+      // recursively populate paths with wildcard paths
+      function populatePaths(curObject, curPath, i){
+        const WILDCARD = "*";
+        if(i === names.length){
+          paths.push(curPath);
+          return;
+        }
+        const name = names[i];
+        if(i === 0){
+          if(name === rootName /*|| name === DEFAULT_ROOT_PATH*/ || name === WILDCARD){
+            populatePaths(curObject, 'root', i + 1);
+          }
+        }
+        else{
+          if(name === WILDCARD){
+            for(const propertyName in curObject){
+              if(curObject.hasOwnProperty(propertyName)){
+                const propertyValue = curObject[propertyName];
+                if(ObjectInspector.isExpandable(propertyValue)){
+                  populatePaths(propertyValue, curPath + '.' + propertyName, i + 1);
+                }
+                else{
+                  continue;
+                }
+              }
+            }
+          }
+          else{
+            const propertyValue = curObject[name];
+            if(ObjectInspector.isExpandable(propertyValue)){
+              populatePaths(propertyValue, curPath + '.' + name, i + 1);
+            }
+          }
+        }
+      }
+      populatePaths(data, '', 0);
+      // console.log(`paths: [${paths}], initialExpandedPaths: [${initialExpandedPaths}]`)
+    }
+  });
+  return paths;
+}
+
 export default class ObjectInspector extends Component {
 
   propTypes: {
@@ -56,60 +111,28 @@ export default class ObjectInspector extends Component {
     path: DEFAULT_ROOT_PATH
   }
 
+  componentWillReceiveProps(nextProps) {
+    // expanded paths need to be recalculated on new data arrival
+    const paths = pathsFromWildcardPaths(nextProps.initialExpandedPaths, nextProps.data, nextProps.name)
+
+    console.log({
+      expandedPaths: paths.reduce((obj, path) => { obj[path] = true; return obj }, {})
+    }, this.props.initialExpandedPaths, this.props.data, paths, this.props.name)
+
+    this.setState({
+      expandedPaths: paths.reduce((obj, path) => { obj[path] = true; return obj }, {})
+    })
+  }
+
   constructor(props) {
     super(props);
 
-    if(props.depth === 0){
-      this.state = {expandedPaths: {}};
-      this.state.expandedPaths[props.path] = false;
+    if(props.depth === 0){ // root node
 
-      // initialize expandedPaths with initialExpandedPaths
-      if(typeof props.initialExpandedPaths !== 'undefined'){
-        props.initialExpandedPaths.map((expandedPath)=>{
-          if(typeof expandedPath === 'string'){
-            const names = expandedPath.split('.'); // wildcard names
-            const paths = [];
-            function wildcardPathToPaths(curObject, curPath, i){
-              const WILDCARD = "*";
-              if(i === names.length){
-                paths.push(curPath);
-                return;
-              }
-              const name = names[i];
-              if(i === 0){
-                if(name === props.name || name === DEFAULT_ROOT_PATH || name === WILDCARD){
-                  wildcardPathToPaths(curObject, 'root', i + 1);
-                }
-              }
-              else{
-                if(name === WILDCARD){
-                  for(const propertyName in curObject){
-                    if(curObject.hasOwnProperty(propertyName)){
-                      const propertyValue = curObject[propertyName];
-                      if(ObjectInspector.isExpandable(propertyValue)){
-                        wildcardPathToPaths(propertyValue, curPath + '.' + propertyName, i + 1);
-                      }
-                      else{
-                        continue;
-                      }
-                    }
-                  }
-                }
-                else{
-                  const propertyValue = curObject[name];
-                  if(ObjectInspector.isExpandable(propertyValue)){
-                    wildcardPathToPaths(propertyValue, curPath + '.' + name, i + 1);
-                  }
-                }
-              }
-            }
-            wildcardPathToPaths(props.data, '', 0);
-
-            paths.map((path)=>{
-              this.state.expandedPaths[path] = true;
-            })
-          }
-        });
+      const paths = pathsFromWildcardPaths(props.initialExpandedPaths, props.data, props.name)
+      this.state = {
+        // expand every path
+        expandedPaths: paths.reduce((obj, path) => { obj[path] = true; return obj }, {})
       }
     }
   }
@@ -120,7 +143,7 @@ export default class ObjectInspector extends Component {
 
   getExpanded(path){
     const expandedPaths = this.state.expandedPaths;
-    if (typeof expandedPaths[path] !== 'undefined') {
+    if (expandedPaths !== undefined && typeof expandedPaths[path] !== 'undefined') {
       return expandedPaths[path];
     }
     return false;
@@ -173,7 +196,7 @@ export default class ObjectInspector extends Component {
         if(data.hasOwnProperty(propertyName)){
           propertyNodes.push(<ObjectInspector getExpanded={getExpanded}
                                               setExpanded={setExpanded}
-                                              path={`${this.props.path}.${propertyName}`}
+                                              path={`${this.props.path}.${propertyName}`} // TODO: escape '.' in propertyName
                                               depth={this.props.depth + 1}
                                               key={propertyName}
                                               name={propertyName}

@@ -118,7 +118,7 @@ function getHeaders(data){
 }
 
 
-const SortIconContainer = (props) => (
+const SortIconContainer = (props) =>
   <div style={{
       position: 'absolute',
       top: 1,
@@ -129,7 +129,6 @@ const SortIconContainer = (props) => (
     }}>
     {props.children}
   </div>
-)
 
 import { upArrow, downArrow } from '../styles/glyphs'
 import unselectable from '../styles/unselectable'
@@ -202,7 +201,7 @@ TH.defaultProps = {
   onClick: undefined
 }
 
-const HeaderContainer = ({ indexColumnText, columns, sorted, sortIndexColumn, sortColumn, sortAscending, onTHClick, onIndexTHClick }) => (
+const HeaderContainer = ({ indexColumnText, columns, sorted, sortIndexColumn, sortColumn, sortAscending, onTHClick, onIndexTHClick }) =>
   <div style={{
     top: 0,
     height: '17px',
@@ -246,13 +245,13 @@ const HeaderContainer = ({ indexColumnText, columns, sorted, sortIndexColumn, so
       </tbody>
     </table>
   </div>
-)
 
 HeaderContainer.defaultProps = {
-  indexColumnText: '(index)'
+  indexColumnText: '(index)',
+  columns: []
 }
 
-const DataContainer = ({ rows, columns, rowsData }) => (
+const DataContainer = ({ rows, columns, rowsData }) =>
   <div style={{
     position: 'static',
     top: '17px',
@@ -265,11 +264,10 @@ const DataContainer = ({ rows, columns, rowsData }) => (
     overflowX: 'hidden',
   }}>
   {/*
-    // TODO: remove this view
     <pre>
-      {JSON.stringify(rows)}
+      rows: {JSON.stringify(rows)}
       <br></br>
-      {JSON.stringify(rowsData)}
+      rowsData: {JSON.stringify(rowsData)}
     </pre>
   */}
     <table style={{
@@ -322,7 +320,6 @@ const DataContainer = ({ rows, columns, rowsData }) => (
       </tbody>
     </table>
   </div>
-)
 
 import ObjectInspector from '../ObjectInspector'
 
@@ -346,7 +343,8 @@ export default class TableInspector extends Component {
         sorted: true,
         sortIndexColumn: true,
         sortColumn: undefined,
-        sortAscending: !this.state.sortAscending
+        // when changed to a new column, default to asending
+        sortAscending: this.state.sortIndexColumn ? (!this.state.sortAscending) : true
       })
   }
 
@@ -357,7 +355,7 @@ export default class TableInspector extends Component {
         sorted: true,
         sortIndexColumn: false,
         sortColumn: col,
-        sortAscending: !this.state.sortAscending
+        sortAscending: (col === this.state.sortColumn) ? !this.state.sortAscending : true
       }
     )
   }
@@ -379,9 +377,28 @@ export default class TableInspector extends Component {
 
     const rowsData = rowHeaders.map((rowHeader) => data[rowHeader])
 
+    const sorted = this.state.sorted,
+          sortIndexColumn = this.state.sortIndexColumn,
+          sortColumn = this.state.sortColumn,
+          sortAscending = this.state.sortAscending
+
+    let columnDataWithRowIndexes
+    if(sortColumn !== undefined){
+      // the column to be sorted (rowsData, column) => [columnData, rowIndex]
+      columnDataWithRowIndexes = rowsData.map((rowData, index) => {
+        const columnData = rowData[sortColumn]
+        return [columnData, index]
+      })
+
+    }
+    rowsData
+
     return (<div style={styles.base} >
               {/*data*/}
-              <ObjectInspector data={this.state} />
+              <ObjectInspector data={rowHeaders} />
+              <ObjectInspector data={colHeaders} />
+              <ObjectInspector data={rowsData} />
+              <ObjectInspector data={columnDataWithRowIndexes} initialExpandedPaths={['root', 'root.*']} />
               <HeaderContainer columns={colHeaders}
                                /* for sorting */
                                sorted={this.state.sorted}

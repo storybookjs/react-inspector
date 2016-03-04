@@ -6,8 +6,10 @@ react-inspector
 
 Power of [Browser DevTools](https://developers.google.com/web/tools/chrome-devtools/) inspectors right inside your React app.
 
+Find yourself using `console.log` a lot to visualize your data inside a React App? Why use an imperative way and switch back and forth? Your app is the best console.
+
 #### ObjectInspector
-Like `console.log`. If you find yourself using `<pre>JSON.stringify(data, null, 2)</pre>` a lot to visualize your data inside a React App, you might as well use `<ObjectInspector>`. Check out the interactive playground [here](http://xyc.github.io/react-object-inspector/).
+Like `console.log`. Consider this as a glorified version of `<pre>JSON.stringify(data, null, 2)</pre>`. Check out the interactive playground [here](http://xyc.github.io/react-object-inspector/).
 
 ![](http://xyc.github.io/react-object-inspector/screenshot.png)
 
@@ -63,7 +65,7 @@ ReactDOM.render(
   document.getElementById('root')
 );
 ```
-Checkout `example/App.js` for more examples. Try embedding this inside a component's render() method to provide a live view (Works even better if you are using hot reloading) for its props/state.
+Checkout `example/App.js` for more examples. Try embedding this inside a component's render() method to provide a live view for its props/state (Works even better with hot reloading).
 
 ### Install the example
 ```sh
@@ -72,5 +74,5 @@ npm install && npm start
 Open http://localhost:3000/example/index.html
 
 ## Notes
-- `react-object-inspector` package is renamed to `react-inspector`
+- `react-object-inspector` package is renamed to `react-inspector`, and `<ObjectInspector/>` is now part of the new package.
 - Starting from 0.2.0, react-object-inspector uses inline styles and you don't need to include any additional CSS files.
