@@ -363,7 +363,7 @@ export default class TableInspector extends Component {
   render() {
     const data = this.props.data
     const columns = this.props.columns
-    if(typeof data !== 'object'){
+    if(typeof data !== 'object' || data === null){
       return (<div></div>)
     }
 
@@ -440,8 +440,9 @@ export default class TableInspector extends Component {
       rowsData = sortedRowIndexes.map((i) => rowsData[i])
     }
 
+    console.log(this.props)
     return (<div style={styles.base} >
-              {/*data*/}
+              {/*<ObjectInspector data={data} />*/}
               {/*
               <ObjectInspector data={rowHeaders} />
               <ObjectInspector data={colHeaders} />
@@ -471,6 +472,6 @@ TableInspector.propTypes = {
 }
 
 TableInspector.defaultProps = {
-  data: [],
+  data: undefined,
   columns: undefined
 }

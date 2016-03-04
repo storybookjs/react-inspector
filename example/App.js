@@ -114,6 +114,7 @@ export default class App extends Component {
     const objectTests = [undefined, testFunction, null, true, false, "testString", 42, NaN, Symbol('foo'), testObject, test2, test3, test4, test5, [], ["a"], ["a", 1], new Date()];
 
     const tableTests = [
+      // should be 2 * 4 table
       {
         data: [['Name', 'Address', 'Age', 'Phone'],['John Appleseed', '42 Galaxy drive', '20', '111-111-1111']]
       },
@@ -136,6 +137,7 @@ export default class App extends Component {
         },
         columns: ['firstName', 'lastName']
       },
+      // should be 9 * 9 table
       {
         data: [
           [0,5,2,0,4,6,9,0,0],
@@ -148,7 +150,27 @@ export default class App extends Component {
         	[9,0,5,0,1,0,4,0,7],
         	[0,0,7,5,8,0,3,1,0]
         ],
-      }
+      },
+      // should be nothing
+      {
+        data: null
+      },
+      // should be nothing
+      {
+        data: undefined
+      },
+      // // should be nothing
+      // {
+      //   data: [
+      //     undefined
+      //   ]
+      // },
+      // should be 1 * 0 table
+      {
+        data: [
+          {}
+        ]
+      },
     ]
 
     return (
