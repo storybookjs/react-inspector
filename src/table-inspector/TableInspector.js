@@ -375,7 +375,7 @@ export default class TableInspector extends Component {
       colHeaders = columns
     }
 
-    const rowsData = rowHeaders.map((rowHeader) => data[rowHeader])
+    let rowsData = rowHeaders.map((rowHeader) => data[rowHeader])
 
     const sorted = this.state.sorted,
           sortIndexColumn = this.state.sortIndexColumn,
@@ -383,13 +383,23 @@ export default class TableInspector extends Component {
           sortAscending = this.state.sortAscending
 
     let columnDataWithRowIndexes /* row indexes are [0..nRows-1] */
+    // TODO: refactor
     if(sortColumn !== undefined){
       // the column to be sorted (rowsData, column) => [[columnData, rowIndex]]
       columnDataWithRowIndexes = rowsData.map((rowData, index) => {
         const columnData = rowData[sortColumn]
         return [columnData, index]
       })
-
+    }
+    else{
+      if(sortIndexColumn){
+        columnDataWithRowIndexes = rowHeaders.map((rowData, index) => {
+          const columnData = rowHeaders[index]
+          return [columnData, index]
+        })
+      }
+    }
+    if(columnDataWithRowIndexes !== undefined){
       // apply a mapper before sorting (because we need to access inside a container)
       const comparator = (mapper, ascending) => {
         return (a, b) => {
@@ -397,7 +407,7 @@ export default class TableInspector extends Component {
           const v2 = mapper(b)
           const type1 = typeof v1
           const type2 = typeof v2
-          // use '<' operator
+          // use '<' operator to compare same type of values or compare type precedence order #
           const lt = (v1, v2) => {
             if(v1 < v2) {
               return -1
@@ -424,17 +434,19 @@ export default class TableInspector extends Component {
           return result
         }
       }
-      columnDataWithRowIndexes.sort(comparator((item)=>item[0], sortAscending))
-
-
+      const sortedRowIndexes = columnDataWithRowIndexes.sort(comparator((item)=>item[0], sortAscending))
+                              .map((item) => item[1]) // sorted row indexes
+      rowHeaders = sortedRowIndexes.map((i) => rowHeaders[i])
+      rowsData = sortedRowIndexes.map((i) => rowsData[i])
     }
 
     return (<div style={styles.base} >
               {/*data*/}
+              {/*
               <ObjectInspector data={rowHeaders} />
               <ObjectInspector data={colHeaders} />
               <ObjectInspector data={rowsData} />
-              <ObjectInspector data={columnDataWithRowIndexes} initialExpandedPaths={['root', 'root.*']} />
+              <ObjectInspector data={columnDataWithRowIndexes} initialExpandedPaths={['root', 'root.*']} />*/}
               <HeaderContainer columns={colHeaders}
                                /* for sorting */
                                sorted={this.state.sorted}
