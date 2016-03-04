@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 
-const ObjectDescription = require('../src/ObjectDescription');
+const ObjectDescription = require('../src/object/ObjectDescription');
 
 describe('ObjectDescription', () => {
 

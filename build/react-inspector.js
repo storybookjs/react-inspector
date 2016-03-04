@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define(["react"], factory);
 	else if(typeof exports === 'object')
-		exports["ObjectInspector"] = factory(require("react"));
+		exports["ReactInspector"] = factory(require("react"));
 	else
-		root["ObjectInspector"] = factory(root["React"]);
+		root["ReactInspector"] = factory(root["React"]);
 })(this, function(__WEBPACK_EXTERNAL_MODULE_2__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -78,12 +78,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 	
-	var _ObjectDecription = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./object/ObjectDecription\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var _ObjectDescription = __webpack_require__(3);
 	
 	Object.defineProperty(exports, 'ObjectDecription', {
 	  enumerable: true,
 	  get: function get() {
-	    return _ObjectDecription.ObjectDecription;
+	    return _ObjectDescription.ObjectDecription;
 	  }
 	});
 	
@@ -1312,4 +1312,4 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ])
 });
 ;
-//# sourceMappingURL=react-object-inspector.map
+//# sourceMappingURL=react-inspector.map

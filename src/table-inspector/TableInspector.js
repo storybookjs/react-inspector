@@ -18,8 +18,8 @@ const styles = {
     boxSizing: 'border-box',
     cursor: 'default'
   },
-  table: {
-  },
+  // table: {
+  // },
   th: {
     position: 'relative', // anchor for sort icon container
     height: 'auto',
