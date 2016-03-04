@@ -294,7 +294,7 @@ const DataContainer = ({ rows, columns, rowsData }) =>
       </colgroup>
       <tbody>
         {
-          rows.map((row) => (
+          rows.map((row, i) => (
             <tr key={row} style={styles.tr}>
               <td style={{...styles.td, ...styles.leftBorder.none}}>
                 {row}
@@ -302,7 +302,7 @@ const DataContainer = ({ rows, columns, rowsData }) =>
 
               {
                 columns.map((column) => {
-                  const rowData = rowsData[row]
+                  const rowData = rowsData[i]
                   if(rowData.hasOwnProperty(column)){
                     return (<td key={column} style={{...styles.td, ...styles.leftBorder.solid}}>
                               <ObjectDescription object={rowData[column]}/>
@@ -382,16 +382,52 @@ export default class TableInspector extends Component {
           sortColumn = this.state.sortColumn,
           sortAscending = this.state.sortAscending
 
-    let columnDataWithRowIndexes
+    let columnDataWithRowIndexes /* row indexes are [0..nRows-1] */
     if(sortColumn !== undefined){
-      // the column to be sorted (rowsData, column) => [columnData, rowIndex]
+      // the column to be sorted (rowsData, column) => [[columnData, rowIndex]]
       columnDataWithRowIndexes = rowsData.map((rowData, index) => {
         const columnData = rowData[sortColumn]
         return [columnData, index]
       })
 
+      // apply a mapper before sorting (because we need to access inside a container)
+      const comparator = (mapper, ascending) => {
+        return (a, b) => {
+          const v1 = mapper(a) // the datum
+          const v2 = mapper(b)
+          const type1 = typeof v1
+          const type2 = typeof v2
+          // use '<' operator
+          const lt = (v1, v2) => {
+            if(v1 < v2) {
+              return -1
+            }
+            else if(v1 > v2){
+              return 1
+            }
+            else{
+              return 0
+            }
+          }
+          let result
+          if(type1 === type2){
+            result = lt(v1, v2)
+          }
+          else{
+            // order of different types
+            const order = {'string': 0, 'number': 1, 'object': 2, 'symbol': 3, 'boolean': 4, 'undefined': 5, 'function': 6}
+            result = lt(order[type1], order[type2])
+          }
+          // reverse result if descending
+          if(!ascending)
+            result = -result
+          return result
+        }
+      }
+      columnDataWithRowIndexes.sort(comparator((item)=>item[0], sortAscending))
+
+
     }
-    rowsData
 
     return (<div style={styles.base} >
               {/*data*/}

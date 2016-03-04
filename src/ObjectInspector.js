@@ -87,7 +87,6 @@ const pathsFromWildcardPaths = (wildcardPaths, data, rootName = DEFAULT_ROOT_PAT
         }
       }
       populatePaths(data, '', 0);
-      // console.log(`paths: [${paths}], initialExpandedPaths: [${initialExpandedPaths}]`)
     }
   });
   return paths;
@@ -114,10 +113,6 @@ export default class ObjectInspector extends Component {
   componentWillReceiveProps(nextProps) {
     // expanded paths need to be recalculated on new data arrival
     const paths = pathsFromWildcardPaths(nextProps.initialExpandedPaths, nextProps.data, nextProps.name)
-
-    console.log({
-      expandedPaths: paths.reduce((obj, path) => { obj[path] = true; return obj }, {})
-    }, this.props.initialExpandedPaths, this.props.data, paths, this.props.name)
 
     this.setState({
       expandedPaths: paths.reduce((obj, path) => { obj[path] = true; return obj }, {})

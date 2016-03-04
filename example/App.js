@@ -125,6 +125,12 @@ export default class App extends Component {
       },
       {
         data: {
+          'person1': { firstName: "John", lastName: "Smith" },
+          'person2': { firstName: "Martin", middleName: "Luther", lastName: "King" }
+        },
+      },
+      {
+        data: {
           0: { firstName: "John", lastName: "Smith" },
           1: { firstName: "Martin", middleName: "Luther", lastName: "King" }
         },
@@ -147,7 +153,7 @@ export default class App extends Component {
 
     return (
       <div>
-        {(() => {
+        {/*(() => {
           // https://facebook.github.io/react/tips/if-else-in-JSX.html
           return objectTests.map(function(object, index){
             return (
@@ -157,7 +163,7 @@ export default class App extends Component {
                     </ObjectInspector>
                   </div>);
           });
-        })()}
+        })()*/}
 
         {(() =>
           tableTests.map((test, index) =>
