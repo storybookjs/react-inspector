@@ -1,6 +1,6 @@
 {
   "name": "react-inspector",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.2",
   "description": "Power of Browser DevTools inspectors right inside your React app",
   "main": "lib/index.js",
   "directories": {
@@ -13,7 +13,7 @@
     "test": "mocha test --compilers js:babel-register --recursive",
     "clean": "rimraf lib",
     "prerelease": "npm run lint && npm run test && npm run clean && npm run build",
-    "release": ""
+    "release": "npm publish ."    
   },
   "repository": {
     "type": "git",

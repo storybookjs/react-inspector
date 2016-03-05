@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import TestUtils from 'react-addons-test-utils'
 import expect from 'expect'
 import ObjectDescription from '../src/object/ObjectDescription'
+import objectStyles from '../src/object/objectStyles'
 
 const renderer = TestUtils.createRenderer()
 
@@ -10,115 +11,106 @@ describe('ObjectDescription', () => {
   })
 
   it('should render', () => {
-    console.log(ObjectDescription)
-    const tree = renderer.render(<ObjectDescription object={0} />)
-    expect(1).toBe(1)
+    // console.log(ObjectDescription)
+    renderer.render(<ObjectDescription object={0} />)
+    const tree = renderer.getRenderOutput()
+    expect(tree.type).toBe('span')
   })
-})
-
-/*
-import React, {PropTypes} from 'react';
-import ReactDOM from 'react-dom';
-import TestUtils from 'react-addons-test-utils';
-
-const ObjectDescription = require('../src/object/ObjectDescription');
-
-describe('ObjectDescription', () => {
-
-  beforeEach(() => {
-
-  });
 
   it('should render number', () => {
-    const desc = TestUtils.renderIntoDocument(<ObjectDescription object={0} />);
-    const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
-
-    expect(ReactDOM.findDOMNode(span).textContent).toBe("0");
-  });
+    renderer.render(<ObjectDescription object={0} />)
+    const tree = renderer.getRenderOutput()
+    expect(tree.type).toBe('span')
+    expect(tree.props.children).toEqual(0)
+  })
 
   it('should render string with quotes', () => {
-    const desc = TestUtils.renderIntoDocument(<ObjectDescription object={"octocat"} />);
-    const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
-
-    expect(ReactDOM.findDOMNode(span).textContent).toBe("\"octocat\"");
-  });
+    renderer.render(<ObjectDescription object={"octocat"} />)
+    const tree = renderer.getRenderOutput()
+    expect(tree.type).toBe('span')
+    expect(tree.props.children).toEqual([ '"', 'octocat', '"' ])
+  })
 
   it('should render boolean', () => {
-    for(let value of [true, false]){
-      const desc = TestUtils.renderIntoDocument(<ObjectDescription object={value} />);
-      const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
-
-      expect(ReactDOM.findDOMNode(span).textContent).toBe(value.toString());
-    }
-  });
+    renderer.render(<ObjectDescription object={true} />)
+    const tree = renderer.getRenderOutput()
+    expect(tree.type).toBe('span')
+    expect(tree.props.children).toEqual('true')
+  })
 
   it('should render undefined', () => {
-    const desc = TestUtils.renderIntoDocument(<ObjectDescription />);
-    const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
+    renderer.render(<ObjectDescription object={undefined} />)
+    const tree = renderer.getRenderOutput()
+    expect(tree.type).toBe('span')
+    expect(tree.props.children).toEqual('undefined')
+  })
 
-    expect(ReactDOM.findDOMNode(span).textContent).toBe("undefined");
-  });
-
-  it('shoudl render null', () => {
-    const desc = TestUtils.renderIntoDocument(<ObjectDescription object={null}/>);
-    const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
-
-    expect(ReactDOM.findDOMNode(span).textContent).toBe("null");
-  });
+  it('should render null', () => {
+    renderer.render(<ObjectDescription object={null} />)
+    const tree = renderer.getRenderOutput()
+    expect(tree.type).toBe('span')
+    expect(tree.props.children).toEqual('null')
+  })
 
   it('should display date correctly', () => {
     const dateString = 'December 17, 1995 03:24:00';
     const date = new Date(dateString);
-    const desc = TestUtils.renderIntoDocument(<ObjectDescription object={date}/>);
-    const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
-
-    expect(ReactDOM.findDOMNode(span).textContent).toBe((new Date(dateString)).toString());
+    renderer.render(<ObjectDescription object={date} />)
+    const tree = renderer.getRenderOutput()
+    expect(tree.type).toBe('span')
+    expect(tree.props.children).toEqual(date.toString())
   });
 
   it('should render array with length information', () => {
-    const desc = TestUtils.renderIntoDocument(<ObjectDescription object={[1,2,3,4,5]}/>);
-    const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
-
-    expect(ReactDOM.findDOMNode(span).textContent).toBe("Array[5]");
-  });
+    renderer.render(<ObjectDescription object={[1,2,3,4,5]} />)
+    const tree = renderer.getRenderOutput()
+    expect(tree.type).toBe('span')
+    expect(tree.props.children).toEqual('Array[5]')
+  })
 
   it('should render an empty object', () => {
-    const desc = TestUtils.renderIntoDocument(<ObjectDescription object={{}}/>);
-    const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
-
-    expect(ReactDOM.findDOMNode(span).textContent).toBe("Object");
-  });
+    renderer.render(<ObjectDescription object={{}} />)
+    const tree = renderer.getRenderOutput()
+    expect(tree.type).toBe('span')
+    expect(tree.props.children).toEqual('Object')
+  })
 
   it('should render a simple object', () => {
-    const desc = TestUtils.renderIntoDocument(<ObjectDescription object={{'k': 'v'}}/>);
-    const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
-
-    expect(ReactDOM.findDOMNode(span).textContent).toBe("Object");
+    renderer.render(<ObjectDescription object={{'k': 'v'}} />)
+    const tree = renderer.getRenderOutput()
+    expect(tree.type).toBe('span')
+    expect(tree.props.children).toEqual('Object')
   });
 
+  /*
   it('should render an anonymous function', () => {
-    const desc = TestUtils.renderIntoDocument(<ObjectDescription object={function(){}}/>);
-    const spans = TestUtils.scryRenderedDOMComponentsWithTag(desc, 'span');
-
-    expect(spans.length).toBe(3);
+    renderer.render(<ObjectDescription object={function(){}} />)
+    const tree = renderer.getRenderOutput()
+    expect(tree.type).toBe('span')
+    // const n = tree.props.children[1].props.children[1]
+    // console.log(JSON.stringify(n, null, 2))
+    // console.log(typeof n)
+    // console.log(tree.props.children[1].props.children)
+    expect(tree.props.children[0]).toEqual(<span style={objectStyles.value.function.keyword}>function</span>)
+    expect(tree.props.children[1]).toEqual(<span style={objectStyles.value.function.name}>{[ '\xa0', 'object', '()' ]}</span>)
   });
+  */
 
   it('should render a named function', () => {
-    const desc = TestUtils.renderIntoDocument(<ObjectDescription object={function id(a){return a;}}/>);
-    const spans = TestUtils.scryRenderedDOMComponentsWithTag(desc, 'span');
-
-    expect(spans.length).toBe(3);
-    expect(ReactDOM.findDOMNode(spans[0]).textContent).toBe("function\xa0id()");
+    renderer.render(<ObjectDescription object={function id(a){return a;}} />)
+    const tree = renderer.getRenderOutput()
+    expect(tree.type).toBe('span')
+    expect(tree.props.children).toEqual([
+                                          <span style={objectStyles.value.function.keyword}>function</span>,
+                                          <span style={objectStyles.value.function.name}>{[ '\xa0', 'id', '()' ]}</span>
+                                        ])
   });
 
-  // Need phantomjs 2
-  // it('symbol', () => {
-  //   const desc = TestUtils.renderIntoDocument(<ObjectDescription object={Symbol("foo")}/>);
-  //   const span = TestUtils.findRenderedDOMComponentWithTag(desc, 'span');
-  //
-  //   expect(React.findDOMNode(span).textContent).toBe("Symbol()");
-  // });
+  it('should render a symbol', () => {
+    renderer.render(<ObjectDescription object={Symbol("foo")} />)
+    const tree = renderer.getRenderOutput()
+    expect(tree.type).toBe('span')
+    expect(tree.props.children).toEqual('Symbol()')
+  });
 
-});
-
- */
+})

@@ -59,42 +59,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.TableInspector = exports.ObjectInspector = undefined;
 	
-	var _ObjectInspector = __webpack_require__(1);
+	var _ObjectInspector2 = __webpack_require__(1);
 	
-	Object.defineProperty(exports, 'ObjectInspector', {
-	  enumerable: true,
-	  get: function get() {
-	    return _ObjectInspector.ObjectInspector;
-	  }
-	});
+	var _ObjectInspector3 = _interopRequireDefault(_ObjectInspector2);
 	
-	var _TableInspector = __webpack_require__(6);
+	var _TableInspector2 = __webpack_require__(6);
 	
-	Object.defineProperty(exports, 'TableInspector', {
-	  enumerable: true,
-	  get: function get() {
-	    return _TableInspector.TableInspector;
-	  }
-	});
+	var _TableInspector3 = _interopRequireDefault(_TableInspector2);
 	
-	var _ObjectDescription = __webpack_require__(3);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	Object.defineProperty(exports, 'ObjectDecription', {
-	  enumerable: true,
-	  get: function get() {
-	    return _ObjectDescription.ObjectDecription;
-	  }
-	});
+	exports.ObjectInspector = _ObjectInspector3.default;
+	exports.TableInspector = _TableInspector3.default;
 	
-	var _ObjectPreview = __webpack_require__(5);
-	
-	Object.defineProperty(exports, 'ObjectPreview', {
-	  enumerable: true,
-	  get: function get() {
-	    return _ObjectPreview.ObjectPreview;
-	  }
-	});
+	// export ObjectDecription from './object/ObjectDescription'
+	// export ObjectPreview from './object/ObjectPreview'
 
 /***/ },
 /* 1 */
@@ -540,7 +521,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	
 	ObjectDescription.propTypes = {
-	  object: _react2.default.PropTypes.object
+	  object: _react2.default.PropTypes.any
 	};
 
 /***/ },
@@ -814,7 +795,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    display: 'table-row'
 	  },
 	  td: {
-	    height: '16px',
+	    boxSizing: 'border-box', //
+	    height: '16px', // /* 0.5 * background-size height */
 	    verticalAlign: 'top',
 	    padding: '1px 4px',
 	    WebkitUserSelect: 'text',

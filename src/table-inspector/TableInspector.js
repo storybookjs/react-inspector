@@ -52,7 +52,8 @@ const styles = {
     display: 'table-row',
   },
   td: {
-    height: '16px',
+    boxSizing: 'border-box', // 
+    height: '16px', // /* 0.5 * background-size height */
     verticalAlign: 'top',
     padding: '1px 4px',
     WebkitUserSelect: 'text',

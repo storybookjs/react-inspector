@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import ObjectDescription from '../src/object/ObjectDescription'
+
 import ObjectInspector from '../src/object-inspector/ObjectInspector';
 import TableInspector from '../src/table-inspector/TableInspector';
 
@@ -175,11 +177,13 @@ export default class App extends Component {
         data: [
           {}
         ]
-      },
+      },      
     ]
 
     return (
       <div>
+        {/*<ObjectDescription object={function(){}}/>*/}
+
         {(() => {
           // https://facebook.github.io/react/tips/if-else-in-JSX.html
           return objectTests.map(function(object, index){
