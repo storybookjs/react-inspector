@@ -1,17 +1,17 @@
 react-inspector
 =====================
 
-[![build status](https://img.shields.io/travis/xyc/react-object-inspector/master.svg?style=flat-square)](https://travis-ci.org/xyc/react-object-inspector)
-[![npm version](https://img.shields.io/npm/v/react-object-inspector.svg?style=flat-square)](https://www.npmjs.com/package/react-object-inspector)
+[![build status](https://img.shields.io/travis/xyc/react-inspector/master.svg?style=flat-square)](https://travis-ci.org/xyc/react-inspector)
+[![npm version](https://img.shields.io/npm/v/react-inspector.svg?style=flat-square)](https://www.npmjs.com/package/react-inspector)
 
 Power of [Browser DevTools](https://developers.google.com/web/tools/chrome-devtools/) inspectors right inside your React app.
 
 Find yourself using `console.log` a lot to visualize your data inside a React App? Why use an imperative way and switch back and forth? Your app is the best console.
 
 #### ObjectInspector
-Like `console.log`. Consider this as a glorified version of `<pre>JSON.stringify(data, null, 2)</pre>`. Check out the interactive playground [here](http://xyc.github.io/react-object-inspector/).
+Like `console.log`. Consider this as a glorified version of `<pre>JSON.stringify(data, null, 2)</pre>`. Check out the interactive playground [here](http://xyc.github.io/react-inspector/).
 
-![](http://xyc.github.io/react-object-inspector/screenshot.png)
+![](http://xyc.github.io/react-inspector/screenshot.png)
 
 Tree state is saved at root. If you click to expand some elements in the hierarchy, the state will be preserved after the element is unmounted.
 
