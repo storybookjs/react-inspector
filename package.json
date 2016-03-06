@@ -10,10 +10,10 @@
     "start": "node server.js",
     "build": "babel src --out-dir lib && webpack --config webpack.prod.config.js",
     "lint": "eslint lib",
-    "test": "mocha test --compilers js:babel-register --recursive",
+    "test": "mocha src test --compilers js:babel-register --recursive",
     "clean": "rimraf lib",
     "prerelease": "npm run lint && npm run test && npm run clean && npm run build",
-    "release": "npm publish ."    
+    "release": "npm publish ."
   },
   "repository": {
     "type": "git",
