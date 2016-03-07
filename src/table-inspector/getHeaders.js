@@ -1,3 +1,7 @@
+/*
+ * Polyfill for running tests
+ * `includes` is a ES2016 feature
+ */
 if (!Array.prototype.includes) {
   Array.prototype.includes = function(searchElement /*, fromIndex*/ ) {
     'use strict';

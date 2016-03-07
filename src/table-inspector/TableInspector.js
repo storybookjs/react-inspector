@@ -174,6 +174,7 @@ const HeaderContainer = ({ indexColumnText, columns, sorted, sortIndexColumn, so
       borderCollapse: 'separate',
       height: '100%',
       width: '100%',
+      margin: '0', // prevent overrides
     }}>
     {/*
       <colgroup>
@@ -264,7 +265,17 @@ const DataContainer = ({ rows, columns, rowsData }) =>
               {
                 columns.map((column) => {
                   const rowData = rowsData[i]
-                  if(rowData.hasOwnProperty(column)){
+                  // rowData could be
+                  //  object -> index by key
+                  //    array -> index by array index
+                  //    null -> pass
+                  //  boolean -> pass
+                  //  string -> pass (hasOwnProperty returns true for [0..len-1])
+                  //  number -> pass
+                  //  function -> pass
+                  //  symbol
+                  //  undefined -> pass
+                  if(typeof(rowData) === 'object' && rowData !== null && rowData.hasOwnProperty(column)){
                     return (<td key={column} style={{...styles.td, ...styles.leftBorder.solid}}>
                               <ObjectDescription object={rowData[column]}/>
                             </td>)
@@ -346,8 +357,12 @@ export default class TableInspector extends Component {
     if(sortColumn !== undefined){
       // the column to be sorted (rowsData, column) => [[columnData, rowIndex]]
       columnDataWithRowIndexes = rowsData.map((rowData, index) => {
-        const columnData = rowData[sortColumn]
-        return [columnData, index]
+        // normalize rowData
+        if(typeof(rowData) === 'object' && rowData !== null /*&& rowData.hasOwnProperty(sortColumn)*/){
+          const columnData = rowData[sortColumn]
+          return [columnData, index]
+        }
+        return [undefined, index]
       })
     }
     else{

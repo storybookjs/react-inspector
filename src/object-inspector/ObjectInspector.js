@@ -111,12 +111,17 @@ export default class ObjectInspector extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // expanded paths need to be recalculated on new data arrival
-    const paths = pathsFromWildcardPaths(nextProps.initialExpandedPaths, nextProps.data, nextProps.name)
+    if(this.props.depth === 0){    
+      // expanded paths need to be recalculated on new data arrival
+      const paths = pathsFromWildcardPaths(nextProps.initialExpandedPaths, nextProps.data, nextProps.name)
 
-    this.setState({
-      expandedPaths: paths.reduce((obj, path) => { obj[path] = true; return obj }, {})
-    })
+      this.setState({
+        expandedPaths: paths.reduce(
+          (obj, path) => { obj[path] = true; return obj },
+          this.state.expandedPaths // based on current expandedPaths
+        )
+      })
+    }
   }
 
   constructor(props) {

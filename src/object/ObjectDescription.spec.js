@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react'
 import TestUtils from 'react-addons-test-utils'
 import expect from 'expect'
-import ObjectDescription from '../src/object/ObjectDescription'
-import objectStyles from '../src/object/objectStyles'
+import ObjectDescription from './ObjectDescription'
+import objectStyles from './objectStyles'
 
 const renderer = TestUtils.createRenderer()
 
