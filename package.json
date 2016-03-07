@@ -10,7 +10,8 @@
     "start": "node server.js",
     "build": "babel src --out-dir lib && webpack --config webpack.prod.config.js",
     "lint": "eslint lib",
-    "test": "mocha src test --compilers js:babel-register --recursive",
+    "test": "mocha src --compilers js:babel-register --recursive",
+    "test:watch": "npm run test -- --watch",
     "clean": "rimraf lib",
     "prerelease": "npm run lint && npm run test && npm run clean && npm run build",
     "release": "npm publish ."

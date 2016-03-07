@@ -35,62 +35,10 @@ const styles = {
   },
 };
 
-const DEFAULT_ROOT_PATH='root';
-/**
- * Convert wild card paths to concrete paths
- * @param  {array} initialExpandedPaths  wild card paths
- * @param  {object} data                 data object
- * @param  {string} rootName             optional root name (if not specified will use DEFAULT_ROOT_PATH)
- * @return {array}                       concrete paths
- */
-const pathsFromWildcardPaths = (wildcardPaths, data, rootName = DEFAULT_ROOT_PATH) => {
-  const paths = []
-  if(wildcardPaths === undefined){
-    return paths;
-  }
-  wildcardPaths.map((expandedPath)=>{
-    if(typeof expandedPath === 'string'){
-      const names = expandedPath.split('.'); // wildcard names
-      // recursively populate paths with wildcard paths
-      function populatePaths(curObject, curPath, i){
-        const WILDCARD = "*";
-        if(i === names.length){
-          paths.push(curPath);
-          return;
-        }
-        const name = names[i];
-        if(i === 0){
-          if(name === rootName /*|| name === DEFAULT_ROOT_PATH*/ || name === WILDCARD){
-            populatePaths(curObject, 'root', i + 1);
-          }
-        }
-        else{
-          if(name === WILDCARD){
-            for(const propertyName in curObject){
-              if(curObject.hasOwnProperty(propertyName)){
-                const propertyValue = curObject[propertyName];
-                if(ObjectInspector.isExpandable(propertyValue)){
-                  populatePaths(propertyValue, curPath + '.' + propertyName, i + 1);
-                }
-                else{
-                  continue;
-                }
-              }
-            }
-          }
-          else{
-            const propertyValue = curObject[name];
-            if(ObjectInspector.isExpandable(propertyValue)){
-              populatePaths(propertyValue, curPath + '.' + name, i + 1);
-            }
-          }
-        }
-      }
-      populatePaths(data, '', 0);
-    }
-  });
-  return paths;
-}
+const onChangeTransitionStyles = {WebkitTransition: "background-color 1s ease"}
+const StyleWrapper = ({ children, styles }) => <span style={styles}>{children}</span>
+
+import { DEFAULT_ROOT_PATH, isExpandable, pathsFromWildcardPaths } from './pathUtils'
 
 export default class ObjectInspector extends Component {
 
@@ -111,7 +59,7 @@ export default class ObjectInspector extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.depth === 0){    
+    if(this.props.depth === 0){
       // expanded paths need to be recalculated on new data arrival
       const paths = pathsFromWildcardPaths(nextProps.initialExpandedPaths, nextProps.data, nextProps.name)
 
@@ -122,6 +70,15 @@ export default class ObjectInspector extends Component {
         )
       })
     }
+
+    // Change the styles (and transition)
+    this.setState({
+      onChangeStyles:{
+        backgroundColor: '#48F948'
+      }
+    })
+    // onTransitionEnd, remove the styles
+
   }
 
   constructor(props) {
@@ -135,10 +92,16 @@ export default class ObjectInspector extends Component {
         expandedPaths: paths.reduce((obj, path) => { obj[path] = true; return obj }, {})
       }
     }
-  }
 
-  static isExpandable(data){
-    return (typeof data === 'object' && data !== null && Object.keys(data).length > 0);
+    if(this.state === undefined){
+      this.state = {}
+
+      // transition
+      this.state.onChangeStyles = {
+        // backgroundColor: '#48F948'
+      }
+    }
+
   }
 
   getExpanded(path){
@@ -157,7 +120,7 @@ export default class ObjectInspector extends Component {
 
   handleClick() {
     // console.log(this.props.data);
-    if (ObjectInspector.isExpandable(this.props.data)) {
+    if (isExpandable(this.props.data)) {
       if (this.props.depth > 0) {
         this.props.setExpanded(this.props.path, !this.props.getExpanded(this.props.path));
       }
@@ -182,10 +145,9 @@ export default class ObjectInspector extends Component {
     const getExpanded = (this.props.depth === 0) ? (this.getExpanded.bind(this)) : this.props.getExpanded;
     const expanded = getExpanded(this.props.path);
 
-    const expandGlyph = ObjectInspector.isExpandable(data) ? (expanded ? '▼'
-                                                                       : '▶')
-                                                           : (this.props.depth === 0 ? '' // unnamed root node
-                                                                                     : ' ');
+    const expandGlyph = isExpandable(data) ? (expanded ? '▼' : '▶')
+                                           : (this.props.depth === 0 ? '' // unnamed root node
+                                                                     : ' ');
 
     let propertyNodesContainer;
     if(expanded){
@@ -215,11 +177,19 @@ export default class ObjectInspector extends Component {
               return (<span>
                         <span style={objectStyles.name}>{name}</span>
                         <span>: </span>
+                        <StyleWrapper styles={{...onChangeTransitionStyles,
+                                              ...this.state.onChangeStyles}}>
                         <ObjectDescription object={data} />
+                        </StyleWrapper>
                       </span>);
             }
             else{
-              return (<ObjectPreview object={data}/>);
+              return (<StyleWrapper styles={{...onChangeTransitionStyles,
+                                            ...this.state.onChangeStyles}}>
+                      <ObjectPreview object={data}
+                                     styles={{...onChangeTransitionStyles,
+                                             ...this.state.onChangeStyles}}/>
+                     </StyleWrapper>);
             }
           })()}
         </span>
