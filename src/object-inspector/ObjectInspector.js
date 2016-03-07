@@ -35,9 +35,6 @@ const styles = {
   },
 };
 
-const onChangeTransitionStyles = {WebkitTransition: "background-color 1s ease"}
-const StyleWrapper = ({ children, styles }) => <span style={styles}>{children}</span>
-
 import { DEFAULT_ROOT_PATH, isExpandable, pathsFromWildcardPaths } from './pathUtils'
 
 export default class ObjectInspector extends Component {
@@ -71,14 +68,6 @@ export default class ObjectInspector extends Component {
       })
     }
 
-    // Change the styles (and transition)
-    this.setState({
-      onChangeStyles:{
-        backgroundColor: '#48F948'
-      }
-    })
-    // onTransitionEnd, remove the styles
-
   }
 
   constructor(props) {
@@ -90,15 +79,6 @@ export default class ObjectInspector extends Component {
       this.state = {
         // expand every path
         expandedPaths: paths.reduce((obj, path) => { obj[path] = true; return obj }, {})
-      }
-    }
-
-    if(this.state === undefined){
-      this.state = {}
-
-      // transition
-      this.state.onChangeStyles = {
-        // backgroundColor: '#48F948'
       }
     }
 
@@ -177,19 +157,11 @@ export default class ObjectInspector extends Component {
               return (<span>
                         <span style={objectStyles.name}>{name}</span>
                         <span>: </span>
-                        <StyleWrapper styles={{...onChangeTransitionStyles,
-                                              ...this.state.onChangeStyles}}>
                         <ObjectDescription object={data} />
-                        </StyleWrapper>
                       </span>);
             }
             else{
-              return (<StyleWrapper styles={{...onChangeTransitionStyles,
-                                            ...this.state.onChangeStyles}}>
-                      <ObjectPreview object={data}
-                                     styles={{...onChangeTransitionStyles,
-                                             ...this.state.onChangeStyles}}/>
-                     </StyleWrapper>);
+              return (<ObjectPreview object={data} />);
             }
           })()}
         </span>
