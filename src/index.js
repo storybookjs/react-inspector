@@ -1,32 +1,38 @@
 import React, { Component } from 'react';
 
-import ObjectInspector from './object-inspector/ObjectInspector'
-import TableInspector from './table-inspector/TableInspector'
-
 export ObjectInspector from './object-inspector/ObjectInspector'
 export TableInspector from './table-inspector/TableInspector'
 // export ObjectDecription from './object/ObjectDescription'
 // export ObjectPreview from './object/ObjectPreview'
 
-const Inspector = ({ data, name, level, path, table }) => {
-  // if(level){
-  //
-  // }
-  //
+// Wrapping the inspectors
+import ObjectInspector from './object-inspector/ObjectInspector'
+import TableInspector from './table-inspector/TableInspector'
+
+import { getRootPath, wildcardPathsFromLevel, pathsFromWildcardPaths } from './object-inspector/pathUtils'
+
+const Inspector = ({ data, name = undefined, level = 0, path = undefined, table = false }) => {
   if(table){
     return <TableInspector data={data} />
   }
 
-  // By default, Tree Inspector similar to console.dir
-  if(level){
-    // level = 1
-    //  ['root']
-    // level = 2
-    //
-    //
-    // console.log(level)
+  // TODO: refactor out root path
+  let wildcardPaths = []
+  if(level !== undefined){
+    wildcardPaths = wildcardPaths.concat(wildcardPathsFromLevel(level, name))
   }
-  return <ObjectInspector data={data} />
+  const appendRootPathToPath = (path) => `${getRootPath(name)}.${path}`
+  if(typeof path === 'string'){
+    wildcardPaths.push(appendRootPathToPath(path))
+  }
+  if(typeof path === 'array'){
+    // paths
+    wildcardPaths = wildcardPaths.concat(path.map(p => appendRootPathToPath(p)))
+  }
+
+  // console.log(wildcardPaths)
+
+  return <ObjectInspector data={data} initialExpandedPaths={wildcardPaths}/>
 }
 
 Inspector.propTypes = {

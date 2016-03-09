@@ -55,6 +55,20 @@ export default class ObjectInspector extends Component {
     path: DEFAULT_ROOT_PATH
   }
 
+  constructor(props) {
+    super(props);
+
+    if(props.depth === 0){ // root node
+
+      const paths = pathsFromWildcardPaths(props.initialExpandedPaths, props.data, props.name)
+      this.state = {
+        // expand every path
+        expandedPaths: paths.reduce((obj, path) => { obj[path] = true; return obj }, {})
+      }
+    }
+
+  }
+
   componentWillReceiveProps(nextProps) {
     if(this.props.depth === 0){
       // expanded paths need to be recalculated on new data arrival
@@ -70,18 +84,14 @@ export default class ObjectInspector extends Component {
 
   }
 
-  constructor(props) {
-    super(props);
+  // shouldComponentUpdate(nextProps, nextState){
+  //
+  // }
 
-    if(props.depth === 0){ // root node
-
-      const paths = pathsFromWildcardPaths(props.initialExpandedPaths, props.data, props.name)
-      this.state = {
-        // expand every path
-        expandedPaths: paths.reduce((obj, path) => { obj[path] = true; return obj }, {})
-      }
+  componentWillMount(){
+    if (typeof React.initializeTouchEvents === 'function') {
+      React.initializeTouchEvents(true);
     }
-
   }
 
   getExpanded(path){
@@ -107,12 +117,6 @@ export default class ObjectInspector extends Component {
       else{
         this.setExpanded(this.props.path, !this.getExpanded(this.props.path));
       }
-    }
-  }
-
-  componentWillMount(){
-    if (typeof React.initializeTouchEvents === 'function') {
-      React.initializeTouchEvents(true);
     }
   }
 

@@ -1,5 +1,12 @@
 export const DEFAULT_ROOT_PATH='root';
 
+export const getRootPath = (name = undefined) => {
+  if(name === undefined)
+    return DEFAULT_ROOT_PATH
+  return name
+}
+
+/* should be modified to support __proto__ */
 export const isExpandable = (data) => (typeof data === 'object' && data !== null && Object.keys(data).length > 0)
 
 export const pathsStateFromPaths = (paths, initialState = {}) => paths.reduce((obj, path) => { obj[path] = true; return obj }, initialState)
@@ -30,12 +37,12 @@ export const pathsFromWildcardPaths = (wildcardPaths, data, rootName = DEFAULT_R
         }
         const name = names[i];
         if(i === 0){
-          if(name === rootName /*|| name === DEFAULT_ROOT_PATH*/ || name === WILDCARD){
-            populatePaths(curObject, 'root', i + 1);
+          if(isExpandable(curObject) && (name === rootName || name === WILDCARD)){
+            populatePaths(curObject, rootName, i + 1);
           }
         }
         else{
-          if(name === WILDCARD){
+          if(name === WILDCARD){ // matches anything
             for(const propertyName in curObject){
               if(curObject.hasOwnProperty(propertyName)){
                 const propertyValue = curObject[propertyName];
