@@ -4,16 +4,11 @@ react-inspector
 [![build status](https://img.shields.io/travis/xyc/react-inspector/master.svg?style=flat-square)](https://travis-ci.org/xyc/react-inspector)
 [![npm version](https://img.shields.io/npm/v/react-inspector.svg?style=flat-square)](https://www.npmjs.com/package/react-inspector)
 
-Type of inspectors:
-- [ ] Tree style
-  - [x] common objects
-  - [ ] DOM element objects
-- [x] Table style
-- [ ] Group style
-
 Power of [Browser DevTools](https://developers.google.com/web/tools/chrome-devtools/) inspectors right inside your React app. Check out the interactive playground [here](http://xyc.github.io/react-inspector/).
 
-![](http://xyc.github.io/react-inspector/screenshot.png)
+![](http://xyc.github.io/react-inspector/objectinspector.png)
+
+![](http://xyc.github.io/react-inspector/tableinspector.png)
 
 ## Install
 
@@ -25,8 +20,8 @@ npm install react-inspector
 ### &lt;Inspector />
 A shorthand for the inspectors.
 
-- `<Inspector/>` equivalent to `<ObjectInspector>`
-- `<Inspector table/>` equivalent to `<TableInspector>`
+- `<Inspector/>` is equivalent to `<ObjectInspector>`
+- `<Inspector table/>` is equivalent to `<TableInspector>`
 
 ### &lt;ObjectInspector />
 Like `console.log`. Consider this as a glorified version of `<pre>JSON.stringify(data, null, 2)</pre>`.
@@ -46,7 +41,7 @@ The component accepts the following props:
 - The path string is similar to [JSONPath](http://goessner.net/articles/JsonPath/).
   - It is a dot separated string like `$.foo.bar`. `$.foo.bar` expands the path `$.foo.bar` where `$` refers to the root node. Note that it only expands that single node (but not all its parents and the root node). Instead, you should use `expandPaths={['$', '$.foo', '$.foo.bar']}` to expand all the way to the `$.foo.bar` node.
   - You can use wildcard to expand all paths on a specific level
-    - For example, to expand all first level and second level nodes, use `['$', '$.*']`
+    - For example, to expand all first level and second level nodes, use `['$', '$.*']` (equivalent to `expandLevel={2}`)
 - the results are merged with expandLevel
 
 ### &lt;TableInspector />
@@ -78,17 +73,25 @@ const MyComponent = (data) => (
 let data = { /* ... */ };
 
 ReactDOM.render(
-  <MyComponent data={data} />,    
+  <MyComponent data={data} />,
   document.getElementById('root')
 );
 ```
-Checkout `example/App.js` for more examples. Try embedding this inside a component's render() method to provide a live view for its props/state (Works even better with hot reloading).
+Checkout `example/App.js` for more examples. Try embedding the inspectors inside a component's render() method to provide a live view for its props/state (Works even better with hot reloading).
 
 ### Install the example
 ```sh
 npm install && npm start
 ```
 Open http://localhost:3000/example/index.html
+
+## Roadmap
+Type of inspectors:
+- [ ] Tree style
+  - [x] common objects
+  - [ ] DOM element objects
+- [x] Table style
+- [ ] Group style
 
 ## Contribution
 Contribution is welcome. [Past contributors](https://github.com/xyc/react-object-inspector/graphs/contributors)

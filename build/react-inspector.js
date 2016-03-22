@@ -7,7 +7,7 @@
 		exports["ReactInspector"] = factory(require("react"));
 	else
 		root["ReactInspector"] = factory(root["React"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_2__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_1__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -61,24 +61,85 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.TableInspector = exports.ObjectInspector = undefined;
 	
-	var _ObjectInspector2 = __webpack_require__(1);
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _ObjectInspector2 = __webpack_require__(2);
 	
 	var _ObjectInspector3 = _interopRequireDefault(_ObjectInspector2);
 	
-	var _TableInspector2 = __webpack_require__(6);
+	var _TableInspector2 = __webpack_require__(10);
 	
 	var _TableInspector3 = _interopRequireDefault(_TableInspector2);
 	
+	var _pathUtils = __webpack_require__(9);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 	
 	exports.ObjectInspector = _ObjectInspector3.default;
 	exports.TableInspector = _TableInspector3.default;
 	
+	// NOTE: ObjectDecription and ObjectPreview can be used as building blocks, but currently their styles are not complete
 	// export ObjectDecription from './object/ObjectDescription'
 	// export ObjectPreview from './object/ObjectPreview'
+	
+	// Wrapping the inspectors
+	
+	var Inspector = function Inspector(_ref) {
+	  var _ref$table = _ref.table;
+	  var table = _ref$table === undefined ? false : _ref$table;
+	  var data = _ref.data;
+	
+	  var rest = _objectWithoutProperties(_ref, ['table', 'data']);
+	
+	  if (table) {
+	    return _react2.default.createElement(_TableInspector3.default, { data: data });
+	  }
+	
+	  return _react2.default.createElement(_ObjectInspector3.default, _extends({ data: data }, rest));
+	
+	  // // TODO: refactor out root path
+	  // let wildcardPaths = []
+	  // if(level !== undefined){
+	  //   wildcardPaths = wildcardPaths.concat(wildcardPathsFromLevel(level, name))
+	  // }
+	  // const appendRootPathToPath = (path) => `${getRootPath(name)}.${path}`
+	  // if(typeof path === 'string'){
+	  //   wildcardPaths.push(appendRootPathToPath(path))
+	  // }
+	  // if(typeof path === 'array'){
+	  //   // paths
+	  //   wildcardPaths = wildcardPaths.concat(path.map(p => appendRootPathToPath(p)))
+	  // }
+	
+	  // console.log(wildcardPaths)
+	
+	  // return <ObjectInspector data={data} name={name} initialExpandedPaths={wildcardPaths}/>
+	};
+	
+	Inspector.propTypes = {
+	  data: _react2.default.PropTypes.any.isRequired,
+	  name: _react2.default.PropTypes.string,
+	  level: _react2.default.PropTypes.number,
+	  path: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.array]),
+	  table: _react2.default.PropTypes.bool
+	};
+	
+	exports.default = Inspector;
 
 /***/ },
 /* 1 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
+
+/***/ },
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -87,13 +148,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 	
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _react = __webpack_require__(2);
+	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
@@ -104,6 +161,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _ObjectPreview = __webpack_require__(5);
 	
 	var _ObjectPreview2 = _interopRequireDefault(_ObjectPreview);
+	
+	var _glyphs = __webpack_require__(7);
+	
+	var _pathUtils = __webpack_require__(9);
 	
 	var _objectStyles = __webpack_require__(4);
 	
@@ -127,107 +188,49 @@ return /******/ (function(modules) { // webpackBootstrap
 	    lineHeight: '14px',
 	    cursor: 'default'
 	  },
-	  propertyNodesContainer: {
+	  propertyNodesBox: {
 	    paddingLeft: '12px'
-	  },
-	  unselectable: {
-	    WebkitTouchCallout: 'none',
-	    WebkitUserSelect: 'none',
-	    KhtmlUserSelect: 'none',
-	    MozUserSelect: 'none',
-	    msUserSelect: 'none',
-	    OUserSelect: 'none',
-	    userSelect: 'none'
-	  },
-	  expandControl: {
-	    color: '#6e6e6e',
-	    fontSize: '10px',
-	    marginRight: '3px',
-	    whiteSpace: 'pre'
 	  },
 	  property: {
 	    paddingTop: '2px'
 	  }
 	};
 	
-	var DEFAULT_ROOT_PATH = 'root';
-	/**
-	 * Convert wild card paths to concrete paths
-	 * @param  {array} initialExpandedPaths  wild card paths
-	 * @param  {object} data                 data object
-	 * @param  {string} rootName             optional root name (if not specified will use DEFAULT_ROOT_PATH)
-	 * @return {array}                       concrete paths
-	 */
-	var pathsFromWildcardPaths = function pathsFromWildcardPaths(wildcardPaths, data) {
-	  var rootName = arguments.length <= 2 || arguments[2] === undefined ? DEFAULT_ROOT_PATH : arguments[2];
+	var InspectorBox = function InspectorBox(_ref) {
+	  var children = _ref.children;
+	  return _react2.default.createElement(
+	    'div',
+	    { style: styles.base },
+	    children
+	  );
+	};
 	
-	  var paths = [];
-	  if (wildcardPaths === undefined) {
-	    return paths;
-	  }
-	  wildcardPaths.map(function (expandedPath) {
-	    if (typeof expandedPath === 'string') {
-	      (function () {
-	        // wildcard names
-	        // recursively populate paths with wildcard paths
+	// The view with or without expansion
+	var PreviewBox = function PreviewBox(_ref2) {
+	  var data = _ref2.data;
+	  var name = _ref2.name;
+	  var children = _ref2.children;
+	  var onClick = _ref2.onClick;
+	  return _react2.default.createElement(
+	    'span',
+	    { style: styles.property, onClick: onClick },
+	    children,
+	    _react2.default.createElement(_ObjectPreview2.default, { object: data, name: name })
+	  );
+	};
 	
-	        var populatePaths = function populatePaths(curObject, curPath, i) {
-	          var WILDCARD = "*";
-	          if (i === names.length) {
-	            paths.push(curPath);
-	            return;
-	          }
-	          var name = names[i];
-	          if (i === 0) {
-	            if (name === rootName /*|| name === DEFAULT_ROOT_PATH*/ || name === WILDCARD) {
-	              populatePaths(curObject, 'root', i + 1);
-	            }
-	          } else {
-	            if (name === WILDCARD) {
-	              for (var propertyName in curObject) {
-	                if (curObject.hasOwnProperty(propertyName)) {
-	                  var propertyValue = curObject[propertyName];
-	                  if (ObjectInspector.isExpandable(propertyValue)) {
-	                    populatePaths(propertyValue, curPath + '.' + propertyName, i + 1);
-	                  } else {
-	                    continue;
-	                  }
-	                }
-	              }
-	            } else {
-	              var propertyValue = curObject[name];
-	              if (ObjectInspector.isExpandable(propertyValue)) {
-	                populatePaths(propertyValue, curPath + '.' + name, i + 1);
-	              }
-	            }
-	          }
-	        };
-	
-	        var names = expandedPath.split('.');
-	        populatePaths(data, '', 0);
-	      })();
-	    }
-	  });
-	  return paths;
+	// a box with left padding containing the property nodes
+	var PropertyNodesBox = function PropertyNodesBox(_ref3) {
+	  var children = _ref3.children;
+	  return _react2.default.createElement(
+	    'div',
+	    { style: styles.propertyNodesBox },
+	    children
+	  );
 	};
 	
 	var ObjectInspector = function (_Component) {
 	  _inherits(ObjectInspector, _Component);
-	
-	  _createClass(ObjectInspector, [{
-	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps(nextProps) {
-	      // expanded paths need to be recalculated on new data arrival
-	      var paths = pathsFromWildcardPaths(nextProps.initialExpandedPaths, nextProps.data, nextProps.name);
-	
-	      this.setState({
-	        expandedPaths: paths.reduce(function (obj, path) {
-	          obj[path] = true;return obj;
-	        }, {})
-	      });
-	    } // path is dot separated property names to reach the current node
-	
-	  }]);
 	
 	  function ObjectInspector(props) {
 	    _classCallCheck(this, ObjectInspector);
@@ -236,19 +239,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    if (props.depth === 0) {
 	      // root node
-	
-	      var paths = pathsFromWildcardPaths(props.initialExpandedPaths, props.data, props.name);
 	      _this.state = {
-	        // expand every path
-	        expandedPaths: paths.reduce(function (obj, path) {
-	          obj[path] = true;return obj;
-	        }, {})
+	        expandedPaths: (0, _pathUtils.getPathsState)(props.expandLevel, props.expandPaths, props.data, props.name)
 	      };
 	    }
 	    return _this;
 	  }
 	
 	  _createClass(ObjectInspector, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      if (this.props.depth === 0) {
+	        this.setState({
+	          expandedPaths: (0, _pathUtils.getPathsState)(nextProps.expandLevel, nextProps.expandPaths, nextProps.data, nextProps.name, this.state.expandedPaths)
+	        });
+	      }
+	    }
+	  }, {
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      if (typeof _react2.default.initializeTouchEvents === 'function') {
+	        _react2.default.initializeTouchEvents(true);
+	      }
+	    }
+	  }, {
 	    key: 'getExpanded',
 	    value: function getExpanded(path) {
 	      var expandedPaths = this.state.expandedPaths;
@@ -268,7 +282,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'handleClick',
 	    value: function handleClick() {
 	      // console.log(this.props.data);
-	      if (ObjectInspector.isExpandable(this.props.data)) {
+	      if ((0, _pathUtils.isExpandable)(this.props.data)) {
 	        if (this.props.depth > 0) {
 	          this.props.setExpanded(this.props.path, !this.props.getExpanded(this.props.path));
 	        } else {
@@ -277,109 +291,93 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    }
 	  }, {
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
-	      if (typeof _react2.default.initializeTouchEvents === 'function') {
-	        _react2.default.initializeTouchEvents(true);
-	      }
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _props = this.props;
+	      var data = _props.data;
+	      var name = _props.name;
+	      var path = this.props.path;
 	
-	      var data = this.props.data;
-	      var name = this.props.name;
 	
 	      var setExpanded = this.props.depth === 0 ? this.setExpanded.bind(this) : this.props.setExpanded;
 	      var getExpanded = this.props.depth === 0 ? this.getExpanded.bind(this) : this.props.getExpanded;
-	      var expanded = getExpanded(this.props.path);
 	
-	      var expandGlyph = ObjectInspector.isExpandable(data) ? expanded ? '▼' : '▶' : this.props.depth === 0 ? '' // unnamed root node
-	      : ' ';
+	      var expanded = getExpanded(path);
+	      var expandGlyph = undefined;
+	      if ((0, _pathUtils.isExpandable)(data)) {
+	        expandGlyph = _react2.default.createElement(_glyphs.ExpandGlyph, { expanded: expanded });
+	      } else {
+	        // root node doesn't need placeholder
+	        if (this.props.depth === 0) {
+	          expandGlyph = _react2.default.createElement('span', null);
+	        } else {
+	          expandGlyph = _react2.default.createElement(_glyphs.ExpandGlyph, { empty: true });
+	        }
+	      }
 	
-	      var propertyNodesContainer = undefined;
+	      // if current node is expanded render the property nodes
+	      var propertyNodesBox = undefined;
 	      if (expanded) {
 	        var propertyNodes = [];
-	
 	        for (var propertyName in data) {
 	          var propertyValue = data[propertyName];
 	          if (data.hasOwnProperty(propertyName)) {
 	            propertyNodes.push(_react2.default.createElement(ObjectInspector, { getExpanded: getExpanded,
 	              setExpanded: setExpanded,
-	              path: this.props.path + '.' + propertyName // TODO: escape '.' in propertyName
+	              path: path + '.' + propertyName // TODO: escape '.' in propertyName
 	              , depth: this.props.depth + 1,
 	              key: propertyName,
 	              name: propertyName,
 	              data: propertyValue }));
 	          }
 	        }
-	        propertyNodesContainer = _react2.default.createElement(
-	          'div',
-	          { style: styles.propertyNodesContainer },
+	        propertyNodesBox = _react2.default.createElement(
+	          PropertyNodesBox,
+	          null,
 	          propertyNodes
 	        );
 	      }
 	
 	      return _react2.default.createElement(
-	        'div',
-	        { style: styles.base },
+	        InspectorBox,
+	        null,
 	        _react2.default.createElement(
-	          'span',
-	          { style: styles.property, onClick: this.handleClick.bind(this) },
-	          _react2.default.createElement(
-	            'span',
-	            { style: _extends({}, styles.expandControl, styles.unselectable) },
-	            expandGlyph
-	          ),
-	          function () {
-	            if (typeof name !== 'undefined') {
-	              return _react2.default.createElement(
-	                'span',
-	                null,
-	                _react2.default.createElement(
-	                  'span',
-	                  { style: _objectStyles2.default.name },
-	                  name
-	                ),
-	                _react2.default.createElement(
-	                  'span',
-	                  null,
-	                  ': '
-	                ),
-	                _react2.default.createElement(_ObjectDescription2.default, { object: data })
-	              );
-	            } else {
-	              return _react2.default.createElement(_ObjectPreview2.default, { object: data });
-	            }
-	          }()
+	          PreviewBox,
+	          { data: data, name: name, onClick: this.handleClick.bind(this) },
+	          expandGlyph
 	        ),
-	        propertyNodesContainer
+	        propertyNodesBox
 	      );
-	    }
-	  }], [{
-	    key: 'isExpandable',
-	    value: function isExpandable(data) {
-	      return (typeof data === 'undefined' ? 'undefined' : _typeof(data)) === 'object' && data !== null && Object.keys(data).length > 0;
 	    }
 	  }]);
 	
 	  return ObjectInspector;
 	}(_react.Component);
 	
+	exports.default = ObjectInspector;
+	
+	
+	ObjectInspector.propTypes = {
+	  name: _react.PropTypes.string,
+	  data: _react.PropTypes.any,
+	
+	  expandLevel: _react.PropTypes.number,
+	  expandPaths: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.array]),
+	
+	  depth: _react.PropTypes.number.isRequired,
+	  path: _react.PropTypes.string // path is dot separated property names to reach the current node
+	};
+	
 	ObjectInspector.defaultProps = {
 	  name: void 0,
 	  data: undefined,
-	  initialExpandedPaths: undefined,
+	
+	  expandLevel: undefined,
+	  expandPaths: undefined,
+	
 	  depth: 0,
-	  path: DEFAULT_ROOT_PATH
+	  path: _pathUtils.DEFAULT_ROOT_PATH
 	};
-	exports.default = ObjectInspector;
-
-/***/ },
-/* 2 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
 
 /***/ },
 /* 3 */
@@ -393,9 +391,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	// Styles
 	
-	var _react = __webpack_require__(2);
+	
+	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
@@ -405,124 +404,99 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	// Styles
-	
-	
 	/**
 	 * A short description of the object
 	 */
+	var ObjectDescription = function ObjectDescription(_ref) {
+	  var object = _ref.object;
 	
-	var ObjectDescription = function (_Component) {
-	  _inherits(ObjectDescription, _Component);
-	
-	  function ObjectDescription() {
-	    _classCallCheck(this, ObjectDescription);
-	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ObjectDescription).apply(this, arguments));
-	  }
-	
-	  _createClass(ObjectDescription, [{
-	    key: 'render',
-	    value: function render() {
-	      var object = this.props.object;
-	      switch (typeof object === 'undefined' ? 'undefined' : _typeof(object)) {
-	        case 'number':
-	          return _react2.default.createElement(
-	            'span',
-	            { style: _objectStyles2.default.value.number },
-	            object
-	          );
-	        case 'string':
-	          return _react2.default.createElement(
-	            'span',
-	            { style: _objectStyles2.default.value.string },
-	            '"',
-	            object,
-	            '"'
-	          );
-	        case 'boolean':
-	          return _react2.default.createElement(
-	            'span',
-	            { style: _objectStyles2.default.value.boolean },
-	            String(object)
-	          );
-	        case 'undefined':
-	          return _react2.default.createElement(
-	            'span',
-	            { style: _objectStyles2.default.value.undefined },
-	            'undefined'
-	          );
-	        case 'object':
-	          if (object === null) {
-	            return _react2.default.createElement(
-	              'span',
-	              { style: _objectStyles2.default.value.null },
-	              'null'
-	            );
-	          }
-	          if (object instanceof Date) {
-	            return _react2.default.createElement(
-	              'span',
-	              null,
-	              object.toString()
-	            );
-	          }
-	          if (Array.isArray(object)) {
-	            return _react2.default.createElement(
-	              'span',
-	              null,
-	              'Array[' + object.length + ']'
-	            );
-	          }
-	          return _react2.default.createElement(
-	            'span',
-	            null,
-	            'Object'
-	          );
-	        case 'function':
-	          return _react2.default.createElement(
-	            'span',
-	            null,
-	            _react2.default.createElement(
-	              'span',
-	              { style: _objectStyles2.default.value.function.keyword },
-	              'function'
-	            ),
-	            _react2.default.createElement(
-	              'span',
-	              { style: _objectStyles2.default.value.function.name },
-	              ' ',
-	              object.name,
-	              '()'
-	            )
-	          );
-	        case 'symbol':
-	          return _react2.default.createElement(
-	            'span',
-	            { style: _objectStyles2.default.value.symbol },
-	            'Symbol()'
-	          );
-	        default:
-	          return _react2.default.createElement('span', null);
+	  switch (typeof object === 'undefined' ? 'undefined' : _typeof(object)) {
+	    case 'number':
+	      return _react2.default.createElement(
+	        'span',
+	        { style: _objectStyles2.default.value.number },
+	        object
+	      );
+	    case 'string':
+	      return _react2.default.createElement(
+	        'span',
+	        { style: _objectStyles2.default.value.string },
+	        '"',
+	        object,
+	        '"'
+	      );
+	    case 'boolean':
+	      return _react2.default.createElement(
+	        'span',
+	        { style: _objectStyles2.default.value.boolean },
+	        String(object)
+	      );
+	    case 'undefined':
+	      return _react2.default.createElement(
+	        'span',
+	        { style: _objectStyles2.default.value.undefined },
+	        'undefined'
+	      );
+	    case 'object':
+	      if (object === null) {
+	        return _react2.default.createElement(
+	          'span',
+	          { style: _objectStyles2.default.value.null },
+	          'null'
+	        );
 	      }
-	    }
-	  }]);
-	
-	  return ObjectDescription;
-	}(_react.Component);
-	
-	exports.default = ObjectDescription;
-	
+	      if (object instanceof Date) {
+	        return _react2.default.createElement(
+	          'span',
+	          null,
+	          object.toString()
+	        );
+	      }
+	      if (Array.isArray(object)) {
+	        return _react2.default.createElement(
+	          'span',
+	          null,
+	          'Array[' + object.length + ']'
+	        );
+	      }
+	      return _react2.default.createElement(
+	        'span',
+	        null,
+	        'Object'
+	      );
+	    case 'function':
+	      return _react2.default.createElement(
+	        'span',
+	        null,
+	        _react2.default.createElement(
+	          'span',
+	          { style: _objectStyles2.default.value.function.keyword },
+	          'function'
+	        ),
+	        _react2.default.createElement(
+	          'span',
+	          { style: _objectStyles2.default.value.function.name },
+	          ' ',
+	          object.name,
+	          '()'
+	        )
+	      );
+	    case 'symbol':
+	      return _react2.default.createElement(
+	        'span',
+	        { style: _objectStyles2.default.value.symbol },
+	        'Symbol()'
+	      );
+	    default:
+	      return _react2.default.createElement('span', null);
+	  }
+	};
 	
 	ObjectDescription.propTypes = {
 	  object: _react2.default.PropTypes.any
 	};
+	
+	exports.default = ObjectDescription;
 
 /***/ },
 /* 4 */
@@ -580,9 +554,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(2);
+	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
@@ -590,20 +562,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _ObjectDescription2 = _interopRequireDefault(_ObjectDescription);
 	
-	var _objectStyles = __webpack_require__(4);
+	var _ObjectName = __webpack_require__(6);
 	
-	var _objectStyles2 = _interopRequireDefault(_objectStyles);
+	var _ObjectName2 = _interopRequireDefault(_ObjectName);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	// Styles
-	
 	
 	var styles = {
 	  preview: {
@@ -622,89 +585,94 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	
 	/**
-	 * A preview of the object on root level node
+	 * A preview of the object
+	 * if a name is specified, it will render a simplified preview with a short description
 	 */
+	var ObjectPreview = function ObjectPreview(_ref) {
+	  var maxProperties = _ref.maxProperties;
+	  var object = _ref.object;
+	  var name = _ref.name;
 	
-	var ObjectPreview = function (_Component) {
-	  _inherits(ObjectPreview, _Component);
+	  if (typeof name !== 'undefined') {
 	
-	  function ObjectPreview() {
-	    _classCallCheck(this, ObjectPreview);
-	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ObjectPreview).apply(this, arguments));
+	    var Colon = function Colon() {
+	      return _react2.default.createElement(
+	        'span',
+	        null,
+	        ': '
+	      );
+	    };
+	    return _react2.default.createElement(
+	      'span',
+	      null,
+	      _react2.default.createElement(_ObjectName2.default, { name: name }),
+	      _react2.default.createElement(Colon, null),
+	      _react2.default.createElement(_ObjectDescription2.default, { object: object })
+	    );
 	  }
 	
-	  _createClass(ObjectPreview, [{
-	    key: 'render',
-	    value: function render() {
-	      var object = this.props.object;
-	      if ((typeof object === 'undefined' ? 'undefined' : _typeof(object)) !== 'object' || object === null) {
-	        return _react2.default.createElement(_ObjectDescription2.default, { object: object });
-	      }
+	  if ((typeof object === 'undefined' ? 'undefined' : _typeof(object)) !== 'object' || object === null) {
+	    return _react2.default.createElement(_ObjectDescription2.default, { object: object });
+	  }
 	
-	      if (Array.isArray(object)) {
-	        return _react2.default.createElement(
-	          'span',
-	          { style: styles.preview },
-	          '[',
-	          intersperse(object.map(function (element, index) {
-	            return _react2.default.createElement(_ObjectDescription2.default, { key: index, object: element });
-	          }), ", "),
-	          ']'
-	        );
-	      } else if (object instanceof Date) {
-	        return _react2.default.createElement(
-	          'span',
-	          null,
-	          object.toString()
-	        );
-	      } else {
-	        var propertyNodes = [];
-	        for (var propertyName in object) {
-	          var propertyValue = object[propertyName];
-	          if (object.hasOwnProperty(propertyName)) {
-	            var ellipsis = undefined;
-	            if (propertyNodes.length === this.props.maxProperties - 1 && Object.keys(object).length > this.props.maxProperties) {
-	              ellipsis = _react2.default.createElement(
-	                'span',
-	                { key: 'ellipsis' },
-	                '…'
-	              );
-	            }
-	            propertyNodes.push(_react2.default.createElement(
-	              'span',
-	              { key: propertyName },
-	              _react2.default.createElement(
-	                'span',
-	                { style: _objectStyles2.default.name },
-	                propertyName
-	              ),
-	              ': ',
-	              _react2.default.createElement(_ObjectDescription2.default, { object: propertyValue }),
-	              ellipsis
-	            ));
-	            if (ellipsis) break;
-	          }
+	  if (Array.isArray(object)) {
+	    return _react2.default.createElement(
+	      'span',
+	      { style: styles.preview },
+	      '[',
+	      intersperse(object.map(function (element, index) {
+	        return _react2.default.createElement(_ObjectDescription2.default, { key: index, object: element });
+	      }), ", "),
+	      ']'
+	    );
+	  } else if (object instanceof Date) {
+	    return _react2.default.createElement(
+	      'span',
+	      null,
+	      object.toString()
+	    );
+	  } else {
+	    var propertyNodes = [];
+	    for (var propertyName in object) {
+	      var propertyValue = object[propertyName];
+	      if (object.hasOwnProperty(propertyName)) {
+	        var ellipsis = undefined;
+	        if (propertyNodes.length === maxProperties - 1 && Object.keys(object).length > maxProperties) {
+	          ellipsis = _react2.default.createElement(
+	            'span',
+	            { key: 'ellipsis' },
+	            '…'
+	          );
 	        }
-	
-	        return _react2.default.createElement(
+	        propertyNodes.push(_react2.default.createElement(
 	          'span',
-	          { style: styles.preview },
-	          'Object {',
-	          intersperse(propertyNodes, ", "),
-	          '}'
-	        );
+	          { key: propertyName },
+	          _react2.default.createElement(_ObjectName2.default, { name: propertyName }),
+	          ': ',
+	          _react2.default.createElement(_ObjectDescription2.default, { object: propertyValue }),
+	          ellipsis
+	        ));
+	        if (ellipsis) break;
 	      }
-	    } // maximum properties displayed in preview
+	    }
 	
-	  }]);
-	
-	  return ObjectPreview;
-	}(_react.Component);
-	
-	ObjectPreview.defaultProps = {
-	  maxProperties: 5
+	    return _react2.default.createElement(
+	      'span',
+	      { style: styles.preview },
+	      'Object {',
+	      intersperse(propertyNodes, ", "),
+	      '}'
+	    );
+	  }
 	};
+	
+	ObjectPreview.propTypes = {
+	  maxProperties: _react2.default.PropTypes.number
+	};
+	ObjectPreview.defaultProps = {
+	  maxProperties: 5 /* max number of properties shown in the property view */
+	};
+	
 	exports.default = ObjectPreview;
 
 /***/ },
@@ -717,23 +685,253 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _objectStyles = __webpack_require__(4);
+	
+	var _objectStyles2 = _interopRequireDefault(_objectStyles);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var ObjectName = function ObjectName(_ref) {
+	  var name = _ref.name;
+	  return _react2.default.createElement(
+	    'span',
+	    { style: _objectStyles2.default.name },
+	    name
+	  );
+	};
+	
+	// Styles
+	
+	
+	exports.default = ObjectName;
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.ExpandGlyph = exports.rightArrow = exports.downArrow = exports.upArrow = undefined;
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _unselectable = __webpack_require__(8);
+	
+	var _unselectable2 = _interopRequireDefault(_unselectable);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	// http://unicode-table.com/en/sets/arrows-symbols/
+	var upArrow = exports.upArrow = '▲';
+	var downArrow = exports.downArrow = '▼';
+	var rightArrow = exports.rightArrow = '▶';
+	
+	var styles = {
+	  expandGlyph: {
+	    color: '#6e6e6e',
+	    fontSize: '10px',
+	    marginRight: '3px',
+	    whiteSpace: 'pre'
+	  }
+	};
+	
+	// if placeholder is defined return placeholder, else return an arrow according to the expanded prop
+	var ExpandGlyph = function ExpandGlyph(_ref) {
+	  var expanded = _ref.expanded;
+	  var empty = _ref.empty;
+	
+	  if (empty)
+	    // a placeholder (space char) before keys
+	    return _react2.default.createElement(
+	      'span',
+	      { style: _extends({}, styles.expandGlyph, _unselectable2.default) },
+	      ' '
+	    );else return _react2.default.createElement(
+	    'span',
+	    { style: _extends({}, styles.expandGlyph, _unselectable2.default) },
+	    expanded ? downArrow : rightArrow
+	  );
+	};
+	
+	exports.ExpandGlyph = ExpandGlyph;
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = {
+	  WebkitTouchCallout: 'none',
+	  WebkitUserSelect: 'none',
+	  KhtmlUserSelect: 'none',
+	  MozUserSelect: 'none',
+	  msUserSelect: 'none',
+	  OUserSelect: 'none',
+	  userSelect: 'none'
+	};
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	
+	var DEFAULT_ROOT_PATH = exports.DEFAULT_ROOT_PATH = '$';
+	
+	/* should be modified to support __proto__ */
+	var isExpandable = exports.isExpandable = function isExpandable(data) {
+	  return (typeof data === 'undefined' ? 'undefined' : _typeof(data)) === 'object' && data !== null && Object.keys(data).length > 0;
+	};
+	
+	var getPathsState = exports.getPathsState = function getPathsState(expandLevel, expandPaths, data, rootName) {
+	  var initialState = arguments.length <= 4 || arguments[4] === undefined ? {} : arguments[4];
+	
+	  var wildcardPaths = [];
+	  var rootPath = DEFAULT_ROOT_PATH;
+	  if (expandLevel !== undefined) {
+	    wildcardPaths = wildcardPaths.concat(wildcardPathsFromLevel(expandLevel));
+	  }
+	
+	  wildcardPaths = wildcardPaths.concat(expandPaths);
+	
+	  var paths = pathsFromWildcardPaths(wildcardPaths, data, rootPath);
+	  var pathsState = paths.reduce(function (obj, path) {
+	    obj[path] = true;return obj;
+	  }, initialState);
+	
+	  return pathsState;
+	};
+	
+	/**
+	 * Convert wild card paths to concrete paths
+	 * @param  {array} initialExpandedPaths  wild card paths
+	 * @param  {object} data                 data object
+	 * @param  {string} rootName             optional root name (if not specified will use DEFAULT_ROOT_PATH)
+	 * @return {array}                       concrete paths
+	 */
+	var pathsFromWildcardPaths = exports.pathsFromWildcardPaths = function pathsFromWildcardPaths(wildcardPaths, data) {
+	  var paths = [];
+	  var rootPath = DEFAULT_ROOT_PATH;
+	  if (wildcardPaths === undefined) {
+	    return paths;
+	  }
+	  wildcardPaths.map(function (wildcardPath) {
+	    if (typeof wildcardPath === 'string') {
+	      (function () {
+	        // wildcard names
+	        // recursively populate paths with wildcard paths
+	
+	        var populatePaths = function populatePaths(curObject, curPath, i) {
+	          var WILDCARD = "*";
+	          if (i === names.length) {
+	            paths.push(curPath);
+	            return;
+	          }
+	          var name = names[i];
+	          if (i === 0) {
+	            if (isExpandable(curObject) && (name === rootPath || name === WILDCARD)) {
+	              populatePaths(curObject, rootPath, i + 1);
+	            }
+	          } else {
+	            if (name === WILDCARD) {
+	              // matches anything
+	              for (var propertyName in curObject) {
+	                if (curObject.hasOwnProperty(propertyName)) {
+	                  var propertyValue = curObject[propertyName];
+	                  if (isExpandable(propertyValue)) {
+	                    populatePaths(propertyValue, curPath + '.' + propertyName, i + 1);
+	                  } else {
+	                    continue;
+	                  }
+	                }
+	              }
+	            } else {
+	              var propertyValue = curObject[name];
+	              if (isExpandable(propertyValue)) {
+	                populatePaths(propertyValue, curPath + '.' + name, i + 1);
+	              }
+	            }
+	          }
+	        };
+	
+	        var names = wildcardPath.split('.');
+	        populatePaths(data, '', 0);
+	      })();
+	    }
+	  });
+	  return paths;
+	};
+	
+	var wildcardPathsFromLevel = exports.wildcardPathsFromLevel = function wildcardPathsFromLevel(level) {
+	  if (level < 0) {
+	    return undefined;
+	  }
+	  if (level === 0) {
+	    return [];
+	  }
+	  var rootPath = DEFAULT_ROOT_PATH;
+	  var path = rootPath;
+	  var wildcardPaths = [path];
+	  for (var i = 1; i < level; i++) {
+	    path += '.*';
+	    wildcardPaths.push(path);
+	  }
+	  return wildcardPaths;
+	};
+	
+	var pathsFromDataAndLevel = exports.pathsFromDataAndLevel = function pathsFromDataAndLevel(data, level) {
+	  var wildcardPaths = wildcardPathsFromLevel(level);
+	  return pathsFromWildcardPaths(wildcardPaths, data);
+	};
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; }; /**
-	                                                                                                                                                                                                                                                   * Specs:
-	                                                                                                                                                                                                                                                   * https://developer.chrome.com/devtools/docs/commandline-api#tabledata-columns
-	                                                                                                                                                                                                                                                   * https://developer.mozilla.org/en-US/docs/Web/API/Console/table
-	                                                                                                                                                                                                                                                   */
-	
-	var _react = __webpack_require__(2);
+	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
 	var _ObjectDescription = __webpack_require__(3);
 	
 	var _ObjectDescription2 = _interopRequireDefault(_ObjectDescription);
+	
+	var _getHeaders2 = __webpack_require__(11);
+	
+	var _getHeaders3 = _interopRequireDefault(_getHeaders2);
 	
 	var _glyphs = __webpack_require__(7);
 	
@@ -747,9 +945,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Specs:
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * https://developer.chrome.com/devtools/docs/commandline-api#tabledata-columns
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * https://developer.mozilla.org/en-US/docs/Web/API/Console/table
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 	
 	var styles = {
 	  base: {
@@ -796,6 +996,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	  td: {
 	    boxSizing: 'border-box', //
+	    border: 'none', // prevent overrides
 	    height: '16px', // /* 0.5 * background-size height */
 	    verticalAlign: 'top',
 	    padding: '1px 4px',
@@ -815,59 +1016,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }
 	};
-	
-	function getHeaders(data) {
-	  if ((typeof data === 'undefined' ? 'undefined' : _typeof(data)) === 'object') {
-	    // is an array
-	    if (Array.isArray(data)) {
-	      // 0..nRows-1 are row indexes
-	      var nRows = data.length;
-	
-	      // nCol is the max number of columns in all rows
-	      // Time complexity: O(nRows)
-	      var nCols = data.reduce(function (nCols, row) {
-	        if (Array.isArray(row)) {
-	          if (row.length > nCols) {
-	            nCols = row.length;
-	          }
-	          return nCols;
-	        } else {
-	          return 0;
-	        }
-	      }, 0);
-	
-	      return {
-	        rowHeaders: [].concat(_toConsumableArray(Array(nRows).keys())), // 0..nRows - 1
-	        colHeaders: [].concat(_toConsumableArray(Array(nCols).keys())) };
-	    }
-	    // is an object
-	    else // 0..nCols - 1
-	      if (data !== null) {
-	        // keys are row indexes
-	        var keys = Object.keys(data);
-	
-	        // Time complexity: O(nRows * nCols)
-	        var colHeaders = keys.reduce(function (colHeaders, key) {
-	          var row = data[key];
-	          if ((typeof row === 'undefined' ? 'undefined' : _typeof(row)) === 'object' && row !== null) {
-	            var cols = Object.keys(row);
-	            cols.reduce(function (xs, x) {
-	              if (!xs.includes(x)) {
-	                xs.push(x);
-	              }
-	              return xs;
-	            }, colHeaders);
-	          }
-	          return colHeaders;
-	        }, []);
-	        return {
-	          rowHeaders: keys,
-	          colHeaders: colHeaders
-	        };
-	      }
-	  }
-	  return undefined;
-	}
 	
 	var SortIconContainer = function SortIconContainer(props) {
 	  return _react2.default.createElement(
@@ -990,8 +1138,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	          borderSpacing: '0',
 	          borderCollapse: 'separate',
 	          height: '100%',
-	          width: '100%'
-	        } },
+	          width: '100%',
+	          margin: '0' } },
 	      _react2.default.createElement(
 	        'tbody',
 	        null,
@@ -1053,6 +1201,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	          right: 0,
 	          bottom: 0,
 	          borderTop: '0 none transparent',
+	          margin: 0, // prevent overrides
+	
 	          backgroundImage: 'linear-gradient(to bottom, white, white 50%, rgb(234, 243, 255) 50%, rgb(234, 243, 255))',
 	          backgroundSize: '128px 32px',
 	          tableLayout: 'fixed',
@@ -1081,7 +1231,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	            ),
 	            columns.map(function (column) {
 	              var rowData = rowsData[i];
-	              if (rowData.hasOwnProperty(column)) {
+	              // rowData could be
+	              //  object -> index by key
+	              //    array -> index by array index
+	              //    null -> pass
+	              //  boolean -> pass
+	              //  string -> pass (hasOwnProperty returns true for [0..len-1])
+	              //  number -> pass
+	              //  function -> pass
+	              //  symbol
+	              //  undefined -> pass
+	              if ((typeof rowData === 'undefined' ? 'undefined' : _typeof(rowData)) === 'object' && rowData !== null && rowData.hasOwnProperty(column)) {
 	                return _react2.default.createElement(
 	                  'td',
 	                  { key: column, style: _extends({}, styles.td, styles.leftBorder.solid) },
@@ -1147,7 +1307,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return _react2.default.createElement('div', null);
 	      }
 	
-	      var _getHeaders = getHeaders(data);
+	      var _getHeaders = (0, _getHeaders3.default)(data);
 	
 	      var rowHeaders = _getHeaders.rowHeaders;
 	      var colHeaders = _getHeaders.colHeaders;
@@ -1173,8 +1333,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (sortColumn !== undefined) {
 	        // the column to be sorted (rowsData, column) => [[columnData, rowIndex]]
 	        columnDataWithRowIndexes = rowsData.map(function (rowData, index) {
-	          var columnData = rowData[sortColumn];
-	          return [columnData, index];
+	          // normalize rowData
+	          if ((typeof rowData === 'undefined' ? 'undefined' : _typeof(rowData)) === 'object' && rowData !== null /*&& rowData.hasOwnProperty(sortColumn)*/) {
+	              var columnData = rowData[sortColumn];
+	              return [columnData, index];
+	            }
+	          return [undefined, index];
 	        });
 	      } else {
 	        if (sortIndexColumn) {
@@ -1263,7 +1427,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 7 */
+/* 11 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1271,30 +1435,86 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	// http://unicode-table.com/en/sets/arrows-symbols/
 	
-	var upArrow = exports.upArrow = '▲';
-	var downArrow = exports.downArrow = '▼';
-	var rightArrow = exports.rightArrow = '▶';
-
-/***/ },
-/* 8 */
-/***/ function(module, exports) {
-
-	'use strict';
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = {
-	  WebkitTouchCallout: 'none',
-	  WebkitUserSelect: 'none',
-	  KhtmlUserSelect: 'none',
-	  MozUserSelect: 'none',
-	  msUserSelect: 'none',
-	  OUserSelect: 'none',
-	  userSelect: 'none'
-	};
+	exports.default = getHeaders;
+	
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+	
+	/*
+	 * Polyfill for running tests
+	 * `includes` is an ES2016 feature
+	 */
+	if (!Array.prototype.includes) {
+	  Array.prototype.includes = function (searchElement /*, fromIndex*/) {
+	    'use strict';
+	
+	    var O = Object(this);
+	    var len = parseInt(O.length) || 0;
+	    if (len === 0) {
+	      return false;
+	    }
+	    var n = parseInt(arguments[1]) || 0;
+	    var k;
+	    if (n >= 0) {
+	      k = n;
+	    } else {
+	      k = len + n;
+	      if (k < 0) {
+	        k = 0;
+	      }
+	    }
+	    var currentElement;
+	    while (k < len) {
+	      currentElement = O[k];
+	      if (searchElement === currentElement || searchElement !== searchElement && currentElement !== currentElement) {
+	        // NaN !== NaN
+	        return true;
+	      }
+	      k++;
+	    }
+	    return false;
+	  };
+	}
+	
+	function getHeaders(data) {
+	  if ((typeof data === 'undefined' ? 'undefined' : _typeof(data)) === 'object') {
+	    var rowHeaders = undefined;
+	    // is an array
+	    if (Array.isArray(data)) {
+	      var nRows = data.length;
+	      rowHeaders = [].concat(_toConsumableArray(Array(nRows).keys()));
+	    }
+	    // is an object
+	    else if (data !== null) {
+	        // keys are row indexes
+	        rowHeaders = Object.keys(data);
+	      }
+	
+	    // Time: O(nRows * nCols)
+	    var colHeaders = rowHeaders.reduce(function (colHeaders, rowHeader) {
+	      var row = data[rowHeader];
+	      if ((typeof row === 'undefined' ? 'undefined' : _typeof(row)) === 'object' && row !== null) {
+	        /* O(nCols) Could optimize `includes` here */
+	        var cols = Object.keys(row);
+	        cols.reduce(function (xs, x) {
+	          if (!xs.includes(x)) {
+	            /* xs is the colHeaders to be filled by searching the row's indexes */
+	            xs.push(x);
+	          }
+	          return xs;
+	        }, colHeaders);
+	      }
+	      return colHeaders;
+	    }, []);
+	    return {
+	      rowHeaders: rowHeaders,
+	      colHeaders: colHeaders
+	    };
+	  }
+	  return undefined;
+	}
 
 /***/ }
 /******/ ])
