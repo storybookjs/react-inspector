@@ -1,0 +1,6 @@
+/* Override skeleton button hover color */
+.button.button-primary:focus, .button.button-primary:hover, button.button-primary:focus, button.button-primary:hover, input[type=button].button-primary:focus, input[type=button].button-primary:hover, input[type=reset].button-primary:focus, input[type=reset].button-primary:hover, input[type=submit].button-primary:focus, input[type=submit].button-primary:hover {
+  color: #FFF;
+  background-color: #33C3F0;
+  border-color: #33C3F0;
+}

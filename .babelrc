@@ -1,0 +1,11 @@
+{
+  "presets": ["es2015", "react", "stage-0"],
+  "env": {
+    "development": {
+      // http://stackoverflow.com/questions/33868324/react-js-decorators-are-not-supported-yet-in-6-x-pending-proposal-update
+      // npm i --save-dev babel-plugin-transform-decorators-legacy babel-template
+      "plugins": ["babel-plugin-transform-decorators-legacy"],
+      "presets": ["react-hmre"]
+    }
+  }
+}
