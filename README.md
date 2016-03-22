@@ -91,10 +91,11 @@ Type of inspectors:
   - [x] common objects
   - [ ] DOM element objects
 - [x] Table style
+  - [ ] Column resizer
 - [ ] Group style
 
 ## Contribution
-Contribution is welcome. [Past contributors](https://github.com/xyc/react-object-inspector/graphs/contributors)
+Contribution is welcome. [Past contributors](https://github.com/xyc/react-inspector/graphs/contributors)
 
 ## Notes
 - `react-object-inspector` package will be deprecated. `<ObjectInspector/>` is now part of the new package `react-inspector`.

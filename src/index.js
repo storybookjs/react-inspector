@@ -11,32 +11,12 @@ export TableInspector from './table-inspector/TableInspector'
 import ObjectInspector from './object-inspector/ObjectInspector'
 import TableInspector from './table-inspector/TableInspector'
 
-import { getRootPath, wildcardPathsFromLevel, pathsFromWildcardPaths } from './object-inspector/pathUtils'
-
 const Inspector = ({ table = false, data, ...rest }) => {
   if(table){
-    return <TableInspector data={data} />
+    return <TableInspector data={data} {...rest} />
   }
 
   return <ObjectInspector data={data} {...rest} />
-
-  // // TODO: refactor out root path
-  // let wildcardPaths = []
-  // if(level !== undefined){
-  //   wildcardPaths = wildcardPaths.concat(wildcardPathsFromLevel(level, name))
-  // }
-  // const appendRootPathToPath = (path) => `${getRootPath(name)}.${path}`
-  // if(typeof path === 'string'){
-  //   wildcardPaths.push(appendRootPathToPath(path))
-  // }
-  // if(typeof path === 'array'){
-  //   // paths
-  //   wildcardPaths = wildcardPaths.concat(path.map(p => appendRootPathToPath(p)))
-  // }
-
-  // console.log(wildcardPaths)
-
-  // return <ObjectInspector data={data} name={name} initialExpandedPaths={wildcardPaths}/>
 }
 
 Inspector.propTypes = {
