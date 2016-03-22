@@ -3,21 +3,21 @@ var path = require('path');
 var config = {
   devtool: 'sourcemap',
   entry: {
-    index: './src/ObjectInspector.js',
+    index: './src/index.js',
   },
   output: {
     path: path.join(__dirname, 'build'),
     publicPath: 'build/',
-    filename: 'react-object-inspector.js',
-    sourceMapFilename: 'react-object-inspector.map',
-    library: 'ObjectInspector',
+    filename: 'react-inspector.js',
+    sourceMapFilename: 'react-inspector.map',
+    library: 'ReactInspector',
     libraryTarget: 'umd',
   },
   module: {
     loaders: [{
       test: /\.(js|jsx)/,
       loader: 'babel',
-    },    
+    },
     ],
   },
   plugins: [],

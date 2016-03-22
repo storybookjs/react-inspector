@@ -1,3 +1,7 @@
+## 1.0.0 (03/02/2016)
+- Breaking change: rename from `react-object-inspector` to `react-inspector`
+- Adds `TableInspector`
+
 ## 0.2.0 (11/26/2015)
 - issue #4: inline styles
 - issue #5: Initial expanded paths

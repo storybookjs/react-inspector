@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 
-import ObjectInspector from '../src/ObjectInspector';
+import ObjectDescription from '../src/object/ObjectDescription'
+
+import ObjectInspector from '../src/object-inspector/ObjectInspector';
+import TableInspector from '../src/table-inspector/TableInspector';
 
 function testFunction(){
   console.log("hello world");
@@ -109,20 +112,102 @@ export default class App extends Component {
     //   }
     // }
 
-    const testObjects = [undefined, testFunction, null, true, false, "testString", 42, NaN, Symbol('foo'), testObject, test2, test3, test4, test5, [], ["a"], ["a", 1], new Date()];
+    const objectTests = [undefined, testFunction, null, true, false, "testString", 42, NaN, Symbol('foo'), testObject, test2, test3, test4, test5, [], ["a"], ["a", 1], new Date()];
+
+    const tableTests = [
+      // should be 2 * 4 table
+      {
+        data: [['Name', 'Address', 'Age', 'Phone'],['John Appleseed', '42 Galaxy drive', '20', '111-111-1111']]
+      },
+      {
+        data: {
+          0: { firstName: "John", lastName: "Smith" },
+          1: { firstName: "Martin", middleName: "Luther", lastName: "King" }
+        },
+      },
+      {
+        data: {
+          'person1': { firstName: "John", lastName: "Smith" },
+          'person2': { firstName: "Martin", middleName: "Luther", lastName: "King" }
+        },
+      },
+      {
+        data: {
+          0: { firstName: "John", lastName: "Smith" },
+          1: { firstName: "Martin", middleName: "Luther", lastName: "King" }
+        },
+        columns: ['firstName', 'lastName']
+      },
+      // should be 9 * 9 table
+      {
+        data: [
+          [0,5,2,0,4,6,9,0,0],
+        	[8,0,9,0,3,0,6,0,4],
+        	[0,0,0,1,0,0,0,8,0],
+        	[6,7,4,0,0,8,0,0,5],
+        	[1,0,0,0,0,0,0,0,3],
+        	[5,0,0,7,0,0,2,4,8],
+        	[0,6,0,0,0,2,0,0,0],
+        	[9,0,5,0,1,0,4,0,7],
+        	[0,0,7,5,8,0,3,1,0]
+        ],
+      },
+      // should be nothing
+      {
+        data: null
+      },
+      // should be nothing
+      {
+        data: undefined
+      },
+      // should be 1 * 0 table (chrome console.table is nothing)
+      {
+        data: [
+          undefined
+        ]
+      },
+      // should be 1 * 0 table
+      {
+        data: [
+          [1,2]
+        ]
+      },
+      // should be 1 * 0 table
+      {
+        data: [
+          {}
+        ]
+      },
+    ]
 
     return (
       <div>
+        {/*<ObjectDescription object={function(){}}/>*/}
+
         {(() => {
           // https://facebook.github.io/react/tips/if-else-in-JSX.html
-          return testObjects.map(function(object, index){
+          return objectTests.map(function(object, index){
             return (
                   <div key={index} style={{marginBottom:"10px"}}>
+
                     <ObjectInspector data={object}>
                     </ObjectInspector>
                   </div>);
           });
         })()}
+
+        {(() =>
+          tableTests.map((test, index) =>
+            (
+              <div key={index}
+                   style={{ marginBottom:"10px",
+                            /* width: 800 */}}>
+                <TableInspector data={test.data} columns={test.columns}>
+                </TableInspector>
+              </div>)
+            )
+        )()}
+
       </div>
     );
   }

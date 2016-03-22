@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define(["react"], factory);
 	else if(typeof exports === 'object')
-		exports["ObjectInspector"] = factory(require("react"));
+		exports["ReactInspector"] = factory(require("react"));
 	else
-		root["ObjectInspector"] = factory(root["React"]);
+		root["ReactInspector"] = factory(root["React"]);
 })(this, function(__WEBPACK_EXTERNAL_MODULE_2__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -59,42 +59,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.TableInspector = exports.ObjectInspector = undefined;
 	
-	var _ObjectInspector = __webpack_require__(1);
+	var _ObjectInspector2 = __webpack_require__(1);
 	
-	Object.defineProperty(exports, 'ObjectInspector', {
-	  enumerable: true,
-	  get: function get() {
-	    return _ObjectInspector.ObjectInspector;
-	  }
-	});
+	var _ObjectInspector3 = _interopRequireDefault(_ObjectInspector2);
 	
-	var _TableInspector = __webpack_require__(6);
+	var _TableInspector2 = __webpack_require__(6);
 	
-	Object.defineProperty(exports, 'TableInspector', {
-	  enumerable: true,
-	  get: function get() {
-	    return _TableInspector.TableInspector;
-	  }
-	});
+	var _TableInspector3 = _interopRequireDefault(_TableInspector2);
 	
-	var _ObjectDecription = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./object/ObjectDecription\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	Object.defineProperty(exports, 'ObjectDecription', {
-	  enumerable: true,
-	  get: function get() {
-	    return _ObjectDecription.ObjectDecription;
-	  }
-	});
+	exports.ObjectInspector = _ObjectInspector3.default;
+	exports.TableInspector = _TableInspector3.default;
 	
-	var _ObjectPreview = __webpack_require__(5);
-	
-	Object.defineProperty(exports, 'ObjectPreview', {
-	  enumerable: true,
-	  get: function get() {
-	    return _ObjectPreview.ObjectPreview;
-	  }
-	});
+	// export ObjectDecription from './object/ObjectDescription'
+	// export ObjectPreview from './object/ObjectPreview'
 
 /***/ },
 /* 1 */
@@ -535,8 +516,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  return ObjectDescription;
 	}(_react.Component);
-
+	
 	exports.default = ObjectDescription;
+	
+	
+	ObjectDescription.propTypes = {
+	  object: _react2.default.PropTypes.any
+	};
 
 /***/ },
 /* 4 */
@@ -775,7 +761,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    boxSizing: 'border-box',
 	    cursor: 'default'
 	  },
-	  table: {},
+	  // table: {
+	  // },
 	  th: {
 	    position: 'relative', // anchor for sort icon container
 	    height: 'auto',
@@ -808,7 +795,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    display: 'table-row'
 	  },
 	  td: {
-	    height: '16px',
+	    boxSizing: 'border-box', //
+	    height: '16px', // /* 0.5 * background-size height */
 	    verticalAlign: 'top',
 	    padding: '1px 4px',
 	    WebkitUserSelect: 'text',
@@ -1312,4 +1300,4 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ])
 });
 ;
-//# sourceMappingURL=react-object-inspector.map
+//# sourceMappingURL=react-inspector.map
