@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 export ObjectInspector from './object-inspector/ObjectInspector'
 export TableInspector from './table-inspector/TableInspector'
+
+// NOTE: ObjectDecription and ObjectPreview can be used as building blocks, but currently their styles are not complete
 // export ObjectDecription from './object/ObjectDescription'
 // export ObjectPreview from './object/ObjectPreview'
 
@@ -11,28 +13,30 @@ import TableInspector from './table-inspector/TableInspector'
 
 import { getRootPath, wildcardPathsFromLevel, pathsFromWildcardPaths } from './object-inspector/pathUtils'
 
-const Inspector = ({ data, name = undefined, level = 0, path = undefined, table = false }) => {
+const Inspector = ({ table = false, data, ...rest }) => {
   if(table){
     return <TableInspector data={data} />
   }
 
-  // TODO: refactor out root path
-  let wildcardPaths = []
-  if(level !== undefined){
-    wildcardPaths = wildcardPaths.concat(wildcardPathsFromLevel(level, name))
-  }
-  const appendRootPathToPath = (path) => `${getRootPath(name)}.${path}`
-  if(typeof path === 'string'){
-    wildcardPaths.push(appendRootPathToPath(path))
-  }
-  if(typeof path === 'array'){
-    // paths
-    wildcardPaths = wildcardPaths.concat(path.map(p => appendRootPathToPath(p)))
-  }
+  return <ObjectInspector data={data} {...rest} />
+
+  // // TODO: refactor out root path
+  // let wildcardPaths = []
+  // if(level !== undefined){
+  //   wildcardPaths = wildcardPaths.concat(wildcardPathsFromLevel(level, name))
+  // }
+  // const appendRootPathToPath = (path) => `${getRootPath(name)}.${path}`
+  // if(typeof path === 'string'){
+  //   wildcardPaths.push(appendRootPathToPath(path))
+  // }
+  // if(typeof path === 'array'){
+  //   // paths
+  //   wildcardPaths = wildcardPaths.concat(path.map(p => appendRootPathToPath(p)))
+  // }
 
   // console.log(wildcardPaths)
 
-  return <ObjectInspector data={data} initialExpandedPaths={wildcardPaths}/>
+  // return <ObjectInspector data={data} name={name} initialExpandedPaths={wildcardPaths}/>
 }
 
 Inspector.propTypes = {

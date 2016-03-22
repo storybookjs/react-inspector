@@ -5,11 +5,13 @@ react-inspector
 [![npm version](https://img.shields.io/npm/v/react-inspector.svg?style=flat-square)](https://www.npmjs.com/package/react-inspector)
 
 Type of inspectors:
-- [x] Tree style
+- [ ] Tree style
+  - [x] common objects
+  - [ ] DOM element objects
 - [x] Table style
 - [ ] Group style
 
-Power of [Browser DevTools](https://developers.google.com/web/tools/chrome-devtools/) inspectors right inside your React app. Check out the interactive playground [here](http://xyc.github.io/react-inspector/). TODO:(rebug)
+Power of [Browser DevTools](https://developers.google.com/web/tools/chrome-devtools/) inspectors right inside your React app. Check out the interactive playground [here](http://xyc.github.io/react-inspector/).
 
 ![](http://xyc.github.io/react-inspector/screenshot.png)
 
@@ -22,7 +24,6 @@ npm install react-inspector
 
 ### &lt;ObjectInspector />
 Like `console.log`. Consider this as a glorified version of `<pre>JSON.stringify(data, null, 2)</pre>`.
-
 
 ###### How it works
 Tree state is saved at root. If you click to expand some elements in the hierarchy, the state will be preserved after the element is unmounted.
@@ -55,10 +56,16 @@ The component accepts the following props:
 ```js
 import {ObjectInspector, TableInspector} from 'react-inspector';
 
+// or use the shorthand
+import {Inspector} from 'react-inspector';
+
 const MyComponent = (data) => (
   <div>
     <ObjectInspector data={data} />
     <TableInspector data={data} />
+
+    <Inspector data={data} />
+    <Inspector table data={data} />
   </div>
 )
 
@@ -77,8 +84,8 @@ npm install && npm start
 ```
 Open http://localhost:3000/example/index.html
 
-## Contribution TODO
-- contributors:
+## Contribution
+Contribution is welcome. Past contributors will be added here.
 
 ## Notes
 - `react-object-inspector` package will be deprecated. `<ObjectInspector/>` is now part of the new package `react-inspector`.

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 
 import ObjectDescription from './ObjectDescription';
+import ObjectName from './ObjectName'
 
-// Styles
-import objectStyles from './objectStyles';
 const styles = {
   preview: {
     fontStyle: 'italic',
@@ -21,61 +20,70 @@ function intersperse(arr, sep){
 }
 
 /**
- * A preview of the object on root level node
+ * A preview of the object
+ * if a name is specified, it will render a simplified preview with a short description
  */
-export default class ObjectPreview extends Component {
-  propTypes: {
-    maxProperties: PropTypes.number; // maximum properties displayed in preview
+const ObjectPreview = ({ maxProperties, object, name }) => {
+  if (typeof name !== 'undefined') {
+
+    const Colon = () => <span>: </span>
+    return <span>
+            <ObjectName name={name} />
+            <Colon />
+            <ObjectDescription object={object} />
+          </span>
   }
 
-  static defaultProps = {
-    maxProperties: 5
+  if (typeof object !== 'object' || object === null) {
+    return (<ObjectDescription object={object} />);
   }
 
-  render() {
-    const object = this.props.object;
-    if (typeof object !== 'object' || object === null) {
-      return (<ObjectDescription object={object} />);
-    }
-
-    if (Array.isArray(object)) {
-      return <span style={styles.preview}>[
-        {intersperse(object.map(function(element, index){
-          return (<ObjectDescription key={index} object={element} />)
-        }), ", ")}
-      ]</span>;
-    }
-    else if (object instanceof Date) {
-      return <span>{object.toString()}</span>;
-    }
-    else {
-      let propertyNodes = [];
-      for(let propertyName in object){
-        const propertyValue = object[propertyName];
-        if(object.hasOwnProperty(propertyName)){
-          let ellipsis;
-          if (propertyNodes.length === (this.props.maxProperties - 1)
-              && Object.keys(object).length > this.props.maxProperties) {
-            ellipsis = (<span key={'ellipsis'}>…</span>);
-          }
-          propertyNodes.push(
-            <span key={propertyName}>
-              <span style={objectStyles.name}>{propertyName}</span>
-              :&nbsp;
-              <ObjectDescription object={propertyValue} />
-              {ellipsis}
-            </span>
-          );
-          if(ellipsis)
-            break;
+  if (Array.isArray(object)) {
+    return <span style={styles.preview}>[
+      {intersperse(object.map(function(element, index){
+        return (<ObjectDescription key={index} object={element} />)
+      }), ", ")}
+    ]</span>;
+  }
+  else if (object instanceof Date) {
+    return <span>{object.toString()}</span>;
+  }
+  else {
+    let propertyNodes = [];
+    for(let propertyName in object){
+      const propertyValue = object[propertyName];
+      if(object.hasOwnProperty(propertyName)){
+        let ellipsis;
+        if (propertyNodes.length === (maxProperties - 1)
+            && Object.keys(object).length > maxProperties) {
+          ellipsis = (<span key={'ellipsis'}>…</span>);
         }
+        propertyNodes.push(
+          <span key={propertyName}>
+            <ObjectName name={propertyName} />
+            :&nbsp;
+            <ObjectDescription object={propertyValue} />
+            {ellipsis}
+          </span>
+        );
+        if(ellipsis)
+          break;
       }
-
-      return (<span style={styles.preview}>
-                  {'Object {'}
-                  {intersperse(propertyNodes, ", ")}
-                  {'}'}
-              </span>);
     }
+
+    return (<span style={styles.preview}>
+                {'Object {'}
+                {intersperse(propertyNodes, ", ")}
+                {'}'}
+            </span>);
   }
 }
+
+ObjectPreview.propTypes = {
+  maxProperties: React.PropTypes.number
+}
+ObjectPreview.defaultProps = {
+  maxProperties: 5 /* max number of properties shown in the property view */
+}
+
+export default ObjectPreview

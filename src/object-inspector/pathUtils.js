@@ -1,15 +1,28 @@
 export const DEFAULT_ROOT_PATH='root';
 
-export const getRootPath = (name = undefined) => {
-  if(name === undefined)
-    return DEFAULT_ROOT_PATH
-  return name
-}
-
 /* should be modified to support __proto__ */
 export const isExpandable = (data) => (typeof data === 'object' && data !== null && Object.keys(data).length > 0)
 
-export const pathsStateFromPaths = (paths, initialState = {}) => paths.reduce((obj, path) => { obj[path] = true; return obj }, initialState)
+export const getPathsState = (expandLevel, expandPaths, data, rootName, initialState = {}) => {
+  let wildcardPaths = []
+  const rootPath = DEFAULT_ROOT_PATH
+  if(expandLevel !== undefined){
+    wildcardPaths = wildcardPaths.concat(wildcardPathsFromLevel(expandLevel))
+  }
+
+  const appendRootPathToPath = (path) => `${rootPath}.${path}`
+  if(typeof expandPaths === 'string'){
+    wildcardPaths.push(appendRootPathToPath(expandPaths))
+  }
+  if(typeof expandPaths === 'array'){
+    wildcardPaths = wildcardPaths.concat(expandPaths.map(p => appendRootPathToPath(p)))
+  }
+
+  const paths = pathsFromWildcardPaths(wildcardPaths, data, rootPath)
+  const pathsState = paths.reduce((obj, path) => { obj[path] = true; return obj }, initialState)
+
+  return pathsState
+}
 
 /**
  * Convert wild card paths to concrete paths
@@ -18,10 +31,9 @@ export const pathsStateFromPaths = (paths, initialState = {}) => paths.reduce((o
  * @param  {string} rootName             optional root name (if not specified will use DEFAULT_ROOT_PATH)
  * @return {array}                       concrete paths
  */
-export const pathsFromWildcardPaths = (wildcardPaths, data, rootName = DEFAULT_ROOT_PATH) => {
-  // console.log(`${data} ${wildcardPaths}`)
-
+export const pathsFromWildcardPaths = (wildcardPaths, data) => {
   const paths = []
+  const rootPath = DEFAULT_ROOT_PATH
   if(wildcardPaths === undefined){
     return paths;
   }
@@ -37,8 +49,8 @@ export const pathsFromWildcardPaths = (wildcardPaths, data, rootName = DEFAULT_R
         }
         const name = names[i];
         if(i === 0){
-          if(isExpandable(curObject) && (name === rootName || name === WILDCARD)){
-            populatePaths(curObject, rootName, i + 1);
+          if(isExpandable(curObject) && (name === rootPath || name === WILDCARD)){
+            populatePaths(curObject, rootPath, i + 1);
           }
         }
         else{
@@ -69,23 +81,25 @@ export const pathsFromWildcardPaths = (wildcardPaths, data, rootName = DEFAULT_R
   return paths;
 }
 
-export const wildcardPathsFromLevel = (level, rootName = DEFAULT_ROOT_PATH) => {
+export const wildcardPathsFromLevel = (level) => {
   if(level < 0){
     return undefined
   }
   if(level === 0){
     return []
   }
-  let path = rootName
+  let rootPath = DEFAULT_ROOT_PATH
+  let path = rootPath
   const wildcardPaths = [path]
   for(let i = 1; i < level; i++){
-    rootName += '.*'
-    wildcardPaths.push(rootName)
+    path += '.*'
+    wildcardPaths.push(path)
   }
   return wildcardPaths
 }
 
-export const pathsFromDataAndLevel = (data, level, rootName = DEFAULT_ROOT_PATH) => {
-  const wildcardPaths = wildcardPathsFromLevel(level, rootName)
-  return pathsFromWildcardPaths(wildcardPaths, data, rootName)
+
+export const pathsFromDataAndLevel = (data, level) => {
+  const wildcardPaths = wildcardPathsFromLevel(level)
+  return pathsFromWildcardPaths(wildcardPaths, data)
 }

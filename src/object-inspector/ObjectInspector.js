@@ -1,7 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 import ObjectDescription from '../object/ObjectDescription';
 import ObjectPreview from '../object/ObjectPreview';
+import { ExpandGlyph } from '../styles/glyphs'
+
+import { DEFAULT_ROOT_PATH, isExpandable, getPathsState } from './pathUtils'
 
 // Styles
 import objectStyles from '../object/objectStyles';
@@ -12,81 +15,49 @@ const styles = {
     lineHeight: '14px',
     cursor: 'default',
   },
-  propertyNodesContainer: {
+  propertyNodesBox: {
     paddingLeft: '12px',
-  },
-  unselectable: {
-    WebkitTouchCallout: 'none',
-    WebkitUserSelect: 'none',
-    KhtmlUserSelect: 'none',
-    MozUserSelect: 'none',
-    msUserSelect: 'none',
-    OUserSelect: 'none',
-    userSelect: 'none',
-  },
-  expandControl: {
-    color: '#6e6e6e',
-    fontSize: '10px',
-    marginRight: '3px',
-    whiteSpace: 'pre',
   },
   property: {
     paddingTop: '2px',
   },
 };
 
-import { DEFAULT_ROOT_PATH, isExpandable, pathsFromWildcardPaths } from './pathUtils'
+const InspectorBox = ({ children }) =>
+  <div style={styles.base}>
+    { children }
+  </div>
+
+// The view with or without expansion
+const PreviewBox = ({ data, name, children, onClick }) =>
+  <span style={styles.property} onClick={onClick}>
+    {children}
+    <ObjectPreview object={data} name={name} />
+  </span>
+
+// a box with left padding containing the property nodes
+const PropertyNodesBox = ({ children }) =>
+   <div style={styles.propertyNodesBox}>{children}</div>
 
 export default class ObjectInspector extends Component {
-
-  propTypes: {
-    name: PropTypes.string,
-    data: PropTypes.object,
-    initialExpandedPaths: PropTypes.array, // initial paths of the nodes that are visible
-    depth: PropTypes.number.isRequired,
-    path: PropTypes.string // path is dot separated property names to reach the current node
-  }
-
-  static defaultProps = {
-    name: void 0,
-    data: undefined,
-    initialExpandedPaths: undefined,
-    depth: 0,
-    path: DEFAULT_ROOT_PATH
-  }
 
   constructor(props) {
     super(props);
 
     if(props.depth === 0){ // root node
-
-      const paths = pathsFromWildcardPaths(props.initialExpandedPaths, props.data, props.name)
       this.state = {
-        // expand every path
-        expandedPaths: paths.reduce((obj, path) => { obj[path] = true; return obj }, {})
+        expandedPaths: getPathsState(props.expandLevel, props.expandPaths, props.data, props.name)
       }
     }
-
   }
 
   componentWillReceiveProps(nextProps) {
     if(this.props.depth === 0){
-      // expanded paths need to be recalculated on new data arrival
-      const paths = pathsFromWildcardPaths(nextProps.initialExpandedPaths, nextProps.data, nextProps.name)
-
       this.setState({
-        expandedPaths: paths.reduce(
-          (obj, path) => { obj[path] = true; return obj },
-          this.state.expandedPaths // based on current expandedPaths
-        )
+        expandedPaths: getPathsState(nextProps.expandLevel, nextProps.expandPaths, nextProps.data, nextProps.name)
       })
     }
-
   }
-
-  // shouldComponentUpdate(nextProps, nextState){
-  //
-  // }
 
   componentWillMount(){
     if (typeof React.initializeTouchEvents === 'function') {
@@ -121,56 +92,79 @@ export default class ObjectInspector extends Component {
   }
 
   render() {
+    const { data, name } = this.props
 
-    const data = this.props.data;
-    const name = this.props.name;
+    const { path } = this.props
 
     const setExpanded = (this.props.depth === 0) ? (this.setExpanded.bind(this)) : this.props.setExpanded;
     const getExpanded = (this.props.depth === 0) ? (this.getExpanded.bind(this)) : this.props.getExpanded;
-    const expanded = getExpanded(this.props.path);
 
-    const expandGlyph = isExpandable(data) ? (expanded ? '▼' : '▶')
-                                           : (this.props.depth === 0 ? '' // unnamed root node
-                                                                     : ' ');
+    const expanded = getExpanded(path);
+    let expandGlyph
+    if(isExpandable(data)){
+      expandGlyph = <ExpandGlyph expanded={expanded}></ExpandGlyph>
+    }
+    else{
+      // root node doesn't need placeholder
+      if(this.props.depth === 0){
+        expandGlyph = <span></span>
+      }
+      else{
+        expandGlyph = <ExpandGlyph empty></ExpandGlyph>
+      }
+    }
 
-    let propertyNodesContainer;
+    // if current node is expanded render the property nodes
+    let propertyNodesBox;
     if(expanded){
       let propertyNodes = [];
-
       for(let propertyName in data){
         const propertyValue = data[propertyName];
         if(data.hasOwnProperty(propertyName)){
           propertyNodes.push(<ObjectInspector getExpanded={getExpanded}
                                               setExpanded={setExpanded}
-                                              path={`${this.props.path}.${propertyName}`} // TODO: escape '.' in propertyName
+                                              path={`${path}.${propertyName}`} // TODO: escape '.' in propertyName
                                               depth={this.props.depth + 1}
                                               key={propertyName}
                                               name={propertyName}
                                               data={propertyValue}></ObjectInspector>);
         }
       }
-      propertyNodesContainer = (<div style={styles.propertyNodesContainer}>{propertyNodes}</div>);
+      propertyNodesBox = <PropertyNodesBox>{propertyNodes}</PropertyNodesBox>;
     }
 
     return (
-      <div style={styles.base}>
-        <span style={styles.property} onClick={this.handleClick.bind(this)}>
-          <span style={{...styles.expandControl, ...styles.unselectable}}>{expandGlyph}</span>
-          {(() => {
-            if (typeof name !== 'undefined') {
-              return (<span>
-                        <span style={objectStyles.name}>{name}</span>
-                        <span>: </span>
-                        <ObjectDescription object={data} />
-                      </span>);
-            }
-            else{
-              return (<ObjectPreview object={data} />);
-            }
-          })()}
-        </span>
-        {propertyNodesContainer}
-      </div>
+      <InspectorBox>
+        <PreviewBox data={data} name={name} onClick={this.handleClick.bind(this)}>
+          {expandGlyph}
+        </PreviewBox>
+        {propertyNodesBox}
+      </InspectorBox>
     );
   }
+}
+
+ObjectInspector.propTypes = {
+  name: PropTypes.string,
+  data: PropTypes.any,
+
+  expandLevel: PropTypes.number,
+  expandPaths: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array
+  ]),
+
+  depth: PropTypes.number.isRequired,
+  path: PropTypes.string // path is dot separated property names to reach the current node
+}
+
+ObjectInspector.defaultProps = {
+  name: void 0,
+  data: undefined,
+
+  expandLevel: undefined,
+  expandPaths: undefined,
+
+  depth: 0,
+  path: DEFAULT_ROOT_PATH
 }

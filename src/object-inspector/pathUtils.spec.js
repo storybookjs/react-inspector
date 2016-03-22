@@ -64,9 +64,7 @@ describe('PathUtils', () => {
     expect(pathsFromDataAndLevel(data, 1)).toEqual([ 'root' ])
     expect(pathsFromDataAndLevel(data, 2)).toEqual([ 'root', 'root.tags', 'root.dimensions', 'root.warehouseLocation' ])
     expect(pathsFromDataAndLevel(data, 3)).toEqual([ 'root', 'root.tags', 'root.dimensions', 'root.warehouseLocation' ])
-    expect(pathsFromDataAndLevel(data, 4)).toEqual([ 'root', 'root.tags', 'root.dimensions', 'root.warehouseLocation' ])
-
-    expect(pathsStateFromPaths([ 'root', 'root.tags', 'root.dimensions', 'root.warehouseLocation' ])).toEqual({ root: true, 'root.dimensions': true, 'root.tags': true, 'root.warehouseLocation': true })
+    expect(pathsFromDataAndLevel(data, 4)).toEqual([ 'root', 'root.tags', 'root.dimensions', 'root.warehouseLocation' ])    
   })
 
   it('pathsFromDataAndLevel: array', () => {
@@ -131,28 +129,28 @@ describe('PathUtils', () => {
     expect(pathsFromDataAndLevel(data, 4)).toEqual([ ])
   })
 
-  it('pathsFromDataAndLevel: object, with custome names', () => {
-    const data = {
-        "id": 2,
-        "name": "An ice sculpture",
-        // "price": 12.50,
-        "tags": ["cold", "ice"],
-        "dimensions": {
-            "length": 7.0,
-            "width": 12.0,
-            "height": 9.5
-        },
-        "warehouseLocation": {
-            "latitude": -78.75,
-            "longitude": 20.4
-        }
-    }
-
-    const customName = 'test'
-    expect(pathsFromDataAndLevel(data, 0, customName)).toEqual([ ])
-    expect(pathsFromDataAndLevel(data, 1, customName)).toEqual([ 'test' ])
-    expect(pathsFromDataAndLevel(data, 2, customName)).toEqual([ 'test', 'test.tags', 'test.dimensions', 'test.warehouseLocation' ])
-    expect(pathsFromDataAndLevel(data, 3, customName)).toEqual([ 'test', 'test.tags', 'test.dimensions', 'test.warehouseLocation' ])
-    expect(pathsFromDataAndLevel(data, 4, customName)).toEqual([ 'test', 'test.tags', 'test.dimensions', 'test.warehouseLocation' ])
-  })
+  // it('pathsFromDataAndLevel: object, with custome names', () => {
+  //   const data = {
+  //       "id": 2,
+  //       "name": "An ice sculpture",
+  //       // "price": 12.50,
+  //       "tags": ["cold", "ice"],
+  //       "dimensions": {
+  //           "length": 7.0,
+  //           "width": 12.0,
+  //           "height": 9.5
+  //       },
+  //       "warehouseLocation": {
+  //           "latitude": -78.75,
+  //           "longitude": 20.4
+  //       }
+  //   }
+  //
+  //   const customName = 'test'
+  //   expect(pathsFromDataAndLevel(data, 0, customName)).toEqual([ ])
+  //   expect(pathsFromDataAndLevel(data, 1, customName)).toEqual([ 'test' ])
+  //   expect(pathsFromDataAndLevel(data, 2, customName)).toEqual([ 'test', 'test.tags', 'test.dimensions', 'test.warehouseLocation' ])
+  //   expect(pathsFromDataAndLevel(data, 3, customName)).toEqual([ 'test', 'test.tags', 'test.dimensions', 'test.warehouseLocation' ])
+  //   expect(pathsFromDataAndLevel(data, 4, customName)).toEqual([ 'test', 'test.tags', 'test.dimensions', 'test.warehouseLocation' ])
+  // })
 })
