@@ -60,7 +60,7 @@ import {ObjectInspector, TableInspector} from 'react-inspector';
 // or use the shorthand
 import {Inspector} from 'react-inspector';
 
-const MyComponent = (data) => (
+const MyComponent = (data) =>
   <div>
     <ObjectInspector data={data} />
     <TableInspector data={data} />
@@ -68,7 +68,6 @@ const MyComponent = (data) => (
     <Inspector data={data} />
     <Inspector table data={data} />
   </div>
-)
 
 let data = { /* ... */ };
 
