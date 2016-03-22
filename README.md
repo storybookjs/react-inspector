@@ -37,7 +37,7 @@ The component accepts the following props:
 
 #### `expandLevel: PropTypes.number`: an integer specifying to which level the tree should be initially expanded.
 
-#### `expandPaths: PropTypes.oneOfType([PropTypes.string, PropTypes.array])`: an array containing all the paths that should be expanded when the component is initialized, or just a string of just one path
+#### `expandPaths: PropTypes.oneOfType([PropTypes.string, PropTypes.array])`: an array containing all the paths that should be expanded when the component is initialized, or a string of just one path
 - The path string is similar to [JSONPath](http://goessner.net/articles/JsonPath/).
   - It is a dot separated string like `$.foo.bar`. `$.foo.bar` expands the path `$.foo.bar` where `$` refers to the root node. Note that it only expands that single node (but not all its parents and the root node). Instead, you should use `expandPaths={['$', '$.foo', '$.foo.bar']}` to expand all the way to the `$.foo.bar` node.
   - You can use wildcard to expand all paths on a specific level
