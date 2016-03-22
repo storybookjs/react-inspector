@@ -1,4 +1,4 @@
-export const DEFAULT_ROOT_PATH='root';
+export const DEFAULT_ROOT_PATH='$';
 
 /* should be modified to support __proto__ */
 export const isExpandable = (data) => (typeof data === 'object' && data !== null && Object.keys(data).length > 0)
@@ -10,13 +10,7 @@ export const getPathsState = (expandLevel, expandPaths, data, rootName, initialS
     wildcardPaths = wildcardPaths.concat(wildcardPathsFromLevel(expandLevel))
   }
 
-  const appendRootPathToPath = (path) => `${rootPath}.${path}`
-  if(typeof expandPaths === 'string'){
-    wildcardPaths.push(appendRootPathToPath(expandPaths))
-  }
-  if(typeof expandPaths === 'array'){
-    wildcardPaths = wildcardPaths.concat(expandPaths.map(p => appendRootPathToPath(p)))
-  }
+  wildcardPaths = wildcardPaths.concat(expandPaths)
 
   const paths = pathsFromWildcardPaths(wildcardPaths, data, rootPath)
   const pathsState = paths.reduce((obj, path) => { obj[path] = true; return obj }, initialState)

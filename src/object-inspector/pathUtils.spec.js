@@ -7,9 +7,11 @@ import {DEFAULT_ROOT_PATH,
         wildcardPathsFromLevel,
         pathsFromDataAndLevel} from './pathUtils'
 
+const root = DEFAULT_ROOT_PATH
+
 describe('PathUtils', () => {
   beforeEach(() => {
-    const root = DEFAULT_ROOT_PATH
+
   })
 
   it('isExpandable', () => {
@@ -27,10 +29,10 @@ describe('PathUtils', () => {
   it('wildcardPathsFromLevel works', () => {
     expect(wildcardPathsFromLevel(-1)).toEqual(undefined)
     expect(wildcardPathsFromLevel(0)).toEqual([])
-    expect(wildcardPathsFromLevel(1)).toEqual(['root'])
-    expect(wildcardPathsFromLevel(2)).toEqual(['root', 'root.*'])
-    expect(wildcardPathsFromLevel(3)).toEqual(['root', 'root.*', 'root.*.*'])
-    expect(wildcardPathsFromLevel(4)).toEqual(['root', 'root.*', 'root.*.*', 'root.*.*.*'])
+    expect(wildcardPathsFromLevel(1)).toEqual([root])
+    expect(wildcardPathsFromLevel(2)).toEqual([root, `${root}.*`])
+    expect(wildcardPathsFromLevel(3)).toEqual([root, `${root}.*`, `${root}.*.*`])
+    expect(wildcardPathsFromLevel(4)).toEqual([root, `${root}.*`, `${root}.*.*`, `${root}.*.*.*`])
   })
 
   it('pathsFromDataAndLevel: data: [null, undefined, []] ', () => {
@@ -61,20 +63,20 @@ describe('PathUtils', () => {
     }
 
     expect(pathsFromDataAndLevel(data, 0)).toEqual([ ])
-    expect(pathsFromDataAndLevel(data, 1)).toEqual([ 'root' ])
-    expect(pathsFromDataAndLevel(data, 2)).toEqual([ 'root', 'root.tags', 'root.dimensions', 'root.warehouseLocation' ])
-    expect(pathsFromDataAndLevel(data, 3)).toEqual([ 'root', 'root.tags', 'root.dimensions', 'root.warehouseLocation' ])
-    expect(pathsFromDataAndLevel(data, 4)).toEqual([ 'root', 'root.tags', 'root.dimensions', 'root.warehouseLocation' ])    
+    expect(pathsFromDataAndLevel(data, 1)).toEqual([ root ])
+    expect(pathsFromDataAndLevel(data, 2)).toEqual([ root, `${root}.tags`, `${root}.dimensions`, `${root}.warehouseLocation` ])
+    expect(pathsFromDataAndLevel(data, 3)).toEqual([ root, `${root}.tags`, `${root}.dimensions`, `${root}.warehouseLocation` ])
+    expect(pathsFromDataAndLevel(data, 4)).toEqual([ root, `${root}.tags`, `${root}.dimensions`, `${root}.warehouseLocation` ])
   })
 
   it('pathsFromDataAndLevel: array', () => {
     const data = [0, 1, 2, 3, 4]
 
     expect(pathsFromDataAndLevel(data, 0)).toEqual([ ])
-    expect(pathsFromDataAndLevel(data, 1)).toEqual([ 'root' ])
-    expect(pathsFromDataAndLevel(data, 2)).toEqual([ 'root' ])
-    expect(pathsFromDataAndLevel(data, 3)).toEqual([ 'root' ])
-    expect(pathsFromDataAndLevel(data, 4)).toEqual([ 'root' ])
+    expect(pathsFromDataAndLevel(data, 1)).toEqual([ root ])
+    expect(pathsFromDataAndLevel(data, 2)).toEqual([ root ])
+    expect(pathsFromDataAndLevel(data, 3)).toEqual([ root ])
+    expect(pathsFromDataAndLevel(data, 4)).toEqual([ root ])
   })
 
   it('pathsFromDataAndLevel: null, undefined, empty object, empty array, boolean, number, function', () => {

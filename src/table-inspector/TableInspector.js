@@ -414,13 +414,7 @@ export default class TableInspector extends Component {
       rowsData = sortedRowIndexes.map((i) => rowsData[i])
     }
 
-    return (<div style={styles.base} >
-              {/*<ObjectInspector data={data} />*/}
-              {/*
-              <ObjectInspector data={rowHeaders} />
-              <ObjectInspector data={colHeaders} />
-              <ObjectInspector data={rowsData} />
-              <ObjectInspector data={columnDataWithRowIndexes} initialExpandedPaths={['root', 'root.*']} />*/}
+    return (<div style={styles.base} >              
               <HeaderContainer columns={colHeaders}
                                /* for sorting */
                                sorted={this.state.sorted}
