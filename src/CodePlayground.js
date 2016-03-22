@@ -67,7 +67,7 @@ class CodePlaygroundContainer extends Component {
       // console.warn(e);
       error = e;
     }
-    console.log(codeText)
+    // console.log(codeText)
     const lint = JSONLint(codeText);
 
     const selectedIndex = this.state.selectedIndex
@@ -99,7 +99,7 @@ class CodePlaygroundContainer extends Component {
                   {(()=>{
                     if(error){
                       const errorText = `${lint.error} at line ${lint.line}, character ${lint.character}`
-                      console.log(errorText)
+                      // console.log(errorText)
                       return <div>
                                 <ButtonsRow buttonsText={["<Inspector data={data} />", "<Inspector table data={data} />"]} selectedIndex={selectedIndex} onButtonClick={this.handleButtonClick.bind(this)}/>
                                 <CodeError errorText={errorText}/>
