@@ -2,6 +2,10 @@ export default {
   name: {
     color: 'rgb(136, 19, 145)',
   },
+  query: {
+    color: 'rgb(136, 19, 145)',
+    backgroundColor: 'rgb(255, 255, 0)'
+  },
   value: {
     null: {
       color: 'rgb(128, 128, 128)',
