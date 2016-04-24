@@ -26,7 +26,7 @@ const ObjectDescription = ({ object }) => {
       if(Array.isArray(object)){
         return (<span>{`Array[${object.length}]`}</span>);
       }
-      return (<span>Object</span>);
+      return (<span>object.constructor.name</span>);
     case 'function':
       return (<span>
                 <span style={objectStyles.value.function.keyword}>function</span>
