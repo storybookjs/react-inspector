@@ -1,6 +1,6 @@
 {
   "name": "react-inspector",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "description": "Power of Browser DevTools inspectors right inside your React app",
   "main": "lib/index.js",
   "directories": {
@@ -62,7 +62,7 @@
     "expect": "^1.14.0",
     "jasmine-core": "^2.3.4",
     "mocha": "^2.4.5",
-    "react": "^0.14.7",
+    "react": "^0.14.7 || ^15.0.0",
     "react-addons-test-utils": "^0.14.7",
     "react-dom": "^0.14.2",
     "react-hot-loader": "^1.2.7",
