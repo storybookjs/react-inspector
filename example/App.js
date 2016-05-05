@@ -112,7 +112,15 @@ export default class App extends Component {
     //   }
     // }
 
-    const objectTests = [undefined, testFunction, null, true, false, "testString", 42, NaN, Symbol('foo'), testObject, test2, test3, test4, test5, [], ["a"], ["a", 1], new Date(), Object.prototype];
+    const objectTests = [undefined, testFunction, null, true, false, "testString", 42, NaN, Symbol('foo'),
+      testObject, test2, test3, test4, test5,
+      [], ["a"], ["a", 1], ["a", 1, {}],
+      new Date(),
+      {},
+      Object.create({'k': 'v'}),
+      Object.prototype,
+      Object,
+      /^.*$/];
 
     const tableTests = [
       // should be 2 * 4 table

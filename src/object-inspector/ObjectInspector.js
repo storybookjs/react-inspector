@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 
-import ObjectDescription from '../object/ObjectDescription';
 import ObjectPreview from '../object/ObjectPreview';
 import { ExpandGlyph } from '../styles/glyphs'
 

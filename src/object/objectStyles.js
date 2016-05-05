@@ -13,6 +13,9 @@ export default {
     undefined: {
       color: 'rgb(128, 128, 128)',
     },
+    regexp: {
+      color: 'rgb(196, 26, 22)',
+    },
     string: {
       color: 'rgb(196, 26, 22)',
     },

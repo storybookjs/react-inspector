@@ -16,25 +16,23 @@ export const getIsExpandable = (showNonenumerable) => {
 export const getPathsState = (showNonenumerable, expandLevel, expandPaths, data, rootName, initialState = {}) => {
   const isExpandable = getIsExpandable(showNonenumerable)
   let wildcardPaths = []
-  const rootPath = DEFAULT_ROOT_PATH
   if(expandLevel !== undefined){
     wildcardPaths = wildcardPaths.concat(wildcardPathsFromLevel(expandLevel))
   }
 
   wildcardPaths = wildcardPaths.concat(expandPaths)
 
-  const paths = pathsFromWildcardPaths(isExpandable, wildcardPaths, data, rootPath)
+  const paths = pathsFromWildcardPaths(isExpandable, wildcardPaths, data, DEFAULT_ROOT_PATH)
   const pathsState = paths.reduce((obj, path) => { obj[path] = true; return obj }, initialState)
 
   return pathsState
 }
 
 /**
- * Convert wild card paths to concrete paths
+ * Convert wild card paths to concrete paths by recursive traversal
  */
 export const pathsFromWildcardPaths = (isExpandable, wildcardPaths, data) => {
   const paths = []
-  const rootPath = DEFAULT_ROOT_PATH
   if(wildcardPaths === undefined){
     return paths;
   }
@@ -50,8 +48,8 @@ export const pathsFromWildcardPaths = (isExpandable, wildcardPaths, data) => {
         }
         const name = names[i];
         if(i === 0){
-          if(isExpandable(curObject) && (name === rootPath || name === WILDCARD)){
-            populatePaths(curObject, rootPath, i + 1);
+          if(isExpandable(curObject) && (name === DEFAULT_ROOT_PATH || name === WILDCARD)){
+            populatePaths(curObject, DEFAULT_ROOT_PATH, i + 1);
           }
         }
         else{
@@ -89,8 +87,7 @@ export const wildcardPathsFromLevel = (level) => {
   if(level === 0){
     return []
   }
-  let rootPath = DEFAULT_ROOT_PATH
-  let path = rootPath
+  let path = DEFAULT_ROOT_PATH
   const wildcardPaths = [path]
   for(let i = 1; i < level; i++){
     path += '.*'

@@ -9,33 +9,36 @@ import objectStyles from './objectStyles';
 const ObjectDescription = ({ object }) => {
   switch (typeof object) {
     case 'number':
-      return (<span style={objectStyles.value.number}>{object}</span>);
+      return <span style={objectStyles.value.number}>{object}</span>
     case 'string':
-      return (<span style={objectStyles.value.string}>&quot;{object}&quot;</span>);
+      return <span style={objectStyles.value.string}>&quot;{object}&quot;</span>
     case 'boolean':
-      return (<span style={objectStyles.value.boolean}>{String(object)}</span>);
+      return <span style={objectStyles.value.boolean}>{String(object)}</span>
     case 'undefined':
-      return (<span style={objectStyles.value.undefined}>undefined</span>);
+      return <span style={objectStyles.value.undefined}>undefined</span>
     case 'object':
       if(object === null){
-        return (<span style={objectStyles.value.null}>null</span>)
+        return <span style={objectStyles.value.null}>null</span>
       }
       if(object instanceof Date){
-        return (<span>{object.toString()}</span>);
+        return <span>{object.toString()}</span>
+      }
+      if(object instanceof RegExp){
+        return <span style={objectStyles.value.regexp}>{object.toString()}</span>
       }
       if(Array.isArray(object)){
-        return (<span>{`Array[${object.length}]`}</span>);
+        return <span>{`Array[${object.length}]`}</span>
       }
-      return (<span>{object.constructor.name}</span>);
+      return <span>{object.constructor.name}</span>
     case 'function':
-      return (<span>
+      return <span>
                 <span style={objectStyles.value.function.keyword}>function</span>
                 <span style={objectStyles.value.function.name}>&nbsp;{object.name}()</span>
-              </span>);
+              </span>
     case 'symbol':
-      return (<span style={objectStyles.value.symbol}>Symbol()</span>)
+      return <span style={objectStyles.value.symbol}>Symbol()</span>
     default:
-      return (<span></span>);
+      return <span></span>
   }
 }
 
