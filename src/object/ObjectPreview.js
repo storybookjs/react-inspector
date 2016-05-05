@@ -23,12 +23,12 @@ function intersperse(arr, sep){
  * A preview of the object
  * if a name is specified, it will render a simplified preview with a short description
  */
-const ObjectPreview = ({ maxProperties, object, name }) => {
+const ObjectPreview = ({ maxProperties, object, name, query }) => {
   if (typeof name !== 'undefined') {
 
     const Colon = () => <span>: </span>
     return <span>
-            <ObjectName name={name} />
+            <ObjectName name={name} query={query} />
             <Colon />
             <ObjectDescription object={object} />
           </span>
@@ -60,7 +60,7 @@ const ObjectPreview = ({ maxProperties, object, name }) => {
         }
         propertyNodes.push(
           <span key={propertyName}>
-            <ObjectName name={propertyName} />
+            <ObjectName name={propertyName} query={query}/>
             :&nbsp;
             <ObjectDescription object={propertyValue} />
             {ellipsis}

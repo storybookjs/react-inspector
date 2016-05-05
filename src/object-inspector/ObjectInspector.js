@@ -29,10 +29,10 @@ const InspectorBox = ({ children }) =>
   </div>
 
 // The view with or without expansion
-const PreviewBox = ({ data, name, children, onClick }) =>
+const PreviewBox = ({ data, name, children, onClick, query }) =>
   <span style={styles.property} onClick={onClick}>
     {children}
-    <ObjectPreview object={data} name={name} />
+    <ObjectPreview object={data} name={name} query={query}/>
   </span>
 
 // a box with left padding containing the property nodes
@@ -127,6 +127,7 @@ export default class ObjectInspector extends Component {
                                               depth={this.props.depth + 1}
                                               key={propertyName}
                                               name={propertyName}
+                                              query={this.props.query}
                                               data={propertyValue}></ObjectInspector>);
         }
       }
@@ -135,7 +136,7 @@ export default class ObjectInspector extends Component {
 
     return (
       <InspectorBox>
-        <PreviewBox data={data} name={name} onClick={this.handleClick.bind(this)}>
+        <PreviewBox data={data} name={name} query={this.props.query} onClick={this.handleClick.bind(this)}>
           {expandGlyph}
         </PreviewBox>
         {propertyNodesBox}
