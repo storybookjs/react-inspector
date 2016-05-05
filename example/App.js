@@ -112,7 +112,7 @@ export default class App extends Component {
     //   }
     // }
 
-    const objectTests = [undefined, testFunction, null, true, false, "testString", 42, NaN, Symbol('foo'), testObject, test2, test3, test4, test5, [], ["a"], ["a", 1], new Date()];
+    const objectTests = [undefined, testFunction, null, true, false, "testString", 42, NaN, Symbol('foo'), testObject, test2, test3, test4, test5, [], ["a"], ["a", 1], new Date(), Object.prototype];
 
     const tableTests = [
       // should be 2 * 4 table
@@ -190,7 +190,7 @@ export default class App extends Component {
             return (
                   <div key={index} style={{marginBottom:"10px"}}>
 
-                    <ObjectInspector data={object}>
+                    <ObjectInspector data={object} showNonenumerable >
                     </ObjectInspector>
                   </div>);
           });

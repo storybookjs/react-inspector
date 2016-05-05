@@ -1,7 +1,18 @@
 export const DEFAULT_ROOT_PATH='$';
 
 /* should be modified to support __proto__ */
-export const isExpandable = (data) => (typeof data === 'object' && data !== null && Object.keys(data).length > 0)
+//export const isExpandable = (data) => (typeof data === 'object' && data !== null && Object.keys(data).length > 0)
+/**
+ * [description]
+ * @param  {object} data data object
+ * @return {bool}      whether data object can be expanded
+ */
+
+// this works for showNonenumerable === false
+// export const isExpandable = (data) => (typeof data === 'object' && data !== null && Object.keys(data).length > 0)
+
+// this works for showNonenumerable === true
+export const isExpandable = (data) => (typeof data === 'object'&& data !== null) || typeof data === 'function'
 
 export const getPathsState = (expandLevel, expandPaths, data, rootName, initialState = {}) => {
   let wildcardPaths = []

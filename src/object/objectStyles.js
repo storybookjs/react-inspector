@@ -2,6 +2,10 @@ export default {
   name: {
     color: 'rgb(136, 19, 145)',
   },
+  nameDimmed: {
+    color: 'rgb(136, 19, 145)',
+    opacity: 0.6,
+  },
   value: {
     null: {
       color: 'rgb(128, 128, 128)',

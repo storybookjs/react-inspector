@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 import ObjectDescription from './ObjectDescription';
 import ObjectName from './ObjectName'
@@ -23,12 +23,12 @@ function intersperse(arr, sep){
  * A preview of the object
  * if a name is specified, it will render a simplified preview with a short description
  */
-const ObjectPreview = ({ maxProperties, object, name }) => {
+const ObjectPreview = ({ maxProperties, object, name, isNonenumerable }) => {
   if (typeof name !== 'undefined') {
 
     const Colon = () => <span>: </span>
     return <span>
-            <ObjectName name={name} />
+            <ObjectName name={name} dimmed={isNonenumerable} />
             <Colon />
             <ObjectDescription object={object} />
           </span>
@@ -80,10 +80,12 @@ const ObjectPreview = ({ maxProperties, object, name }) => {
 }
 
 ObjectPreview.propTypes = {
-  maxProperties: React.PropTypes.number
+  maxProperties: PropTypes.number,
+  isNonenumerable: PropTypes.bool, // non enumerable object will be dimmed
 }
 ObjectPreview.defaultProps = {
-  maxProperties: 5 /* max number of properties shown in the property view */
+  maxProperties: 5, /* max number of properties shown in the property view */
+  isNonenumerable: false,
 }
 
 export default ObjectPreview

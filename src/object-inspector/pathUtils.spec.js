@@ -19,6 +19,8 @@ describe('PathUtils', () => {
     expect(isExpandable(null)).toBe(false)
     expect(isExpandable('hello')).toBe(false)
 
+    // expect(isExpandable(Object.getPrototypeOf({}))).toBe(true)
+
     expect(isExpandable([])).toBe(false)
     expect(isExpandable([0])).toBe(true)
 

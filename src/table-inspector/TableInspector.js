@@ -170,11 +170,11 @@ const HeaderContainer = ({ indexColumnText, columns, sorted, sortIndexColumn, so
   }}>
     <table style={{
       tableLayout: 'fixed',
-      borderSpacing: '0',
+      borderSpacing: 0,
       borderCollapse: 'separate',
       height: '100%',
       width: '100%',
-      margin: '0', // prevent overrides
+      margin: 0, // prevent overrides
     }}>
     {/*
       <colgroup>
@@ -244,7 +244,7 @@ const DataContainer = ({ rows, columns, rowsData }) =>
       tableLayout: 'fixed',
 
       // table
-      borderSpacing: '0',
+      borderSpacing: 0,
       borderCollapse: 'separate',
       // height: '100%',
       width: '100%',
@@ -414,7 +414,7 @@ export default class TableInspector extends Component {
       rowsData = sortedRowIndexes.map((i) => rowsData[i])
     }
 
-    return (<div style={styles.base} >              
+    return (<div style={styles.base} >
               <HeaderContainer columns={colHeaders}
                                /* for sorting */
                                sorted={this.state.sorted}

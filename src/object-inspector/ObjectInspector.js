@@ -23,24 +23,17 @@ const styles = {
   },
 };
 
+// Wrapper around inspector
 const InspectorBox = ({ children }) =>
   <div style={styles.base}>
     { children }
   </div>
 
-// The view with or without expansion
-const PreviewBox = ({ data, name, children, onClick }) =>
-  <span style={styles.property} onClick={onClick}>
-    {children}
-    <ObjectPreview object={data} name={name} />
-  </span>
-
 // a box with left padding containing the property nodes
 const PropertyNodesBox = ({ children }) =>
-   <div style={styles.propertyNodesBox}>{children}</div>
+   <div style={styles.propertyNodesBox}>{ children }</div>
 
 export default class ObjectInspector extends Component {
-
   constructor(props) {
     super(props);
 
@@ -92,12 +85,12 @@ export default class ObjectInspector extends Component {
   }
 
   render() {
-    const { data, name } = this.props
+    const { data, name, showNonenumerable, isNonenumerable } = this.props
 
-    const { path } = this.props
+    const { depth, path } = this.props
 
-    const setExpanded = (this.props.depth === 0) ? (this.setExpanded.bind(this)) : this.props.setExpanded;
-    const getExpanded = (this.props.depth === 0) ? (this.getExpanded.bind(this)) : this.props.getExpanded;
+    const setExpanded = (depth === 0) ? (this.setExpanded.bind(this)) : this.props.setExpanded;
+    const getExpanded = (depth === 0) ? (this.getExpanded.bind(this)) : this.props.getExpanded;
 
     const expanded = getExpanded(path);
     let expandGlyph
@@ -106,7 +99,7 @@ export default class ObjectInspector extends Component {
     }
     else{
       // root node doesn't need placeholder
-      if(this.props.depth === 0){
+      if(depth === 0){
         expandGlyph = <span></span>
       }
       else{
@@ -118,26 +111,66 @@ export default class ObjectInspector extends Component {
     let propertyNodesBox;
     if(expanded){
       let propertyNodes = [];
-      for(let propertyName in data){
-        const propertyValue = data[propertyName];
-        if(data.hasOwnProperty(propertyName)){
+
+      Object.getOwnPropertyNames(data).forEach(propertyName => {
+        // enumerables
+        if(data.propertyIsEnumerable(propertyName)){
+          const propertyValue = data[propertyName];
           propertyNodes.push(<ObjectInspector getExpanded={getExpanded}
                                               setExpanded={setExpanded}
                                               path={`${path}.${propertyName}`} // TODO: escape '.' in propertyName
-                                              depth={this.props.depth + 1}
+                                              depth={depth + 1}
                                               key={propertyName}
                                               name={propertyName}
-                                              data={propertyValue}></ObjectInspector>);
+                                              data={propertyValue}
+                                              showNonenumerable={showNonenumerable}></ObjectInspector>);
         }
+        // non enumerables, only show if showNonenumerable is enabled
+        else if(showNonenumerable){
+          let propertyValue
+          // To work around this error if propertyName === 'caller' || propertyName === 'arguments'
+          // 'caller' and 'arguments' are restricted function properties and cannot be accessed in this context
+          try{
+            propertyValue = data[propertyName]
+          }
+          catch(e){
+          }
+
+          if(propertyValue !== undefined)
+            propertyNodes.push(<ObjectInspector getExpanded={getExpanded}
+                                                setExpanded={setExpanded}
+                                                path={`${path}.${propertyName}`} // TODO: escape '.' in propertyName
+                                                depth={depth + 1}
+                                                key={propertyName}
+                                                name={propertyName}
+                                                data={propertyValue}
+                                                showNonenumerable={showNonenumerable}
+                                                isNonenumerable></ObjectInspector>);
+        }
+      })
+
+      // Object.getPrototypeOf (__proto__)
+      if(showNonenumerable && data !== Object.prototype /* already added */){
+        propertyNodes.push(<ObjectInspector getExpanded={getExpanded}
+                                            setExpanded={setExpanded}
+                                            path={`${path}.__proto__`} // TODO: escape '.' in propertyName
+                                            depth={depth + 1}
+                                            key="__proto__"
+                                            name="__proto__"
+                                            data={Object.getPrototypeOf(data)}
+                                            showNonenumerable={showNonenumerable}
+                                            isNonenumerable></ObjectInspector>)
       }
+
       propertyNodesBox = <PropertyNodesBox>{propertyNodes}</PropertyNodesBox>;
     }
 
     return (
       <InspectorBox>
-        <PreviewBox data={data} name={name} onClick={this.handleClick.bind(this)}>
+        <span style={styles.property} onClick={this.handleClick.bind(this)}>
           {expandGlyph}
-        </PreviewBox>
+          <ObjectPreview object={data} name={name} isNonenumerable={isNonenumerable} />
+        </span>
         {propertyNodesBox}
       </InspectorBox>
     );
@@ -147,6 +180,9 @@ export default class ObjectInspector extends Component {
 ObjectInspector.propTypes = {
   name: PropTypes.string,
   data: PropTypes.any,
+
+  showNonenumerable: PropTypes.bool, // switch to show non-enumerable properties
+  isNonenumerable: PropTypes.bool, // am myself a non-enumerable property? for styling purposes
 
   expandLevel: PropTypes.number,
   expandPaths: PropTypes.oneOfType([
@@ -161,6 +197,9 @@ ObjectInspector.propTypes = {
 ObjectInspector.defaultProps = {
   name: void 0,
   data: undefined,
+
+  showNonenumerable: false,
+  isNonenumerable: false,
 
   expandLevel: undefined,
   expandPaths: undefined,
