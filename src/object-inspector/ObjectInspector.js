@@ -4,7 +4,8 @@ import ObjectDescription from '../object/ObjectDescription';
 import ObjectPreview from '../object/ObjectPreview';
 import { ExpandGlyph } from '../styles/glyphs'
 
-import { DEFAULT_ROOT_PATH, isExpandable, getPathsState } from './pathUtils'
+// import { DEFAULT_ROOT_PATH, isExpandable, getPathsState } from './pathUtils'
+import { DEFAULT_ROOT_PATH, getIsExpandable, getPathsState } from './pathUtils'
 
 // Styles
 import objectStyles from '../object/objectStyles';
@@ -74,6 +75,7 @@ export default class ObjectInspector extends Component {
 
   handleClick() {
     // console.log(this.props.data);
+    const isExpandable = getIsExpandable(this.props.showNonenumerable)
     if (isExpandable(this.props.data)) {
       if (this.props.depth > 0) {
         this.props.setExpanded(this.props.path, !this.props.getExpanded(this.props.path));
@@ -85,7 +87,10 @@ export default class ObjectInspector extends Component {
   }
 
   render() {
-    const { data, name, showNonenumerable, isNonenumerable } = this.props
+    const { data, name } = this.props
+
+    const {showNonenumerable, isNonenumerable } = this.props
+    const isExpandable = getIsExpandable(this.props.showNonenumerable)
 
     const { depth, path } = this.props
 
@@ -102,6 +107,7 @@ export default class ObjectInspector extends Component {
       if(depth === 0){
         expandGlyph = <span></span>
       }
+      // placeholder so preview is properly aligned
       else{
         expandGlyph = <ExpandGlyph empty></ExpandGlyph>
       }
@@ -128,7 +134,7 @@ export default class ObjectInspector extends Component {
         // non enumerables, only show if showNonenumerable is enabled
         else if(showNonenumerable){
           let propertyValue
-          // To work around this error if propertyName === 'caller' || propertyName === 'arguments'
+          // To work around the error (happens some time when propertyName === 'caller' || propertyName === 'arguments')
           // 'caller' and 'arguments' are restricted function properties and cannot be accessed in this context
           try{
             propertyValue = data[propertyName]

@@ -1,20 +1,20 @@
 export const DEFAULT_ROOT_PATH='$';
 
-/* should be modified to support __proto__ */
-//export const isExpandable = (data) => (typeof data === 'object' && data !== null && Object.keys(data).length > 0)
-/**
- * [description]
- * @param  {object} data data object
- * @return {bool}      whether data object can be expanded
- */
-
 // this works for showNonenumerable === false
-// export const isExpandable = (data) => (typeof data === 'object' && data !== null && Object.keys(data).length > 0)
+const isExpandableNoShowNonenumerable = (data) => (typeof data === 'object' && data !== null && Object.keys(data).length > 0)
 
 // this works for showNonenumerable === true
-export const isExpandable = (data) => (typeof data === 'object'&& data !== null) || typeof data === 'function'
+const isExpandableShowNonenumerable = (data) => (typeof data === 'object' && data !== null) || typeof data === 'function'
 
-export const getPathsState = (expandLevel, expandPaths, data, rootName, initialState = {}) => {
+// generate isExpandable function
+export const getIsExpandable = (showNonenumerable) => {
+  if(!showNonenumerable)
+    return isExpandableNoShowNonenumerable
+  return isExpandableShowNonenumerable
+}
+
+export const getPathsState = (showNonenumerable, expandLevel, expandPaths, data, rootName, initialState = {}) => {
+  const isExpandable = getIsExpandable(showNonenumerable)
   let wildcardPaths = []
   const rootPath = DEFAULT_ROOT_PATH
   if(expandLevel !== undefined){
@@ -23,7 +23,7 @@ export const getPathsState = (expandLevel, expandPaths, data, rootName, initialS
 
   wildcardPaths = wildcardPaths.concat(expandPaths)
 
-  const paths = pathsFromWildcardPaths(wildcardPaths, data, rootPath)
+  const paths = pathsFromWildcardPaths(isExpandable, wildcardPaths, data, rootPath)
   const pathsState = paths.reduce((obj, path) => { obj[path] = true; return obj }, initialState)
 
   return pathsState
@@ -31,12 +31,8 @@ export const getPathsState = (expandLevel, expandPaths, data, rootName, initialS
 
 /**
  * Convert wild card paths to concrete paths
- * @param  {array} initialExpandedPaths  wild card paths
- * @param  {object} data                 data object
- * @param  {string} rootName             optional root name (if not specified will use DEFAULT_ROOT_PATH)
- * @return {array}                       concrete paths
  */
-export const pathsFromWildcardPaths = (wildcardPaths, data) => {
+export const pathsFromWildcardPaths = (isExpandable, wildcardPaths, data) => {
   const paths = []
   const rootPath = DEFAULT_ROOT_PATH
   if(wildcardPaths === undefined){
@@ -103,8 +99,9 @@ export const wildcardPathsFromLevel = (level) => {
   return wildcardPaths
 }
 
-
+/*
 export const pathsFromDataAndLevel = (data, level) => {
   const wildcardPaths = wildcardPathsFromLevel(level)
   return pathsFromWildcardPaths(wildcardPaths, data)
 }
+*/
