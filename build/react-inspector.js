@@ -75,8 +75,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _TableInspector3 = _interopRequireDefault(_TableInspector2);
 	
-	var _pathUtils = __webpack_require__(9);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
@@ -98,28 +96,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var rest = _objectWithoutProperties(_ref, ['table', 'data']);
 	
 	  if (table) {
-	    return _react2.default.createElement(_TableInspector3.default, { data: data });
+	    return _react2.default.createElement(_TableInspector3.default, _extends({ data: data }, rest));
 	  }
 	
 	  return _react2.default.createElement(_ObjectInspector3.default, _extends({ data: data }, rest));
-	
-	  // // TODO: refactor out root path
-	  // let wildcardPaths = []
-	  // if(level !== undefined){
-	  //   wildcardPaths = wildcardPaths.concat(wildcardPathsFromLevel(level, name))
-	  // }
-	  // const appendRootPathToPath = (path) => `${getRootPath(name)}.${path}`
-	  // if(typeof path === 'string'){
-	  //   wildcardPaths.push(appendRootPathToPath(path))
-	  // }
-	  // if(typeof path === 'array'){
-	  //   // paths
-	  //   wildcardPaths = wildcardPaths.concat(path.map(p => appendRootPathToPath(p)))
-	  // }
-	
-	  // console.log(wildcardPaths)
-	
-	  // return <ObjectInspector data={data} name={name} initialExpandedPaths={wildcardPaths}/>
 	};
 	
 	Inspector.propTypes = {
@@ -154,11 +134,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _ObjectDescription = __webpack_require__(3);
-	
-	var _ObjectDescription2 = _interopRequireDefault(_ObjectDescription);
-	
-	var _ObjectPreview = __webpack_require__(5);
+	var _ObjectPreview = __webpack_require__(3);
 	
 	var _ObjectPreview2 = _interopRequireDefault(_ObjectPreview);
 	
@@ -166,7 +142,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _pathUtils = __webpack_require__(9);
 	
-	var _objectStyles = __webpack_require__(4);
+	var _objectStyles = __webpack_require__(5);
 	
 	var _objectStyles2 = _interopRequireDefault(_objectStyles);
 	
@@ -177,6 +153,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	// import { DEFAULT_ROOT_PATH, isExpandable, getPathsState } from './pathUtils'
+	
 	
 	// Styles
 	
@@ -196,6 +175,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	};
 	
+	// Wrapper around inspector
 	var InspectorBox = function InspectorBox(_ref) {
 	  var children = _ref.children;
 	  return _react2.default.createElement(
@@ -205,23 +185,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  );
 	};
 	
-	// The view with or without expansion
-	var PreviewBox = function PreviewBox(_ref2) {
-	  var data = _ref2.data;
-	  var name = _ref2.name;
-	  var children = _ref2.children;
-	  var onClick = _ref2.onClick;
-	  return _react2.default.createElement(
-	    'span',
-	    { style: styles.property, onClick: onClick },
-	    children,
-	    _react2.default.createElement(_ObjectPreview2.default, { object: data, name: name })
-	  );
-	};
-	
 	// a box with left padding containing the property nodes
-	var PropertyNodesBox = function PropertyNodesBox(_ref3) {
-	  var children = _ref3.children;
+	var PropertyNodesBox = function PropertyNodesBox(_ref2) {
+	  var children = _ref2.children;
 	  return _react2.default.createElement(
 	    'div',
 	    { style: styles.propertyNodesBox },
@@ -282,7 +248,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'handleClick',
 	    value: function handleClick() {
 	      // console.log(this.props.data);
-	      if ((0, _pathUtils.isExpandable)(this.props.data)) {
+	      var isExpandable = (0, _pathUtils.getIsExpandable)(this.props.showNonenumerable);
+	      if (isExpandable(this.props.data)) {
 	        if (this.props.depth > 0) {
 	          this.props.setExpanded(this.props.path, !this.props.getExpanded(this.props.path));
 	        } else {
@@ -296,55 +263,104 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var _props = this.props;
 	      var data = _props.data;
 	      var name = _props.name;
-	      var path = this.props.path;
+	      var _props2 = this.props;
+	      var showNonenumerable = _props2.showNonenumerable;
+	      var isNonenumerable = _props2.isNonenumerable;
+	
+	      var isExpandable = (0, _pathUtils.getIsExpandable)(this.props.showNonenumerable);
+	
+	      var _props3 = this.props;
+	      var depth = _props3.depth;
+	      var path = _props3.path;
 	
 	
-	      var setExpanded = this.props.depth === 0 ? this.setExpanded.bind(this) : this.props.setExpanded;
-	      var getExpanded = this.props.depth === 0 ? this.getExpanded.bind(this) : this.props.getExpanded;
+	      var setExpanded = depth === 0 ? this.setExpanded.bind(this) : this.props.setExpanded;
+	      var getExpanded = depth === 0 ? this.getExpanded.bind(this) : this.props.getExpanded;
 	
 	      var expanded = getExpanded(path);
-	      var expandGlyph = undefined;
-	      if ((0, _pathUtils.isExpandable)(data)) {
+	      var expandGlyph = void 0;
+	      if (isExpandable(data)) {
 	        expandGlyph = _react2.default.createElement(_glyphs.ExpandGlyph, { expanded: expanded });
 	      } else {
 	        // root node doesn't need placeholder
-	        if (this.props.depth === 0) {
+	        if (depth === 0) {
 	          expandGlyph = _react2.default.createElement('span', null);
-	        } else {
-	          expandGlyph = _react2.default.createElement(_glyphs.ExpandGlyph, { empty: true });
 	        }
+	        // placeholder so preview is properly aligned
+	        else {
+	            expandGlyph = _react2.default.createElement(_glyphs.ExpandGlyph, { empty: true });
+	          }
 	      }
 	
 	      // if current node is expanded render the property nodes
-	      var propertyNodesBox = undefined;
+	      var propertyNodesBox = void 0;
 	      if (expanded) {
-	        var propertyNodes = [];
-	        for (var propertyName in data) {
-	          var propertyValue = data[propertyName];
-	          if (data.hasOwnProperty(propertyName)) {
-	            propertyNodes.push(_react2.default.createElement(ObjectInspector, { getExpanded: getExpanded,
-	              setExpanded: setExpanded,
-	              path: path + '.' + propertyName // TODO: escape '.' in propertyName
-	              , depth: this.props.depth + 1,
-	              key: propertyName,
-	              name: propertyName,
-	              data: propertyValue }));
-	          }
-	        }
-	        propertyNodesBox = _react2.default.createElement(
-	          PropertyNodesBox,
-	          null,
-	          propertyNodes
-	        );
+	        (function () {
+	          var propertyNodes = [];
+	
+	          Object.getOwnPropertyNames(data).forEach(function (propertyName) {
+	            // enumerables
+	            if (data.propertyIsEnumerable(propertyName)) {
+	              var propertyValue = data[propertyName];
+	              propertyNodes.push(_react2.default.createElement(ObjectInspector, { getExpanded: getExpanded,
+	                setExpanded: setExpanded,
+	                path: path + '.' + propertyName // TODO: escape '.' in propertyName
+	                , depth: depth + 1,
+	                key: propertyName,
+	                name: propertyName,
+	                data: propertyValue,
+	                showNonenumerable: showNonenumerable }));
+	            }
+	            // non enumerables, only show if showNonenumerable is enabled
+	            else if (showNonenumerable) {
+	                var _propertyValue = void 0;
+	                // To work around the error (happens some time when propertyName === 'caller' || propertyName === 'arguments')
+	                // 'caller' and 'arguments' are restricted function properties and cannot be accessed in this context
+	                try {
+	                  _propertyValue = data[propertyName];
+	                } catch (e) {}
+	
+	                if (_propertyValue !== undefined) propertyNodes.push(_react2.default.createElement(ObjectInspector, { getExpanded: getExpanded,
+	                  setExpanded: setExpanded,
+	                  path: path + '.' + propertyName // TODO: escape '.' in propertyName
+	                  , depth: depth + 1,
+	                  key: propertyName,
+	                  name: propertyName,
+	                  data: _propertyValue,
+	                  showNonenumerable: showNonenumerable,
+	                  isNonenumerable: true }));
+	              }
+	          });
+	
+	          // Object.getPrototypeOf (__proto__)
+	          if (showNonenumerable && data !== Object.prototype /* already added */) {
+	              propertyNodes.push(_react2.default.createElement(ObjectInspector, { getExpanded: getExpanded,
+	                setExpanded: setExpanded,
+	                path: path + '.__proto__' // TODO: escape '.' in propertyName
+	                , depth: depth + 1,
+	                key: '__proto__',
+	                name: '__proto__',
+	                data: Object.getPrototypeOf(data),
+	                showNonenumerable: showNonenumerable,
+	                isNonenumerable: true }));
+	            }
+	
+	          propertyNodesBox = _react2.default.createElement(
+	            PropertyNodesBox,
+	            null,
+	            propertyNodes
+	          );
+	        })();
 	      }
 	
 	      return _react2.default.createElement(
 	        InspectorBox,
 	        null,
 	        _react2.default.createElement(
-	          PreviewBox,
-	          { data: data, name: name, onClick: this.handleClick.bind(this) },
-	          expandGlyph
+	          'span',
+	          { style: styles.property, onClick: this.handleClick.bind(this) },
+	          expandGlyph,
+	          _react2.default.createElement(_ObjectPreview2.default, { object: data, name: name, isNonenumerable: isNonenumerable })
 	        ),
 	        propertyNodesBox
 	      );
@@ -361,6 +377,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  name: _react.PropTypes.string,
 	  data: _react.PropTypes.any,
 	
+	  showNonenumerable: _react.PropTypes.bool, // switch to show non-enumerable properties
+	  isNonenumerable: _react.PropTypes.bool, // am myself a non-enumerable property? for styling purposes
+	
 	  expandLevel: _react.PropTypes.number,
 	  expandPaths: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.array]),
 	
@@ -371,6 +390,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	ObjectInspector.defaultProps = {
 	  name: void 0,
 	  data: undefined,
+	
+	  showNonenumerable: false,
+	  isNonenumerable: false,
 	
 	  expandLevel: undefined,
 	  expandPaths: undefined,
@@ -391,6 +413,138 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _ObjectDescription = __webpack_require__(4);
+	
+	var _ObjectDescription2 = _interopRequireDefault(_ObjectDescription);
+	
+	var _ObjectName = __webpack_require__(6);
+	
+	var _ObjectName2 = _interopRequireDefault(_ObjectName);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	/* NOTE: Chrome console.log is italic */
+	var styles = {
+	  preview: {
+	    fontStyle: 'italic'
+	  }
+	};
+	
+	/* intersperse arr with sep */
+	function intersperse(arr, sep) {
+	  if (arr.length === 0) {
+	    return [];
+	  }
+	
+	  return arr.slice(1).reduce(function (xs, x) {
+	    return xs.concat([sep, x]);
+	  }, [arr[0]]);
+	}
+	
+	/**
+	 * A preview of the object
+	 * if isNonenumerable is specified, render the name dimmed
+	 * if a name is specified, it will render a simplified preview with a short description
+	 */
+	var ObjectPreview = function ObjectPreview(_ref) {
+	  var maxProperties = _ref.maxProperties;
+	  var object = _ref.object;
+	  var name = _ref.name;
+	  var isNonenumerable = _ref.isNonenumerable;
+	
+	  if (typeof name !== 'undefined') {
+	    var Colon = function Colon() {
+	      return _react2.default.createElement(
+	        'span',
+	        null,
+	        ': '
+	      );
+	    };
+	    return _react2.default.createElement(
+	      'span',
+	      null,
+	      _react2.default.createElement(_ObjectName2.default, { name: name, dimmed: isNonenumerable }),
+	      _react2.default.createElement(Colon, null),
+	      _react2.default.createElement(_ObjectDescription2.default, { object: object })
+	    );
+	  }
+	
+	  if ((typeof object === 'undefined' ? 'undefined' : _typeof(object)) !== 'object' || object === null || object instanceof Date || object instanceof RegExp) {
+	    return _react2.default.createElement(_ObjectDescription2.default, { object: object });
+	  }
+	
+	  if (Array.isArray(object)) {
+	    return _react2.default.createElement(
+	      'span',
+	      { style: styles.preview },
+	      '[',
+	      intersperse(object.map(function (element, index) {
+	        return _react2.default.createElement(_ObjectDescription2.default, { key: index, object: element });
+	      }), ", "),
+	      ']'
+	    );
+	  } else {
+	    var propertyNodes = [];
+	    for (var propertyName in object) {
+	      var propertyValue = object[propertyName];
+	      if (object.hasOwnProperty(propertyName)) {
+	        var ellipsis = void 0;
+	        if (propertyNodes.length === maxProperties - 1 && Object.keys(object).length > maxProperties) {
+	          ellipsis = _react2.default.createElement(
+	            'span',
+	            { key: 'ellipsis' },
+	            '…'
+	          );
+	        }
+	        propertyNodes.push(_react2.default.createElement(
+	          'span',
+	          { key: propertyName },
+	          _react2.default.createElement(_ObjectName2.default, { name: propertyName }),
+	          ': ',
+	          _react2.default.createElement(_ObjectDescription2.default, { object: propertyValue }),
+	          ellipsis
+	        ));
+	        if (ellipsis) break;
+	      }
+	    }
+	
+	    return _react2.default.createElement(
+	      'span',
+	      { style: styles.preview },
+	      'Object {',
+	      intersperse(propertyNodes, ", "),
+	      '}'
+	    );
+	  }
+	};
+	
+	ObjectPreview.propTypes = {
+	  maxProperties: _react.PropTypes.number,
+	  isNonenumerable: _react.PropTypes.bool };
+	// non enumerable object will be dimmed
+	ObjectPreview.defaultProps = {
+	  maxProperties: 5, // max number of properties shown in the property view
+	  isNonenumerable: false
+	};
+	
+	exports.default = ObjectPreview;
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	
 	// Styles
 	
 	
@@ -398,7 +552,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _objectStyles = __webpack_require__(4);
+	var _objectStyles = __webpack_require__(5);
 	
 	var _objectStyles2 = _interopRequireDefault(_objectStyles);
 	
@@ -452,6 +606,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	          object.toString()
 	        );
 	      }
+	      if (object instanceof RegExp) {
+	        return _react2.default.createElement(
+	          'span',
+	          { style: _objectStyles2.default.value.regexp },
+	          object.toString()
+	        );
+	      }
 	      if (Array.isArray(object)) {
 	        return _react2.default.createElement(
 	          'span',
@@ -462,7 +623,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return _react2.default.createElement(
 	        'span',
 	        null,
-	        'Object'
+	        object.constructor.name
 	      );
 	    case 'function':
 	      return _react2.default.createElement(
@@ -499,7 +660,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = ObjectDescription;
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -511,12 +672,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	  name: {
 	    color: 'rgb(136, 19, 145)'
 	  },
+	  nameDimmed: {
+	    color: 'rgb(136, 19, 145)',
+	    opacity: 0.6
+	  },
 	  value: {
 	    null: {
 	      color: 'rgb(128, 128, 128)'
 	    },
 	    undefined: {
 	      color: 'rgb(128, 128, 128)'
+	    },
+	    regexp: {
+	      color: 'rgb(196, 26, 22)'
 	    },
 	    string: {
 	      color: 'rgb(196, 26, 22)'
@@ -543,139 +711,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _ObjectDescription = __webpack_require__(3);
-	
-	var _ObjectDescription2 = _interopRequireDefault(_ObjectDescription);
-	
-	var _ObjectName = __webpack_require__(6);
-	
-	var _ObjectName2 = _interopRequireDefault(_ObjectName);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var styles = {
-	  preview: {
-	    fontStyle: 'italic'
-	  }
-	};
-	
-	function intersperse(arr, sep) {
-	  if (arr.length === 0) {
-	    return [];
-	  }
-	
-	  return arr.slice(1).reduce(function (xs, x, i) {
-	    return xs.concat([sep, x]);
-	  }, [arr[0]]);
-	}
-	
-	/**
-	 * A preview of the object
-	 * if a name is specified, it will render a simplified preview with a short description
-	 */
-	var ObjectPreview = function ObjectPreview(_ref) {
-	  var maxProperties = _ref.maxProperties;
-	  var object = _ref.object;
-	  var name = _ref.name;
-	
-	  if (typeof name !== 'undefined') {
-	
-	    var Colon = function Colon() {
-	      return _react2.default.createElement(
-	        'span',
-	        null,
-	        ': '
-	      );
-	    };
-	    return _react2.default.createElement(
-	      'span',
-	      null,
-	      _react2.default.createElement(_ObjectName2.default, { name: name }),
-	      _react2.default.createElement(Colon, null),
-	      _react2.default.createElement(_ObjectDescription2.default, { object: object })
-	    );
-	  }
-	
-	  if ((typeof object === 'undefined' ? 'undefined' : _typeof(object)) !== 'object' || object === null) {
-	    return _react2.default.createElement(_ObjectDescription2.default, { object: object });
-	  }
-	
-	  if (Array.isArray(object)) {
-	    return _react2.default.createElement(
-	      'span',
-	      { style: styles.preview },
-	      '[',
-	      intersperse(object.map(function (element, index) {
-	        return _react2.default.createElement(_ObjectDescription2.default, { key: index, object: element });
-	      }), ", "),
-	      ']'
-	    );
-	  } else if (object instanceof Date) {
-	    return _react2.default.createElement(
-	      'span',
-	      null,
-	      object.toString()
-	    );
-	  } else {
-	    var propertyNodes = [];
-	    for (var propertyName in object) {
-	      var propertyValue = object[propertyName];
-	      if (object.hasOwnProperty(propertyName)) {
-	        var ellipsis = undefined;
-	        if (propertyNodes.length === maxProperties - 1 && Object.keys(object).length > maxProperties) {
-	          ellipsis = _react2.default.createElement(
-	            'span',
-	            { key: 'ellipsis' },
-	            '…'
-	          );
-	        }
-	        propertyNodes.push(_react2.default.createElement(
-	          'span',
-	          { key: propertyName },
-	          _react2.default.createElement(_ObjectName2.default, { name: propertyName }),
-	          ': ',
-	          _react2.default.createElement(_ObjectDescription2.default, { object: propertyValue }),
-	          ellipsis
-	        ));
-	        if (ellipsis) break;
-	      }
-	    }
-	
-	    return _react2.default.createElement(
-	      'span',
-	      { style: styles.preview },
-	      'Object {',
-	      intersperse(propertyNodes, ", "),
-	      '}'
-	    );
-	  }
-	};
-	
-	ObjectPreview.propTypes = {
-	  maxProperties: _react2.default.PropTypes.number
-	};
-	ObjectPreview.defaultProps = {
-	  maxProperties: 5 /* max number of properties shown in the property view */
-	};
-	
-	exports.default = ObjectPreview;
-
-/***/ },
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -689,7 +724,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _objectStyles = __webpack_require__(4);
+	var _objectStyles = __webpack_require__(5);
 	
 	var _objectStyles2 = _interopRequireDefault(_objectStyles);
 	
@@ -697,9 +732,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var ObjectName = function ObjectName(_ref) {
 	  var name = _ref.name;
+	  var dimmed = _ref.dimmed;
 	  return _react2.default.createElement(
 	    'span',
-	    { style: _objectStyles2.default.name },
+	    { style: dimmed ? _objectStyles2.default.nameDimmed : _objectStyles2.default.name },
 	    name
 	  );
 	};
@@ -799,23 +835,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var DEFAULT_ROOT_PATH = exports.DEFAULT_ROOT_PATH = '$';
 	
-	/* should be modified to support __proto__ */
-	var isExpandable = exports.isExpandable = function isExpandable(data) {
+	// this works for showNonenumerable === false
+	var isExpandableNoShowNonenumerable = function isExpandableNoShowNonenumerable(data) {
 	  return (typeof data === 'undefined' ? 'undefined' : _typeof(data)) === 'object' && data !== null && Object.keys(data).length > 0;
 	};
 	
-	var getPathsState = exports.getPathsState = function getPathsState(expandLevel, expandPaths, data, rootName) {
-	  var initialState = arguments.length <= 4 || arguments[4] === undefined ? {} : arguments[4];
+	// this works for showNonenumerable === true
+	var isExpandableShowNonenumerable = function isExpandableShowNonenumerable(data) {
+	  return (typeof data === 'undefined' ? 'undefined' : _typeof(data)) === 'object' && data !== null || typeof data === 'function';
+	};
 	
+	// generate isExpandable function
+	var getIsExpandable = exports.getIsExpandable = function getIsExpandable(showNonenumerable) {
+	  if (!showNonenumerable) return isExpandableNoShowNonenumerable;
+	  return isExpandableShowNonenumerable;
+	};
+	
+	var getPathsState = exports.getPathsState = function getPathsState(showNonenumerable, expandLevel, expandPaths, data, rootName) {
+	  var initialState = arguments.length <= 5 || arguments[5] === undefined ? {} : arguments[5];
+	
+	  var isExpandable = getIsExpandable(showNonenumerable);
 	  var wildcardPaths = [];
-	  var rootPath = DEFAULT_ROOT_PATH;
 	  if (expandLevel !== undefined) {
 	    wildcardPaths = wildcardPaths.concat(wildcardPathsFromLevel(expandLevel));
 	  }
 	
 	  wildcardPaths = wildcardPaths.concat(expandPaths);
 	
-	  var paths = pathsFromWildcardPaths(wildcardPaths, data, rootPath);
+	  var paths = pathsFromWildcardPaths(isExpandable, wildcardPaths, data, DEFAULT_ROOT_PATH);
 	  var pathsState = paths.reduce(function (obj, path) {
 	    obj[path] = true;return obj;
 	  }, initialState);
@@ -824,15 +871,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	
 	/**
-	 * Convert wild card paths to concrete paths
-	 * @param  {array} initialExpandedPaths  wild card paths
-	 * @param  {object} data                 data object
-	 * @param  {string} rootName             optional root name (if not specified will use DEFAULT_ROOT_PATH)
-	 * @return {array}                       concrete paths
+	 * Convert wild card paths to concrete paths by recursive traversal
 	 */
-	var pathsFromWildcardPaths = exports.pathsFromWildcardPaths = function pathsFromWildcardPaths(wildcardPaths, data) {
+	var pathsFromWildcardPaths = exports.pathsFromWildcardPaths = function pathsFromWildcardPaths(isExpandable, wildcardPaths, data) {
 	  var paths = [];
-	  var rootPath = DEFAULT_ROOT_PATH;
 	  if (wildcardPaths === undefined) {
 	    return paths;
 	  }
@@ -850,8 +892,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 	          var name = names[i];
 	          if (i === 0) {
-	            if (isExpandable(curObject) && (name === rootPath || name === WILDCARD)) {
-	              populatePaths(curObject, rootPath, i + 1);
+	            if (isExpandable(curObject) && (name === DEFAULT_ROOT_PATH || name === WILDCARD)) {
+	              populatePaths(curObject, DEFAULT_ROOT_PATH, i + 1);
 	            }
 	          } else {
 	            if (name === WILDCARD) {
@@ -867,9 +909,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }
 	              }
 	            } else {
-	              var propertyValue = curObject[name];
-	              if (isExpandable(propertyValue)) {
-	                populatePaths(propertyValue, curPath + '.' + name, i + 1);
+	              var _propertyValue = curObject[name];
+	              if (isExpandable(_propertyValue)) {
+	                populatePaths(_propertyValue, curPath + '.' + name, i + 1);
 	              }
 	            }
 	          }
@@ -890,8 +932,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (level === 0) {
 	    return [];
 	  }
-	  var rootPath = DEFAULT_ROOT_PATH;
-	  var path = rootPath;
+	  var path = DEFAULT_ROOT_PATH;
 	  var wildcardPaths = [path];
 	  for (var i = 1; i < level; i++) {
 	    path += '.*';
@@ -900,10 +941,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return wildcardPaths;
 	};
 	
-	var pathsFromDataAndLevel = exports.pathsFromDataAndLevel = function pathsFromDataAndLevel(data, level) {
-	  var wildcardPaths = wildcardPathsFromLevel(level);
-	  return pathsFromWildcardPaths(wildcardPaths, data);
-	};
+	/*
+	export const pathsFromDataAndLevel = (data, level) => {
+	  const wildcardPaths = wildcardPathsFromLevel(level)
+	  return pathsFromWildcardPaths(wildcardPaths, data)
+	}
+	*/
 
 /***/ },
 /* 10 */
@@ -925,7 +968,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _ObjectDescription = __webpack_require__(3);
+	var _ObjectDescription = __webpack_require__(4);
 	
 	var _ObjectDescription2 = _interopRequireDefault(_ObjectDescription);
 	
@@ -1135,11 +1178,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      'table',
 	      { style: {
 	          tableLayout: 'fixed',
-	          borderSpacing: '0',
+	          borderSpacing: 0,
 	          borderCollapse: 'separate',
 	          height: '100%',
 	          width: '100%',
-	          margin: '0' } },
+	          margin: 0 } },
 	      _react2.default.createElement(
 	        'tbody',
 	        null,
@@ -1208,7 +1251,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          tableLayout: 'fixed',
 	
 	          // table
-	          borderSpacing: '0',
+	          borderSpacing: 0,
 	          borderCollapse: 'separate',
 	          // height: '100%',
 	          width: '100%',
@@ -1328,7 +1371,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          sortColumn = this.state.sortColumn,
 	          sortAscending = this.state.sortAscending;
 	
-	      var columnDataWithRowIndexes = undefined; /* row indexes are [0..nRows-1] */
+	      var columnDataWithRowIndexes = void 0; /* row indexes are [0..nRows-1] */
 	      // TODO: refactor
 	      if (sortColumn !== undefined) {
 	        // the column to be sorted (rowsData, column) => [[columnData, rowIndex]]
@@ -1366,7 +1409,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                return 0;
 	              }
 	            };
-	            var result = undefined;
+	            var result = void 0;
 	            if (type1 === type2) {
 	              result = lt(v1, v2);
 	            } else {
@@ -1480,7 +1523,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function getHeaders(data) {
 	  if ((typeof data === 'undefined' ? 'undefined' : _typeof(data)) === 'object') {
-	    var rowHeaders = undefined;
+	    var rowHeaders = void 0;
 	    // is an array
 	    if (Array.isArray(data)) {
 	      var nRows = data.length;
