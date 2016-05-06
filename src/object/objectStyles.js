@@ -39,3 +39,35 @@ export default {
     },
   },
 };
+
+/*
+htmlDoctype
+rgb(192, 192, 192)
+
+htmlTagName htmlCloseTagName
+rgb(136, 18, 128)
+
+htmlAttributeName
+rgb(153, 69, 0)
+
+htmlAttributeValue
+rgb(26, 26, 166)
+
+htmlTextNode bogus
+unicode-bidi: -webkit-isolate
+
+<a> htmlResourceLink
+#00e
+text-decoration: underline
+
+htmLComment
+rgb(35, 110, 37)
+
+elementsDisclosure (spacing)
+  padding: 0 0 0 14px;
+  margin-top: 1px;
+  margin-left: -2px;
+  word-wrap: break-word;
+  position: relative;
+  min-height: 14px;
+*/

@@ -4,7 +4,7 @@ react-inspector
 [![build status](https://img.shields.io/travis/xyc/react-inspector/master.svg?style=flat-square)](https://travis-ci.org/xyc/react-inspector)
 [![npm version](https://img.shields.io/npm/v/react-inspector.svg?style=flat-square)](https://www.npmjs.com/package/react-inspector)
 
-Power of [Browser DevTools](https://developers.google.com/web/tools/chrome-devtools/) inspectors right inside your React app. Check out the interactive playground [here](http://xyc.github.io/react-inspector/).
+Power of [Browser DevTools](https://developers.google.com/web/tools/chrome-devtools/) inspectors right inside your React app. Check out the [interactive playground](http://xyc.github.io/react-inspector/).
 
 ![](http://xyc.github.io/react-inspector/objectinspector.png)
 
@@ -43,6 +43,8 @@ The component accepts the following props:
   - You can use wildcard to expand all paths on a specific level
     - For example, to expand all first level and second level nodes, use `['$', '$.*']` (equivalent to `expandLevel={2}`)
 - the results are merged with expandLevel
+
+#### `showNonenumerable: PropTypes.bool`: show non-enumerable properties
 
 ### &lt;TableInspector />
 Like `console.table`.
