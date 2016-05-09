@@ -206,7 +206,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (props.depth === 0) {
 	      // root node
 	      _this.state = {
-	        expandedPaths: (0, _pathUtils.getPathsState)(props.expandLevel, props.expandPaths, props.data, props.name)
+	        expandedPaths: (0, _pathUtils.getPathsState)(props.showNonenumerable, props.expandLevel, props.expandPaths, props.data, props.name)
 	      };
 	    }
 	    return _this;
@@ -217,7 +217,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function componentWillReceiveProps(nextProps) {
 	      if (this.props.depth === 0) {
 	        this.setState({
-	          expandedPaths: (0, _pathUtils.getPathsState)(nextProps.expandLevel, nextProps.expandPaths, nextProps.data, nextProps.name, this.state.expandedPaths)
+	          expandedPaths: (0, _pathUtils.getPathsState)(nextProps.showNonenumerable, nextProps.expandLevel, nextProps.expandPaths, nextProps.data, nextProps.name, this.state.expandedPaths)
 	        });
 	      }
 	    }
