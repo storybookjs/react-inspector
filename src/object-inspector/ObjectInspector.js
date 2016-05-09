@@ -47,7 +47,7 @@ export default class ObjectInspector extends Component {
   componentWillReceiveProps(nextProps) {
     if(this.props.depth === 0){
       this.setState({
-        expandedPaths: getPathsState(nextProps.howNonenumerable, nextProps.expandLevel, nextProps.expandPaths, nextProps.data, nextProps.name, this.state.expandedPaths)
+        expandedPaths: getPathsState(nextProps.showNonenumerable, nextProps.expandLevel, nextProps.expandPaths, nextProps.data, nextProps.name, this.state.expandedPaths)
       })
     }
   }
