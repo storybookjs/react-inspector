@@ -56,6 +56,11 @@ The component accepts the following props:
 
 #### `columns: PropTypes.array`: An array of the names of the columns you'd like to display in the table
 
+### &lt;DOMInspector />
+#### API
+The component accepts the following props:
+#### `data: PropTypes.object`: the DOM Node you would like to inspect
+
 ### Usage
 ```js
 import {ObjectInspector, TableInspector} from 'react-inspector';
@@ -89,9 +94,9 @@ Open http://localhost:3000/example/index.html
 
 ## Roadmap
 Type of inspectors:
-- [ ] Tree style
+- [x] Tree style
   - [x] common objects
-  - [ ] DOM element objects
+  - [x] DOM nodes
 - [x] Table style
   - [ ] Column resizer
 - [ ] Group style
