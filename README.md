@@ -11,6 +11,8 @@ Power of [Browser DevTools](https://developers.google.com/web/tools/chrome-devto
 
 ![](http://xyc.github.io/react-inspector/tableinspector.png)
 
+![](https://cldup.com/oRiQ3h6glv-3000x3000.png)
+
 ## Install
 
 NPM:
