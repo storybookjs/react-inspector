@@ -9,7 +9,7 @@ Power of [Browser DevTools](https://developers.google.com/web/tools/chrome-devto
 
 ![](http://xyc.github.io/react-inspector/objectinspector.png)
 
-![](https://cldup.com/oRiQ3h6glv-3000x3000.png)
+![](https://cldup.com/XhNGcBq9h2.png)
 
 ![](http://xyc.github.io/react-inspector/tableinspector.png)
 
