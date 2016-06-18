@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
-import ObjectDescription from './ObjectDescription';
-import ObjectName from './ObjectName'
+import ObjectDescription from '../object/ObjectDescription';
+import ObjectName from '../object/ObjectName'
 
 /* NOTE: Chrome console.log is italic */
 const styles = {
@@ -10,7 +10,7 @@ const styles = {
   }
 }
 
-/* intersperse arr with sep */
+/* intersperse arr with separator */
 function intersperse(arr, sep){
   if (arr.length === 0) {
     return [];
@@ -21,18 +21,9 @@ function intersperse(arr, sep){
 
 /**
  * A preview of the object
- * if isNonenumerable is specified, render the name dimmed
- * if a name is specified, it will render a simplified preview with a short description
  */
-const ObjectPreview = ({ maxProperties, object, name, isNonenumerable }) => {
-  if (typeof name !== 'undefined') {
-    const Colon = () => <span>: </span>
-    return <span>
-            <ObjectName name={name} dimmed={isNonenumerable} />
-            <Colon />
-            <ObjectDescription object={object} />
-          </span>
-  }
+const ObjectPreview = ({ name, data, maxProperties }) => {
+  const object = data
 
   if (typeof object !== 'object' || object === null || object instanceof Date || object instanceof RegExp) {
     return <ObjectDescription object={object} />;
@@ -67,7 +58,7 @@ const ObjectPreview = ({ maxProperties, object, name, isNonenumerable }) => {
     }
 
     return <span style={styles.preview}>
-                {'Object {'}
+                {`${object.constructor.name} {`}
                 {intersperse(propertyNodes, ", ")}
                 {'}'}
             </span>
@@ -75,12 +66,13 @@ const ObjectPreview = ({ maxProperties, object, name, isNonenumerable }) => {
 }
 
 ObjectPreview.propTypes = {
+  /**
+   * max number of properties shown in the property view
+   */
   maxProperties: PropTypes.number,
-  isNonenumerable: PropTypes.bool, // non enumerable object will be dimmed
 }
 ObjectPreview.defaultProps = {
-  maxProperties: 5, // max number of properties shown in the property view
-  isNonenumerable: false,
+  maxProperties: 5,
 }
 
 export default ObjectPreview

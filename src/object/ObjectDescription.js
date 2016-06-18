@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 
-// Styles
 import objectStyles from './objectStyles';
 
 /**
- * A short description of the object
+ * A short description of the object values.
+ * Can be used to render tree node in ObjectInspector
+ * or render objects in TableInspector.
  */
 const ObjectDescription = ({ object }) => {
   switch (typeof object) {
@@ -36,13 +37,14 @@ const ObjectDescription = ({ object }) => {
                 <span style={objectStyles.value.function.name}>&nbsp;{object.name}()</span>
               </span>
     case 'symbol':
-      return <span style={objectStyles.value.symbol}>Symbol()</span>
+      return <span style={objectStyles.value.symbol}>{object.toString()}</span>
     default:
       return <span></span>
   }
 }
 
 ObjectDescription.propTypes = {
+  /** the object to describe */
   object: React.PropTypes.any
 }
 

@@ -5,8 +5,8 @@ import ObjectDescription from '../src/object/ObjectDescription'
 import ObjectInspector from '../src/object-inspector/ObjectInspector';
 import TableInspector from '../src/table-inspector/TableInspector';
 
-import DOMInspector from '../src/dom-inspector/DOMInspector';
 
+import DOMInspector from '../src/dom-inspector/DOMInspector';
 
 function testFunction(){
   console.log("hello world");
@@ -195,7 +195,12 @@ export default class App extends Component {
       <div>
         {/*<ObjectDescription object={function(){}}/>*/}
 
-        <DOMInspector data={tableTests}/>
+        <DOMInspector data={document.body}/>
+        <DOMInspector data={document.createComment("this is a comment")}/>
+        {/*document.createProcessingInstruction*/}
+        <DOMInspector data={document.createTextNode("this is a text node")}/>
+        <DOMInspector data={document}/>
+        {/*https://developer.mozilla.org/en-US/docs/Web/API/DOMImplementation/createDocumentType*/}
 
         {(() => {
           // https://facebook.github.io/react/tips/if-else-in-JSX.html

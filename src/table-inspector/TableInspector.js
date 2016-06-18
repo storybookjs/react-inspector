@@ -9,7 +9,6 @@ import React, { Component } from 'react';
 import ObjectDescription from '../object/ObjectDescription'
 
 import getHeaders from './getHeaders'
-
 const styles = {
   base: {
     position: 'relative',
@@ -76,7 +75,6 @@ const styles = {
   },
 }
 
-
 const SortIconContainer = (props) =>
   <div style={{
       position: 'absolute',
@@ -89,11 +87,10 @@ const SortIconContainer = (props) =>
     {props.children}
   </div>
 
-import { upArrow, downArrow } from '../styles/glyphs'
 import unselectable from '../styles/unselectable'
 
 const SortIcon = ({ sortAscending }) => {
-  const glyph = sortAscending ? upArrow : downArrow
+  const glyph = sortAscending ? '▲' : '▼'
   return (
     <div style={Object.assign({
         display: 'block',
@@ -223,13 +220,6 @@ const DataContainer = ({ rows, columns, rowsData }) =>
     right: 0,
     overflowX: 'hidden',
   }}>
-  {/*
-    <pre>
-      rows: {JSON.stringify(rows)}
-      <br></br>
-      rowsData: {JSON.stringify(rowsData)}
-    </pre>
-  */}
     <table style={{
       positon: 'static',
       left: 0,
@@ -292,8 +282,6 @@ const DataContainer = ({ rows, columns, rowsData }) =>
       </tbody>
     </table>
   </div>
-
-// import ObjectInspector from '../object-inspector/ObjectInspector'
 
 export default class TableInspector extends Component {
 
@@ -431,10 +419,16 @@ export default class TableInspector extends Component {
 }
 
 TableInspector.propTypes = {
+  /**
+   * the Javascript object you would like to inspect, either an array or an object
+   */
   data: React.PropTypes.oneOfType([
       React.PropTypes.array,
       React.PropTypes.object,
     ]),
+  /**
+   * An array of the names of the columns you'd like to display in the table
+   */
   columns: React.PropTypes.array
 }
 

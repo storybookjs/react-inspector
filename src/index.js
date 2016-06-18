@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 export ObjectInspector from './object-inspector/ObjectInspector'
 export TableInspector from './table-inspector/TableInspector'
+export DOMInspector from './dom-inspector/DOMInspector'
 
 // NOTE: ObjectDecription and ObjectPreview can be used as building blocks, but currently their styles are not complete
 // export ObjectDecription from './object/ObjectDescription'
@@ -10,11 +11,17 @@ export TableInspector from './table-inspector/TableInspector'
 // Wrapping the inspectors
 import ObjectInspector from './object-inspector/ObjectInspector'
 import TableInspector from './table-inspector/TableInspector'
+import DOMInspector from './dom-inspector/DOMInspector'
+
+import isDOM from 'is-dom'
 
 const Inspector = ({ table = false, data, ...rest }) => {
   if(table){
     return <TableInspector data={data} {...rest} />
   }
+
+  if(isDOM(data))
+    return <DOMInspector data={data} {...rest} />
 
   return <ObjectInspector data={data} {...rest} />
 }

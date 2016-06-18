@@ -107,10 +107,17 @@ describe('ObjectDescription', () => {
   });
 
   it('should render a symbol', () => {
-    renderer.render(<ObjectDescription object={Symbol("foo")} />)
+    renderer.render(<ObjectDescription object={Symbol()} />)
     const tree = renderer.getRenderOutput()
     expect(tree.type).toBe('span')
     expect(tree.props.children).toEqual('Symbol()')
+  });
+
+  it('should render a symbol', () => {
+    renderer.render(<ObjectDescription object={Symbol("foo")} />)
+    const tree = renderer.getRenderOutput()
+    expect(tree.type).toBe('span')
+    expect(tree.props.children).toEqual('Symbol(foo)')
   });
 
 })
