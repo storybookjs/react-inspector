@@ -68,7 +68,7 @@ The component accepts the following props:
 import {ObjectInspector, TableInspector} from 'react-inspector';
 
 // or use the shorthand
-import {Inspector} from 'react-inspector';
+import Inspector from 'react-inspector';
 
 const MyComponent = ({ data }) =>
   <div>
