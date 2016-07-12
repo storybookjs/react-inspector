@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import ObjectDescription from '../src/object/ObjectDescription'
-
 import ObjectInspector from '../src/object-inspector/ObjectInspector';
 import TableInspector from '../src/table-inspector/TableInspector';
 
@@ -194,7 +192,6 @@ export default class App extends Component {
     return (
       <div>
         {/*<ObjectDescription object={function(){}}/>*/}
-
         <DOMInspector data={document.body}/>
         <DOMInspector data={document.createComment("this is a comment")}/>
         {/*document.createProcessingInstruction*/}

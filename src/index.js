@@ -4,8 +4,8 @@ export ObjectInspector from './object-inspector/ObjectInspector'
 export TableInspector from './table-inspector/TableInspector'
 export DOMInspector from './dom-inspector/DOMInspector'
 
-// NOTE: ObjectDecription and ObjectPreview can be used as building blocks, but currently their styles are not complete
-// export ObjectDecription from './object/ObjectDescription'
+// NOTE: ObjectValue and ObjectPreview can be used as building blocks, but currently their styles are not complete
+// export ObjectValue from './object/ObjectValue'
 // export ObjectPreview from './object/ObjectPreview'
 
 // Wrapping the inspectors
@@ -27,14 +27,15 @@ const Inspector = ({ table = false, data, ...rest }) => {
 }
 
 Inspector.propTypes = {
-  data: React.PropTypes.any.isRequired,
+  data: React.PropTypes.any,
   name: React.PropTypes.string,
-  level: React.PropTypes.number,
   path: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.array
   ]),
   table: React.PropTypes.bool
 }
+
+export { Inspector }
 
 export default Inspector

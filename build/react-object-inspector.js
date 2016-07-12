@@ -78,12 +78,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 	
-	var _ObjectDecription = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./object/ObjectDecription\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var _ObjectValue = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./object/ObjectValue\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 	
-	Object.defineProperty(exports, 'ObjectDecription', {
+	Object.defineProperty(exports, 'ObjectValue', {
 	  enumerable: true,
 	  get: function get() {
-	    return _ObjectDecription.ObjectDecription;
+	    return _ObjectValue.ObjectValue;
 	  }
 	});
 	

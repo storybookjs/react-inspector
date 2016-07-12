@@ -1,41 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 
+import createStyles from '../styles/createStyles'
 import shouldInline from './shouldInline'
 
-const styles = {
-  htmlTag: {
-    color: "rgb(168, 148, 166)"
-  },
-  htmlTagName: {
-    color: "rgb(136, 18, 128)",
-    textTransform: "lowercase",
-  },
-  htmlCloseTag: {
-    color: "rgb(168, 148, 166)",
-  },
-  htmlCloseTagName: {
-    color: "rgb(136, 18, 128)",
-    textTransform: "lowercase",
-  },
-  htmlAttributeName: {
-    color: "rgb(153, 69, 0)"
-  },
-  htmlAttributeValue: {
-    color: "rgb(26, 26, 166)"
-  },
-  htmlComment: {
-    color: "rgb(35, 110, 37)"
-  },
-  htmlDoctype: {
-    color: "rgb(192, 192, 192)"
-  }
-}
-
-const OpenTag = ({ tagName, attributes }) => {
+const OpenTag = ({ tagName, attributes, styles }) => {
   return (
-    <span style={styles.htmlTag}>
+    <span style={styles.base}>
       {'<'}
-      <span style={styles.htmlTagName}>
+      <span style={styles.tagName}>
         { tagName }
       </span>
 
@@ -67,10 +39,11 @@ const OpenTag = ({ tagName, attributes }) => {
   )
 }
 
-const CloseTag = ({ tagName, style }) =>
-  <span style={{...styles.htmlCloseTag, ...style}}>
+// isChildNode style={{ marginLeft: -12 /* hack: offset placeholder */ }}
+const CloseTag = ({ tagName, isChildNode = false, styles }) =>
+  <span style={Object.assign({}, styles.base, isChildNode && styles.offsetLeft)}>
     {'</'}
-    <span style={styles.htmlCloseTagName}>
+    <span style={styles.tagName}>
       {tagName}
     </span>
     {'>'}
@@ -86,20 +59,22 @@ const nameByNodeType = {
   11: "DOCUMENT_FRAGMENT_NODE",
 }
 
-const DOMNodePreview = ({ isCloseTag, name, data, expanded }) => {
+const DOMNodePreview = ({ isCloseTag, name, data, expanded }, { theme }) => {
+  const styles = createStyles('DOMNodePreview', theme)
+
   if(isCloseTag) {
-    return <CloseTag style={{ marginLeft: -12 /* hack: offset placeholder */ }} tagName={data.tagName}/>
+    return <CloseTag styles={styles.htmlCloseTag} isChildNode tagName={data.tagName}/>
   }
 
   switch (data.nodeType) {
     case Node.ELEMENT_NODE:
       return (
         <span>
-          <OpenTag tagName={data.tagName} attributes={data.attributes}/>
+          <OpenTag tagName={data.tagName} attributes={data.attributes}  styles={styles.htmlOpenTag} />
 
           { shouldInline(data) ? data.textContent : ( !expanded && "…") }
 
-          { !expanded && <CloseTag tagName={data.tagName}/> }
+          { !expanded && <CloseTag tagName={data.tagName} styles={styles.htmlCloseTag} /> }
         </span>
       )
     case Node.TEXT_NODE:
@@ -136,6 +111,10 @@ DOMNodePreview.propTypes = {
   data: PropTypes.object.isRequired,
   /** Whether the DOM node has been expanded. */
   expanded: PropTypes.bool.isRequired,
+}
+
+DOMNodePreview.contextTypes = {
+  theme: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired
 }
 
 export default DOMNodePreview

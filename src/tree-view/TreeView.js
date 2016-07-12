@@ -58,6 +58,7 @@ class ConnectedTreeNode extends Component {
 
                            dataIterator={dataIterator}
                            nodeRenderer={nodeRenderer}
+
                            {...props} // props for nodeRenderer
                            />
       )
@@ -152,6 +153,7 @@ class TreeView extends Component {
     const { nodeRenderer } = this.props
 
     const rootPath = DEFAULT_ROOT_PATH
+
     return (
       <ConnectedTreeNode name={name}
                          data={data}

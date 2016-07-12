@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import ObjectName from '../object/ObjectName'
-import ObjectDescription from '../object/ObjectDescription'
+import ObjectValue from '../object/ObjectValue'
 
 const Colon = () => <span>: </span>
 
@@ -14,13 +14,14 @@ const ObjectLabel = ({ name, data, isNonenumerable }) => {
     <span>
       <ObjectName name={name} dimmed={isNonenumerable} />
       <Colon />
-      <ObjectDescription object={object} />
+      <ObjectValue object={object} />
     </span>
   )
 }
 
 ObjectLabel.propTypes = {
-  isNonenumerable: PropTypes.bool, // non enumerable object will be dimmed
+  /** Non enumerable object property will be dimmed */
+  isNonenumerable: PropTypes.bool,
 }
 
 ObjectLabel.defaultProps = {

@@ -5,283 +5,12 @@
  */
 
 import React, { Component } from 'react';
-
-import ObjectDescription from '../object/ObjectDescription'
+import ThemeProvider from '../styles/ThemeProvider'
+import createStyles from '../styles/createStyles'
 
 import getHeaders from './getHeaders'
-const styles = {
-  base: {
-    position: 'relative',
-    border: '1px solid #aaa',
-    fontFamily: 'Menlo, monospace',
-    fontSize: '11px',
-    lineHeight: '120%',
-    boxSizing: 'border-box',
-    cursor: 'default'
-  },
-  // table: {
-  // },
-  th: {
-    position: 'relative', // anchor for sort icon container
-    height: 'auto',
-    textAlign: 'left',
-    backgroundColor: '#eee',
-    borderBottom: '1px solid #aaa',
-    fontWeight: 'normal',
-    verticalAlign: 'middle',
-    padding: '0 4px',
-
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-    lineHeight: '14px',
-  },
-  'th:hover': {
-    backgroundColor: 'hsla(0, 0%, 90%, 1)'
-  },
-  // th > div
-  th_div: {
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-
-    // otherwise it's overriden by user agent stylesheet
-    fontSize: '11px',
-    lineHeight: '120%',
-  },
-  tr: {
-    display: 'table-row',
-  },
-  td: {
-    boxSizing: 'border-box', //
-    border: 'none', // prevent overrides
-    height: '16px', // /* 0.5 * background-size height */
-    verticalAlign: 'top',
-    padding: '1px 4px',
-    WebkitUserSelect: 'text',
-
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-    lineHeight: '14px',
-  },
-  leftBorder: {
-    none: {
-      borderLeft: 'none',
-    },
-    solid: {
-      borderLeft: '1px solid #aaa'
-    },
-  },
-}
-
-const SortIconContainer = (props) =>
-  <div style={{
-      position: 'absolute',
-      top: 1,
-      right: 0,
-      bottom: 1,
-      display: 'flex',
-      alignItems: 'center'
-    }}>
-    {props.children}
-  </div>
-
-import unselectable from '../styles/unselectable'
-
-const SortIcon = ({ sortAscending }) => {
-  const glyph = sortAscending ? '▲' : '▼'
-  return (
-    <div style={Object.assign({
-        display: 'block',
-        marginRight: 3, // 4,
-        width: 8,
-        height: 7,
-
-        marginTop: -7,
-        color: '#6e6e6e',//'rgb(48, 57, 66)'
-        fontSize: 12,
-        // lineHeight: 14
-      }, unselectable)}>
-      {glyph}
-    </div>
-  )
-}
-
-class TH extends Component {
-  constructor(props){
-    super(props)
-    this.state = { hovered: false }
-  }
-
-  toggleHovered(e){
-    this.setState({hovered: !this.state.hovered})
-  }
-
-  render() {
-    // either not sorted, sort ascending or sort descending
-    const sortAscending = this.props.sortAscending
-    const sorted = this.props.sorted
-
-    return (
-      <th {...this.props}
-          style={{...styles.th,
-                  ...this.props.borderStyle,
-                  ...((this.state.hovered) ? this.props.hoveredStyle : {})
-                }}
-          onMouseEnter={ this.toggleHovered.bind(this) }
-          onMouseLeave={ this.toggleHovered.bind(this) }
-          onClick={ this.props.onClick } >
-        <div style={styles.th_div}>
-          {this.props.children}
-        </div>
-        {(() => {
-          if(sorted){
-            return (
-              <SortIconContainer>
-                <SortIcon sortAscending={sortAscending} />
-              </SortIconContainer>
-            )
-          }
-        })()}
-      </th>
-    )
-  }
-}
-
-TH.defaultProps = {
-  sortAscending: false,
-  sorted: false,
-  hoveredStyle: styles['th:hover'],
-  borderStyle: styles.leftBorder.solid,
-  onClick: undefined
-}
-
-const HeaderContainer = ({ indexColumnText, columns, sorted, sortIndexColumn, sortColumn, sortAscending, onTHClick, onIndexTHClick }) =>
-  <div style={{
-    top: 0,
-    height: '17px',
-    left: 0,
-    right: 0,
-    overflowX: 'hidden'
-  }}>
-    <table style={{
-      tableLayout: 'fixed',
-      borderSpacing: 0,
-      borderCollapse: 'separate',
-      height: '100%',
-      width: '100%',
-      margin: 0, // prevent overrides
-    }}>
-    {/*
-      <colgroup>
-        <col style={{width: 236}}/>
-        <col style={{width: 236}}/>
-        <col style={{width: 236}}/>
-        <col style={{width: 236}}/>
-      </colgroup>*/ }
-      <tbody>
-        <tr>
-          <TH borderStyle={styles.leftBorder.none}
-              sorted={sorted && sortIndexColumn}
-              sortAscending={sortAscending}
-              onClick={onIndexTHClick}>
-            {indexColumnText}
-          </TH>
-          {
-            columns.map((column) => (
-              <TH key={column}
-                  sorted={sorted && sortColumn === column}
-                  sortAscending={sortAscending}
-                  onClick={onTHClick.bind(this, column)}>
-                {column}
-              </TH>
-            ))
-          }
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-HeaderContainer.defaultProps = {
-  indexColumnText: '(index)',
-  columns: []
-}
-
-const DataContainer = ({ rows, columns, rowsData }) =>
-  <div style={{
-    position: 'static',
-    top: '17px',
-    bottom: 0,
-    overflowY: 'overlay',
-    transform: 'translateZ(0)',
-
-    left: 0,
-    right: 0,
-    overflowX: 'hidden',
-  }}>
-    <table style={{
-      positon: 'static',
-      left: 0,
-      top: 0,
-      right: 0,
-      bottom: 0,
-      borderTop: '0 none transparent',
-      margin: 0, // prevent overrides
-
-      backgroundImage: 'linear-gradient(to bottom, white, white 50%, rgb(234, 243, 255) 50%, rgb(234, 243, 255))',
-      backgroundSize: '128px 32px',
-      tableLayout: 'fixed',
-
-      // table
-      borderSpacing: 0,
-      borderCollapse: 'separate',
-      // height: '100%',
-      width: '100%',
-
-      fontSize: '11px',
-      lineHeight: '120%',
-    }}>
-      <colgroup>
-      </colgroup>
-      <tbody>
-        {
-          rows.map((row, i) => (
-            <tr key={row} style={styles.tr}>
-              <td style={{...styles.td, ...styles.leftBorder.none}}>
-                {row}
-              </td>
-
-              {
-                columns.map((column) => {
-                  const rowData = rowsData[i]
-                  // rowData could be
-                  //  object -> index by key
-                  //    array -> index by array index
-                  //    null -> pass
-                  //  boolean -> pass
-                  //  string -> pass (hasOwnProperty returns true for [0..len-1])
-                  //  number -> pass
-                  //  function -> pass
-                  //  symbol
-                  //  undefined -> pass
-                  if(typeof(rowData) === 'object' && rowData !== null && rowData.hasOwnProperty(column)){
-                    return (<td key={column} style={{...styles.td, ...styles.leftBorder.solid}}>
-                              <ObjectDescription object={rowData[column]}/>
-                            </td>)
-                  }
-                  else{
-                    return (<td key={column} style={{...styles.td, ...styles.leftBorder.solid}}>
-                            </td>)
-                  }
-                })
-              }
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
-  </div>
+import DataContainer from './DataContainer'
+import HeaderContainer from './HeaderContainer'
 
 export default class TableInspector extends Component {
 
@@ -321,6 +50,10 @@ export default class TableInspector extends Component {
   render() {
     const data = this.props.data
     const columns = this.props.columns
+
+    const { theme } = this.props
+    const styles = createStyles('TableInspector', theme)
+
     if(typeof data !== 'object' || data === null){
       return (<div></div>)
     }
@@ -402,19 +135,23 @@ export default class TableInspector extends Component {
       rowsData = sortedRowIndexes.map((i) => rowsData[i])
     }
 
-    return (<div style={styles.base} >
-              <HeaderContainer columns={colHeaders}
-                               /* for sorting */
-                               sorted={this.state.sorted}
-                               sortIndexColumn={this.state.sortIndexColumn}
-                               sortColumn={this.state.sortColumn}
-                               sortAscending={this.state.sortAscending}
-                               onTHClick={this.handleTHClick.bind(this)}
-                               onIndexTHClick={this.handleIndexTHClick.bind(this)}/>
-              <DataContainer rows={rowHeaders}
-                             columns={colHeaders}
-                             rowsData={rowsData} />
-            </div>)
+    return (
+      <ThemeProvider theme={this.props.theme}>
+        <div style={styles.base} >
+          <HeaderContainer columns={colHeaders}
+                           /* for sorting */
+                           sorted={this.state.sorted}
+                           sortIndexColumn={this.state.sortIndexColumn}
+                           sortColumn={this.state.sortColumn}
+                           sortAscending={this.state.sortAscending}
+                           onTHClick={this.handleTHClick.bind(this)}
+                           onIndexTHClick={this.handleIndexTHClick.bind(this)}/>
+          <DataContainer rows={rowHeaders}
+                         columns={colHeaders}
+                         rowsData={rowsData}/>
+        </div>
+      </ThemeProvider>
+    )
   }
 }
 
@@ -434,5 +171,6 @@ TableInspector.propTypes = {
 
 TableInspector.defaultProps = {
   data: undefined,
-  columns: undefined
+  columns: undefined,
+  theme: 'chromeLight',
 }

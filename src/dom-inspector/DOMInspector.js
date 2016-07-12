@@ -3,17 +3,7 @@ import React, { Component, PropTypes } from 'react'
 import DOMNodePreview from './DOMNodePreview'
 import TreeView from '../tree-view/TreeView'
 
-// Customize styles
-const styles = {
-  treeNode: {
-    childNodesContainer: {
-      paddingLeft: 14,
-    }
-  }
-}
-
 import shouldInline from './shouldInline'
-
 const domIterator = function* (data){
   if(data && data.childNodes){
     const textInlined = shouldInline(data)
@@ -47,18 +37,28 @@ const domIterator = function* (data){
   }
 }
 
+import ThemeProvider from '../styles/ThemeProvider'
+
 class DOMInspector extends Component {
   static propTypes = {
     /** The DOM Node to inspect */
     data: PropTypes.object.isRequired,
   }
 
+  static defaultProps = {
+    theme: 'chromeLight',
+  }
+
   render() {
+    const nodeRenderer = DOMNodePreview
+
     return (
-      <TreeView
-        nodeRenderer={DOMNodePreview}
-        dataIterator={domIterator}
-        {...this.props}/>
+      <ThemeProvider theme={this.props.theme}>
+        <TreeView
+          nodeRenderer={nodeRenderer}
+          dataIterator={domIterator}
+          {...this.props}/>
+      </ThemeProvider>
     )
   }
 }

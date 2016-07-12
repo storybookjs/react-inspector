@@ -4,7 +4,9 @@ import TreeView from '../tree-view/TreeView'
 import ObjectPreview from './ObjectPreview'
 import ObjectLabel from './ObjectLabel'
 
-const createIterator = (showNonenumerable) => {
+import ThemeProvider from '../styles/ThemeProvider'
+
+const createIterator = (showNonenumerable, sortObjectKeys) => {
   const objectIterator = function* (data) {
     const shouldIterate = (typeof data === 'object' && data !== null) || typeof data === 'function'
     if(!shouldIterate)
@@ -32,7 +34,12 @@ const createIterator = (showNonenumerable) => {
     }
 
     else{
-      for(let propertyName of Object.getOwnPropertyNames(data)){
+      const keys = Object.getOwnPropertyNames(data)
+      if (typeof sortObjectKeys !== 'undefined') {
+        keys.sort(sortObjectKeys)
+      }
+
+      for(let propertyName of keys){
         if(data.propertyIsEnumerable(propertyName)){
           const propertyValue = data[propertyName]
           yield {
@@ -50,6 +57,7 @@ const createIterator = (showNonenumerable) => {
             propertyValue = data[propertyName]
           }
           catch(e){
+            // console.warn(e)
           }
 
           if(propertyValue !== undefined){
@@ -78,7 +86,7 @@ const createIterator = (showNonenumerable) => {
 }
 
 const nodeRenderer = ({ depth, name, data, isNonenumerable }) =>
-  (depth === 0) ? <ObjectPreview name={name} data={data}/>
+  (depth === 0) ? <ObjectPreview name={name} data={data} />
                 : <ObjectLabel name={name} data={data} isNonenumerable={isNonenumerable} />
 
 /**
@@ -87,6 +95,8 @@ const nodeRenderer = ({ depth, name, data, isNonenumerable }) =>
 class ObjectInspector extends Component{
   static defaultProps = {
     showNonenumerable: false,
+
+    theme: 'chromeLight',
   }
 
   static propTypes = {
@@ -96,23 +106,30 @@ class ObjectInspector extends Component{
     expandPaths: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
 
     name: PropTypes.string,
-    /** Not isRequired because we also allow undefined value */
+    /** Not required prop because we also allow undefined value */
     data: PropTypes.any,
+
+    /** A known theme or theme object */
+    theme: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 
     /** Show non-enumerable properties */
     showNonenumerable: PropTypes.bool,
+    /** Sort object keys with optional compare function. */
+    sortObjectKeys: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   }
 
   render() {
-    const { showNonenumerable } = this.props
+    const { showNonenumerable, sortObjectKeys } = this.props
+    const dataIterator = createIterator(showNonenumerable, sortObjectKeys)
 
-    const dataIterator = createIterator(showNonenumerable)
     return (
-      <TreeView
-        nodeRenderer={nodeRenderer}
-        dataIterator={dataIterator}
-        {...this.props}>
-      </TreeView>
+      <ThemeProvider theme={this.props.theme}>
+        <TreeView
+          nodeRenderer={nodeRenderer}
+          dataIterator={dataIterator}
+          {...this.props}>
+        </TreeView>
+      </ThemeProvider>
     )
   }
 }

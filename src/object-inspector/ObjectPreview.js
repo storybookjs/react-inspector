@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-import ObjectDescription from '../object/ObjectDescription';
+import ObjectValue from '../object/ObjectValue';
 import ObjectName from '../object/ObjectName'
 
 /* NOTE: Chrome console.log is italic */
@@ -26,12 +26,12 @@ const ObjectPreview = ({ name, data, maxProperties }) => {
   const object = data
 
   if (typeof object !== 'object' || object === null || object instanceof Date || object instanceof RegExp) {
-    return <ObjectDescription object={object} />;
+    return <ObjectValue object={object} />;
   }
 
   if (Array.isArray(object)) {
     return <span style={styles.preview}>
-            [{intersperse(object.map((element, index) => <ObjectDescription key={index} object={element} />), ", ")}]
+            [{intersperse(object.map((element, index) => <ObjectValue key={index} object={element} />), ", ")}]
            </span>
   }
   else {
@@ -48,7 +48,7 @@ const ObjectPreview = ({ name, data, maxProperties }) => {
           <span key={propertyName}>
             <ObjectName name={propertyName} />
             :&nbsp;
-            <ObjectDescription object={propertyValue} />
+            <ObjectValue object={propertyValue} />
             {ellipsis}
           </span>
         )
