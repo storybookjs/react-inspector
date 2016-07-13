@@ -92,8 +92,9 @@ Try embedding the inspectors inside a component's render() method to provide a l
 
 ## Theme
 By specifying the `theme` prop you can customize the inspectors. `theme` prop can be
-1. a string referring to a preset theme ("chromeLight"` or `"chromeDark")
-2. or a custom object that provides the necessary variables. Checkout src/styles/themes for theming variables.
+
+1. a string referring to a preset theme (`"chromeLight"` or `"chromeDark"`, default to `"chromeLight"`)
+2. or a custom object that provides the necessary variables. Checkout `src/styles/themes` for possible theming variables.
 
 Example 1: Using a preset theme:
 ```js
