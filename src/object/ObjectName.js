@@ -22,6 +22,10 @@ ObjectName.propTypes = {
   dimmed: PropTypes.bool,
 }
 
+ObjectName.defaultProps = {
+  dimmed: false,
+}
+
 ObjectName.contextTypes = {
   theme: React.PropTypes.oneOfType([PropTypes.string, PropTypes.object])
 }

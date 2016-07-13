@@ -1,7 +1,7 @@
 import React, { Component, PropTypes, Children } from 'react'
 import TreeView from '../tree-view/TreeView'
 
-import ObjectPreview from './ObjectPreview'
+import ObjectRootLabel from './ObjectRootLabel'
 import ObjectLabel from './ObjectLabel'
 
 import ThemeProvider from '../styles/ThemeProvider'
@@ -86,7 +86,7 @@ const createIterator = (showNonenumerable, sortObjectKeys) => {
 }
 
 const nodeRenderer = ({ depth, name, data, isNonenumerable }) =>
-  (depth === 0) ? <ObjectPreview name={name} data={data} />
+  (depth === 0) ? <ObjectRootLabel name={name} data={data} />
                 : <ObjectLabel name={name} data={data} isNonenumerable={isNonenumerable} />
 
 /**
@@ -119,7 +119,7 @@ class ObjectInspector extends Component{
   }
 
   render() {
-    const { showNonenumerable, sortObjectKeys } = this.props
+    const { showNonenumerable, sortObjectKeys, ...rest } = this.props
     const dataIterator = createIterator(showNonenumerable, sortObjectKeys)
 
     return (
@@ -127,7 +127,7 @@ class ObjectInspector extends Component{
         <TreeView
           nodeRenderer={nodeRenderer}
           dataIterator={dataIterator}
-          {...this.props}>
+          {...rest}>
         </TreeView>
       </ThemeProvider>
     )

@@ -4,22 +4,21 @@ import createStyles from '../styles/createStyles'
 
 const Arrow = ({ expanded, styles }) => (
   <span style={{...styles.base, ...( expanded ? styles.expanded : styles.collapsed )}}>
-    {/* expanded ? '▼' : '▶' */}
     ▶
   </span>
 )
 
 class TreeNode extends Component {
   render() {
-    const { name, data, expanded, onClick, children, nodeRenderer, title } = this.props
-    const { shouldShowArrow, shouldShowPlaceholder } = this.props
+    const { name, data, expanded, onClick, children, nodeRenderer, title,
+            shouldShowArrow, shouldShowPlaceholder, } = this.props
 
     const { theme } = this.context
     const styles = createStyles('TreeNode', theme)
 
     const renderedNode = createElement(nodeRenderer, this.props)
-
     const childNodes = expanded ? children : undefined
+
     return (
       <li aria-expanded={expanded} role="treeitem" style={styles.treeNodeBase} title={title}>
         <div style={styles.treeNodePreviewContainer} onClick={onClick}>
@@ -53,7 +52,7 @@ TreeNode.propTypes = {
 }
 
 TreeNode.defaultProps = {
-  name: '',
+  name: undefined,
   data: undefined,
   expanded: true,
 

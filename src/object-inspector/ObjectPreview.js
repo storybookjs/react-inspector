@@ -22,7 +22,7 @@ function intersperse(arr, sep){
 /**
  * A preview of the object
  */
-const ObjectPreview = ({ name, data, maxProperties }) => {
+const ObjectPreview = ({ data, maxProperties }) => {
   const object = data
 
   if (typeof object !== 'object' || object === null || object instanceof Date || object instanceof RegExp) {

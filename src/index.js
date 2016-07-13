@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+export { chromeLight, chromeDark } from './styles/themes'
 
 export ObjectInspector from './object-inspector/ObjectInspector'
 export TableInspector from './table-inspector/TableInspector'
@@ -13,6 +13,7 @@ import ObjectInspector from './object-inspector/ObjectInspector'
 import TableInspector from './table-inspector/TableInspector'
 import DOMInspector from './dom-inspector/DOMInspector'
 
+import React, { Component } from 'react'
 import isDOM from 'is-dom'
 
 const Inspector = ({ table = false, data, ...rest }) => {
@@ -29,11 +30,7 @@ const Inspector = ({ table = false, data, ...rest }) => {
 Inspector.propTypes = {
   data: React.PropTypes.any,
   name: React.PropTypes.string,
-  path: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.array
-  ]),
-  table: React.PropTypes.bool
+  table: React.PropTypes.bool,
 }
 
 export { Inspector }

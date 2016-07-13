@@ -8,13 +8,6 @@ const HeaderContainer = ({ indexColumnText, columns, sorted, sortIndexColumn, so
   return (
     <div style={styles.base}>
       <table style={styles.table}>
-      {/*
-        <colgroup>
-          <col style={{width: 236}}/>
-          <col style={{width: 236}}/>
-          <col style={{width: 236}}/>
-          <col style={{width: 236}}/>
-        </colgroup>*/ }
         <tbody>
           <tr>
             <TH borderStyle={borderStyles.none}
@@ -43,11 +36,11 @@ const HeaderContainer = ({ indexColumnText, columns, sorted, sortIndexColumn, so
 
 HeaderContainer.defaultProps = {
   indexColumnText: '(index)',
-  columns: []
+  columns: [],
 }
 
 HeaderContainer.contextTypes = {
-  theme: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired
+  theme: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
 }
 
 export default HeaderContainer

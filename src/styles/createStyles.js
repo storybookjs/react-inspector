@@ -1,26 +1,3 @@
-// http://requiremind.com/memoization-speed-up-your-javascript-performance// const memoize = (fn) => {
-//   let cache = new Map()
-//   const memoized = (...args) => {
-//     const key = JSON.stringify(args)
-//     if(cache.has(key)){
-//       return cache.get(key)
-//     }
-//     const result = fn.apply(this, args)
-//     cache.set(key, result)
-//     return result
-//   }
-//   return memoized
-// }
-// export default memoize(createStyles)
-
-// NOTE:
-//  base
-//  themes: {
-//    default: {
-//      ...
-//    }
-//  }
-
 import * as themes from './themes'
 import base from './base'
 
@@ -31,12 +8,11 @@ const styles = Object.keys(themes).reduce((styles, themeName) => {
 
 const createStyles = (key, theme) => {
   // console.debug(styles, theme, styles[theme])
-  if(typeof theme === 'string') {
-    // styles.hasOwnProperty(theme)
+  if (typeof theme === 'string') {
     return styles[theme][key]
   }
-  else if(typeof theme === 'object') {
-    throw new TypeError('custom theme not implemented')
+  else if (typeof theme === 'object') {
+    return base(theme)[key]
   }
   // Default styles
   return styles['chromeLight'][key]

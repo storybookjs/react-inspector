@@ -23,8 +23,8 @@ npm install react-inspector
 ### &lt;Inspector />
 A shorthand for the inspectors.
 
-- `<Inspector/>` is equivalent to `<ObjectInspector>`
-- `<Inspector table/>` is equivalent to `<TableInspector>`
+- `<Inspector/>` is equivalent to `<ObjectInspector>` or `<DOMInspector>` if inspecting a DOM Node.
+- `<Inspector table/>` is equivalent to `<TableInspector>`.
 
 ### &lt;ObjectInspector />
 Like `console.log`. Consider this as a glorified version of `<pre>JSON.stringify(data, null, 2)</pre>`.
@@ -47,7 +47,9 @@ The component accepts the following props:
     - For example, to expand all first level and second level nodes, use `['$', '$.*']` (equivalent to `expandLevel={2}`)
 - the results are merged with expandLevel
 
-#### `showNonenumerable: PropTypes.bool`: show non-enumerable properties
+#### `showNonenumerable: PropTypes.bool`: show non-enumerable properties.
+
+#### `sortObjectKeys: PropTypes.oneOfType([PropTypes.bool, PropTypes.func])`: Sort object keys with optional compare function.
 
 ### &lt;TableInspector />
 Like `console.table`.
@@ -86,9 +88,27 @@ ReactDOM.render(
   document.getElementById('root')
 );
 ```
-Checkout `example/App.js` for more examples. Try embedding the inspectors inside a component's render() method to provide a live view for its props/state (Works even better with hot reloading).
+Try embedding the inspectors inside a component's render() method to provide a live view for its props/state (Works even better with hot reloading).
+
+## Theme
+By specifying the `theme` prop you can customize the inspectors. `theme` prop can be
+1. a string referring to a preset theme ("chromeLight"` or `"chromeDark")
+2. or a custom object that provides the necessary variables. Checkout src/styles/themes for theming variables.
+
+Example 1: Using a preset theme:
+```js
+<Inspector theme="chromeDark" data={{a: 'a', b: 'b'}}/>
+```
+
+Example 2: changing the tree node indentation by inheriting the chrome light theme:
+```js
+import { chromeLight } from 'react-inspector'
+
+<Inspector theme={{...chromeLight, ...({ TREENODE_PADDING_LEFT: 20 })}} data={{a: 'a', b: 'b'}}/>
+```
 
 ### Install the example
+Checkout `example/App.js` for more examples.
 ```sh
 npm install && npm start
 ```

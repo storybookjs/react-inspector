@@ -1,4 +1,4 @@
-import unselectable from '../styles/unselectable'
+import unselectable from './unselectable'
 
 export default theme => ({
   DOMNodePreview: {
@@ -14,7 +14,7 @@ export default theme => ({
         color: theme.HTML_ATTRIBUTE_NAME_COLOR,
       },
       htmlAttributeValue: {
-        color: theme.HTML_ATTRIBUTE_VALUE_COLOR
+        color: theme.HTML_ATTRIBUTE_VALUE_COLOR,
       },
     },
     htmlCloseTag: {
@@ -22,7 +22,8 @@ export default theme => ({
         color: theme.HTML_TAG_COLOR,
       },
       offsetLeft: {
-        marginLeft: -theme.TREENODE_PADDING_LEFT, /* hack: offset placeholder */
+        /* hack: offset placeholder */
+        marginLeft: -theme.TREENODE_PADDING_LEFT,
       },
       tagName: {
         color: theme.HTML_TAGNAME_COLOR,
@@ -30,10 +31,10 @@ export default theme => ({
       },
     },
     htmlComment: {
-      color: theme.HTML_COMMENT_COLOR
+      color: theme.HTML_COMMENT_COLOR,
     },
     htmlDoctype: {
-      color: theme.HTML_DOCTYPE_COLOR
+      color: theme.HTML_DOCTYPE_COLOR,
     },
   },
 
@@ -193,7 +194,7 @@ export default theme => ({
       right: 0,
       bottom: 0,
       borderTop: '0 none transparent',
-      margin: 0, // prevent overrides
+      margin: 0, // prevent user agent stylesheet overrides
 
       backgroundImage: theme.TABLE_DATA_BACKGROUND_IMAGE,
       backgroundSize: theme.TABLE_DATA_BACKGROUND_SIZE,
@@ -235,7 +236,7 @@ export default theme => ({
       textOverflow: 'ellipsis',
       overflow: 'hidden',
 
-      // otherwise it's overriden by user agent stylesheet
+      // prevent user agent stylesheet overrides
       fontSize: theme.BASE_FONT_SIZE,
       lineHeight: '120%',
     },
@@ -246,7 +247,7 @@ export default theme => ({
       borderLeft: 'none',
     },
     solid: {
-      borderLeft: `1px solid ${theme.TABLE_BORDER_COLOR}`
+      borderLeft: `1px solid ${theme.TABLE_BORDER_COLOR}`,
     },
   },
 
