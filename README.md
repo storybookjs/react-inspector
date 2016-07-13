@@ -90,6 +90,13 @@ ReactDOM.render(
 ```
 Try embedding the inspectors inside a component's render() method to provide a live view for its props/state (Works even better with hot reloading).
 
+### More Examples
+Check out the storybook for more examples.
+```sh
+npm install && npm run storybook
+```
+Open http://localhost:9001/
+
 ## Theme
 By specifying the `theme` prop you can customize the inspectors. `theme` prop can be
 
@@ -107,13 +114,6 @@ import { chromeLight } from 'react-inspector'
 
 <Inspector theme={{...chromeLight, ...({ TREENODE_PADDING_LEFT: 20 })}} data={{a: 'a', b: 'b'}}/>
 ```
-
-### Install the example
-Checkout `example/App.js` for more examples.
-```sh
-npm install && npm start
-```
-Open http://localhost:3000/example/index.html
 
 ## Roadmap
 Type of inspectors:

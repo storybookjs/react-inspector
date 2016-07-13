@@ -11,3 +11,6 @@ example
 server.js
 src/
 webpack.config.js
+
+stories
+.storybook

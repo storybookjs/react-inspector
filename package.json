@@ -2,12 +2,9 @@
   "name": "react-inspector",
   "version": "1.1.0",
   "description": "Power of Browser DevTools inspectors right inside your React app",
-  "main": "lib/index.js",
-  "directories": {
-    "example": "example"
-  },
+  "main": "lib/index.js",  
   "scripts": {
-    "start": "node server.js",
+    "storybook": "start-storybook -p 9001",
     "build": "babel src --out-dir lib && webpack --config webpack.prod.config.js",
     "lint": "eslint lib",
     "test": "mocha src --compilers js:babel-register --recursive",
@@ -45,6 +42,7 @@
   },
   "homepage": "https://github.com/xyc/react-inspector",
   "devDependencies": {
+    "@kadira/storybook": "^1.38.0",
     "babel-cli": "^6.7.5",
     "babel-core": "^6.0.0",
     "babel-eslint": "^6.0.0-beta.1",
