@@ -1,5 +1,11 @@
+## 1.1.0 (07/14/2016)
+- Sorting properties support [#12](https://github.com/xyc/react-inspector/issues/12)
+- Theming Support: supports dark theme
+- Fix Babel runtime dependency [#14](https://github.com/xyc/react-inspector/issues/14)
+
 ## 1.0.0 (03/02/2016)
 - Breaking change: rename from `react-object-inspector` to `react-inspector`
+- non-enumerable property support [#8](https://github.com/xyc/react-inspector/issues/8)
 - Adds `TableInspector`
 
 ## 0.2.0 (11/26/2015)

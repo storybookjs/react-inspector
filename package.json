@@ -2,9 +2,10 @@
   "name": "react-inspector",
   "version": "1.1.0",
   "description": "Power of Browser DevTools inspectors right inside your React app",
-  "main": "lib/index.js",  
+  "main": "lib/index.js",
   "scripts": {
     "storybook": "start-storybook -p 9001",
+    "build:storybook": "build-storybook -o storybook-static",
     "build": "babel src --out-dir lib && webpack --config webpack.prod.config.js",
     "lint": "eslint lib",
     "test": "mocha src --compilers js:babel-register --recursive",

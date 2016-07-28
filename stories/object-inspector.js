@@ -9,10 +9,15 @@ const namedFunction2 = function() {}
 // Primitives
 storiesOf('Numbers', module)
   .add('positive', () => <Inspector data={42}/>)
+  .add('zero', () => <Inspector data={0}/>)
+  .add('negative', () => <Inspector data={-1}/>)
+  .add('float', () => <Inspector data={1.5}/>)
+  .add('exponential', () => <Inspector data={1e100}/>)
   .add('NaN', () => <Inspector data={NaN}/>)
   .add('Infinity', () => <Inspector data={Infinity}/>)
 
 storiesOf('Strings', module)
+  .add('empty string', () => <Inspector data=""/>)
   .add('simple', () => <Inspector data="hello"/>)
 
 storiesOf('Booleans', module)
@@ -28,6 +33,7 @@ storiesOf('Null', module)
 storiesOf('Symbols', module)
   .add('test', () => <Inspector data={Symbol.for("test")}/>)
 
+// Objects
 storiesOf('Objects', module)
   .add('Object: Date', () => <Inspector data={new Date("2005-04-03")}/>)
   .add('Object: Regular Expression', () => <Inspector data={/^.*$/}/>)
@@ -39,6 +45,8 @@ storiesOf('Objects', module)
   .add('Object: Simple inherited object', () => <Inspector showNonenumerable expandLevel={2} data={Object.create({'k': 'v'})}/>)
   .add('Object: `Object`', () => <Inspector showNonenumerable expandLevel={1} data={Object}/>)
   .add('Object: `Object.prototype`', () => <Inspector showNonenumerable expandLevel={1} data={Object.prototype}/>)
+
+  .add('Object: Simple Object with name', () => <Inspector showNonenumerable expandLevel={2} name="test" data={{'k': 'v'}}/>)
 
 storiesOf('Functions', module)
   .add('Functions: anonymous function', () => <Inspector data={function() {}}/>)
