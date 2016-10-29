@@ -1,3 +1,6 @@
+## 1.1.1 (10/28/2016)
+- #14
+
 ## 1.1.0 (07/14/2016)
 - Sorting properties support [#12](https://github.com/xyc/react-inspector/issues/12)
 - Theming Support: supports dark theme
