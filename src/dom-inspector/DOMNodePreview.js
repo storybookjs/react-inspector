@@ -12,8 +12,8 @@ const OpenTag = ({ tagName, attributes, styles }) => {
       </span>
 
       {(()=>{
-        let attributeNodes = []
         if(attributes){
+          let attributeNodes = []
           for(let i = 0; i < attributes.length; i++){
             const attribute = attributes[i]
             attributeNodes.push(
@@ -29,8 +29,8 @@ const OpenTag = ({ tagName, attributes, styles }) => {
                               {'"'}
                             </span>
                           )
-            return attributeNodes
           }
+          return attributeNodes
         }
       })()}
 

@@ -12,8 +12,9 @@ storiesOf('DOM Node', module)
     // div.dataset
     return <Inspector data={div}/>
   })
-  .add('Element Node: div with style', () => {
+  .add('Element Node: div with class and style', () => {
     const div = document.createElement('div')
+    div.setAttribute('class', 'test')
     div.setAttribute('style', 'font-weight: bold;')
     return <Inspector data={div}/>
   })
