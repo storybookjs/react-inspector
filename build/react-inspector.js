@@ -5895,8 +5895,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      tagName
 	    ),
 	    function () {
-	      var attributeNodes = [];
 	      if (attributes) {
+	        var attributeNodes = [];
 	        for (var i = 0; i < attributes.length; i++) {
 	          var attribute = attributes[i];
 	          attributeNodes.push(_react2.default.createElement(
@@ -5916,8 +5916,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            ),
 	            '"'
 	          ));
-	          return attributeNodes;
 	        }
+	        return attributeNodes;
 	      }
 	    }(),
 	    '>'
