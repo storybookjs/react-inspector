@@ -9,9 +9,10 @@ const Arrow = ({ expanded, styles }) => (
 )
 
 class TreeNode extends Component {
+
   render() {
     const { name, data, expanded, onClick, children, nodeRenderer, title,
-            shouldShowArrow, shouldShowPlaceholder, } = this.props
+            pathStyle, shouldShowArrow, shouldShowPlaceholder, } = this.props
 
     const { theme } = this.context
     const styles = createStyles('TreeNode', theme)
@@ -20,7 +21,13 @@ class TreeNode extends Component {
     const childNodes = expanded ? children : undefined
 
     return (
-      <li aria-expanded={expanded} role="treeitem" style={styles.treeNodeBase} title={title}>
+        <li aria-expanded={expanded}
+            role="treeitem"
+            style={{
+                ...styles.treeNodeBase,
+                ...pathStyle
+            }}
+            title={title}>
         <div style={styles.treeNodePreviewContainer} onClick={onClick}>
           {
             (shouldShowArrow || (Children.count(children) > 0)) ?
