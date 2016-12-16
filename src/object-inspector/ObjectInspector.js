@@ -79,7 +79,7 @@ const createIterator = (showNonenumerable, sortObjectKeys) => {
   return objectIterator;
 };
 
-const nodeRenderer = ({ depth, name, data, isNonenumerable }) =>
+const defaultNodeRenderer = ({ depth, name, data, isNonenumerable }) =>
   depth === 0
     ? <ObjectRootLabel name={name} data={data} />
     : <ObjectLabel name={name} data={data} isNonenumerable={isNonenumerable} />;
@@ -111,11 +111,16 @@ class ObjectInspector extends Component {
     showNonenumerable: PropTypes.bool,
     /** Sort object keys with optional compare function. */
     sortObjectKeys: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+
+    /** Provide a custom nodeRenderer */
+    nodeRenderer: PropTypes.func,
   };
 
   render() {
     const { showNonenumerable, sortObjectKeys, ...rest } = this.props;
     const dataIterator = createIterator(showNonenumerable, sortObjectKeys);
+
+    const renderer = nodeRenderer ? nodeRenderer : defaultNodeRenderer
 
     return (
       <ThemeProvider theme={this.props.theme}>
