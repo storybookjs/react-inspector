@@ -8,7 +8,7 @@ export ObjectLabel from './object-inspector/ObjectLabel'
 export ObjectRootLabel from './object-inspector/ObjectRootLabel'
 
 export ObjectValue from './object/ObjectValue'
-export ObjectPreview from './object/ObjectPreview'
+export ObjectName from './object/ObjectName'
 
 // Wrapping the inspectors
 import ObjectInspector from './object-inspector/ObjectInspector';

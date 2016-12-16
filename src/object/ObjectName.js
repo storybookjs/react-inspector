@@ -11,10 +11,10 @@ import createStyles from '../styles/createStyles';
  * If the property name is not enumerable (`Object.prototype.propertyIsEnumerable()`),
  * the property name will be dimmed to show the difference.
  */
-const ObjectName = ({ name, dimmed }, { theme }) => {
-  const styles = createStyles('ObjectName', theme);
-  return <span style={{ ...styles.base, ...(dimmed && styles.dimmed) }}>{name}</span>;
-};
+const ObjectName = ({ name, dimmed, styles }, { theme }) => {
+  const themeStyles = createStyles('ObjectName', theme);
+  return <span style={{...themeStyles.base, ...(dimmed && styles.dimmed), ...styles}}>{ name }</span>;
+}
 
 ObjectName.propTypes = {
   /** Property name */
