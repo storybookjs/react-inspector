@@ -5,6 +5,7 @@
  */
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import ThemeProvider from '../styles/ThemeProvider'
 import createStyles from '../styles/createStyles'
 
@@ -159,14 +160,14 @@ TableInspector.propTypes = {
   /**
    * the Javascript object you would like to inspect, either an array or an object
    */
-  data: React.PropTypes.oneOfType([
-      React.PropTypes.array,
-      React.PropTypes.object,
+  data: PropTypes.oneOfType([
+      PropTypes.array,
+      PropTypes.object,
     ]),
   /**
    * An array of the names of the columns you'd like to display in the table
    */
-  columns: React.PropTypes.array
+  columns: PropTypes.array
 }
 
 TableInspector.defaultProps = {

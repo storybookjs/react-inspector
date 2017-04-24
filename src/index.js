@@ -14,6 +14,7 @@ import TableInspector from './table-inspector/TableInspector'
 import DOMInspector from './dom-inspector/DOMInspector'
 
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import isDOM from 'is-dom'
 
 const Inspector = ({ table = false, data, ...rest }) => {
@@ -28,9 +29,9 @@ const Inspector = ({ table = false, data, ...rest }) => {
 }
 
 Inspector.propTypes = {
-  data: React.PropTypes.any,
-  name: React.PropTypes.string,
-  table: React.PropTypes.bool,
+  data: PropTypes.any,
+  name: PropTypes.string,
+  table: PropTypes.bool,
 }
 
 export { Inspector }

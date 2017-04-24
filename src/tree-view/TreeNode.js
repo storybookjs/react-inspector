@@ -1,4 +1,5 @@
-import React, { createElement, Component, PropTypes, Children } from 'react'
+import React, { createElement, Component, Children } from 'react'
+import PropTypes from 'prop-types'
 
 import createStyles from '../styles/createStyles'
 

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import createStyles from '../styles/createStyles'
 
 /**
@@ -27,7 +28,7 @@ ObjectName.defaultProps = {
 }
 
 ObjectName.contextTypes = {
-  theme: React.PropTypes.oneOfType([PropTypes.string, PropTypes.object])
+  theme: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
 }
 
 export default ObjectName
