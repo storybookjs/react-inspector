@@ -1,2 +1,2 @@
-export chromeDark from './chromeDark'
-export chromeLight from './chromeLight'
+export chromeDark from './chromeDark';
+export chromeLight from './chromeLight';
