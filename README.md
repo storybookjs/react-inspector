@@ -1,5 +1,4 @@
-react-inspector
-=====================
+# react-inspector
 
 [![build status](https://img.shields.io/travis/xyc/react-inspector/master.svg?style=flat-square)](https://travis-ci.org/xyc/react-inspector)
 [![npm version](https://img.shields.io/npm/v/react-inspector.svg?style=flat-square)](https://www.npmjs.com/package/react-inspector)
@@ -34,6 +33,7 @@ Tree state is saved at root. If you click to expand some elements in the hierarc
 
 #### API
 The component accepts the following props:
+
 #### `data: PropTypes.any`: the Javascript object you would like to inspect
 
 #### `name: PropTypes.string`: specify the optional name of the root node, default to `undefined`

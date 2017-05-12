@@ -1,3 +1,9 @@
+## 2.0.0 (05/12/2017)
+- [#25](https://github.com/xyc/react-inspector/issues/25)
+- **breaking** remove lib and build from source control
+- new linting
+- **breaking** updated dependencies
+
 ## 1.1.1 (10/28/2016)
 - #14
 
