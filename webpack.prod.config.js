@@ -14,15 +14,15 @@ var config = {
     libraryTarget: 'umd',
   },
   module: {
-    loaders: [{
+    rules: [{
       test: /\.(js|jsx)/,
-      loader: 'babel',
+      loader: 'babel-loader',
     },
     ],
   },
   plugins: [],
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['.js', '.jsx'],
   },
   externals: {
     'react': {

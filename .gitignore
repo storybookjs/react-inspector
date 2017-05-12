@@ -5,3 +5,5 @@ jsconfig.json
 
 react-codemod
 gh-pages/
+lib
+build

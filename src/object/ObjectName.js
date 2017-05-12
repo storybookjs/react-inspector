@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import createStyles from '../styles/createStyles'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import createStyles from '../styles/createStyles';
 
 /**
  * A view for object property names.
@@ -12,23 +12,23 @@ import createStyles from '../styles/createStyles'
  * the property name will be dimmed to show the difference.
  */
 const ObjectName = ({ name, dimmed }, { theme }) => {
-  const styles = createStyles('ObjectName', theme)
-  return <span style={{...styles.base, ...(dimmed && styles.dimmed)}}>{ name }</span>
-}
+  const styles = createStyles('ObjectName', theme);
+  return <span style={{ ...styles.base, ...(dimmed && styles.dimmed) }}>{name}</span>;
+};
 
 ObjectName.propTypes = {
   /** Property name */
   name: PropTypes.string,
   /** Should property name be dimmed */
   dimmed: PropTypes.bool,
-}
+};
 
 ObjectName.defaultProps = {
   dimmed: false,
-}
+};
 
 ObjectName.contextTypes = {
-  theme: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
-}
+  theme: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+};
 
-export default ObjectName
+export default ObjectName;

@@ -38,6 +38,6 @@ const theme = {
   TABLE_SORT_ICON_COLOR: '#6e6e6e',
   TABLE_DATA_BACKGROUND_IMAGE: 'linear-gradient(to bottom, white, white 50%, rgb(234, 243, 255) 50%, rgb(234, 243, 255))',
   TABLE_DATA_BACKGROUND_SIZE: '128px 32px',
-}
+};
 
-export default theme
+export default theme;

@@ -1,4 +1,4 @@
-import unselectable from './unselectable'
+import unselectable from './unselectable';
 
 export default theme => ({
   DOMNodePreview: {
@@ -8,7 +8,7 @@ export default theme => ({
       },
       tagName: {
         color: theme.HTML_TAGNAME_COLOR,
-        textTransform: "lowercase",
+        textTransform: 'lowercase',
       },
       htmlAttributeName: {
         color: theme.HTML_ATTRIBUTE_NAME_COLOR,
@@ -27,7 +27,7 @@ export default theme => ({
       },
       tagName: {
         color: theme.HTML_TAGNAME_COLOR,
-        textTransform: "lowercase",
+        textTransform: 'lowercase',
       },
     },
     htmlComment: {
@@ -92,8 +92,7 @@ export default theme => ({
       fontFamily: theme.TREENODE_FONT_FAMILY,
       fontSize: theme.TREENODE_FONT_SIZE,
     },
-    treeNodePreviewContainer: {
-    },
+    treeNodePreviewContainer: {},
     treeNodePlaceholder: {
       whiteSpace: 'pre',
 
@@ -137,7 +136,7 @@ export default theme => ({
       fontSize: theme.BASE_FONT_SIZE,
       lineHeight: '120%',
       boxSizing: 'border-box',
-      cursor: 'default'
+      cursor: 'default',
     },
   },
 
@@ -147,7 +146,7 @@ export default theme => ({
       height: '17px',
       left: 0,
       right: 0,
-      overflowX: 'hidden'
+      overflowX: 'hidden',
     },
     table: {
       tableLayout: 'fixed',
@@ -229,7 +228,7 @@ export default theme => ({
 
       ':hover': {
         backgroundColor: theme.TABLE_TH_HOVER_COLOR,
-      }
+      },
     },
     div: {
       whiteSpace: 'nowrap',
@@ -262,5 +261,5 @@ export default theme => ({
     fontSize: 12,
     // lineHeight: 14
     ...unselectable,
-  }
-})
+  },
+});

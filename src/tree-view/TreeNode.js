@@ -1,41 +1,48 @@
-import React, { createElement, Component, Children } from 'react'
-import PropTypes from 'prop-types'
+import React, { createElement, Component, Children } from 'react';
+import PropTypes from 'prop-types';
 
-import createStyles from '../styles/createStyles'
+import createStyles from '../styles/createStyles';
 
 const Arrow = ({ expanded, styles }) => (
-  <span style={{...styles.base, ...( expanded ? styles.expanded : styles.collapsed )}}>
+  <span style={{ ...styles.base, ...(expanded ? styles.expanded : styles.collapsed) }}>
     ▶
   </span>
-)
+);
 
 class TreeNode extends Component {
   render() {
-    const { name, data, expanded, onClick, children, nodeRenderer, title,
-            shouldShowArrow, shouldShowPlaceholder, } = this.props
+    const {
+      name,
+      data,
+      expanded,
+      onClick,
+      children,
+      nodeRenderer,
+      title,
+      shouldShowArrow,
+      shouldShowPlaceholder,
+    } = this.props;
 
-    const { theme } = this.context
-    const styles = createStyles('TreeNode', theme)
+    const { theme } = this.context;
+    const styles = createStyles('TreeNode', theme);
 
-    const renderedNode = createElement(nodeRenderer, this.props)
-    const childNodes = expanded ? children : undefined
+    const renderedNode = createElement(nodeRenderer, this.props);
+    const childNodes = expanded ? children : undefined;
 
     return (
       <li aria-expanded={expanded} role="treeitem" style={styles.treeNodeBase} title={title}>
         <div style={styles.treeNodePreviewContainer} onClick={onClick}>
-          {
-            (shouldShowArrow || (Children.count(children) > 0)) ?
-              <Arrow expanded={expanded} styles={styles.treeNodeArrow}/> :
-              (shouldShowPlaceholder && <span style={styles.treeNodePlaceholder}>&nbsp;</span>)
-          }
-          { renderedNode }
+          {shouldShowArrow || Children.count(children) > 0
+            ? <Arrow expanded={expanded} styles={styles.treeNodeArrow} />
+            : shouldShowPlaceholder && <span style={styles.treeNodePlaceholder}>&nbsp;</span>}
+          {renderedNode}
         </div>
 
         <ol role="group" style={styles.treeNodeChildNodesContainer}>
-          { childNodes }
+          {childNodes}
         </ol>
       </li>
-    )
+    );
   }
 }
 
@@ -50,7 +57,7 @@ TreeNode.propTypes = {
   nodeRenderer: PropTypes.func,
 
   onClick: PropTypes.func,
-}
+};
 
 TreeNode.defaultProps = {
   name: undefined,
@@ -63,10 +70,10 @@ TreeNode.defaultProps = {
 
   shouldShowArrow: false,
   shouldShowPlaceholder: true,
-}
+};
 
 TreeNode.contextTypes = {
-  theme: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired
-}
+  theme: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+};
 
-export default TreeNode
+export default TreeNode;
