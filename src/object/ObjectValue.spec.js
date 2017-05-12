@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import TestUtils from 'react-addons-test-utils'
 import expect from 'expect'
 import ObjectValue from './ObjectValue'
