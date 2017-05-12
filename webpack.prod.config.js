@@ -14,10 +14,11 @@ var config = {
     libraryTarget: 'umd',
   },
   module: {
-    rules: [{
-      test: /\.(js|jsx)/,
-      loader: 'babel-loader',
-    },
+    rules: [
+      {
+        test: /\.(js|jsx)/,
+        loader: 'babel-loader',
+      },
     ],
   },
   plugins: [],
@@ -25,7 +26,7 @@ var config = {
     extensions: ['.js', '.jsx'],
   },
   externals: {
-    'react': {
+    react: {
       root: 'React',
       commonjs2: 'react',
       commonjs: 'react',
