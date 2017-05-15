@@ -52,6 +52,20 @@ The component accepts the following props:
 
 #### `sortObjectKeys: PropTypes.oneOfType([PropTypes.bool, PropTypes.func])`: Sort object keys with optional compare function.
 
+#### `nodeRenderer: PropTypes.func`: Use a custom `nodeRenderer` to render the object properties (optional)
+- Instead of using the default `nodeRenderer`, you can provide a
+  custom function for rendering object properties. The _default_
+  nodeRender looks like this:
+  ```
+  import { ObjectRootLabel } from 'react-inspector'
+  import { ObjectLabel } from 'react-inspector'
+
+  const defaultNodeRenderer = ({ depth, name, data, isNonenumerable }) =>
+    depth === 0
+      ? <ObjectRootLabel name={name} data={data} />
+      : <ObjectLabel name={name} data={data} isNonenumerable={isNonenumerable} />;
+  ```
+
 ### &lt;TableInspector />
 Like `console.table`.
 

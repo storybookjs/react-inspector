@@ -122,4 +122,13 @@ describe('ObjectValue', () => {
     expect(tree.type).toBe('span');
     expect(tree.props.children).toEqual('Symbol(foo)');
   });
+
+  it('accepts and applies style from `styles` prop', () => {
+    // Custom `styles` prop gets applied to the element
+    const style = { color: "blue" }
+    renderer.render(<ObjectValue styles={style} object={""} />);
+    const tree = renderer.getRenderOutput();
+    expect(tree.props.style.color).toEqual('blue');
+  });
+
 });
