@@ -32,7 +32,9 @@ const createIterator = (showNonenumerable, sortObjectKeys) => {
       }
     } else {
       const keys = Object.getOwnPropertyNames(data);
-      if (typeof sortObjectKeys !== 'undefined') {
+      if (sortObjectKeys === true) {
+        keys.sort();
+      } else if (typeof sortObjectKeys === 'function') {
         keys.sort(sortObjectKeys);
       }
 
