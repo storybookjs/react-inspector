@@ -4,11 +4,11 @@ export ObjectInspector from './object-inspector/ObjectInspector';
 export TableInspector from './table-inspector/TableInspector';
 export DOMInspector from './dom-inspector/DOMInspector';
 
-export ObjectLabel from './object-inspector/ObjectLabel'
-export ObjectRootLabel from './object-inspector/ObjectRootLabel'
+export ObjectLabel from './object-inspector/ObjectLabel';
+export ObjectRootLabel from './object-inspector/ObjectRootLabel';
 
-export ObjectValue from './object/ObjectValue'
-export ObjectName from './object/ObjectName'
+export ObjectValue from './object/ObjectValue';
+export ObjectName from './object/ObjectName';
 
 // Wrapping the inspectors
 import ObjectInspector from './object-inspector/ObjectInspector';

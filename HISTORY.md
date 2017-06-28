@@ -1,3 +1,6 @@
+## 2.1.0 (06/28/2017)
+- [#33](https://github.com/xyc/react-inspector/issues/33) Add support for CDATA nodes ( thanks @iloahz )
+
 ## 2.0.0 (05/12/2017)
 - [#25](https://github.com/xyc/react-inspector/issues/25)
 - **breaking** remove lib and build from source control

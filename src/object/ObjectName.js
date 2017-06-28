@@ -13,8 +13,10 @@ import createStyles from '../styles/createStyles';
  */
 const ObjectName = ({ name, dimmed, styles }, { theme }) => {
   const themeStyles = createStyles('ObjectName', theme);
-  return <span style={{...themeStyles.base, ...(dimmed && styles.dimmed), ...styles}}>{ name }</span>;
-}
+  return (
+    <span style={{ ...themeStyles.base, ...(dimmed && styles.dimmed), ...styles }}>{name}</span>
+  );
+};
 
 ObjectName.propTypes = {
   /** Property name */

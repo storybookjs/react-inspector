@@ -8,7 +8,7 @@ import createStyles from '../styles/createStyles';
  * or render objects in TableInspector.
  */
 const ObjectValue = ({ object, styles }, { theme }) => {
-  const themeStyles = createStyles( 'ObjectValue', theme );
+  const themeStyles = createStyles('ObjectValue', theme);
 
   const mkStyle = key => ({ ...themeStyles[key], ...styles });
 
@@ -22,13 +22,13 @@ const ObjectValue = ({ object, styles }, { theme }) => {
     case 'undefined':
       return <span style={mkStyle('objectValueUndefined')}>undefined</span>;
     case 'object':
-      if(object === null){
+      if (object === null) {
         return <span style={mkStyle('objectValueNull')}>null</span>;
       }
       if (object instanceof Date) {
         return <span>{object.toString()}</span>;
       }
-      if (object instanceof RegExp){
+      if (object instanceof RegExp) {
         return <span style={mkStyle('objectValueRegExp')}>{object.toString()}</span>;
       }
       if (Array.isArray(object)) {

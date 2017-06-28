@@ -6,7 +6,7 @@ import ObjectInspector from './ObjectInspector';
 
 const renderer = TestUtils.createRenderer();
 
-const defaultProps = {}
+const defaultProps = {};
 
 describe('ObjectInspector', () => {
   beforeEach(() => {});
@@ -20,12 +20,11 @@ describe('ObjectInspector', () => {
 
   it('passes `nodeRenderer` prop to <TreeView/>', () => {
     // Test that a custom `nodeRenderer` props is passed to <TreeView/>
-    const nodeRenderer = () => null
+    const nodeRenderer = () => null;
     renderer.render(<ObjectInspector nodeRenderer={nodeRenderer} />);
     const tree = renderer.getRenderOutput();
 
     expect(tree.props.children.type).toBeA('function');
     expect(tree.props.children.props.nodeRenderer).toEqual(nodeRenderer);
   });
-
 });

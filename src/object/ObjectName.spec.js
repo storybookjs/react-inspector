@@ -6,7 +6,7 @@ import ObjectName from './ObjectName';
 
 const renderer = TestUtils.createRenderer();
 
-const defaultProps = {}
+const defaultProps = {};
 
 describe('ObjectName', () => {
   beforeEach(() => {});
@@ -19,13 +19,11 @@ describe('ObjectName', () => {
   });
 
   it('Accepts and applies additional `style` prop', () => {
-
     // Test that a custom `style` props is passed and applied to <span/>
-    const style = { color: "blue" }
+    const style = { color: 'blue' };
     renderer.render(<ObjectName styles={style} />);
     const tree = renderer.getRenderOutput();
 
     expect(tree.props.style.color).toEqual('blue');
   });
-
 });
