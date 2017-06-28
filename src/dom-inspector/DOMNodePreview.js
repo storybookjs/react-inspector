@@ -85,6 +85,8 @@ const DOMNodePreview = ({ isCloseTag, name, data, expanded }, { theme }) => {
       );
     case Node.TEXT_NODE:
       return <span>{data.textContent}</span>;
+    case Node.CDATA_SECTION_NODE:
+      return <span>{'<![CDATA[' + data.textContent + ']]>'}</span>;
     case Node.COMMENT_NODE:
       return <span style={styles.htmlComment}>{'<!--'}{data.textContent}{'-->'}</span>;
     case Node.PROCESSING_INSTRUCTION_NODE:
