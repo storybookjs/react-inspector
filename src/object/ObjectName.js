@@ -18,9 +18,11 @@ const ObjectName = ({ name, dimmed, styles }, { theme }) => {
     ...(dimmed ? themeStyles['dimmed'] : {}),
     ...styles,
   };
-  
+
   return (
-    <span style={appliedStyles}>{name}</span>
+    <span style={appliedStyles}>
+      {name}
+    </span>
   );
 };
 

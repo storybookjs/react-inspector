@@ -31,7 +31,7 @@ const HeaderContainer = (
             >
               {indexColumnText}
             </TH>
-            {columns.map(column => (
+            {columns.map(column =>
               <TH
                 borderStyle={borderStyles.solid}
                 key={column}
@@ -40,8 +40,8 @@ const HeaderContainer = (
                 onClick={onTHClick.bind(this, column)}
               >
                 {column}
-              </TH>
-            ))}
+              </TH>,
+            )}
           </tr>
         </tbody>
       </table>

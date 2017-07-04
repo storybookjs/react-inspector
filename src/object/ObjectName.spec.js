@@ -30,14 +30,14 @@ describe('ObjectName', () => {
   });
 
   it('should apply dimming if `dimmed` prop is true', () => {
-    renderer.render(<ObjectName name="testvalue" dimmed={true}/>);
+    renderer.render(<ObjectName name="testvalue" dimmed={true} />);
     const tree = renderer.getRenderOutput();
 
     expect(tree.props.style).toInclude(defaultTheme.ObjectName.dimmed);
   });
 
   it('should not apply dimming if `dimmed` prop is false', () => {
-    renderer.render(<ObjectName name="testvalue" dimmed={false}/>);
+    renderer.render(<ObjectName name="testvalue" dimmed={false} />);
     const tree = renderer.getRenderOutput();
 
     expect(tree.props.style).toExclude(defaultTheme.ObjectName.dimmed);

@@ -3,11 +3,8 @@ import PropTypes from 'prop-types';
 
 import createStyles from '../styles/createStyles';
 
-const Arrow = ({ expanded, styles }) => (
-  <span style={{ ...styles.base, ...(expanded ? styles.expanded : styles.collapsed) }}>
-    ▶
-  </span>
-);
+const Arrow = ({ expanded, styles }) =>
+  <span style={{ ...styles.base, ...(expanded ? styles.expanded : styles.collapsed) }}>▶</span>;
 
 class TreeNode extends Component {
   render() {
@@ -64,7 +61,10 @@ TreeNode.defaultProps = {
   data: undefined,
   expanded: true,
 
-  nodeRenderer: ({ name, data, expanded }) => <span>{name}</span>,
+  nodeRenderer: ({ name, data, expanded }) =>
+    <span>
+      {name}
+    </span>,
 
   onClick: () => {},
 

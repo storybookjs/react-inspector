@@ -12,7 +12,7 @@ const DataContainer = ({ rows, columns, rowsData }, { theme }) => {
       <table style={styles.table}>
         <colgroup />
         <tbody>
-          {rows.map((row, i) => (
+          {rows.map((row, i) =>
             <tr key={row} style={styles.tr}>
               <td style={{ ...styles.td, ...borderStyles.none }}>
                 {row}
@@ -44,8 +44,8 @@ const DataContainer = ({ rows, columns, rowsData }, { theme }) => {
                   return <td key={column} style={{ ...styles.td, ...borderStyles.solid }} />;
                 }
               })}
-            </tr>
-          ))}
+            </tr>,
+          )}
         </tbody>
       </table>
     </div>

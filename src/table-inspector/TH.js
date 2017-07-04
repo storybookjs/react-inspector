@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import createStyles from '../styles/createStyles';
 
-const SortIconContainer = props => (
+const SortIconContainer = props =>
   <div
     style={{
       position: 'absolute',
@@ -15,8 +15,7 @@ const SortIconContainer = props => (
     }}
   >
     {props.children}
-  </div>
-);
+  </div>;
 
 const SortIcon = ({ sortAscending }, { theme }) => {
   const glyph = sortAscending ? '▲' : '▼';
