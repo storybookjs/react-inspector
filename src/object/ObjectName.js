@@ -13,8 +13,14 @@ import createStyles from '../styles/createStyles';
  */
 const ObjectName = ({ name, dimmed, styles }, { theme }) => {
   const themeStyles = createStyles('ObjectName', theme);
+  const appliedStyles = {
+    ...themeStyles.base,
+    ...(dimmed ? themeStyles['dimmed'] : {}),
+    ...styles,
+  };
+  
   return (
-    <span style={{ ...themeStyles.base, ...(dimmed && styles.dimmed), ...styles }}>{name}</span>
+    <span style={appliedStyles}>{name}</span>
   );
 };
 
