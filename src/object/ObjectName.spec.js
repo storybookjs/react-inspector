@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import TestUtils from 'react-addons-test-utils';
 import expect from 'expect';
 import ObjectName from './ObjectName';
@@ -9,8 +8,6 @@ import makeTheme from '../styles/base';
 const defaultTheme = makeTheme(chromeLight);
 
 const renderer = TestUtils.createRenderer();
-
-const defaultProps = {};
 
 describe('ObjectName', () => {
   beforeEach(() => {});

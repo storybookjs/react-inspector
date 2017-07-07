@@ -15,7 +15,7 @@ import ObjectInspector from './object-inspector/ObjectInspector';
 import TableInspector from './table-inspector/TableInspector';
 import DOMInspector from './dom-inspector/DOMInspector';
 
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import isDOM from 'is-dom';
 

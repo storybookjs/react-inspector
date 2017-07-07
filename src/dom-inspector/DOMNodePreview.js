@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import createStyles from '../styles/createStyles';
@@ -55,7 +55,7 @@ const nameByNodeType = {
   11: 'DOCUMENT_FRAGMENT_NODE',
 };
 
-const DOMNodePreview = ({ isCloseTag, name, data, expanded }, { theme }) => {
+const DOMNodePreview = ({ isCloseTag, data, expanded }, { theme }) => {
   const styles = createStyles('DOMNodePreview', theme);
 
   if (isCloseTag) {

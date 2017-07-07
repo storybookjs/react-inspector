@@ -5,6 +5,7 @@ describe('getHeaders for arrays', () => {
   it('should return empty headers for empty array', () => {
     const data = [];
     const result = getHeaders(data);
+    
     expect(result).toEqual({ rowHeaders: [], colHeaders: [] });
   });
 
@@ -31,18 +32,6 @@ describe('getHeaders for arrays', () => {
 });
 
 describe('getHeaders for objects', () => {
-  it('should work for objects whose keys are index numbers', () => {
-    const data = {
-      0: { firstName: 'John', lastName: 'Smith' },
-      1: { firstName: 'Martin', middleName: 'Luther', lastName: 'King' },
-    };
-    const result = getHeaders(data);
-    expect(result).toEqual({
-      rowHeaders: ['0', '1'],
-      colHeaders: ['firstName', 'lastName', 'middleName'],
-    });
-  });
-
   it('should work for objects whose keys are index numbers', () => {
     const data = {
       0: { firstName: 'John', lastName: 'Smith' },

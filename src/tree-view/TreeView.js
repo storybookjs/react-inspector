@@ -7,7 +7,7 @@ import { DEFAULT_ROOT_PATH, hasChildNodes, getExpandedPaths } from './pathUtils'
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'TOGGLE_EXPAND':
+    case 'TOGGLE_EXPAND': {
       const path = action.path;
       const expandedPaths = state.expandedPaths;
       const expanded = !!expandedPaths[path];
@@ -15,6 +15,7 @@ const reducer = (state, action) => {
       return Object.assign({}, state, {
         expandedPaths: Object.assign({}, state.expandedPaths, { [path]: !expanded }),
       });
+    }
     default:
       return state;
   }
