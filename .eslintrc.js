@@ -1,4 +1,4 @@
-{
+module.exports = {
     "parser": "babel-eslint",
     "parserOptions": {
         "ecmaVersion": 8
@@ -25,4 +25,4 @@
         "react/no-unescaped-entities": [0]
     }
 
-}
+};
