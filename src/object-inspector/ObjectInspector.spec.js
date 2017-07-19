@@ -1,12 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import TestUtils from 'react-addons-test-utils';
 import expect from 'expect';
 import ObjectInspector from './ObjectInspector';
 
 const renderer = TestUtils.createRenderer();
-
-const defaultProps = {};
 
 describe('ObjectInspector', () => {
   beforeEach(() => {});
@@ -14,7 +11,9 @@ describe('ObjectInspector', () => {
   it('should render', () => {
     renderer.render(<ObjectInspector theme="testvalue" />);
     const tree = renderer.getRenderOutput();
+    
     expect(tree.type).toBeA('function');
+    
     expect(tree.props.theme).toEqual('testvalue');
   });
 
@@ -25,6 +24,7 @@ describe('ObjectInspector', () => {
     const tree = renderer.getRenderOutput();
 
     expect(tree.props.children.type).toBeA('function');
+    
     expect(tree.props.children.props.nodeRenderer).toEqual(nodeRenderer);
   });
 });

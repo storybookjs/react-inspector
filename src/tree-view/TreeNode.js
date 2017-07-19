@@ -9,8 +9,6 @@ const Arrow = ({ expanded, styles }) =>
 class TreeNode extends Component {
   render() {
     const {
-      name,
-      data,
       expanded,
       onClick,
       children,
@@ -61,7 +59,7 @@ TreeNode.defaultProps = {
   data: undefined,
   expanded: true,
 
-  nodeRenderer: ({ name, data, expanded }) =>
+  nodeRenderer: ({ name }) =>
     <span>
       {name}
     </span>,

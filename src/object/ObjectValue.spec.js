@@ -1,10 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import TestUtils from 'react-addons-test-utils';
 import expect from 'expect';
 import ObjectValue from './ObjectValue';
-
-// import objectStyles from '../styles/objectStyles'
 
 const renderer = TestUtils.createRenderer();
 
@@ -116,7 +113,7 @@ describe('ObjectValue', () => {
     expect(tree.props.children).toEqual('Symbol()');
   });
 
-  it('should render a symbol', () => {
+  it('should render a symbol foo', () => {
     renderer.render(<ObjectValue object={Symbol('foo')} />);
     const tree = renderer.getRenderOutput();
     expect(tree.type).toBe('span');

@@ -65,8 +65,7 @@ export default class TableInspector extends Component {
 
     let rowsData = rowHeaders.map(rowHeader => data[rowHeader]);
 
-    const sorted = this.state.sorted,
-      sortIndexColumn = this.state.sortIndexColumn,
+    const sortIndexColumn = this.state.sortIndexColumn,
       sortColumn = this.state.sortColumn,
       sortAscending = this.state.sortAscending;
 
