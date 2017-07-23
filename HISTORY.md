@@ -1,3 +1,7 @@
+## 2.1.3 (07/23/2017)
+- v2.1.2 was incorrectly published and did not contain the new
+  changes. v2.1.3 contains #38
+
 ## 2.1.2 (07/23/2017)
 - [#38](https://github.com/xyc/react-inspector/issues/38) Add
   `HTML_TAGNAME_TEXT_TRANSFORM` theme property ( @CodyReichert )
