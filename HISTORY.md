@@ -1,3 +1,10 @@
+## 2.1.2 (07/23/2017)
+- [#38](https://github.com/xyc/react-inspector/issues/38) Add
+  `HTML_TAGNAME_TEXT_TRANSFORM` theme property ( @CodyReichert )
+
+## 2.1.1 (07/04/2017)
+- [#38](https://github.com/xyc/react-inspector/issues/35) Fix dimmed object name ( @jasonphillips )
+
 ## 2.1.0 (06/28/2017)
 - [#33](https://github.com/xyc/react-inspector/issues/33) Add support for CDATA nodes ( thanks @iloahz )
 
