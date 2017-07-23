@@ -8,7 +8,7 @@ export default theme => ({
       },
       tagName: {
         color: theme.HTML_TAGNAME_COLOR,
-        textTransform: 'lowercase',
+        textTransform: theme.HTML_TAGNAME_TEXT_TRANSFORM,
       },
       htmlAttributeName: {
         color: theme.HTML_ATTRIBUTE_NAME_COLOR,
@@ -27,7 +27,7 @@ export default theme => ({
       },
       tagName: {
         color: theme.HTML_TAGNAME_COLOR,
-        textTransform: 'lowercase',
+        textTransform: theme.HTML_TAGNAME_TEXT_TRANSFORM,
       },
     },
     htmlComment: {
