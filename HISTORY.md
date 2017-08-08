@@ -1,3 +1,6 @@
+## 2.1.3 (08/08/2017)
+- Fix display of objects with empty keys
+
 ## 2.1.3 (07/23/2017)
 - v2.1.2 was incorrectly published and did not contain the new
   changes. v2.1.3 contains #38
