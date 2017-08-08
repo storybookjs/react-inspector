@@ -37,6 +37,7 @@ storiesOf('Objects', module)
   .add('Object: Array', () => <Inspector data={['cold', 'ice']} />)
   .add('Object: Array with different types of elements', () => <Inspector data={['a', 1, {}]} />)
   .add('Object: Empty Object', () => <Inspector showNonenumerable expandLevel={1} data={{}} />)
+  .add('Object: Empty String key', () => <Inspector data={{'': 'hi'}}/>)
   .add('Object: Simple Object', () => (
     <Inspector showNonenumerable expandLevel={2} data={{ k: 'v' }} />
   ))

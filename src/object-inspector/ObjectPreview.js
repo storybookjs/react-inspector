@@ -60,7 +60,7 @@ const ObjectPreview = ({ data, maxProperties }) => {
         }
         propertyNodes.push(
           <span key={propertyName}>
-            <ObjectName name={propertyName} />
+            <ObjectName name={propertyName || `""`} />
             :&nbsp;
             <ObjectValue object={propertyValue} />
             {ellipsis}
