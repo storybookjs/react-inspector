@@ -26,22 +26,30 @@ export default class TableInspector extends Component {
   }
 
   handleIndexTHClick() {
-    this.setState({
+    this.setState(({
+      sortIndexColumn,
+      sortAscending
+    }) => ({
       sorted: true,
       sortIndexColumn: true,
       sortColumn: undefined,
       // when changed to a new column, default to asending
-      sortAscending: this.state.sortIndexColumn ? !this.state.sortAscending : true,
-    });
+      sortAscending: sortIndexColumn ? !sortAscending : true,
+    }));
   }
 
   handleTHClick(col) {
-    this.setState({
+    this.setState(({
+      sortColumn,
+      sortAscending
+    }) => ({
       sorted: true,
       sortIndexColumn: false,
+      // update sort column
       sortColumn: col,
-      sortAscending: col === this.state.sortColumn ? !this.state.sortAscending : true,
-    });
+      // when changed to a new column, default to asending
+      sortAscending: col === sortColumn ? !sortAscending : true,
+    }));
   }
 
   render() {
