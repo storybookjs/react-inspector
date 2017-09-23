@@ -1,5 +1,5 @@
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from 'react-dom/test-utils';
 import expect from 'expect';
 import ObjectName from './ObjectName';
 
@@ -23,21 +23,21 @@ describe('ObjectName', () => {
     renderer.render(<ObjectName name="testvalue" />);
     const tree = renderer.getRenderOutput();
 
-    expect(tree.props.style).toInclude(defaultTheme.ObjectName.base);
+    expect(tree.props.style).toEqual(defaultTheme.ObjectName.base);
   });
 
   it('should apply dimming if `dimmed` prop is true', () => {
     renderer.render(<ObjectName name="testvalue" dimmed={true} />);
     const tree = renderer.getRenderOutput();
 
-    expect(tree.props.style).toInclude(defaultTheme.ObjectName.dimmed);
+    expect(tree.props.style).toMatchObject(defaultTheme.ObjectName.dimmed);
   });
 
   it('should not apply dimming if `dimmed` prop is false', () => {
     renderer.render(<ObjectName name="testvalue" dimmed={false} />);
     const tree = renderer.getRenderOutput();
 
-    expect(tree.props.style).toExclude(defaultTheme.ObjectName.dimmed);
+    expect(tree.props.style).not.toMatchObject(defaultTheme.ObjectName.dimmed);
   });
 
   it('Accepts and applies additional `style` prop', () => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from 'react-dom/test-utils';
 import expect from 'expect';
 import ObjectInspector from './ObjectInspector';
 
@@ -12,7 +12,7 @@ describe('ObjectInspector', () => {
     renderer.render(<ObjectInspector theme="testvalue" />);
     const tree = renderer.getRenderOutput();
     
-    expect(tree.type).toBeA('function');
+    expect(tree.type).toBeInstanceOf(Function);
     
     expect(tree.props.theme).toEqual('testvalue');
   });
@@ -23,7 +23,7 @@ describe('ObjectInspector', () => {
     renderer.render(<ObjectInspector nodeRenderer={nodeRenderer} />);
     const tree = renderer.getRenderOutput();
 
-    expect(tree.props.children.type).toBeA('function');
+    expect(tree.props.children.type).toBeInstanceOf(Function);
     
     expect(tree.props.children.props.nodeRenderer).toEqual(nodeRenderer);
   });
