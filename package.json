@@ -1,6 +1,6 @@
 {
   "name": "react-inspector",
-  "version": "2.1.4",
+  "version": "2.1.6",
   "description": "Power of Browser DevTools inspectors right inside your React app",
   "main": "lib/index.js",
   "scripts": {
