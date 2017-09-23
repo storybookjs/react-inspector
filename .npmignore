@@ -1,6 +1,8 @@
-.eslintrc
+.babelrc
+.eslintrc.js
 .gitignore
 .npmignore
+.travis.yml
 jsconfig.json
 
 react-codemod
@@ -10,7 +12,8 @@ build/
 example
 server.js
 src/
-webpack.config.js
+karma.conf.js
+webpack.prod.config.js
 
 stories
 .storybook
