@@ -1,83 +1,67 @@
 import React from 'react';
-import TestUtils from 'react-dom/test-utils';
-import expect from 'expect';
+import TestRenderer from 'react-test-renderer';
 import ObjectValue from './ObjectValue';
 
-const renderer = TestUtils.createRenderer();
-
 describe('ObjectValue', () => {
-  beforeEach(() => {});
-
   it('should render', () => {
-    // console.log(ObjectValue)
-    renderer.render(<ObjectValue object={0} />);
-    const tree = renderer.getRenderOutput();
-    expect(tree.type).toBe('span');
+    const tree = TestRenderer.create(<ObjectValue object={0} />);
+    expect(tree).toMatchSnapshot();
   });
 
   it('should render number', () => {
-    renderer.render(<ObjectValue object={0} />);
-    const tree = renderer.getRenderOutput();
+    const tree = TestRenderer.create(<ObjectValue object={0} />).toJSON();
     expect(tree.type).toBe('span');
-    expect(tree.props.children).toEqual(0);
+    expect(tree.children).toEqual(['0']);
   });
 
   it('should render string with quotes', () => {
-    renderer.render(<ObjectValue object={'octocat'} />);
-    const tree = renderer.getRenderOutput();
+    const tree = TestRenderer.create(<ObjectValue object={'octocat'} />).toJSON();
     expect(tree.type).toBe('span');
-    expect(tree.props.children).toEqual(['"', 'octocat', '"']);
+    expect(tree.children).toEqual(['"', 'octocat', '"']);
   });
 
   it('should render boolean', () => {
-    renderer.render(<ObjectValue object={true} />);
-    const tree = renderer.getRenderOutput();
+    const tree = TestRenderer.create(<ObjectValue object={true} />).toJSON();
     expect(tree.type).toBe('span');
-    expect(tree.props.children).toEqual('true');
+    expect(tree.children).toEqual(['true']);
   });
 
   it('should render undefined', () => {
-    renderer.render(<ObjectValue object={undefined} />);
-    const tree = renderer.getRenderOutput();
+    const tree = TestRenderer.create(<ObjectValue object={undefined} />).toJSON();
     expect(tree.type).toBe('span');
-    expect(tree.props.children).toEqual('undefined');
+    expect(tree.children).toEqual(['undefined']);
   });
 
   it('should render null', () => {
-    renderer.render(<ObjectValue object={null} />);
-    const tree = renderer.getRenderOutput();
+    const tree = TestRenderer.create(<ObjectValue object={null} />).toJSON();
     expect(tree.type).toBe('span');
-    expect(tree.props.children).toEqual('null');
+    expect(tree.children).toEqual(['null']);
   });
 
   it('should display date correctly', () => {
     const dateString = 'December 17, 1995 03:24:00';
     const date = new Date(dateString);
-    renderer.render(<ObjectValue object={date} />);
-    const tree = renderer.getRenderOutput();
+    const tree = TestRenderer.create(<ObjectValue object={date} />).toJSON();
     expect(tree.type).toBe('span');
-    expect(tree.props.children).toEqual(date.toString());
+    expect(tree.children).toEqual([date.toString()]);
   });
 
   it('should render array with length information', () => {
-    renderer.render(<ObjectValue object={[1, 2, 3, 4, 5]} />);
-    const tree = renderer.getRenderOutput();
+    const tree = TestRenderer.create(<ObjectValue object={[1, 2, 3, 4, 5]} />).toJSON();
     expect(tree.type).toBe('span');
-    expect(tree.props.children).toEqual('Array[5]');
+    expect(tree.children).toEqual(['Array[5]']);
   });
 
   it('should render an empty object', () => {
-    renderer.render(<ObjectValue object={{}} />);
-    const tree = renderer.getRenderOutput();
+    const tree = TestRenderer.create(<ObjectValue object={{}} />).toJSON();
     expect(tree.type).toBe('span');
-    expect(tree.props.children).toEqual('Object');
+    expect(tree.children).toEqual(['Object']);
   });
 
   it('should render a simple object', () => {
-    renderer.render(<ObjectValue object={{ k: 'v' }} />);
-    const tree = renderer.getRenderOutput();
+    const tree = TestRenderer.create(<ObjectValue object={{ k: 'v' }} />).toJSON();
     expect(tree.type).toBe('span');
-    expect(tree.props.children).toEqual('Object');
+    expect(tree.children).toEqual(['Object']);
   });
 
   /*
@@ -85,12 +69,12 @@ describe('ObjectValue', () => {
     renderer.render(<ObjectValue object={function(){}} />)
     const tree = renderer.getRenderOutput()
     expect(tree.type).toBe('span')
-    // const n = tree.props.children[1].props.children[1]
+    // const n = tree.children[1].props.children[1]
     // console.log(JSON.stringify(n, null, 2))
     // console.log(typeof n)
-    // console.log(tree.props.children[1].props.children)
-    expect(tree.props.children[0]).toEqual(<span style={objectStyles.value.function.keyword}>function</span>)
-    expect(tree.props.children[1]).toEqual(<span style={objectStyles.value.function.name}>{[ '\xa0', 'object', '()' ]}</span>)
+    // console.log(tree.children[1].props.children)
+    expect(tree.children[0]).toEqual(<span style={objectStyles.value.function.keyword}>function</span>)
+    expect(tree.children[1]).toEqual(<span style={objectStyles.value.function.name}>{[ '\xa0', 'object', '()' ]}</span>)
   });
   */
 
@@ -99,7 +83,7 @@ describe('ObjectValue', () => {
     renderer.render(<ObjectValue object={function id(a){return a;}} />)
     const tree = renderer.getRenderOutput()
     expect(tree.type).toBe('span')
-    expect(tree.props.children).toEqual([
+    expect(tree.children).toEqual([
                                           <span style={objectStyles.value.function.keyword}>function</span>,
                                           <span style={objectStyles.value.function.name}>{[ '\xa0', 'id', '()' ]}</span>
                                         ])
@@ -107,24 +91,21 @@ describe('ObjectValue', () => {
   */
 
   it('should render a symbol', () => {
-    renderer.render(<ObjectValue object={Symbol()} />);
-    const tree = renderer.getRenderOutput();
+    const tree = TestRenderer.create(<ObjectValue object={Symbol()} />).toJSON();
     expect(tree.type).toBe('span');
-    expect(tree.props.children).toEqual('Symbol()');
+    expect(tree.children).toEqual(['Symbol()']);
   });
 
   it('should render a symbol foo', () => {
-    renderer.render(<ObjectValue object={Symbol('foo')} />);
-    const tree = renderer.getRenderOutput();
+    const tree = TestRenderer.create(<ObjectValue object={Symbol('foo')} />).toJSON();
     expect(tree.type).toBe('span');
-    expect(tree.props.children).toEqual('Symbol(foo)');
+    expect(tree.children).toEqual(['Symbol(foo)']);
   });
 
   it('accepts and applies style from `styles` prop', () => {
     // Custom `styles` prop gets applied to the element
     const style = { color: 'blue' };
-    renderer.render(<ObjectValue styles={style} object={''} />);
-    const tree = renderer.getRenderOutput();
+    const tree = TestRenderer.create(<ObjectValue styles={style} object={''} />).toJSON();
     expect(tree.props.style.color).toEqual('blue');
   });
 });

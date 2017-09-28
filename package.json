@@ -39,7 +39,7 @@
     "prerelease": "npm run lint && npm run test && npm run clean && npm run build",
     "release": "npm publish . --access public",
     "storybook": "start-storybook -p 9001",
-    "test": "mocha src --compilers js:babel-register --recursive",
+    "test": "jest src",
     "test:watch": "npm run test -- --watch"
   },
   "dependencies": {
@@ -47,10 +47,10 @@
     "is-dom": "^1.0.9"
   },
   "devDependencies": {
-    "@storybook/react": "^3.2.10",
+    "@storybook/react": "^3.2.11",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
-    "babel-eslint": "^8.0.0",
+    "babel-eslint": "^8.0.1",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
@@ -59,26 +59,24 @@
     "babel-register": "^6.26.0",
     "core-js": "^2.5.1",
     "css-loader": "^0.28.7",
-    "enzyme": "^2.9.1",
     "eslint": "^4.7.2",
     "eslint-plugin-jasmine": "^2.8.4",
-    "eslint-plugin-react": "^7.3.0",
-    "expect": "^21.1.0",
-    "jasmine-core": "^2.8.0",
-    "mocha": "^3.5.3",
-    "prettier": "^1.7.0",
-    "prop-types": "^15.5.10",
-    "react": "^15.6.1",
-    "react-addons-test-utils": "^15.6.0",
-    "react-dom": "^15.6.1",
+    "eslint-plugin-react": "^7.4.0",
+    "expect": "^21.2.1",
+    "jest": "^21.2.1",
+    "prettier": "^1.7.2",
+    "prop-types": "^15.6.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
     "react-hot-loader": "^1.3.1",
+    "react-test-renderer": "^16.0.0",
     "rebug": "^0.0.3",
     "rimraf": "^2.6.2",
     "style-loader": "^0.18.2",
     "webpack": "^3.6.0",
-    "webpack-dev-server": "^2.8.2"
+    "webpack-dev-server": "^2.9.1"
   },
   "peerDependencies": {
-    "react": "^15.6.1"
+    "react": "react@^0.14.0 || ^15.0.0 || ^16.0.0"
   }
 }
