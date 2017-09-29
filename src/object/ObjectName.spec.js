@@ -2,11 +2,6 @@ import React from 'react';
 import TestRenderer from 'react-test-renderer';
 import ObjectName from './ObjectName';
 
-import chromeLight from '../styles/themes/chromeLight';
-import makeTheme from '../styles/base';
-
-const defaultTheme = makeTheme(chromeLight);
-
 describe('ObjectName', () => {
   it('should render', () => {
     const tree = TestRenderer.create(<ObjectName name="testvalue" />);
