@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ObjectValue should render 1`] = `
+<span
+  style={
+    Object {
+      "color": "rgb(28, 0, 207)",
+    }
+  }
+>
+  0
+</span>
+`;

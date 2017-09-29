@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ObjectName Accepts and applies additional \`style\` prop 1`] = `
+<span
+  style={
+    Object {
+      "color": "hotpink",
+    }
+  }
+/>
+`;
+
+exports[`ObjectName should apply dimming if \`dimmed\` prop is true 1`] = `
+<span
+  style={
+    Object {
+      "color": "rgb(136, 19, 145)",
+      "opacity": 0.6,
+    }
+  }
+>
+  testvalue
+</span>
+`;
+
+exports[`ObjectName should not apply dimming if \`dimmed\` prop is false 1`] = `
+<span
+  style={
+    Object {
+      "color": "rgb(136, 19, 145)",
+    }
+  }
+>
+  testvalue
+</span>
+`;
+
+exports[`ObjectName should render 1`] = `
+<span
+  style={
+    Object {
+      "color": "rgb(136, 19, 145)",
+    }
+  }
+>
+  testvalue
+</span>
+`;
