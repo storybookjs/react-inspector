@@ -16,7 +16,7 @@ const ObjectValue = ({ object, styles }, { theme }) => {
     case 'number':
       return (
         <span style={mkStyle('objectValueNumber')}>
-          {object}
+          {String(object)}
         </span>
       );
     case 'string':
