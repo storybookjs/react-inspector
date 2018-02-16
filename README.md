@@ -60,7 +60,7 @@ The component accepts the following props:
   import { ObjectRootLabel } from 'react-inspector'
   import { ObjectLabel } from 'react-inspector'
 
-  const defaultNodeRenderer = ({ depth, name, data, isNonenumerable }) =>
+  const defaultNodeRenderer = ({ depth, name, data, isNonenumerable, expanded }) =>
     depth === 0
       ? <ObjectRootLabel name={name} data={data} />
       : <ObjectLabel name={name} data={data} isNonenumerable={isNonenumerable} />;
