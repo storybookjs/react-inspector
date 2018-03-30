@@ -40,34 +40,37 @@ class TH extends Component {
 
   render() {
     // either not sorted, sort ascending or sort descending
-    const { sorted, sortAscending } = this.props;
+    const {
+      borderStyle,
+      children,
+      onClick,
+      sortAscending,
+      sorted,
+      ...props
+    } = this.props;
     const { theme } = this.context;
     const styles = createStyles('TableInspectorTH', theme);
 
     return (
       <th
-        {...this.props}
+        {...props}
         style={{
           ...styles.base,
-          ...this.props.borderStyle,
+          ...borderStyle,
           ...(this.state.hovered ? styles.base[':hover'] : {}),
         }}
         onMouseEnter={this.toggleHovered.bind(this, true)}
         onMouseLeave={this.toggleHovered.bind(this, false)}
-        onClick={this.props.onClick}
+        onClick={onClick}
       >
         <div style={styles.div}>
-          {this.props.children}
+          {children}
         </div>
-        {(() => {
-          if (sorted) {
-            return (
-              <SortIconContainer>
-                <SortIcon sortAscending={sortAscending} />
-              </SortIconContainer>
-            );
-          }
-        })()}
+        {sorted && (
+          <SortIconContainer>
+            <SortIcon sortAscending={sortAscending} />
+          </SortIconContainer>
+        )}
       </th>
     );
   }
