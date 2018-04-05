@@ -64,6 +64,12 @@ describe('ObjectValue', () => {
     expect(tree.children).toEqual(['Object']);
   });
 
+  it('should render a null prototyped object', () => {
+    const tree = TestRenderer.create(<ObjectValue object={Object.create(null)} />).toJSON();
+    expect(tree.type).toBe('span');
+    expect(tree.children).toEqual(['Object']);
+  });
+
   /*
   it('should render an anonymous function', () => {
     renderer.render(<ObjectValue object={function(){}} />)
