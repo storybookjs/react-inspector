@@ -142,6 +142,7 @@ Type of inspectors:
 ## Contribution
 Contribution is welcome. [Past contributors](https://github.com/xyc/react-inspector/graphs/contributors)
 
-## Notes
+## Additional
+- If you intend to capture `console.log`s, you may want to look at [`console-feed`](https://www.npmjs.com/package/console-feed).
 - `react-object-inspector` package will be deprecated. `<ObjectInspector/>` is now part of the new package `react-inspector`.
 - Why inline style? [This document](https://github.com/erikras/react-redux-universal-hot-example/blob/master/docs/InlineStyles.md) summarizes it well.
