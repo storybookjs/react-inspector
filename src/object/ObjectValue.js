@@ -57,7 +57,7 @@ const ObjectValue = ({ object, styles }, { theme }) => {
       if (!object.constructor) {
         return <span>Object</span>;
       }
-      if (object.constructor.isBuffer && object.constructor.isBuffer(object)) {
+      if (typeof object.constructor.isBuffer === 'function' && object.constructor.isBuffer(object)) {
         return <span>{`Buffer[${object.length}]`}</span>;
       }
 
