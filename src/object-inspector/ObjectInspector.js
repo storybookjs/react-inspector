@@ -7,7 +7,15 @@ import ObjectLabel from './ObjectLabel';
 
 import ThemeProvider from '../styles/ThemeProvider';
 
-const createIterator = (showNonenumerable, sortObjectKeys) => {
+const moreKeysHere = (val, pos) => {
+  const remain = val.length ? val.length - pos : null;
+  return {
+    name: remain ? `(...${remain} more)` : '...(and more)',
+    isMeta: true,
+  };
+};
+
+const createIterator = (showNonenumerable, sortObjectKeys, showMaxKeys) => {
   const objectIterator = function*(data) {
     const shouldIterate = (typeof data === 'object' && data !== null) || typeof data === 'function';
     if (!shouldIterate) return;
@@ -16,6 +24,10 @@ const createIterator = (showNonenumerable, sortObjectKeys) => {
     if (!Array.isArray(data) && data[Symbol.iterator]) {
       let i = 0;
       for (let entry of data) {
+        if (i === showMaxKeys) {
+          yield moreKeysHere(data, i);
+          break;
+        }
         if (Array.isArray(entry) && entry.length === 2) {
           const [k, v] = entry;
           yield {
@@ -37,8 +49,12 @@ const createIterator = (showNonenumerable, sortObjectKeys) => {
       } else if (typeof sortObjectKeys === 'function') {
         keys.sort(sortObjectKeys);
       }
-
+      let i = 0;
       for (let propertyName of keys) {
+        if (i === showMaxKeys) {
+          yield moreKeysHere(data, i);
+          break;
+        }
         if (data.propertyIsEnumerable(propertyName)) {
           const propertyValue = data[propertyName];
           yield {
@@ -64,6 +80,7 @@ const createIterator = (showNonenumerable, sortObjectKeys) => {
             };
           }
         }
+        i++;
       }
 
       // [[Prototype]] of the object: `Object.getPrototypeOf(data)`
@@ -81,10 +98,10 @@ const createIterator = (showNonenumerable, sortObjectKeys) => {
   return objectIterator;
 };
 
-const defaultNodeRenderer = ({ depth, name, data, isNonenumerable }) =>
+const defaultNodeRenderer = ({ depth, name, data, isNonenumerable, isMeta }) =>
   depth === 0
     ? <ObjectRootLabel name={name} data={data} />
-    : <ObjectLabel name={name} data={data} isNonenumerable={isNonenumerable} />;
+    : <ObjectLabel name={name} data={data} isNonenumerable={isNonenumerable} isMeta={isMeta} />;
 
 /**
  * Tree-view for objects
@@ -92,6 +109,8 @@ const defaultNodeRenderer = ({ depth, name, data, isNonenumerable }) =>
 class ObjectInspector extends Component {
   static defaultProps = {
     showNonenumerable: false,
+
+    showMaxKeys: Infinity,
 
     theme: 'chromeLight',
   };
@@ -113,14 +132,16 @@ class ObjectInspector extends Component {
     showNonenumerable: PropTypes.bool,
     /** Sort object keys with optional compare function. */
     sortObjectKeys: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+    /** Truncate long arrays and iterables  */
+    showMaxKeys: PropTypes.number,
 
     /** Provide a custom nodeRenderer */
     nodeRenderer: PropTypes.func,
   };
 
   render() {
-    const { showNonenumerable, sortObjectKeys, nodeRenderer, ...rest } = this.props;
-    const dataIterator = createIterator(showNonenumerable, sortObjectKeys);
+    const {showNonenumerable, sortObjectKeys, showMaxKeys, nodeRenderer, ...rest } = this.props;
+    const dataIterator = createIterator(showNonenumerable, sortObjectKeys, showMaxKeys);
 
     const renderer = nodeRenderer ? nodeRenderer : defaultNodeRenderer;
 
