@@ -1,6 +1,10 @@
 language: node_js
 node_js:
   - "node"
+install:
+  # We have a yarn.lock checked in, so travis will use `yarn`, but we
+  # want to use `npm install` instead.
+  - npm install
 script:
   - npm run lint
   - npm test
