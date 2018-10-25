@@ -107,7 +107,7 @@ export default theme => ({
         // lineHeight: '14px',
         fontSize: theme.ARROW_FONT_SIZE,
         marginRight: theme.ARROW_MARGIN_RIGHT,
-        transition: `transform ${theme.ARROW_ANIMATION_TIME} ease 0s`,
+        ...(theme.ARROW_ANIMATION_TIME ? {transition: `transform ${theme.ARROW_ANIMATION_TIME} ease 0s`} : {}),
         ...unselectable,
       },
       expanded: {
