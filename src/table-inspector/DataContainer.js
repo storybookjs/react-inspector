@@ -33,7 +33,7 @@ const DataContainer = ({ rows, columns, rowsData }, { theme }) => {
                 if (
                   typeof rowData === 'object' &&
                   rowData !== null &&
-                  rowData.hasOwnProperty(column)
+                  Object.prototype.hasOwnProperty.call(rowData,column)
                 ) {
                   return (
                     <td key={column} style={{ ...styles.td, ...borderStyles.solid }}>

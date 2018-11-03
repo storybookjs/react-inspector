@@ -39,7 +39,7 @@ const createIterator = (showNonenumerable, sortObjectKeys) => {
       }
 
       for (let propertyName of keys) {
-        if (data.propertyIsEnumerable(propertyName)) {
+        if (Object.prototype.propertyIsEnumerable.call(data,propertyName)) {
           const propertyValue = data[propertyName];
           yield {
             name: propertyName || `""`,

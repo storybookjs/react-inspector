@@ -50,7 +50,7 @@ const ObjectPreview = ({ data, maxProperties }) => {
     let propertyNodes = [];
     for (let propertyName in object) {
       const propertyValue = object[propertyName];
-      if (object.hasOwnProperty(propertyName)) {
+      if (Object.prototype.hasOwnProperty.call(object,propertyName)) {
         let ellipsis;
         if (
           propertyNodes.length === maxProperties - 1 &&
@@ -72,7 +72,7 @@ const ObjectPreview = ({ data, maxProperties }) => {
 
     return (
       <span style={styles.preview}>
-        {`${object.constructor.name} {`}
+        {`${object.constructor && object.constructor.name || 'Object'} {`}
         {intersperse(propertyNodes, ', ')}
         {'}'}
       </span>
