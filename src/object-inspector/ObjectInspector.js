@@ -12,8 +12,10 @@ const createIterator = (showNonenumerable, sortObjectKeys) => {
     const shouldIterate = (typeof data === 'object' && data !== null) || typeof data === 'function';
     if (!shouldIterate) return;
 
+    const dataIsArray = Array.isArray(data);
+
     // iterable objects (except arrays)
-    if (!Array.isArray(data) && data[Symbol.iterator]) {
+    if (!dataIsArray && data[Symbol.iterator]) {
       let i = 0;
       for (let entry of data) {
         if (Array.isArray(entry) && entry.length === 2) {
@@ -32,7 +34,8 @@ const createIterator = (showNonenumerable, sortObjectKeys) => {
       }
     } else {
       const keys = Object.getOwnPropertyNames(data);
-      if (sortObjectKeys === true) {
+      if (sortObjectKeys === true && !dataIsArray) {
+        // Array keys should not be sorted in alphabetical order
         keys.sort();
       } else if (typeof sortObjectKeys === 'function') {
         keys.sort(sortObjectKeys);
