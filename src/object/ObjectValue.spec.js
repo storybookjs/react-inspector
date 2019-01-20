@@ -49,7 +49,7 @@ describe('ObjectValue', () => {
   it('should render array with length information', () => {
     const tree = TestRenderer.create(<ObjectValue object={[1, 2, 3, 4, 5]} />).toJSON();
     expect(tree.type).toBe('span');
-    expect(tree.children).toEqual(['Array[5]']);
+    expect(tree.children).toEqual(['Array(5)']);
   });
 
   it('should render an empty object', () => {
