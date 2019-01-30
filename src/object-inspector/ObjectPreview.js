@@ -36,7 +36,13 @@ const ObjectPreview = ({ data, maxProperties }) => {
   }
 
   if (Array.isArray(object)) {
-    let previewArray;
+    const previewArray = object
+      .slice(0, maxProperties)
+      .map((element, index) => <ObjectValue key={index} object={element} />);
+    if (object.length > maxProperties) {
+      previewArray.push(<span key="ellipsis">…</span>);
+    }
+    
     if (object.length > maxProperties) {
       previewArray = object
         .slice(0, maxProperties)
