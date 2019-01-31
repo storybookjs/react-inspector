@@ -36,15 +36,21 @@ const ObjectPreview = ({ data, maxProperties }) => {
   }
 
   if (Array.isArray(object)) {
+    const previewArray = object
+      .slice(0, maxProperties)
+      .map((element, index) => <ObjectValue key={index} object={element} />);
+    if (object.length > maxProperties) {
+      previewArray.push(<span key="ellipsis">…</span>);
+    }
     return (
-      <span style={styles.preview}>
-        [
-        {intersperse(
-          object.map((element, index) => <ObjectValue key={index} object={element} />),
-          ', ',
-        )}
-        ]
-      </span>
+      <React.Fragment>
+        <span>{`Array(${object.length})`}</span>
+        <span style={styles.preview}>
+          [
+          {intersperse(previewArray, ",")}
+          ]
+        </span>
+      </React.Fragment>
     );
   } else {
     let propertyNodes = [];

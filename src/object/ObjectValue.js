@@ -52,7 +52,7 @@ const ObjectValue = ({ object, styles }, { theme }) => {
         );
       }
       if (Array.isArray(object)) {
-        return <span>{`Array[${object.length}]`}</span>;
+        return <span>{`Array(${object.length})`}</span>;
       }
       if (!object.constructor) {
         return <span>Object</span>;
