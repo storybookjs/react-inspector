@@ -13,12 +13,12 @@ import HeaderContainer from './HeaderContainer';
 
 import { themeAcceptor, useStyles } from '../styles';
 
-export default themeAcceptor(function TableInspector({
+const TableInspector = ({
   // The JS object you would like to inspect, either an array or an object
   data,
   // An array of the names of the columns you'd like to display in the table
   columns,
-}) {
+}) => {
   const styles = useStyles('TableInspector');
 
   const [
@@ -158,4 +158,17 @@ export default themeAcceptor(function TableInspector({
       />
     </div>
   );
-});
+};
+
+TableInspector.propTypes = {
+  /**
+   * the Javascript object you would like to inspect, either an array or an object
+   */
+  data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  /**
+   * An array of the names of the columns you'd like to display in the table
+   */
+  columns: PropTypes.array,
+};
+
+export default themeAcceptor(TableInspector);

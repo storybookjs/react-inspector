@@ -23,7 +23,7 @@ function intersperse(arr, sep) {
 /**
  * A preview of the object
  */
-const ObjectPreview = ({ data, maxProperties }) => {
+const ObjectPreview = ({ data, maxProperties = 5 }) => {
   const object = data;
 
   if (
@@ -36,15 +36,17 @@ const ObjectPreview = ({ data, maxProperties }) => {
   }
 
   if (Array.isArray(object)) {
+    const previewArray = object
+      .slice(0, maxProperties)
+      .map((element, index) => <ObjectValue key={index} object={element} />);
+    if (object.length > maxProperties) {
+      previewArray.push(<span key="ellipsis">…</span>);
+    }
     return (
-      <span style={styles.preview}>
-        [
-        {intersperse(
-          object.map((element, index) => <ObjectValue key={index} object={element} />),
-          ', ',
-        )}
-        ]
-      </span>
+      <React.Fragment>
+        <span>{`Array(${object.length})`}</span>
+        <span style={styles.preview}>[{intersperse(previewArray, ',')}]</span>
+      </React.Fragment>
     );
   } else {
     let propertyNodes = [];
@@ -64,7 +66,7 @@ const ObjectPreview = ({ data, maxProperties }) => {
             :&nbsp;
             <ObjectValue object={propertyValue} />
             {ellipsis}
-          </span>,
+          </span>
         );
         if (ellipsis) break;
       }
@@ -85,9 +87,6 @@ ObjectPreview.propTypes = {
    * max number of properties shown in the property view
    */
   maxProperties: PropTypes.number,
-};
-ObjectPreview.defaultProps = {
-  maxProperties: 5,
 };
 
 export default ObjectPreview;

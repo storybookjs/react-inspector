@@ -30,12 +30,34 @@ storiesOf('Null', module).add('Null', () => <Inspector data={null} />);
 
 storiesOf('Symbols', module).add('test', () => <Inspector data={Symbol.for('test')} />);
 
+// Arrays
+storiesOf('Arrays', module)
+  .add('Empty Array', () => <Inspector data={[]} />)
+  .add('Basic Array', () => <Inspector data={['cold', 'ice']} />)
+  .add('Array with different types of elements', () => (
+    <Inspector data={['a', 1, {}]} />
+  ))
+  .add('Long array', () => (
+    <Inspector data={new Array(1000).fill(0).map((x, i) => i + '')} />
+  ))
+  .add('Array with big objects', () => (
+    <Inspector data={
+      new Array(100).fill(0).map((x, i) => ({
+        key: i,
+        name: `John #${i}`,
+        dateOfBirth: new Date(i * 10e8),
+        address: `${i} Main Street`,
+        zip: 90210 + i,
+
+      }))
+    } />
+  ))
+  .add('Uint32Array', () => <Inspector data={new Uint32Array(1000)} />);
+
 // Objects
 storiesOf('Objects', module)
   .add('Object: Date', () => <Inspector data={new Date('2005-04-03')} />)
   .add('Object: Regular Expression', () => <Inspector data={/^.*$/} />)
-  .add('Object: Array', () => <Inspector data={['cold', 'ice']} />)
-  .add('Object: Array with different types of elements', () => <Inspector data={['a', 1, {}]} />)
   .add('Object: Empty Object', () => <Inspector showNonenumerable expandLevel={1} data={{}} />)
   .add('Object: Empty String key', () => <Inspector data={{'': 'hi'}}/>)
   .add('Object: Simple Object', () => (

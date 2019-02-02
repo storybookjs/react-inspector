@@ -1,11 +1,4 @@
-import React, {
-  Children,
-  Component,
-  createElement,
-  memo,
-  useContext,
-} from 'react';
-import ExpandedPathsContext from './ExpandedPathsContext';
+import React, { Children, memo } from 'react';
 import PropTypes from 'prop-types';
 import { useStyles } from '../styles';
 

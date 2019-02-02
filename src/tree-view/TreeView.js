@@ -74,7 +74,7 @@ ConnectedTreeNode.propTypes = {
 const TreeView = memo(
   ({ name, data, dataIterator, nodeRenderer, expandPaths, expandLevel }) => {
     const stateAndSetter = useState({});
-    const [expandedPaths, setExpandedPaths] = stateAndSetter;
+    const [, setExpandedPaths] = stateAndSetter;
 
     useLayoutEffect(
       () =>

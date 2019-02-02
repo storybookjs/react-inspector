@@ -1,21 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useStyles } from '../styles';
 import TH from './TH';
 
-const HeaderContainer = (
-  {
-    indexColumnText,
-    columns,
-    sorted,
-    sortIndexColumn,
-    sortColumn,
-    sortAscending,
-    onTHClick,
-    onIndexTHClick,
-  },
-  { theme }
-) => {
+const HeaderContainer = ({
+  indexColumnText = '(index)',
+  columns = [],
+  sorted,
+  sortIndexColumn,
+  sortColumn,
+  sortAscending,
+  onTHClick,
+  onIndexTHClick,
+}) => {
   const styles = useStyles('TableInspectorHeaderContainer');
   const borderStyles = useStyles('TableInspectorLeftBorder');
   return (
@@ -45,11 +41,6 @@ const HeaderContainer = (
       </table>
     </div>
   );
-};
-
-HeaderContainer.defaultProps = {
-  indexColumnText: '(index)',
-  columns: [],
 };
 
 export default HeaderContainer;
