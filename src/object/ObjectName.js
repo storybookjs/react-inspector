@@ -19,11 +19,7 @@ const ObjectName = ({ name, dimmed, styles }, { theme }) => {
     ...styles,
   };
 
-  return (
-    <span style={appliedStyles}>
-      {name}
-    </span>
-  );
+  return <span style={appliedStyles}>{name}</span>;
 };
 
 ObjectName.propTypes = {

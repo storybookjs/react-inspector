@@ -26,10 +26,7 @@ export default class TableInspector extends Component {
   }
 
   handleIndexTHClick() {
-    this.setState(({
-      sortIndexColumn,
-      sortAscending
-    }) => ({
+    this.setState(({ sortIndexColumn, sortAscending }) => ({
       sorted: true,
       sortIndexColumn: true,
       sortColumn: undefined,
@@ -39,10 +36,7 @@ export default class TableInspector extends Component {
   }
 
   handleTHClick(col) {
-    this.setState(({
-      sortColumn,
-      sortAscending
-    }) => ({
+    this.setState(({ sortColumn, sortAscending }) => ({
       sorted: true,
       sortIndexColumn: false,
       // update sort column
@@ -159,7 +153,11 @@ export default class TableInspector extends Component {
             onTHClick={this.handleTHClick.bind(this)}
             onIndexTHClick={this.handleIndexTHClick.bind(this)}
           />
-          <DataContainer rows={rowHeaders} columns={colHeaders} rowsData={rowsData} />
+          <DataContainer
+            rows={rowHeaders}
+            columns={colHeaders}
+            rowsData={rowsData}
+          />
         </div>
       </ThemeProvider>
     );

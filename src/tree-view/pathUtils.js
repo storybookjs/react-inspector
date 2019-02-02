@@ -9,7 +9,7 @@ export function hasChildNodes(data, dataIterator) {
 export const wildcardPathsFromLevel = level => {
   // i is depth
   return Array.from({ length: level }, (_, i) =>
-    [DEFAULT_ROOT_PATH].concat(Array.from({ length: i }, () => '*')).join('.'),
+    [DEFAULT_ROOT_PATH].concat(Array.from({ length: i }, () => '*')).join('.')
   );
 };
 
@@ -18,7 +18,7 @@ export const getExpandedPaths = (
   dataIterator,
   expandPaths,
   expandLevel,
-  initialState = {},
+  initialState = {}
 ) => {
   let wildcardPaths = []
     .concat(wildcardPathsFromLevel(expandLevel))

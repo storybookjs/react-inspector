@@ -9,7 +9,8 @@ import ThemeProvider from '../styles/ThemeProvider';
 
 const createIterator = (showNonenumerable, sortObjectKeys) => {
   const objectIterator = function*(data) {
-    const shouldIterate = (typeof data === 'object' && data !== null) || typeof data === 'function';
+    const shouldIterate =
+      (typeof data === 'object' && data !== null) || typeof data === 'function';
     if (!shouldIterate) return;
 
     const dataIsArray = Array.isArray(data);
@@ -85,9 +86,11 @@ const createIterator = (showNonenumerable, sortObjectKeys) => {
 };
 
 const defaultNodeRenderer = ({ depth, name, data, isNonenumerable }) =>
-  depth === 0
-    ? <ObjectRootLabel name={name} data={data} />
-    : <ObjectLabel name={name} data={data} isNonenumerable={isNonenumerable} />;
+  depth === 0 ? (
+    <ObjectRootLabel name={name} data={data} />
+  ) : (
+    <ObjectLabel name={name} data={data} isNonenumerable={isNonenumerable} />
+  );
 
 /**
  * Tree-view for objects
@@ -122,14 +125,23 @@ class ObjectInspector extends Component {
   };
 
   render() {
-    const { showNonenumerable, sortObjectKeys, nodeRenderer, ...rest } = this.props;
+    const {
+      showNonenumerable,
+      sortObjectKeys,
+      nodeRenderer,
+      ...rest
+    } = this.props;
     const dataIterator = createIterator(showNonenumerable, sortObjectKeys);
 
     const renderer = nodeRenderer ? nodeRenderer : defaultNodeRenderer;
 
     return (
       <ThemeProvider theme={this.props.theme}>
-        <TreeView nodeRenderer={renderer} dataIterator={dataIterator} {...rest} />
+        <TreeView
+          nodeRenderer={renderer}
+          dataIterator={dataIterator}
+          {...rest}
+        />
       </ThemeProvider>
     );
   }

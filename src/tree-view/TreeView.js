@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 
 import TreeNode from './TreeNode';
 
-import { DEFAULT_ROOT_PATH, hasChildNodes, getExpandedPaths } from './pathUtils';
+import {
+  DEFAULT_ROOT_PATH,
+  hasChildNodes,
+  getExpandedPaths,
+} from './pathUtils';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -13,7 +17,9 @@ const reducer = (state, action) => {
       const expanded = !!expandedPaths[path];
 
       return Object.assign({}, state, {
-        expandedPaths: Object.assign({}, state.expandedPaths, { [path]: !expanded }),
+        expandedPaths: Object.assign({}, state.expandedPaths, {
+          [path]: !expanded,
+        }),
       });
     }
     default:
@@ -30,7 +36,8 @@ class ConnectedTreeNode extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     return (
-      !!nextState.expandedPaths[nextProps.path] !== !!this.state.expandedPaths[this.props.path] ||
+      !!nextState.expandedPaths[nextProps.path] !==
+        !!this.state.expandedPaths[this.props.path] ||
       nextProps.data !== this.props.data ||
       nextProps.name !== this.props.name
     );
@@ -64,7 +71,7 @@ class ConnectedTreeNode extends Component {
           dataIterator={dataIterator}
           nodeRenderer={nodeRenderer}
           {...props} // props for nodeRenderer
-        />,
+        />
       );
     }
     return childNodes;
@@ -82,15 +89,16 @@ class ConnectedTreeNode extends Component {
     return (
       <TreeNode
         expanded={expanded}
-        onClick={nodeHasChildNodes ? this.handleClick.bind(this, path) : () => {}}
+        onClick={
+          nodeHasChildNodes ? this.handleClick.bind(this, path) : () => {}
+        }
         // show arrow anyway even if not expanded and not rendering children
         shouldShowArrow={nodeHasChildNodes}
         // show placeholder only for non root nodes
         shouldShowPlaceholder={depth > 0}
         // Render a node from name and data (or possibly other props like isNonenumerable)
         nodeRenderer={nodeRenderer}
-        {...this.props}
-      >
+        {...this.props}>
         {// only render if the node is expanded
         expanded ? this.renderChildNodes(data, path) : undefined}
       </TreeNode>
@@ -128,7 +136,7 @@ class TreeView extends Component {
           props.data,
           props.dataIterator,
           props.expandPaths,
-          props.expandLevel,
+          props.expandLevel
         ),
       },
     };
@@ -142,7 +150,7 @@ class TreeView extends Component {
           nextProps.dataIterator,
           nextProps.expandPaths,
           nextProps.expandLevel,
-          this.store.storeState.expandedPaths,
+          this.store.storeState.expandedPaths
         ),
       },
     };

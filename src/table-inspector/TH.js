@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import createStyles from '../styles/createStyles';
 
-const SortIconContainer = props =>
+const SortIconContainer = props => (
   <div
     style={{
       position: 'absolute',
@@ -12,19 +12,15 @@ const SortIconContainer = props =>
       bottom: 1,
       display: 'flex',
       alignItems: 'center',
-    }}
-  >
+    }}>
     {props.children}
-  </div>;
+  </div>
+);
 
 const SortIcon = ({ sortAscending }, { theme }) => {
   const glyph = sortAscending ? '▲' : '▼';
   const styles = createStyles('TableInspectorSortIcon', theme);
-  return (
-    <div style={styles}>
-      {glyph}
-    </div>
-  );
+  return <div style={styles}>{glyph}</div>;
 };
 
 SortIcon.contextTypes = {
@@ -61,11 +57,8 @@ class TH extends Component {
         }}
         onMouseEnter={this.toggleHovered.bind(this, true)}
         onMouseLeave={this.toggleHovered.bind(this, false)}
-        onClick={onClick}
-      >
-        <div style={styles.div}>
-          {children}
-        </div>
+        onClick={onClick}>
+        <div style={styles.div}>{children}</div>
         {sorted && (
           <SortIconContainer>
             <SortIcon sortAscending={sortAscending} />
