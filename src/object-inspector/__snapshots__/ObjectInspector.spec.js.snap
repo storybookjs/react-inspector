@@ -1,27 +1,83 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ObjectInspector passes \`nodeRenderer\` prop to <TreeView/> 1`] = `
-<ThemeProvider
-  theme="chromeLight"
+<li
+  aria-expanded={false}
+  role="treeitem"
+  style={
+    Object {
+      "backgroundColor": "white",
+      "boxSizing": "border-box",
+      "color": "black",
+      "cursor": "default",
+      "fontFamily": "Menlo, monospace",
+      "fontSize": "11px",
+      "lineHeight": "14px",
+      "listStyle": "none",
+    }
+  }
+  title={undefined}
 >
-  <TreeView
-    dataIterator={[Function]}
-    name={undefined}
-    nodeRenderer={[Function]}
-    theme="chromeLight"
+  <div
+    onClick={[Function]}
+    style={Object {}}
+  >
+    <span>
+      unit test
+    </span>
+  </div>
+  <ol
+    role="group"
+    style={
+      Object {
+        "margin": 0,
+        "paddingLeft": 12,
+      }
+    }
   />
-</ThemeProvider>
+</li>
 `;
 
 exports[`ObjectInspector should render 1`] = `
-<ThemeProvider
-  theme="testvalue"
+<li
+  aria-expanded={false}
+  role="treeitem"
+  style={
+    Object {
+      "backgroundColor": "white",
+      "boxSizing": "border-box",
+      "color": "black",
+      "cursor": "default",
+      "fontFamily": "Menlo, monospace",
+      "fontSize": "11px",
+      "lineHeight": "14px",
+      "listStyle": "none",
+    }
+  }
+  title={undefined}
 >
-  <TreeView
-    dataIterator={[Function]}
-    name={undefined}
-    nodeRenderer={[Function]}
-    theme="testvalue"
+  <div
+    onClick={[Function]}
+    style={Object {}}
+  >
+    <span
+      style={
+        Object {
+          "color": "rgb(128, 128, 128)",
+        }
+      }
+    >
+      undefined
+    </span>
+  </div>
+  <ol
+    role="group"
+    style={
+      Object {
+        "margin": 0,
+        "paddingLeft": 12,
+      }
+    }
   />
-</ThemeProvider>
+</li>
 `;

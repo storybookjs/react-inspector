@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import createStyles from '../styles/createStyles';
+import { useStyles } from '../styles';
 import shouldInline from './shouldInline';
 
 const OpenTag = ({ tagName, attributes, styles }) => {
@@ -54,8 +54,8 @@ const nameByNodeType = {
   11: 'DOCUMENT_FRAGMENT_NODE',
 };
 
-const DOMNodePreview = ({ isCloseTag, data, expanded }, { theme }) => {
-  const styles = createStyles('DOMNodePreview', theme);
+const DOMNodePreview = ({ isCloseTag, data, expanded }) => {
+  const styles = useStyles('DOMNodePreview');
 
   if (isCloseTag) {
     return (
@@ -127,10 +127,6 @@ DOMNodePreview.propTypes = {
   data: PropTypes.object.isRequired,
   /** Whether the DOM node has been expanded. */
   expanded: PropTypes.bool.isRequired,
-};
-
-DOMNodePreview.contextTypes = {
-  theme: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
 };
 
 export default DOMNodePreview;

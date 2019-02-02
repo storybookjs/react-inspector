@@ -8,8 +8,8 @@ export function hasChildNodes(data, dataIterator) {
 
 export const wildcardPathsFromLevel = level => {
   // i is depth
-  return Array.from({ length: level }, (_, i) =>
-    [DEFAULT_ROOT_PATH].concat(Array.from({ length: i }, () => '*')).join('.')
+  return Array.from({length: level}, (_, i) =>
+    [DEFAULT_ROOT_PATH].concat(Array.from({length: i}, () => '*')).join('.'),
   );
 };
 
@@ -18,7 +18,7 @@ export const getExpandedPaths = (
   dataIterator,
   expandPaths,
   expandLevel,
-  initialState = {}
+  prevExpandedPaths,
 ) => {
   let wildcardPaths = []
     .concat(wildcardPathsFromLevel(expandLevel))
@@ -43,7 +43,7 @@ export const getExpandedPaths = (
         }
       } else {
         if (key === WILDCARD) {
-          for (let { name, data } of dataIterator(curData)) {
+          for (let {name, data} of dataIterator(curData)) {
             if (hasChildNodes(data, dataIterator)) {
               populatePaths(data, `${curPath}.${name}`, depth + 1);
             }
@@ -60,8 +60,11 @@ export const getExpandedPaths = (
     populatePaths(data, '', 0);
   });
 
-  return expandedPaths.reduce((obj, path) => {
-    obj[path] = true;
-    return obj;
-  }, initialState);
+  return expandedPaths.reduce(
+    (obj, path) => {
+      obj[path] = true;
+      return obj;
+    },
+    {...prevExpandedPaths},
+  );
 };

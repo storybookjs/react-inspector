@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import createStyles from '../styles/createStyles';
+import { useStyles } from '../styles';
 import TH from './TH';
 
 const HeaderContainer = (
@@ -16,8 +16,8 @@ const HeaderContainer = (
   },
   { theme }
 ) => {
-  const styles = createStyles('TableInspectorHeaderContainer', theme);
-  const borderStyles = createStyles('TableInspectorLeftBorder', theme);
+  const styles = useStyles('TableInspectorHeaderContainer');
+  const borderStyles = useStyles('TableInspectorLeftBorder');
   return (
     <div style={styles.base}>
       <table style={styles.table}>
@@ -50,10 +50,6 @@ const HeaderContainer = (
 HeaderContainer.defaultProps = {
   indexColumnText: '(index)',
   columns: [],
-};
-
-HeaderContainer.contextTypes = {
-  theme: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
 };
 
 export default HeaderContainer;

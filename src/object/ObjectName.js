@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import createStyles from '../styles/createStyles';
+import { useStyles } from '../styles';
 
 /**
  * A view for object property names.
@@ -11,8 +11,8 @@ import createStyles from '../styles/createStyles';
  * If the property name is not enumerable (`Object.prototype.propertyIsEnumerable()`),
  * the property name will be dimmed to show the difference.
  */
-const ObjectName = ({ name, dimmed, styles }, { theme }) => {
-  const themeStyles = createStyles('ObjectName', theme);
+const ObjectName = ({ name, dimmed, styles }) => {
+  const themeStyles = useStyles('ObjectName');
   const appliedStyles = {
     ...themeStyles.base,
     ...(dimmed ? themeStyles['dimmed'] : {}),
@@ -31,10 +31,6 @@ ObjectName.propTypes = {
 
 ObjectName.defaultProps = {
   dimmed: false,
-};
-
-ObjectName.contextTypes = {
-  theme: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };
 
 export default ObjectName;

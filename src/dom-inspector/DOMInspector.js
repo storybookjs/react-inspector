@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import DOMNodePreview from './DOMNodePreview';
 import TreeView from '../tree-view/TreeView';
 
 import shouldInline from './shouldInline';
+import { themeAcceptor } from '../styles';
+
 const domIterator = function*(data) {
   if (data && data.childNodes) {
     const textInlined = shouldInline(data);
@@ -41,31 +43,19 @@ const domIterator = function*(data) {
   }
 };
 
-import ThemeProvider from '../styles/ThemeProvider';
+const DOMInspector = props => {
+  return (
+    <TreeView
+      nodeRenderer={DOMNodePreview}
+      dataIterator={domIterator}
+      {...props}
+    />
+  );
+};
 
-class DOMInspector extends Component {
-  static propTypes = {
-    /** The DOM Node to inspect */
-    data: PropTypes.object.isRequired,
-  };
+DOMInspector.propTypes = {
+  // The DOM Node to inspect
+  data: PropTypes.object.isRequired,
+};
 
-  static defaultProps = {
-    theme: 'chromeLight',
-  };
-
-  render() {
-    const nodeRenderer = DOMNodePreview;
-
-    return (
-      <ThemeProvider theme={this.props.theme}>
-        <TreeView
-          nodeRenderer={nodeRenderer}
-          dataIterator={domIterator}
-          {...this.props}
-        />
-      </ThemeProvider>
-    );
-  }
-}
-
-export default DOMInspector;
+export default themeAcceptor(DOMInspector);

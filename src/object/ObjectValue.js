@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import createStyles from '../styles/createStyles';
+
+import { useStyles } from '../styles';
 
 /**
  * A short description of the object values.
  * Can be used to render tree node in ObjectInspector
  * or render objects in TableInspector.
  */
-const ObjectValue = ({ object, styles }, { theme }) => {
-  const themeStyles = createStyles('ObjectValue', theme);
+const ObjectValue = ({ object, styles }) => {
+  const themeStyles = useStyles('ObjectValue');
 
   const mkStyle = key => ({ ...themeStyles[key], ...styles });
 
@@ -68,12 +69,8 @@ const ObjectValue = ({ object, styles }, { theme }) => {
 };
 
 ObjectValue.propTypes = {
-  /** the object to describe */
+  // the object to describe
   object: PropTypes.any,
-};
-
-ObjectValue.contextTypes = {
-  theme: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };
 
 export default ObjectValue;

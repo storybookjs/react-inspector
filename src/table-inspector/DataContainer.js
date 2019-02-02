@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import createStyles from '../styles/createStyles';
 import ObjectValue from '../object/ObjectValue';
 
-const DataContainer = ({ rows, columns, rowsData }, { theme }) => {
-  const styles = createStyles('TableInspectorDataContainer', theme);
-  const borderStyles = createStyles('TableInspectorLeftBorder', theme);
+import { useStyles } from '../styles';
+
+const DataContainer = ({ rows, columns, rowsData }) => {
+  const styles = useStyles('TableInspectorDataContainer');
+  const borderStyles = useStyles('TableInspectorLeftBorder');
 
   return (
     <div style={styles.div}>
@@ -55,10 +56,6 @@ const DataContainer = ({ rows, columns, rowsData }, { theme }) => {
       </table>
     </div>
   );
-};
-
-DataContainer.contextTypes = {
-  theme: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
 };
 
 export default DataContainer;

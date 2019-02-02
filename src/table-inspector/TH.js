@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { useCallback, useState } from 'react';
 
-import createStyles from '../styles/createStyles';
+import { useStyles } from '../styles';
 
 const SortIconContainer = props => (
   <div
@@ -17,66 +16,45 @@ const SortIconContainer = props => (
   </div>
 );
 
-const SortIcon = ({ sortAscending }, { theme }) => {
+const SortIcon = ({ sortAscending }) => {
+  const styles = useStyles('TableInspectorSortIcon');
   const glyph = sortAscending ? '▲' : '▼';
-  const styles = createStyles('TableInspectorSortIcon', theme);
   return <div style={styles}>{glyph}</div>;
 };
 
-SortIcon.contextTypes = {
-  theme: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-};
+const TH = ({
+  sortAscending = false,
+  sorted = false,
+  onClick = undefined,
+  borderStyle = {},
+  children,
+  ...thProps
+}) => {
+  const styles = useStyles('TableInspectorTH');
+  const [hovered, setHovered] = useState(false);
 
-class TH extends Component {
-  state = { hovered: false };
+  const handleMouseEnter = useCallback(() => setHovered(true), []);
+  const handleMouseLeave = useCallback(() => setHovered(false), []);
 
-  toggleHovered(hovered) {
-    this.setState({ hovered: hovered });
-  }
-
-  render() {
-    // either not sorted, sort ascending or sort descending
-    const {
-      borderStyle,
-      children,
-      onClick,
-      sortAscending,
-      sorted,
-      ...props
-    } = this.props;
-    const { theme } = this.context;
-    const styles = createStyles('TableInspectorTH', theme);
-
-    return (
-      <th
-        {...props}
-        style={{
-          ...styles.base,
-          ...borderStyle,
-          ...(this.state.hovered ? styles.base[':hover'] : {}),
-        }}
-        onMouseEnter={this.toggleHovered.bind(this, true)}
-        onMouseLeave={this.toggleHovered.bind(this, false)}
-        onClick={onClick}>
-        <div style={styles.div}>{children}</div>
-        {sorted && (
-          <SortIconContainer>
-            <SortIcon sortAscending={sortAscending} />
-          </SortIconContainer>
-        )}
-      </th>
-    );
-  }
-}
-
-TH.contextTypes = {
-  theme: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-};
-
-TH.defaultProps = {
-  sortAscending: false,
-  sorted: false,
-  onClick: undefined,
+  return (
+    <th
+      {...thProps}
+      style={{
+        ...styles.base,
+        ...borderStyle,
+        ...(hovered ? styles.base[':hover'] : {}),
+      }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={onClick}>
+      <div style={styles.div}>{children}</div>
+      {sorted && (
+        <SortIconContainer>
+          <SortIcon sortAscending={sortAscending} />
+        </SortIconContainer>
+      )}
+    </th>
+  );
 };
 
 export default TH;
