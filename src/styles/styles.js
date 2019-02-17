@@ -10,18 +10,20 @@ const ThemeContext = createContext(base(themes[DEFAULT_THEME_NAME]));
 
 /**
  * Hook to get the component styles for the current theme.
+ * @param {string} baseStylesKey - Name of the component to be styled
  */
-export const useStyles = key => {
+export const useStyles = baseStylesKey => {
   const themeStyles = useContext(ThemeContext);
-  return themeStyles[key];
+  return themeStyles[baseStylesKey];
 };
 
 /**
  * HOC to create a component that accepts a "theme" prop and uses it to set
  * the current theme. This is intended to be used by the top-level inspector
  * components.
+ * @param {Object} WrappedComponent - React component to be wrapped
  */
-export const themeAcceptor = Component => {
+export const themeAcceptor = WrappedComponent => {
   const ThemeAcceptor = ({ theme = DEFAULT_THEME_NAME, ...restProps }) => {
     const themeStyles = useMemo(() => {
       switch (Object.prototype.toString.call(theme)) {
@@ -36,7 +38,7 @@ export const themeAcceptor = Component => {
 
     return (
       <ThemeContext.Provider value={themeStyles}>
-        <Component {...restProps} />
+        <WrappedComponent {...restProps} />
       </ThemeContext.Provider>
     );
   };
