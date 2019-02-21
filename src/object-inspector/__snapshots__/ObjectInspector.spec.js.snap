@@ -6,7 +6,6 @@ exports[`ObjectInspector passes \`nodeRenderer\` prop to <TreeView/> 1`] = `
 >
   <TreeView
     dataIterator={[Function]}
-    name={undefined}
     nodeRenderer={[Function]}
     theme="chromeLight"
   />
@@ -19,7 +18,6 @@ exports[`ObjectInspector should render 1`] = `
 >
   <TreeView
     dataIterator={[Function]}
-    name={undefined}
     nodeRenderer={[Function]}
     theme="testvalue"
   />
