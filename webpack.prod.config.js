@@ -1,6 +1,7 @@
 var path = require('path');
 
 var config = {
+  mode: 'production',
   devtool: 'sourcemap',
   entry: {
     index: './src/index.js',
@@ -16,14 +17,14 @@ var config = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)/,
+        test: /\.js/,
         loader: 'babel-loader',
       },
     ],
   },
   plugins: [],
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js'],
   },
   externals: {
     react: {

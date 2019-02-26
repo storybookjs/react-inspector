@@ -18,22 +18,10 @@ exports[`ObjectInspector passes \`nodeRenderer\` prop to <TreeView/> 1`] = `
   }
   title={undefined}
 >
-  <div
-    onClick={[Function]}
-    style={Object {}}
-  >
-    <span>
-      unit test
-    </span>
-  </div>
-  <ol
-    role="group"
-    style={
-      Object {
-        "margin": 0,
-        "paddingLeft": 12,
-      }
-    }
+  <TreeView
+    dataIterator={[Function]}
+    nodeRenderer={[Function]}
+    theme="chromeLight"
   />
 </li>
 `;
@@ -56,28 +44,10 @@ exports[`ObjectInspector should render 1`] = `
   }
   title={undefined}
 >
-  <div
-    onClick={[Function]}
-    style={Object {}}
-  >
-    <span
-      style={
-        Object {
-          "color": "rgb(128, 128, 128)",
-        }
-      }
-    >
-      undefined
-    </span>
-  </div>
-  <ol
-    role="group"
-    style={
-      Object {
-        "margin": 0,
-        "paddingLeft": 12,
-      }
-    }
+  <TreeView
+    dataIterator={[Function]}
+    nodeRenderer={[Function]}
+    theme="testvalue"
   />
 </li>
 `;
