@@ -1,16 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import createStyles from '../styles/createStyles';
+import { useStyles } from '../styles';
 import shouldInline from './shouldInline';
 
 const OpenTag = ({ tagName, attributes, styles }) => {
   return (
     <span style={styles.base}>
       {'<'}
-      <span style={styles.tagName}>
-        {tagName}
-      </span>
+      <span style={styles.tagName}>{tagName}</span>
 
       {(() => {
         if (attributes) {
@@ -19,11 +17,12 @@ const OpenTag = ({ tagName, attributes, styles }) => {
             const attribute = attributes[i];
             attributeNodes.push(
               <span key={i}>
-                {' '}<span style={styles.htmlAttributeName}>{attribute.name}</span>
+                {' '}
+                <span style={styles.htmlAttributeName}>{attribute.name}</span>
                 {'="'}
                 <span style={styles.htmlAttributeValue}>{attribute.value}</span>
                 {'"'}
-              </span>,
+              </span>
             );
           }
           return attributeNodes;
@@ -36,14 +35,14 @@ const OpenTag = ({ tagName, attributes, styles }) => {
 };
 
 // isChildNode style={{ marginLeft: -12 /* hack: offset placeholder */ }}
-const CloseTag = ({ tagName, isChildNode = false, styles }) =>
-  <span style={Object.assign({}, styles.base, isChildNode && styles.offsetLeft)}>
+const CloseTag = ({ tagName, isChildNode = false, styles }) => (
+  <span
+    style={Object.assign({}, styles.base, isChildNode && styles.offsetLeft)}>
     {'</'}
-    <span style={styles.tagName}>
-      {tagName}
-    </span>
+    <span style={styles.tagName}>{tagName}</span>
     {'>'}
-  </span>;
+  </span>
+);
 
 const nameByNodeType = {
   1: 'ELEMENT_NODE',
@@ -55,11 +54,17 @@ const nameByNodeType = {
   11: 'DOCUMENT_FRAGMENT_NODE',
 };
 
-const DOMNodePreview = ({ isCloseTag, data, expanded }, { theme }) => {
-  const styles = createStyles('DOMNodePreview', theme);
+const DOMNodePreview = ({ isCloseTag, data, expanded }) => {
+  const styles = useStyles('DOMNodePreview');
 
   if (isCloseTag) {
-    return <CloseTag styles={styles.htmlCloseTag} isChildNode tagName={data.tagName} />;
+    return (
+      <CloseTag
+        styles={styles.htmlCloseTag}
+        isChildNode
+        tagName={data.tagName}
+      />
+    );
   }
 
   switch (data.nodeType) {
@@ -74,21 +79,15 @@ const DOMNodePreview = ({ isCloseTag, data, expanded }, { theme }) => {
 
           {shouldInline(data) ? data.textContent : !expanded && '…'}
 
-          {!expanded && <CloseTag tagName={data.tagName} styles={styles.htmlCloseTag} />}
+          {!expanded && (
+            <CloseTag tagName={data.tagName} styles={styles.htmlCloseTag} />
+          )}
         </span>
       );
     case Node.TEXT_NODE:
-      return (
-        <span>
-          {data.textContent}
-        </span>
-      );
+      return <span>{data.textContent}</span>;
     case Node.CDATA_SECTION_NODE:
-      return (
-        <span>
-          {'<![CDATA[' + data.textContent + ']]>'}
-        </span>
-      );
+      return <span>{'<![CDATA[' + data.textContent + ']]>'}</span>;
     case Node.COMMENT_NODE:
       return (
         <span style={styles.htmlComment}>
@@ -98,11 +97,7 @@ const DOMNodePreview = ({ isCloseTag, data, expanded }, { theme }) => {
         </span>
       );
     case Node.PROCESSING_INSTRUCTION_NODE:
-      return (
-        <span>
-          {data.nodeName}
-        </span>
-      );
+      return <span>{data.nodeName}</span>;
     case Node.DOCUMENT_TYPE_NODE:
       return (
         <span style={styles.htmlDoctype}>
@@ -115,23 +110,11 @@ const DOMNodePreview = ({ isCloseTag, data, expanded }, { theme }) => {
         </span>
       );
     case Node.DOCUMENT_NODE:
-      return (
-        <span>
-          {data.nodeName}
-        </span>
-      );
+      return <span>{data.nodeName}</span>;
     case Node.DOCUMENT_FRAGMENT_NODE:
-      return (
-        <span>
-          {data.nodeName}
-        </span>
-      );
+      return <span>{data.nodeName}</span>;
     default:
-      return (
-        <span>
-          {nameByNodeType[data.nodeType]}
-        </span>
-      );
+      return <span>{nameByNodeType[data.nodeType]}</span>;
   }
 };
 
@@ -144,10 +127,6 @@ DOMNodePreview.propTypes = {
   data: PropTypes.object.isRequired,
   /** Whether the DOM node has been expanded. */
   expanded: PropTypes.bool.isRequired,
-};
-
-DOMNodePreview.contextTypes = {
-  theme: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
 };
 
 export default DOMNodePreview;

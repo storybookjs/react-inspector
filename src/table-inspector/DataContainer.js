@@ -1,22 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import createStyles from '../styles/createStyles';
 import ObjectValue from '../object/ObjectValue';
 
-const DataContainer = ({ rows, columns, rowsData }, { theme }) => {
-  const styles = createStyles('TableInspectorDataContainer', theme);
-  const borderStyles = createStyles('TableInspectorLeftBorder', theme);
+import { useStyles } from '../styles';
+
+const DataContainer = ({ rows, columns, rowsData }) => {
+  const styles = useStyles('TableInspectorDataContainer');
+  const borderStyles = useStyles('TableInspectorLeftBorder');
 
   return (
     <div style={styles.div}>
       <table style={styles.table}>
         <colgroup />
         <tbody>
-          {rows.map((row, i) =>
+          {rows.map((row, i) => (
             <tr key={row} style={styles.tr}>
-              <td style={{ ...styles.td, ...borderStyles.none }}>
-                {row}
-              </td>
+              <td style={{ ...styles.td, ...borderStyles.none }}>{row}</td>
 
               {columns.map(column => {
                 const rowData = rowsData[i];
@@ -36,24 +34,27 @@ const DataContainer = ({ rows, columns, rowsData }, { theme }) => {
                   rowData.hasOwnProperty(column)
                 ) {
                   return (
-                    <td key={column} style={{ ...styles.td, ...borderStyles.solid }}>
+                    <td
+                      key={column}
+                      style={{ ...styles.td, ...borderStyles.solid }}>
                       <ObjectValue object={rowData[column]} />
                     </td>
                   );
                 } else {
-                  return <td key={column} style={{ ...styles.td, ...borderStyles.solid }} />;
+                  return (
+                    <td
+                      key={column}
+                      style={{ ...styles.td, ...borderStyles.solid }}
+                    />
+                  );
                 }
               })}
-            </tr>,
-          )}
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
   );
-};
-
-DataContainer.contextTypes = {
-  theme: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
 };
 
 export default DataContainer;

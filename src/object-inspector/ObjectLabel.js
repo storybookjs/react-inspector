@@ -6,7 +6,7 @@ import ObjectValue from '../object/ObjectValue';
 /**
  * if isNonenumerable is specified, render the name dimmed
  */
-const ObjectLabel = ({ name, data, isNonenumerable }) => {
+const ObjectLabel = ({ name, data, isNonenumerable = false }) => {
   const object = data;
 
   return (
@@ -21,10 +21,6 @@ const ObjectLabel = ({ name, data, isNonenumerable }) => {
 ObjectLabel.propTypes = {
   /** Non enumerable object property will be dimmed */
   isNonenumerable: PropTypes.bool,
-};
-
-ObjectLabel.defaultProps = {
-  isNonenumerable: false,
 };
 
 export default ObjectLabel;

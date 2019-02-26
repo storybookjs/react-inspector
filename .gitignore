@@ -1,5 +1,4 @@
 node_modules
-npm-debug.log
 .DS_Store
 jsconfig.json
 
@@ -7,3 +6,4 @@ react-codemod
 gh-pages/
 lib
 build
+*.log
