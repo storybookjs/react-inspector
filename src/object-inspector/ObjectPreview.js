@@ -6,6 +6,9 @@ import ObjectName from '../object/ObjectName';
 
 /* NOTE: Chrome console.log is italic */
 const styles = {
+  objectDescription: {
+    fontStyle: 'italic',
+  },
   preview: {
     fontStyle: 'italic',
   },
@@ -42,10 +45,13 @@ const ObjectPreview = ({ data, maxProperties = 5 }) => {
     if (object.length > maxProperties) {
       previewArray.push(<span key="ellipsis">…</span>);
     }
+    const arrayLength = object.length;
     return (
       <React.Fragment>
-        <span>{`Array(${object.length})`}</span>
-        <span style={styles.preview}>[{intersperse(previewArray, ',')}]</span>
+        <span style={styles.objectDescription}>
+          {arrayLength === 0 ? `` : `(${arrayLength})\xa0`}
+        </span>
+        <span style={styles.preview}>[{intersperse(previewArray, ', ')}]</span>
       </React.Fragment>
     );
   } else {
@@ -72,12 +78,19 @@ const ObjectPreview = ({ data, maxProperties = 5 }) => {
       }
     }
 
+    const objectConstructorName = object.constructor.name;
+
     return (
-      <span style={styles.preview}>
-        {`${object.constructor.name} {`}
-        {intersperse(propertyNodes, ', ')}
-        {'}'}
-      </span>
+      <React.Fragment>
+        <span style={styles.objectDescription}>
+          {objectConstructorName === 'Object' ? '' : `${objectConstructorName} `}
+        </span>
+        <span style={styles.preview}>
+          {'{'}
+          {intersperse(propertyNodes, ', ')}
+          {'}'}
+        </span>
+      </React.Fragment>
     );
   }
 };

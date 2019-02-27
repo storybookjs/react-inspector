@@ -4,7 +4,6 @@ import { storiesOf } from '@storybook/react';
 import Inspector from '../src';
 
 function namedFunction() {}
-const namedFunction2 = function() {};
 
 // Primitives
 storiesOf('Numbers', module)
@@ -33,6 +32,7 @@ storiesOf('Symbols', module).add('test', () => <Inspector data={Symbol.for('test
 // Arrays
 storiesOf('Arrays', module)
   .add('Empty Array', () => <Inspector data={[]} />)
+  .add('Empty Array (show non-enumerable properties)', () => <Inspector showNonenumerable data={[]} />)
   .add('Basic Array', () => <Inspector data={['cold', 'ice']} />)
   .add('Array with different types of elements', () => (
     <Inspector data={['a', 1, {}]} />
@@ -178,6 +178,7 @@ storiesOf('Nested object examples', module)
           'a5-3': {},
         },
         a6: function() {
+          // eslint-disable-next-line
           console.log('hello world');
         },
         a7: new Date('2005-04-03'),
