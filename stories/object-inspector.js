@@ -72,6 +72,12 @@ storiesOf('Objects', module)
   ))
   .add('Object: Simple Object with name', () => (
     <Inspector showNonenumerable expandLevel={2} name="test" data={{ k: 'v' }} />
+  ))
+  .add('Object: `Object.create(null)` (Empty object with null prototype)', () => (
+    <Inspector showNonenumerable data={Object.create(null)} />
+  ))
+  .add('Object: Object with null prototype', () => (
+    <Inspector showNonenumerable data={Object.assign(Object.create(null), { key: 'value' })} />
   ));
 
 storiesOf('Functions', module)

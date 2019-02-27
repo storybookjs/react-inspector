@@ -5,6 +5,8 @@ import TreeView from '../tree-view/TreeView';
 import ObjectRootLabel from './ObjectRootLabel';
 import ObjectLabel from './ObjectLabel';
 
+import { propertyIsEnumerable } from '../utils/objectPrototype';
+
 import { themeAcceptor } from '../styles';
 
 const createIterator = (showNonenumerable, sortObjectKeys) => {
@@ -43,7 +45,7 @@ const createIterator = (showNonenumerable, sortObjectKeys) => {
       }
 
       for (let propertyName of keys) {
-        if (data.propertyIsEnumerable(propertyName)) {
+        if (propertyIsEnumerable.call(data, propertyName)) {
           const propertyValue = data[propertyName];
           yield {
             name: propertyName || `""`,

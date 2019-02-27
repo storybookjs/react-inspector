@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import ObjectValue from '../object/ObjectValue';
 import ObjectName from '../object/ObjectName';
 
+import { hasOwnProperty } from '../utils/objectPrototype';
+
 /* NOTE: Chrome console.log is italic */
 const styles = {
   objectDescription: {
@@ -58,7 +60,7 @@ const ObjectPreview = ({ data, maxProperties = 5 }) => {
     let propertyNodes = [];
     for (let propertyName in object) {
       const propertyValue = object[propertyName];
-      if (object.hasOwnProperty(propertyName)) {
+      if (hasOwnProperty.call(object, propertyName)) {
         let ellipsis;
         if (
           propertyNodes.length === maxProperties - 1 &&
@@ -78,7 +80,7 @@ const ObjectPreview = ({ data, maxProperties = 5 }) => {
       }
     }
 
-    const objectConstructorName = object.constructor.name;
+    const objectConstructorName = object.constructor ? object.constructor.name : 'Object';
 
     return (
       <React.Fragment>
