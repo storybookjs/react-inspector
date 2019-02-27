@@ -53,9 +53,9 @@ const ObjectValue = ({ object, styles }) => {
     case 'function':
       return (
         <span>
-          <span style={mkStyle('objectValueFunctionKeyword')}>function</span>
+          <span style={mkStyle('objectValueFunctionPrefix')}>ƒ&nbsp;</span>
           <span style={mkStyle('objectValueFunctionName')}>
-            &nbsp;{object.name}()
+            {object.name}()
           </span>
         </span>
       );

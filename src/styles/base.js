@@ -69,8 +69,8 @@ export default theme => ({
     objectValueBoolean: {
       color: theme.OBJECT_VALUE_BOOLEAN_COLOR,
     },
-    objectValueFunctionKeyword: {
-      color: theme.OBJECT_VALUE_FUNCTION_KEYWORD_COLOR,
+    objectValueFunctionPrefix: {
+      color: theme.OBJECT_VALUE_FUNCTION_PREFIX_COLOR,
       fontStyle: 'italic',
     },
     objectValueFunctionName: {
@@ -107,7 +107,11 @@ export default theme => ({
         // lineHeight: '14px',
         fontSize: theme.ARROW_FONT_SIZE,
         marginRight: theme.ARROW_MARGIN_RIGHT,
-        ...(theme.ARROW_ANIMATION_TIME ? {transition: `transform ${theme.ARROW_ANIMATION_TIME} ease 0s`} : {}),
+        ...(parseFloat(theme.ARROW_ANIMATION_DURATION) > 0
+          ? {
+              transition: `transform ${theme.ARROW_ANIMATION_DURATION} ease 0s`,
+            }
+          : {}),
         ...unselectable,
       },
       expanded: {

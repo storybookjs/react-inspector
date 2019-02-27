@@ -12,7 +12,7 @@ exports[`ObjectInspector passes \`nodeRenderer\` prop to <TreeView/> 1`] = `
       "cursor": "default",
       "fontFamily": "Menlo, monospace",
       "fontSize": "11px",
-      "lineHeight": "14px",
+      "lineHeight": 1.2,
       "listStyle": "none",
     }
   }
@@ -49,7 +49,7 @@ exports[`ObjectInspector should render 1`] = `
       "cursor": "default",
       "fontFamily": "Menlo, monospace",
       "fontSize": "11px",
-      "lineHeight": "14px",
+      "lineHeight": 1.2,
       "listStyle": "none",
     }
   }
