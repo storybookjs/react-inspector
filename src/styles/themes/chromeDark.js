@@ -1,7 +1,7 @@
 const theme = {
   BASE_FONT_FAMILY: 'Menlo, monospace',
   BASE_FONT_SIZE: '11px',
-  BASE_LINE_HEIGHT: 1.31,
+  BASE_LINE_HEIGHT: 1.2,
 
   BASE_BACKGROUND_COLOR: 'rgb(36, 36, 36)',
   BASE_COLOR: 'rgb(213, 213, 213)',
@@ -31,7 +31,7 @@ const theme = {
 
   TREENODE_FONT_FAMILY: 'Menlo, monospace',
   TREENODE_FONT_SIZE: '11px',
-  TREENODE_LINE_HEIGHT: 1.31,
+  TREENODE_LINE_HEIGHT: 1.2,
   TREENODE_PADDING_LEFT: 12,
 
   TABLE_BORDER_COLOR: 'rgb(85, 85, 85)',
