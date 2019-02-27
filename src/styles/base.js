@@ -78,6 +78,14 @@ export default theme => ({
     },
   },
 
+  TreeView: {
+    treeViewOutline: {
+      padding: 0,
+      margin: 0,
+      listStyleType: 'none',
+    }
+  },
+
   TreeNode: {
     treeNodeBase: {
       color: theme.BASE_COLOR,

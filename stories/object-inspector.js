@@ -83,7 +83,8 @@ storiesOf('Objects', module)
 storiesOf('Functions', module)
   .add('Functions: anonymous function', () => <Inspector data={function() {}} />)
   .add('Functions: anonymous arrow function', () => <Inspector data={() => {}} />)
-  .add('Functions: named function', () => <Inspector data={namedFunction} />);
+  .add('Functions: named function', () => <Inspector data={namedFunction} />)
+  .add('Functions: named function (show non-enumerable properties)', () => <Inspector showNonenumerable data={namedFunction} />);
 
 storiesOf('Nested object examples', module)
   .add('Ice sculpture', () => (
