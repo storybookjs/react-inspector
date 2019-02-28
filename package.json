@@ -40,6 +40,7 @@
     "release": "npm publish . --access public",
     "storybook": "start-storybook -p 9001",
     "test": "jest src",
+    "test:updatesnapshot": "jest src --update-snapshot",
     "test:watch": "npm run test -- --watch"
   },
   "dependencies": {
