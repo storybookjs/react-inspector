@@ -1,20 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import ObjectValue from '../object/ObjectValue';
 import ObjectName from '../object/ObjectName';
 
-import { hasOwnProperty } from '../utils/objectPrototype';
+import { useStyles } from '../styles';
 
-/* NOTE: Chrome console.log is italic */
-const styles = {
-  objectDescription: {
-    fontStyle: 'italic',
-  },
-  preview: {
-    fontStyle: 'italic',
-  },
-};
+import { hasOwnProperty } from '../utils/objectPrototype';
 
 /* intersperse arr with separator */
 function intersperse(arr, sep) {
@@ -28,7 +19,8 @@ function intersperse(arr, sep) {
 /**
  * A preview of the object
  */
-const ObjectPreview = ({ data, maxProperties = 5 }) => {
+const ObjectPreview = ({ data }) => {
+  const styles = useStyles('ObjectPreview');
   const object = data;
 
   if (
@@ -41,6 +33,7 @@ const ObjectPreview = ({ data, maxProperties = 5 }) => {
   }
 
   if (Array.isArray(object)) {
+    const maxProperties = styles.arrayMaxProperties;
     const previewArray = object
       .slice(0, maxProperties)
       .map((element, index) => <ObjectValue key={index} object={element} />);
@@ -57,6 +50,7 @@ const ObjectPreview = ({ data, maxProperties = 5 }) => {
       </React.Fragment>
     );
   } else {
+    const maxProperties = styles.objectMaxProperties;
     let propertyNodes = [];
     for (let propertyName in object) {
       const propertyValue = object[propertyName];
@@ -95,13 +89,6 @@ const ObjectPreview = ({ data, maxProperties = 5 }) => {
       </React.Fragment>
     );
   }
-};
-
-ObjectPreview.propTypes = {
-  /**
-   * max number of properties shown in the property view
-   */
-  maxProperties: PropTypes.number,
 };
 
 export default ObjectPreview;

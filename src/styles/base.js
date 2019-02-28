@@ -38,6 +38,17 @@ export default theme => ({
     },
   },
 
+  ObjectPreview: {
+    objectDescription: {
+      fontStyle: 'italic',
+    },
+    preview: {
+      fontStyle: 'italic',
+    },
+    arrayMaxProperties: theme.OBJECT_PREVIEW_ARRAY_MAX_PROPERTIES,
+    objectMaxProperties: theme.OBJECT_PREVIEW_OBJECT_MAX_PROPERTIES,
+  },
+
   ObjectName: {
     base: {
       color: theme.OBJECT_NAME_COLOR,
