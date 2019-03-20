@@ -14,6 +14,8 @@ import {
   getExpandedPaths,
 } from './pathUtils';
 
+import { useStyles } from '../styles';
+
 const ConnectedTreeNode = memo(props => {
   const { data, dataIterator, path, depth, nodeRenderer } = props;
   const [expandedPaths, setExpandedPaths] = useContext(ExpandedPathsContext);
@@ -73,6 +75,7 @@ ConnectedTreeNode.propTypes = {
 
 const TreeView = memo(
   ({ name, data, dataIterator, nodeRenderer, expandPaths, expandLevel }) => {
+    const styles = useStyles('TreeView');
     const stateAndSetter = useState({});
     const [, setExpandedPaths] = stateAndSetter;
 
@@ -92,14 +95,16 @@ const TreeView = memo(
 
     return (
       <ExpandedPathsContext.Provider value={stateAndSetter}>
-        <ConnectedTreeNode
-          name={name}
-          data={data}
-          dataIterator={dataIterator}
-          depth={0}
-          path={DEFAULT_ROOT_PATH}
-          nodeRenderer={nodeRenderer}
-        />
+        <ol role="tree" style={styles.treeViewOutline}>
+          <ConnectedTreeNode
+            name={name}
+            data={data}
+            dataIterator={dataIterator}
+            depth={0}
+            path={DEFAULT_ROOT_PATH}
+            nodeRenderer={nodeRenderer}
+          />
+        </ol>
       </ExpandedPathsContext.Provider>
     );
   }

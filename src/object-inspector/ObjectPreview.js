@@ -1,15 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import ObjectValue from '../object/ObjectValue';
 import ObjectName from '../object/ObjectName';
 
-/* NOTE: Chrome console.log is italic */
-const styles = {
-  preview: {
-    fontStyle: 'italic',
-  },
-};
+import { useStyles } from '../styles';
+
+import { hasOwnProperty } from '../utils/objectPrototype';
 
 /* intersperse arr with separator */
 function intersperse(arr, sep) {
@@ -23,7 +19,8 @@ function intersperse(arr, sep) {
 /**
  * A preview of the object
  */
-const ObjectPreview = ({ data, maxProperties = 5 }) => {
+const ObjectPreview = ({ data }) => {
+  const styles = useStyles('ObjectPreview');
   const object = data;
 
   if (
@@ -36,23 +33,28 @@ const ObjectPreview = ({ data, maxProperties = 5 }) => {
   }
 
   if (Array.isArray(object)) {
+    const maxProperties = styles.arrayMaxProperties;
     const previewArray = object
       .slice(0, maxProperties)
       .map((element, index) => <ObjectValue key={index} object={element} />);
     if (object.length > maxProperties) {
       previewArray.push(<span key="ellipsis">…</span>);
     }
+    const arrayLength = object.length;
     return (
       <React.Fragment>
-        <span>{`Array(${object.length})`}</span>
-        <span style={styles.preview}>[{intersperse(previewArray, ',')}]</span>
+        <span style={styles.objectDescription}>
+          {arrayLength === 0 ? `` : `(${arrayLength})\xa0`}
+        </span>
+        <span style={styles.preview}>[{intersperse(previewArray, ', ')}]</span>
       </React.Fragment>
     );
   } else {
+    const maxProperties = styles.objectMaxProperties;
     let propertyNodes = [];
     for (let propertyName in object) {
       const propertyValue = object[propertyName];
-      if (object.hasOwnProperty(propertyName)) {
+      if (hasOwnProperty.call(object, propertyName)) {
         let ellipsis;
         if (
           propertyNodes.length === maxProperties - 1 &&
@@ -72,21 +74,21 @@ const ObjectPreview = ({ data, maxProperties = 5 }) => {
       }
     }
 
+    const objectConstructorName = object.constructor ? object.constructor.name : 'Object';
+
     return (
-      <span style={styles.preview}>
-        {`${object.constructor.name} {`}
-        {intersperse(propertyNodes, ', ')}
-        {'}'}
-      </span>
+      <React.Fragment>
+        <span style={styles.objectDescription}>
+          {objectConstructorName === 'Object' ? '' : `${objectConstructorName} `}
+        </span>
+        <span style={styles.preview}>
+          {'{'}
+          {intersperse(propertyNodes, ', ')}
+          {'}'}
+        </span>
+      </React.Fragment>
     );
   }
-};
-
-ObjectPreview.propTypes = {
-  /**
-   * max number of properties shown in the property view
-   */
-  maxProperties: PropTypes.number,
 };
 
 export default ObjectPreview;

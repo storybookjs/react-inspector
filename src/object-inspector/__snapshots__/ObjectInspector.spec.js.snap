@@ -1,81 +1,103 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ObjectInspector passes \`nodeRenderer\` prop to <TreeView/> 1`] = `
-<li
-  aria-expanded={false}
-  role="treeitem"
+<ol
+  role="tree"
   style={
     Object {
-      "backgroundColor": "white",
-      "boxSizing": "border-box",
-      "color": "black",
-      "cursor": "default",
-      "fontFamily": "Menlo, monospace",
-      "fontSize": "11px",
-      "lineHeight": "14px",
-      "listStyle": "none",
+      "listStyleType": "none",
+      "margin": 0,
+      "padding": 0,
     }
   }
 >
-  <div
-    onClick={[Function]}
-    style={Object {}}
-  >
-    <span>
-      unit test
-    </span>
-  </div>
-  <ol
-    role="group"
+  <li
+    aria-expanded={false}
+    role="treeitem"
     style={
       Object {
-        "margin": 0,
-        "paddingLeft": 12,
+        "backgroundColor": "white",
+        "boxSizing": "border-box",
+        "color": "black",
+        "cursor": "default",
+        "fontFamily": "Menlo, monospace",
+        "fontSize": "11px",
+        "lineHeight": 1.2,
+        "listStyle": "none",
       }
     }
-  />
-</li>
+  >
+    <div
+      onClick={[Function]}
+      style={Object {}}
+    >
+      <span>
+        unit test
+      </span>
+    </div>
+    <ol
+      role="group"
+      style={
+        Object {
+          "margin": 0,
+          "paddingLeft": 12,
+        }
+      }
+    />
+  </li>
+</ol>
 `;
 
 exports[`ObjectInspector should render 1`] = `
-<li
-  aria-expanded={false}
-  role="treeitem"
+<ol
+  role="tree"
   style={
     Object {
-      "backgroundColor": "white",
-      "boxSizing": "border-box",
-      "color": "black",
-      "cursor": "default",
-      "fontFamily": "Menlo, monospace",
-      "fontSize": "11px",
-      "lineHeight": "14px",
-      "listStyle": "none",
+      "listStyleType": "none",
+      "margin": 0,
+      "padding": 0,
     }
   }
 >
-  <div
-    onClick={[Function]}
-    style={Object {}}
-  >
-    <span
-      style={
-        Object {
-          "color": "rgb(128, 128, 128)",
-        }
-      }
-    >
-      undefined
-    </span>
-  </div>
-  <ol
-    role="group"
+  <li
+    aria-expanded={false}
+    role="treeitem"
     style={
       Object {
-        "margin": 0,
-        "paddingLeft": 12,
+        "backgroundColor": "white",
+        "boxSizing": "border-box",
+        "color": "black",
+        "cursor": "default",
+        "fontFamily": "Menlo, monospace",
+        "fontSize": "11px",
+        "lineHeight": 1.2,
+        "listStyle": "none",
       }
     }
-  />
-</li>
+  >
+    <div
+      onClick={[Function]}
+      style={Object {}}
+    >
+      <span
+        style={
+          Object {
+            "color": "rgb(128, 128, 128)",
+          }
+        }
+      >
+        undefined
+      </span>
+    </div>
+    <ol
+      role="group"
+      style={
+        Object {
+          "margin": 0,
+          "paddingLeft": 12,
+        }
+      }
+    />
+  </li>
+</ol>
 `;

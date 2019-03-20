@@ -1,6 +1,8 @@
 import React from 'react';
 import ObjectValue from '../object/ObjectValue';
 
+import { hasOwnProperty } from '../utils/objectPrototype';
+
 import { useStyles } from '../styles';
 
 const DataContainer = ({ rows, columns, rowsData }) => {
@@ -31,7 +33,7 @@ const DataContainer = ({ rows, columns, rowsData }) => {
                 if (
                   typeof rowData === 'object' &&
                   rowData !== null &&
-                  rowData.hasOwnProperty(column)
+                  hasOwnProperty.call(rowData, column)
                 ) {
                   return (
                     <td
