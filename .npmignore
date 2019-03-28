@@ -13,6 +13,7 @@ example
 server.js
 src/
 karma.conf.js
+rollup.config.js
 webpack.prod.config.js
 
 stories

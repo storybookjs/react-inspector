@@ -32,7 +32,7 @@ const HeaderContainer = ({
                 key={column}
                 sorted={sorted && sortColumn === column}
                 sortAscending={sortAscending}
-                onClick={onTHClick.bind(this, column)}>
+                onClick={onTHClick.bind(null, column)}>
                 {column}
               </TH>
             ))}
