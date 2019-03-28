@@ -4,7 +4,7 @@
       "@babel/preset-env",
       {
         "targets": {
-          "esmodules": true
+          "browsers": ["ie >= 11"]
         }
       }
     ],
@@ -19,5 +19,12 @@
     "@babel/plugin-proposal-object-rest-spread",
     "@babel/plugin-proposal-optional-chaining",
     "@babel/plugin-transform-object-assign"
-  ]
+  ],
+  "env": {
+    "test": {
+      "plugins": [
+        "@babel/plugin-transform-runtime"
+      ]
+    }
+  }
 }
