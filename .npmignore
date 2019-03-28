@@ -1,9 +1,13 @@
 .babelrc
+.circleci
 .eslintrc.js
 .gitignore
 .npmignore
+.vscode
 .travis.yml
+.prettierrc.json
 jsconfig.json
+yarn.lock
 
 react-codemod
 gh-pages
