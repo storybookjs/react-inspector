@@ -1,3 +1,6 @@
+## 3.0.2 (03/28/2019)
+Fixes #72
+
 ## 3.0.0 (03/20/2019)
 [@xadn](https://github.com/xadn)'s [hooks](https://github.com/xyc/react-inspector/pull/68) PR and minor [fixes](https://github.com/xyc/react-inspector/pull/70)
 
