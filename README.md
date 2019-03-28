@@ -20,7 +20,7 @@ npm install react-inspector
 ```
 
 Recommended versions:
-- version `3.0.1`: If you are using React 16.8.4 or later.
+- version `3.0.2`: If you are using React 16.8.4 or later.
 - version `2.3.1`: If you are using an ealier version of React.
 
 ### &lt;Inspector />
