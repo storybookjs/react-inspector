@@ -14,6 +14,8 @@ const ObjectValue = ({ object, styles }) => {
   const mkStyle = key => ({ ...themeStyles[key], ...styles });
 
   switch (typeof object) {
+    case 'bigint':
+      return <span style={mkStyle('objectValueNumber')}>{String(object)}n</span>;
     case 'number':
       return <span style={mkStyle('objectValueNumber')}>{String(object)}</span>;
     case 'string':
