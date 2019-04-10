@@ -11,7 +11,7 @@ describe('ObjectValue', () => {
   it('should render bigint', () => {
     const tree = TestRenderer.create(<ObjectValue object={9007199254740993n} />).toJSON();
     expect(tree.type).toBe('span');
-    expect(tree.children).toEqual(['9007199254740993n']);
+    expect(tree.children).toEqual(['9007199254740993', 'n']);
   });
 
   it('should render number', () => {
