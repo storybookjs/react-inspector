@@ -20,7 +20,7 @@ export default [
     external: ['is-dom', 'prop-types', 'react'],
     plugins: [
       nodeResolve({
-        jsnext: true,
+        mainFields: ['module', 'jsnext:main', 'main'],
       }),
       babel(),
     ],
@@ -37,7 +37,7 @@ export default [
     external: ['is-dom', 'prop-types', 'react'],
     plugins: [
       nodeResolve({
-        jsnext: true,
+        mainFields: ['module', 'jsnext:main', 'main'],
       }),
       babel(),
     ],
@@ -54,7 +54,7 @@ export default [
     },
     plugins: [
       nodeResolve({
-        jsnext: true,
+        mainFields: ['module', 'jsnext:main', 'main'],
       }),
       babel({
         exclude: 'node_modules/**',
