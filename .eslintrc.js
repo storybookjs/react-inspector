@@ -23,6 +23,10 @@ module.exports = {
         "react/display-name": [0],
         "jasmine/new-line-before-expect": [0],
         "react/no-unescaped-entities": [0]
+    },
+    "settings": {
+        "react": {
+            "version": "16.8", // React version. "detect" automatically picks the version you have installed.
+        },
     }
-
 };
