@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`ObjectInspector Content should render with Maps with Regex and Maps keys 1`] = `"<ol role=\\"tree\\" style=\\"padding: 0px; margin: 0px; list-style-type: none;\\"><li aria-expanded=\\"true\\" role=\\"treeitem\\" style=\\"color: black; background-color: white; line-height: 1.2; cursor: default; box-sizing: border-box; list-style: none; font-family: Menlo, monospace; font-size: 11px;\\"><div><span style=\\"color: rgb(110, 110, 110); display: inline-block; font-size: 12px; margin-right: 3px; user-select: none; transform: rotateZ(90deg);\\">▶</span><span style=\\"font-style: italic;\\">Map </span><span style=\\"font-style: italic;\\">{}</span></div><ol role=\\"group\\" style=\\"margin: 0px; padding-left: 12px;\\"><li aria-expanded=\\"false\\" role=\\"treeitem\\" style=\\"color: black; background-color: white; line-height: 1.2; cursor: default; box-sizing: border-box; list-style: none; font-family: Menlo, monospace; font-size: 11px;\\"><div><span style=\\"white-space: pre; font-size: 12px; margin-right: 3px; user-select: none;\\">&nbsp;</span><span><span style=\\"color: rgb(196, 26, 22);\\">/\\\\S/g</span><span>: </span><span style=\\"color: rgb(196, 26, 22);\\">\\"Regular Expression key\\"</span></span></div><ol role=\\"group\\" style=\\"margin: 0px; padding-left: 12px;\\"></ol></li></ol></li></ol>"`;
+
 exports[`ObjectInspector passes \`nodeRenderer\` prop to <TreeView/> 1`] = `
 <ol
   role="tree"
