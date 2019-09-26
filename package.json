@@ -34,20 +34,22 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "build:storybook": "build-storybook -o storybook-static",
+    "build-storybook": "build-storybook -o storybook-static",
     "clean": "rimraf dist",
     "lint": "eslint src --fix",
     "prerelease": "npm run lint && npm run test && npm run clean && npm run build",
     "release": "npm publish . --access public",
     "storybook": "start-storybook -p 9001",
     "test": "jest src",
-    "test:updatesnapshot": "jest src --update-snapshot",
-    "test:watch": "npm run test -- --watch"
+    "test-updatesnapshot": "jest src --update-snapshot",
+    "test-watch": "npm run test -- --watch",
+    "chromatic": "CHROMATIC_APP_CODE=17yeg4lpa7q chromatic test"
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",
     "is-dom": "^1.0.9",
-    "prop-types": "^15.6.1"
+    "prop-types": "^15.6.1",
+    "storybook-chromatic": "^2.2.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
