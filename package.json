@@ -1,6 +1,6 @@
 {
   "name": "react-inspector",
-  "version": "3.0.2",
+  "version": "4.0.0",
   "description": "Power of Browser DevTools inspectors right inside your React app",
   "keywords": [
     "devtools",
