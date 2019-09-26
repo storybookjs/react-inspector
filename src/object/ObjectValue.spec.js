@@ -7,6 +7,12 @@ describe('ObjectValue', () => {
     const tree = TestRenderer.create(<ObjectValue object={0} />);
     expect(tree).toMatchSnapshot();
   });
+  
+  it('should render bigint', () => {
+    const tree = TestRenderer.create(<ObjectValue object={9007199254740993n} />).toJSON();
+    expect(tree.type).toBe('span');
+    expect(tree.children).toEqual(['9007199254740993', 'n']);
+  });
 
   it('should render number', () => {
     const tree = TestRenderer.create(<ObjectValue object={0} />).toJSON();
