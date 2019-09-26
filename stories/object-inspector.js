@@ -14,6 +14,11 @@ storiesOf('Numbers', module)
   .add('exponential', () => <Inspector data={1e100} />)
   .add('NaN', () => <Inspector data={NaN} />)
   .add('Infinity', () => <Inspector data={Infinity} />);
+       
+storiesOf('BigInts', module)
+  .add('positive', () => <Inspector data={42n} />)
+  .add('zero', () => <Inspector data={0n} />)
+  .add('negative', () => <Inspector data={-1n} />)
 
 storiesOf('Strings', module)
   .add('empty string', () => <Inspector data="" />)
