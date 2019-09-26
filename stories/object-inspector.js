@@ -85,6 +85,21 @@ storiesOf('Objects', module)
     <Inspector showNonenumerable data={Object.assign(Object.create(null), { key: 'value' })} />
   ));
 
+storiesOf('Maps', module)
+.add('Map: Empty Map', () => (<Inspector data={new Map()} />))
+.add('Map: Boolean keys', () => (<Inspector data={new Map([[true, 'one'], [false, 'two']])} />))
+.add('Map: Regex keys', () => (<Inspector data={new Map([[/\S/g, 'one'], [/\D/g, 'two']])} />))
+.add('Map: String keys', () => (<Inspector data={new Map([['one', 1], ['two', 2]])} />))
+.add('Map: Object keys', () => (<Inspector data={new Map([[{}, 1], [{key: 2}, 2]])} />))
+.add('Map: Array keys', () => (<Inspector data={new Map([[[1], 1], [[2], 2]])} />))
+.add('Map: Map keys', () => (<Inspector data={new Map([[new Map(), 1], [new Map([]), 2]])} />));
+
+
+storiesOf('Sets', module)
+  .add('Set: Empty Set', () => (<Inspector data={new Set()} />))
+  .add('Set: Simple Set', () => (<Inspector data={new Set([1, 2, 3, 4])} />))
+  .add('Set: Nested Set', () => (<Inspector data={new Set([1, 2, 3, new Set([1, 2])])} />));
+
 storiesOf('Functions', module)
   .add('Functions: anonymous function', () => <Inspector data={function() {}} />)
   .add('Functions: anonymous arrow function', () => <Inspector data={() => {}} />)
