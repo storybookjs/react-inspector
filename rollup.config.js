@@ -22,7 +22,10 @@ export default [
       nodeResolve({
         mainFields: ['module', 'jsnext:main', 'main'],
       }),
-      babel(),
+      commonjs({
+        include: 'node_modules/**',
+      }),
+      babel({ runtimeHelpers: true }),
     ],
   },
   {
@@ -39,7 +42,10 @@ export default [
       nodeResolve({
         mainFields: ['module', 'jsnext:main', 'main'],
       }),
-      babel(),
+      commonjs({
+        include: 'node_modules/**',
+      }),
+      babel({ runtimeHelpers: true }),
     ],
   },
   {
@@ -57,6 +63,7 @@ export default [
         mainFields: ['module', 'jsnext:main', 'main'],
       }),
       babel({
+        runtimeHelpers: true,
         exclude: 'node_modules/**',
       }),
       commonjs({
