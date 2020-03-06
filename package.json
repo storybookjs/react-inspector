@@ -48,8 +48,7 @@
   "dependencies": {
     "@babel/runtime": "^7.6.3",
     "is-dom": "^1.0.9",
-    "prop-types": "^15.6.1",
-    "storybook-chromatic": "^2.2.2"
+    "prop-types": "^15.6.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
@@ -87,6 +86,7 @@
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-commonjs": "^9.2.2",
     "rollup-plugin-node-resolve": "^4.0.1",
+    "storybook-chromatic": "^2.2.2",
     "style-loader": "^0.23.1",
     "webpack": "^4.5.0",
     "webpack-cli": "^3.2.1",
