@@ -35,7 +35,7 @@
   "scripts": {
     "build": "rollup -c",
     "build-storybook": "build-storybook -o storybook-static",
-    "chromatic": "CHROMATIC_APP_CODE=17yeg4lpa7q chromatic test",
+    "chromatic": "CHROMATIC_APP_CODE=17yeg4lpa7q chromatic",
     "clean": "rimraf dist",
     "lint": "eslint src --fix",
     "prerelease": "npm run lint && npm run test && npm run clean && npm run build",
