@@ -1,0 +1,28 @@
+name: Unit tests
+
+on: [push]
+
+jobs:
+  build:
+
+    name: Core Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+    - uses: actions/checkout@v2
+    - name: Cache node modules
+      uses: actions/cache@v1
+    - name: install
+      run: |
+        yarn
+    - name: test
+      run: |
+        yarn test
+    - name: lint
+      run: |
+        yarn lint
+    - name: chromatic
+      run: |
+        yarn chromatic
