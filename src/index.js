@@ -5,6 +5,7 @@ export TableInspector from './table-inspector/TableInspector';
 export DOMInspector from './dom-inspector/DOMInspector';
 
 export ObjectLabel from './object-inspector/ObjectLabel';
+export ObjectPreview from './object-inspector/ObjectPreview';
 export ObjectRootLabel from './object-inspector/ObjectRootLabel';
 
 export ObjectValue from './object/ObjectValue';
