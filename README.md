@@ -4,13 +4,9 @@
 [![npm version](https://img.shields.io/npm/v/react-inspector.svg?style=flat-square)](https://www.npmjs.com/package/react-inspector)
 [![npm downloads](https://img.shields.io/npm/dm/react-inspector.svg?style=flat-square)](https://www.npmjs.com/package/react-inspector)
 
-Power of [Browser DevTools](https://developers.google.com/web/tools/chrome-devtools/) inspectors right inside your React app. Check out the [interactive playground](http://xyc.github.io/react-inspector/) or [storybook](http://react-inspector.netlify.com).
-
-![](http://xyc.github.io/react-inspector/objectinspector.png)
+Power of [Browser DevTools](https://developers.google.com/web/tools/chrome-devtools/) inspectors right inside your React app. Check out the [interactive playground](https://xyc.github.io/react-object-inspector/) or [storybook](http://react-inspector.netlify.com).
 
 ![](https://cldup.com/XhNGcBq9h2.png)
-
-![](http://xyc.github.io/react-inspector/tableinspector.png)
 
 ## Install
 
