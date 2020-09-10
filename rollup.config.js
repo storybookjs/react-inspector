@@ -6,6 +6,7 @@
 import nodeResolve from 'rollup-plugin-node-resolve';
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
+import cleanup from 'rollup-plugin-cleanup';
 
 export default [
   {
@@ -26,6 +27,7 @@ export default [
         include: 'node_modules/**',
       }),
       babel({ runtimeHelpers: true }),
+      cleanup()
     ],
   },
   {
@@ -46,6 +48,7 @@ export default [
         include: 'node_modules/**',
       }),
       babel({ runtimeHelpers: true }),
+      cleanup()
     ],
   },
   {
@@ -80,6 +83,7 @@ export default [
           ],
         },
       }),
+      cleanup()
     ],
   },
 ];

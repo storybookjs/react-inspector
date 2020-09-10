@@ -6,6 +6,7 @@ import ObjectName from '../object/ObjectName';
 import { useStyles } from '../styles';
 
 import { hasOwnProperty } from '../utils/objectPrototype';
+import { getPropertyValue } from "../utils/propertyUtils";
 
 /* intersperse arr with separator */
 function intersperse(arr, sep) {
@@ -52,8 +53,7 @@ const ObjectPreview = ({ data }) => {
   } else {
     const maxProperties = styles.objectMaxProperties;
     let propertyNodes = [];
-    for (let propertyName in object) {
-      const propertyValue = object[propertyName];
+    for (const propertyName in object) {
       if (hasOwnProperty.call(object, propertyName)) {
         let ellipsis;
         if (
@@ -62,6 +62,8 @@ const ObjectPreview = ({ data }) => {
         ) {
           ellipsis = <span key={'ellipsis'}>…</span>;
         }
+
+        const propertyValue = getPropertyValue(object, propertyName);
         propertyNodes.push(
           <span key={propertyName}>
             <ObjectName name={propertyName || `""`} />

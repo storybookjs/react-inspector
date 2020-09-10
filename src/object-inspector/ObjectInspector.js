@@ -6,6 +6,7 @@ import ObjectRootLabel from './ObjectRootLabel';
 import ObjectLabel from './ObjectLabel';
 
 import { propertyIsEnumerable } from '../utils/objectPrototype';
+import { getPropertyValue } from '../utils/propertyUtils';
 
 import { themeAcceptor } from '../styles';
 
@@ -44,9 +45,9 @@ const createIterator = (showNonenumerable, sortObjectKeys) => {
         keys.sort(sortObjectKeys);
       }
 
-      for (let propertyName of keys) {
+      for (const propertyName of keys) {
         if (propertyIsEnumerable.call(data, propertyName)) {
-          const propertyValue = data[propertyName];
+          const propertyValue = getPropertyValue(data, propertyName);
           yield {
             name: propertyName || `""`,
             data: propertyValue,
@@ -57,7 +58,7 @@ const createIterator = (showNonenumerable, sortObjectKeys) => {
           // http://stackoverflow.com/questions/31921189/caller-and-arguments-are-restricted-function-properties-and-cannot-be-access
           let propertyValue;
           try {
-            propertyValue = data[propertyName];
+            propertyValue = getPropertyValue(data, propertyName);
           } catch (e) {
             // console.warn(e)
           }

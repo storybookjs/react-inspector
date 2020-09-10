@@ -8,3 +8,4 @@ gh-pages/
 dist
 build
 *.log
+storybook-static
