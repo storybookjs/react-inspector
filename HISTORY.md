@@ -1,3 +1,10 @@
+## 5.1.0 (09/10/2020)
+- Upgrade all dependencies
+- Fix component crash on getters [#116](https://github.com/storybookjs/react-inspector/pull/116)
+
+## 5.0.0 (09/10/2020)
+- Upgrade all dependencies
+
 ## 3.0.2 (03/28/2019)
 - Fixes [#72](https://github.com/xyc/react-inspector/issues/72)
 
