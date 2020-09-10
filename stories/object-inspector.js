@@ -64,7 +64,13 @@ storiesOf('Objects', module)
   .add('Object: Date', () => <Inspector data={new Date('2005-04-03')} />)
   .add('Object: Regular Expression', () => <Inspector data={/^.*$/} />)
   .add('Object: Empty Object', () => <Inspector showNonenumerable expandLevel={1} data={{}} />)
-  .add('Object: Empty String key', () => <Inspector data={{'': 'hi'}}/>)
+  .add('Object: Empty String key', () => <Inspector data={{ '': 'hi' }} />)
+  .add('Object: Object with getter property', () => (
+    <Inspector expandLevel={2} data={{ get prop() { return "v" } }} />
+  ))
+  .add('Object: Object with getter property that throws', () => (
+    <Inspector expandLevel={2} data={{ get prop() { throw new Error() } }} />
+  ))
   .add('Object: Simple Object', () => (
     <Inspector showNonenumerable expandLevel={2} data={{ k: 'v' }} />
   ))
