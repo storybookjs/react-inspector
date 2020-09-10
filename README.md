@@ -7,9 +7,6 @@
 Power of [Browser DevTools](https://developers.google.com/web/tools/chrome-devtools/) inspectors right inside your React app. Check out the [interactive playground](https://storybookjs.github.io/react-inspector/) or [storybook](https://react-inspector.netlify.com).
 
 ![''](https://storybookjs.github.io/react-inspector/objectinspector.png)
-
-![''](https://cldup.com/XhNGcBq9h2.png)
-
 ![''](https://storybookjs.github.io/react-inspector/tableinspector.png)
 
 ## Install
