@@ -6,14 +6,14 @@
         "targets": {
           "browsers": ["ie >= 11"]
         },
-        "loose": true
+        "loose": false
       }
     ],
     "@babel/preset-react"
   ],
   "plugins": [
     "@babel/plugin-syntax-bigint",
-    ["@babel/plugin-proposal-class-properties", { "loose": true }],
+    ["@babel/plugin-proposal-class-properties", { "loose": false }],
     "@babel/plugin-proposal-do-expressions",
     "@babel/plugin-proposal-export-default-from",
     "@babel/plugin-proposal-logical-assignment-operators",
