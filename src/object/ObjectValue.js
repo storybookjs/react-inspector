@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {propertyValueFormatter} from '../utils/propertyUtils';
 import { useStyles } from '../styles';
 
 /**
@@ -8,71 +9,77 @@ import { useStyles } from '../styles';
  * Can be used to render tree node in ObjectInspector
  * or render objects in TableInspector.
  */
-const ObjectValue = ({ object, styles }) => {
+const ObjectValue = ({ object, styles , propertyValueFormatter}) => {
   const themeStyles = useStyles('ObjectValue');
 
   const mkStyle = key => ({ ...themeStyles[key], ...styles });
 
   switch (typeof object) {
     case 'bigint':
-      return <span style={mkStyle('objectValueNumber')}>{String(object)}n</span>;
+      return <span style={mkStyle('objectValueNumber')}>{propertyValueFormatter(object, 'bigint')}</span>;
     case 'number':
-      return <span style={mkStyle('objectValueNumber')}>{String(object)}</span>;
+      return <span style={mkStyle('objectValueNumber')}>{propertyValueFormatter(object, 'number')}</span>;
     case 'string':
-      return <span style={mkStyle('objectValueString')}>"{object}"</span>;
+      return <span style={mkStyle('objectValueString')}>{propertyValueFormatter(object, 'string')}</span>;
     case 'boolean':
       return (
-        <span style={mkStyle('objectValueBoolean')}>{String(object)}</span>
+        <span style={mkStyle('objectValueBoolean')}>{propertyValueFormatter(object, 'boolean')}</span>
       );
     case 'undefined':
-      return <span style={mkStyle('objectValueUndefined')}>undefined</span>;
+      return <span style={mkStyle('objectValueUndefined')}>{propertyValueFormatter(undefined, 'undefined')}</span>;
     case 'object':
       if (object === null) {
-        return <span style={mkStyle('objectValueNull')}>null</span>;
+        return <span style={mkStyle('objectValueNull')}>{propertyValueFormatter(null, 'null')}</span>;
       }
       if (object instanceof Date) {
-        return <span>{object.toString()}</span>;
+        return <span>{propertyValueFormatter(object, 'Date')}</span>;
       }
       if (object instanceof RegExp) {
         return (
-          <span style={mkStyle('objectValueRegExp')}>{object.toString()}</span>
+          <span style={mkStyle('objectValueRegExp')}>{propertyValueFormatter(object, 'RegExp')}</span>
         );
       }
       if (Array.isArray(object)) {
-        return <span>{`Array(${object.length})`}</span>;
+        return <span>{propertyValueFormatter(object, 'Array')}</span>;
       }
       if (!object.constructor) {
-        return <span>Object</span>;
+        return <span>{propertyValueFormatter(object, 'Object')}</span>;
       }
       if (
         typeof object.constructor.isBuffer === 'function' &&
         object.constructor.isBuffer(object)
       ) {
-        return <span>{`Buffer[${object.length}]`}</span>;
+        return <span>{propertyValueFormatter(object, 'Buffer')}</span>;
       }
 
-      return <span>{object.constructor.name}</span>;
+      return <span>{propertyValueFormatter(object, 'Class')}</span>;
     case 'function':
       return (
         <span>
           <span style={mkStyle('objectValueFunctionPrefix')}>ƒ&nbsp;</span>
           <span style={mkStyle('objectValueFunctionName')}>
-            {object.name}()
+            {propertyValueFormatter(object, 'function')}
           </span>
         </span>
       );
     case 'symbol':
       return (
-        <span style={mkStyle('objectValueSymbol')}>{object.toString()}</span>
+        <span style={mkStyle('objectValueSymbol')}>{propertyValueFormatter(object, 'symbol')}</span>
       );
     default:
-      return <span />;
+      return <span >{propertyValueFormatter(object, 'unknown')}</span>;
   }
 };
 
 ObjectValue.propTypes = {
   // the object to describe
   object: PropTypes.any,
+  /** Function to format the content */
+  propertyValueFormatter: PropTypes.func.isRequired,
+};
+
+ObjectValue.defaultProps = {
+   propertyValueFormatter,
 };
 
 export default ObjectValue;

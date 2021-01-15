@@ -71,6 +71,9 @@ export default theme => ({
     objectValueString: {
       color: theme.OBJECT_VALUE_STRING_COLOR,
     },
+    objectValueStringQuote: {
+      color: theme.BASE_COLOR,
+    },
     objectValueSymbol: {
       color: theme.OBJECT_VALUE_SYMBOL_COLOR,
     },

@@ -11,6 +11,8 @@ export ObjectRootLabel from './object-inspector/ObjectRootLabel';
 export ObjectValue from './object/ObjectValue';
 export ObjectName from './object/ObjectName';
 
+export { useStyles, themeAcceptor } from './styles';
+
 // Wrapping the inspectors
 import ObjectInspector from './object-inspector/ObjectInspector';
 import TableInspector from './table-inspector/TableInspector';
