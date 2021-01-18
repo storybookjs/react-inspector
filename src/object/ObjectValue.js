@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {propertyValueFormatter} from '../utils/propertyUtils';
+import {propertyValueFormatter as defaultPropertyValueFormatter} from '../utils/propertyUtils';
 import { useStyles } from '../styles';
 
 /**
@@ -9,7 +9,7 @@ import { useStyles } from '../styles';
  * Can be used to render tree node in ObjectInspector
  * or render objects in TableInspector.
  */
-const ObjectValue = ({ object, styles , propertyValueFormatter}) => {
+const ObjectValue = ({ object, styles , propertyValueFormatter = defaultPropertyValueFormatter}) => {
   const themeStyles = useStyles('ObjectValue');
 
   const mkStyle = key => ({ ...themeStyles[key], ...styles });
@@ -74,12 +74,8 @@ const ObjectValue = ({ object, styles , propertyValueFormatter}) => {
 ObjectValue.propTypes = {
   // the object to describe
   object: PropTypes.any,
-  /** Function to format the content */
+  /** Function to format the content. It receives the current object to be rendered and its type, it must return valid react children. */
   propertyValueFormatter: PropTypes.func.isRequired,
-};
-
-ObjectValue.defaultProps = {
-   propertyValueFormatter,
 };
 
 export default ObjectValue;

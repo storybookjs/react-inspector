@@ -11,7 +11,7 @@ import TreeNode from './TreeNode';
 import {
   DEFAULT_ROOT_PATH,
   hasChildNodes,
-  getExpandedPaths,
+  getExpandedPaths as defaultGetExpandedPaths,
 } from './pathUtils';
 
 import { useStyles } from '../styles';
@@ -74,8 +74,8 @@ ConnectedTreeNode.propTypes = {
 };
 
 const TreeView = memo(
-  ({ name, data, dataIterator, nodeRenderer, expandPaths, expandLevel, expandedPathsRef, getExpandedPaths }) => {
-    const styles = useStyles('TreeView');
+  ({ name, data, dataIterator, nodeRenderer, expandPaths, expandLevel, expandedPathsRef, getExpandedPaths = defaultGetExpandedPaths }) => {
+     const styles = useStyles('TreeView');
     const stateAndSetter = useState({});
     const [, setExpandedPaths] = stateAndSetter;
 
@@ -166,10 +166,6 @@ TreeView.propTypes = {
   expandLevel: PropTypes.number,
   expandedPathsRef: PropTypes.object,
    getExpandedPaths: PropTypes.func.isRequired,
-};
-
-TreeView.defaultProps ={
-   getExpandedPaths,
 };
 
 export default TreeView;
