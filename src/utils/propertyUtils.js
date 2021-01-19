@@ -40,6 +40,7 @@ export const propertyValueFormatter = (object, type)=>{
             return `${object.name}()`;
         case 'symbol':
             return `${object.toString()}`;
+        case 'unknown':
         default:
             return '';
     }
