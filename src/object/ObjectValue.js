@@ -75,7 +75,7 @@ ObjectValue.propTypes = {
   // the object to describe
   object: PropTypes.any,
   /** Function to format the content. It receives the current object to be rendered and its type, it must return valid react children. */
-  propertyValueFormatter: PropTypes.func.isRequired,
+  propertyValueFormatter: PropTypes.func,
 };
 
 export default ObjectValue;

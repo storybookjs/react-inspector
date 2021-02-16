@@ -59,7 +59,7 @@ const TreeNode = memo(props => {
 });
 
 TreeNode.propTypes = {
-  name: PropTypes.string,
+   name: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(RegExp)]),
   data: PropTypes.any,
   expanded: PropTypes.bool,
   shouldShowArrow: PropTypes.bool,

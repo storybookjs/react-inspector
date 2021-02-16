@@ -65,7 +65,7 @@ const ConnectedTreeNode = memo(props => {
 });
 
 ConnectedTreeNode.propTypes = {
-  name: PropTypes.string,
+  name: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(RegExp)]),
   data: PropTypes.any,
   dataIterator: PropTypes.func,
   depth: PropTypes.number,
@@ -158,14 +158,14 @@ const TreeView = memo(
 );
 
 TreeView.propTypes = {
-  name: PropTypes.string,
+  name: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(RegExp)]),
   data: PropTypes.any,
   dataIterator: PropTypes.func,
   nodeRenderer: PropTypes.func,
   expandPaths: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   expandLevel: PropTypes.number,
   expandedPathsRef: PropTypes.object,
-   getExpandedPaths: PropTypes.func.isRequired,
+   getExpandedPaths: PropTypes.func,
 };
 
 export default TreeView;

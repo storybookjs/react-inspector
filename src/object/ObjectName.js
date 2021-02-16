@@ -30,7 +30,7 @@ ObjectName.propTypes = {
   /** Should property name be dimmed */
   dimmed: PropTypes.bool,
   /** Function to format the content. It receives the current object to be rendered and its type, it must return valid react children. */
-  propertyValueFormatter: PropTypes.func.isRequired,
+  propertyValueFormatter: PropTypes.func,
 };
 
 export default ObjectName;
