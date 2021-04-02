@@ -1,3 +1,6 @@
+## 5.1.1 (04/02/2021)
+- Include support for React 17 in peerDependencies. [120](https://github.com/storybookjs/react-inspector/pull/120) [124](https://github.com/storybookjs/react-inspector/pull/124)
+
 ## 5.1.0 (09/10/2020)
 - Upgrade all dependencies
 - Fix component crash on getters [#116](https://github.com/storybookjs/react-inspector/pull/116)
