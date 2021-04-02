@@ -27,5 +27,6 @@ jobs:
       run: |
         yarn lint
     - name: chromatic
+      if: ${{ github.event_name == 'push' }}
       run: |
         yarn chromatic
