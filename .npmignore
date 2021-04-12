@@ -11,6 +11,7 @@ yarn.lock
 
 react-codemod
 gh-pages
+.github/
 
 build/
 example
@@ -22,3 +23,4 @@ webpack.prod.config.js
 
 stories
 .storybook
+storybook-static/
