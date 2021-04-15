@@ -32,6 +32,14 @@
   "author": "Xiaoyi Chen <cxychina@gmail.com> (http://github.com/xyc)",
   "main": "dist/cjs/react-inspector.js",
   "module": "dist/es/react-inspector.js",
+  "files": [
+    "dist/*/",
+    "README.md",
+    "LICENSE",
+    "HISTORY.md",
+    ".js",
+    ".d.ts"
+  ],
   "scripts": {
     "build": "rollup -c",
     "build-storybook": "build-storybook",
