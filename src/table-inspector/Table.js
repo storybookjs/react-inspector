@@ -54,7 +54,12 @@ export const tableAcceptor = WrappedComponent => {
    };
    
    TableAcceptor.propTypes = {
-      theme: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+      getHeaders: PropTypes.func,
+      ObjectValue: PropTypes.func,
+      RootComponent: PropTypes.func,
+      TRComponent: PropTypes.func,
+      THComponent: PropTypes.func,
+      TDComponent: PropTypes.func
    };
    
    return TableAcceptor;
