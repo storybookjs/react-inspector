@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 
 import { useStyles } from '../styles';
+import {useTable} from "./Table";
 
 const SortIconContainer = props => (
   <div
@@ -31,13 +32,14 @@ const TH = ({
   ...thProps
 }) => {
   const styles = useStyles('TableInspectorTH');
+  const {THComponent} = useTable();
   const [hovered, setHovered] = useState(false);
 
   const handleMouseEnter = useCallback(() => setHovered(true), []);
   const handleMouseLeave = useCallback(() => setHovered(false), []);
 
   return (
-    <th
+    <THComponent
       {...thProps}
       style={{
         ...styles.base,
@@ -53,7 +55,7 @@ const TH = ({
           <SortIcon sortAscending={sortAscending} />
         </SortIconContainer>
       )}
-    </th>
+    </THComponent>
   );
 };
 

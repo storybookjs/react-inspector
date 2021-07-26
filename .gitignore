@@ -5,7 +5,7 @@ jsconfig.json
 
 react-codemod
 gh-pages/
-.github/
+
 dist
 build
 *.log

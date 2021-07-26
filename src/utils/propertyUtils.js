@@ -12,7 +12,7 @@ export function getPropertyValue(object, propertyName) {
     return object[propertyName];
 }
 
-export const propertyValueFormatter = (object, type)=>{
+export function propertyValueFormatter(object, type){
     switch (type){
         case 'any':
             return object;
@@ -44,4 +44,4 @@ export const propertyValueFormatter = (object, type)=>{
         default:
             return '';
     }
-};
+}

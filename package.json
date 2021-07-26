@@ -1,6 +1,6 @@
 {
   "name": "react-inspector",
-  "version": "5.1.1",
+  "version": "5.1.2",
   "description": "Power of Browser DevTools inspectors right inside your React app",
   "keywords": [
     "devtools",
@@ -55,7 +55,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.12.5",
-    "is-dom": "^1.1.0",
     "prop-types": "^15.7.2"
   },
   "devDependencies": {

@@ -18,7 +18,7 @@ export default [
       sourcemap: true,
       exports: 'named',
     },
-    external: ['is-dom', 'prop-types', 'react'],
+    external: ['prop-types', 'react'],
     plugins: [
       nodeResolve({
         mainFields: ['module', 'jsnext:main', 'main'],
@@ -39,7 +39,7 @@ export default [
       sourcemap: true,
       exports: 'named',
     },
-    external: ['is-dom', 'prop-types', 'react'],
+    external: ['prop-types', 'react'],
     plugins: [
       nodeResolve({
         mainFields: ['module', 'jsnext:main', 'main'],

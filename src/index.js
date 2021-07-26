@@ -1,7 +1,7 @@
 export { chromeLight, chromeDark } from './styles/themes';
 
-export ObjectInspector from './object-inspector/ObjectInspector';
-export TableInspector from './table-inspector/TableInspector';
+export ObjectInspector, {useObjectIterator} from './object-inspector/ObjectInspector';
+export TableInspector, { tableAcceptor, useTable } from './table-inspector/TableInspector';
 export DOMInspector from './dom-inspector/DOMInspector';
 
 export ObjectLabel from './object-inspector/ObjectLabel';
@@ -13,6 +13,8 @@ export ObjectName from './object/ObjectName';
 
 export { useStyles, themeAcceptor } from './styles';
 
+export {typeComparator, isObject, isArray, isIterable, isFunction, isNode} from './utils/typeUtils';
+
 // Wrapping the inspectors
 import ObjectInspector from './object-inspector/ObjectInspector';
 import TableInspector from './table-inspector/TableInspector';
@@ -20,7 +22,7 @@ import DOMInspector from './dom-inspector/DOMInspector';
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import isDOM from 'is-dom';
+import {isNode as isDOM} from './utils/typeUtils';
 
 const Inspector = ({ table = false, data, ...rest }) => {
   if (table) {

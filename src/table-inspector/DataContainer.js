@@ -1,13 +1,14 @@
 import React from 'react';
-import ObjectValue from '../object/ObjectValue';
 
 import { hasOwnProperty } from '../utils/objectPrototype';
 
 import { useStyles } from '../styles';
+import {useTable} from "./Table";
 
 const DataContainer = ({ rows, columns, rowsData }) => {
   const styles = useStyles('TableInspectorDataContainer');
   const borderStyles = useStyles('TableInspectorLeftBorder');
+  const {TRComponent, TDComponent, ObjectValue} = useTable();
 
   return (
     <div style={styles.div}>
@@ -15,8 +16,8 @@ const DataContainer = ({ rows, columns, rowsData }) => {
         <colgroup />
         <tbody>
           {rows.map((row, i) => (
-            <tr key={row} style={styles.tr}>
-              <td style={{ ...styles.td, ...borderStyles.none }}>{row}</td>
+            <TRComponent key={row} style={styles.tr}>
+              <TDComponent style={{ ...styles.td, ...borderStyles.none }}>{row}</TDComponent>
 
               {columns.map(column => {
                 const rowData = rowsData[i];
@@ -36,22 +37,22 @@ const DataContainer = ({ rows, columns, rowsData }) => {
                   hasOwnProperty.call(rowData, column)
                 ) {
                   return (
-                    <td
+                    <TDComponent
                       key={column}
                       style={{ ...styles.td, ...borderStyles.solid }}>
                       <ObjectValue object={rowData[column]} />
-                    </td>
+                    </TDComponent>
                   );
                 } else {
                   return (
-                    <td
+                    <TDComponent
                       key={column}
                       style={{ ...styles.td, ...borderStyles.solid }}
                     />
                   );
                 }
               })}
-            </tr>
+            </TRComponent>
           ))}
         </tbody>
       </table>
