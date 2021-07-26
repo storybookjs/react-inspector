@@ -6,7 +6,6 @@ import TreeView from '../tree-view/TreeView';
 
 import defaultShouldInline from './shouldInline';
 import { themeAcceptor } from '../styles';
-import {useObjectIterator} from "../object-inspector/ObjectInspector";
 
 const createIterator = (shouldInline= defaultShouldInline) => {
   const domIterator = function* (data) {
@@ -61,7 +60,7 @@ const DOMInspector = ({
   nodeRenderer = defaultNodeRenderer, shouldInline,
   ...treeViewProps
 }) => {
-  const dataIterator = useObjectIterator(shouldInline);
+  const dataIterator = useDOMIterator(shouldInline);
   
   return (
     <TreeView
