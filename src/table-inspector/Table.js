@@ -4,9 +4,9 @@ import defaultGetHeaders from "./getHeaders";
 import DefaultObjectValue from '../object/ObjectValue';
 
 const DefaultRootComponent = props=><div {...props}/>;
-const DefaultTRComponent = ({rowId, ...props})=><tr {...props}/>;
-const DefaultTHComponent = ({columnId, ...props})=><th {...props}/>;
-const DefaultTDComponent = ({rowId, columnId, ...props})=><td {...props}/>;
+const DefaultTRComponent = ({rowId, ...props})=><tr {...((false && rowId)||props)}/>;
+const DefaultTHComponent = ({columnId, ...props})=><th  {...((false && columnId)||props)}/>;
+const DefaultTDComponent = ({rowId, columnId, ...props})=><td  {...((false && rowId && columnId)||props)}/>;
 
 const Table = createContext({
    getHeaders:defaultGetHeaders,
