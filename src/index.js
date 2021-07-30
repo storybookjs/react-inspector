@@ -1,7 +1,8 @@
 export { chromeLight, chromeDark } from './styles/themes';
 
 export ObjectInspector, {useObjectIterator} from './object-inspector/ObjectInspector';
-export TableInspector, { tableAcceptor, useTable } from './table-inspector/TableInspector';
+export TableInspector from './table-inspector/TableInspector';
+export { tableAcceptor, useTable } from './table-inspector/Table';
 export DOMInspector from './dom-inspector/DOMInspector';
 
 export ObjectLabel from './object-inspector/ObjectLabel';

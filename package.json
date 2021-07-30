@@ -73,7 +73,9 @@
     "@babel/preset-env": "^7.14.8",
     "@babel/preset-react": "^7.14.5",
     "@babel/register": "^7.14.5",
-    "@storybook/react": "^6.2.0-alpha.15",
+    "@storybook/builder-webpack5": "^6.4.0-alpha.21",
+    "@storybook/manager-webpack5": "^6.4.0-alpha.21",
+    "@storybook/react": "^6.4.0-alpha.21",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
     "chromatic": "^5.9.2",
@@ -88,9 +90,9 @@
     "prettier": "^2.3.2",
     "react": "file:../../scr-app/node_modules/react",
     "react-dom": "^17.0.2",
-    "react-highlight-words": "^0.16.0",
-    "react-hot-loader": "^4.13.0",
-    "react-test-renderer": "^17.0.1",
+    "react-highlight-words": "^0.17.0",
+    "react-resizable": "^3.0.4",
+    "react-test-renderer": "^17.0.2",
     "rimraf": "^3.0.2",
     "rollup": "^2.54.0",
     "rollup-plugin-babel": "^4.4.0",
@@ -98,9 +100,9 @@
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "style-loader": "^3.2.1",
-    "webpack": "^5.46.0",
+    "webpack": "^5.47.0",
     "webpack-cli": "^4.7.2",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^4.0.0-rc.0"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0"

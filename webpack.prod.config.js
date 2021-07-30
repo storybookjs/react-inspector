@@ -34,6 +34,10 @@ var config = {
       amd: 'react',
     },
   },
+  devServer: {
+    inline: false,
+    contentBase: "./dist",
+  },
 };
 
 module.exports = config;

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 
 import { useStyles } from '../styles';
 import {useTable} from "./Table";
@@ -24,32 +24,41 @@ const SortIcon = ({ sortAscending }) => {
 };
 
 const TH = ({
+   columnId,
   sortAscending = false,
   sorted = false,
   onClick = undefined,
-  borderStyle = {},
+  style = {},
   children,
   ...thProps
 }) => {
-  const styles = useStyles('TableInspectorTH');
+  const {base, div} = useStyles('TableInspectorTH');
   const {THComponent} = useTable();
   const [hovered, setHovered] = useState(false);
 
   const handleMouseEnter = useCallback(() => setHovered(true), []);
   const handleMouseLeave = useCallback(() => setHovered(false), []);
+   
+   const thStyle= useMemo(
+      () => {
+         return {
+            ...base,
+            ...(hovered ? base[':hover'] : {}),
+            ...style
+         };
+      },
+      [style, base, hovered]
+   );
 
   return (
     <THComponent
+       columnId={columnId}
       {...thProps}
-      style={{
-        ...styles.base,
-        ...borderStyle,
-        ...(hovered ? styles.base[':hover'] : {}),
-      }}
+      style={thStyle}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={onClick}>
-      <div style={styles.div}>{children}</div>
+      <div style={div}>{children}</div>
       {sorted && (
         <SortIconContainer>
           <SortIcon sortAscending={sortAscending} />
