@@ -32,6 +32,7 @@ const withSearchContext = Component => {
 };
 const ObjectValue = withSearchContext(InspectorObjectValue);
 const ObjectName = withSearchContext(InspectorObjectName);
+
 /* intersperse arr with separator */
 function intersperse(arr, sep) {
    if (arr.length === 0) {
@@ -266,7 +267,7 @@ const makeObjects = () => {
 
 const objects = makeObjects();
 
-storiesOf('Advance Usage', module)
+storiesOf('Advance Usage: Searchable Object Inspector', module)
    .add('Searchable Object Inspectors', () => {
       const [searchValue, setSearchValue] = useState('ll');
       

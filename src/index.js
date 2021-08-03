@@ -1,6 +1,10 @@
 export { chromeLight, chromeDark } from './styles/themes';
 
 export ObjectInspector, {useObjectIterator} from './object-inspector/ObjectInspector';
+export ResizableTableInspector,
+{
+  useResizableTable, resizableTableAcceptor
+} from './table-inspector/ResizableTableInspector';
 export TableInspector from './table-inspector/TableInspector';
 export { tableAcceptor, useTable } from './table-inspector/Table';
 export DOMInspector from './dom-inspector/DOMInspector';
@@ -19,14 +23,18 @@ export {typeComparator, isObject, isArray, isIterable, isFunction, isNode} from 
 // Wrapping the inspectors
 import ObjectInspector from './object-inspector/ObjectInspector';
 import TableInspector from './table-inspector/TableInspector';
+import ResizableTableInspector from './table-inspector/ResizableTableInspector';
 import DOMInspector from './dom-inspector/DOMInspector';
 
 import React from 'react';
 import PropTypes from 'prop-types';
 import {isNode as isDOM} from './utils/typeUtils';
 
-const Inspector = ({ table = false, data, ...rest }) => {
+const Inspector = ({ table = false, resizable = false, data, ...rest }) => {
   if (table) {
+    if(resizable){
+      return <ResizableTableInspector data={data} {...rest} />;
+    }
     return <TableInspector data={data} {...rest} />;
   }
 

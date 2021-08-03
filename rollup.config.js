@@ -18,7 +18,7 @@ export default [
       sourcemap: true,
       exports: 'named',
     },
-    external: ['prop-types', 'react'],
+    external: ['prop-types', 'react', 'react-resizable'],
     plugins: [
       nodeResolve({
         mainFields: ['module', 'jsnext:main', 'main'],
@@ -39,7 +39,7 @@ export default [
       sourcemap: true,
       exports: 'named',
     },
-    external: ['prop-types', 'react'],
+    external: ['prop-types', 'react', 'react-resizable'],
     plugins: [
       nodeResolve({
         mainFields: ['module', 'jsnext:main', 'main'],
@@ -72,6 +72,8 @@ export default [
       commonjs({
         namedExports: {
           'node_modules/react/index.js': [
+             'useRef',
+             'useEffect',
             'useContext',
             'useLayoutEffect',
             'useCallback',
