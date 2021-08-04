@@ -23,12 +23,14 @@ const SortIcon = ({ sortAscending }) => {
   return <div style={styles}>{glyph}</div>;
 };
 
+const defaultStyle = {};
+
 const TH = ({
    columnId,
   sortAscending = false,
   sorted = false,
   onClick = undefined,
-  style = {},
+  style = defaultStyle,
   children,
   ...thProps
 }) => {
