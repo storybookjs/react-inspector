@@ -14,11 +14,9 @@ import {tableAcceptor} from './Table';
 
 const CustomTableInspector = tableAcceptor(TableInspectorBase);
 
-const defaultResizableProps = {
-   axis: "x", resizeHandles: ["e"]
-};
 const defaultCellResizableProps = {
-   ...defaultResizableProps,
+   axis: "x",
+   resizeHandles: ["e"],
    minConstraints: [17, 17]
 };
 
@@ -26,11 +24,11 @@ const baseHandleStyle = {
    position: "absolute",
    backgroundColor: "transparent",
    zIndex: 1000,
-   cursor: "move",
 };
 
 const defaultRowHandleStyle = {
    ...baseHandleStyle,
+   cursor: "row-resize",
    bottom: 0,
    marginBottom: 0,
    left: 0,
@@ -40,23 +38,13 @@ const defaultRowHandleStyle = {
 
 const defaultColumnHandleStyle = {
    ...baseHandleStyle,
+   cursor: "col-resize",
    top: 0,
    right: 0,
    marginRight: 0,
    width: 2,
    height: "100%",
 };
-
-const defaultTableRowHandleStyle = {
-   ...defaultRowHandleStyle,
-   zIndex: 2000,
-};
-
-const defaultTableColumnHandleStyle = {
-   ...defaultColumnHandleStyle,
-   zIndex: 2000,
-};
-
 
 const makeResizeHandle = (
    rowHandleStyle = defaultRowHandleStyle,
@@ -74,9 +62,6 @@ const makeResizeHandle = (
 };
 
 const defaultCellResizeHandle = makeResizeHandle();
-const defaultTableResizeHandle = makeResizeHandle(
-   defaultTableRowHandleStyle, defaultTableColumnHandleStyle
-);
 
 const ResizableTable = createContext({
    CellResizableProps: defaultCellResizableProps,
@@ -158,14 +143,8 @@ const Cell = (
 const THComponent = (props) => <Cell variant={"th"} {...props}/>;
 const TDComponent = (props) => <Cell variant={"td"} {...props}/>;
 
-const defaultTableStyle = {
-   position: "relative",
-   height: 200,
-   width: 200,
-};
-
 /*
-* HOC to create a component that accepts "ResizableProps", "CellResizableProps", "tableResizeHandle", "cellResizeHandle", "style", "resizeDebounceWait", and "resizeDebounceMaxWait" props and uses them to set
+* HOC to create a component that accepts "CellResizableProps", "cellResizeHandle", "resizeDebounceWait", and "resizeDebounceMaxWait" props and uses them to set
 * the current resizable table rendering components. This is intended to be used by the top-level inspector
 * components.
 * @param {Object} WrappedComponent - React component to be wrapped
@@ -173,11 +152,8 @@ const defaultTableStyle = {
 
 export const resizableTableAcceptor = WrappedComponent => (
    {
-      ResizableProps = defaultResizableProps,
       CellResizableProps = defaultCellResizableProps,
-      tableResizeHandle = defaultTableResizeHandle,
       cellResizeHandle = defaultCellResizeHandle,
-      style = defaultTableStyle,
       resizeDebounceWait = 50,
       resizeDebounceMaxWait = 100,
       ...props
@@ -186,17 +162,6 @@ export const resizableTableAcceptor = WrappedComponent => (
    const [_rowSizes, _setRowSizes] = useState({});
    const [_columnSizes, _setColumnSizes] = useState({});
    const [cellSizes, setCellSizes] = useState({rows: {}, columns: {}});
-   
-   const [tableStyle, setTableStyle] = useState(style);
-   
-   const onResize = useCallback(
-      (event, {size, handle/*,element*/}) => {
-         setTableStyle(tableStyle => ({
-            ...tableStyle,
-            height: handle === "s" ? size.height : tableStyle.height,
-            width: (handle === "e" || handle === "se") ? size.width : tableStyle.width,
-         }));
-      }, []);
    
    const onColumnSizeChange = useCallback(
       ({
@@ -238,6 +203,7 @@ export const resizableTableAcceptor = WrappedComponent => (
       ]
    );
    
+   
    const timestampRef = useRef();
    
    useEffect(
@@ -267,25 +233,13 @@ export const resizableTableAcceptor = WrappedComponent => (
    );
    
    return (
-      <Resizable
-         {...ResizableProps}
-         height={tableStyle.height}
-         width={tableStyle.width}
-         onResize={onResize}
-         handle={tableResizeHandle}
-      >
-         <div
-            style={tableStyle}
-         >
-            <ResizableTable.Provider value={state}>
-               <WrappedComponent
-                  THComponent={THComponent}
-                  TDComponent={TDComponent}
-                  {...props}
-               />
-            </ResizableTable.Provider>
-         </div>
-      </Resizable>
+      <ResizableTable.Provider value={state}>
+         <WrappedComponent
+            THComponent={THComponent}
+            TDComponent={TDComponent}
+            {...props}
+         />
+      </ResizableTable.Provider>
    );
 };
 
