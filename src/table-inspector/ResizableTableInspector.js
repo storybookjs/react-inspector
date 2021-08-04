@@ -66,7 +66,7 @@ const defaultCellResizeHandle = makeResizeHandle();
 const ResizableTable = createContext({
    CellResizableProps: defaultCellResizableProps,
    getCellSize: (/*rowId, columnId, variant, props*/) => ({}),
-   onColumnSizeChange: (/*{rowId, columnId}, (e: SyntheticEvent, data: ResizeCallbackData)*/) => {},
+   onCellSizeChange: (/*{rowId, columnId}, (e: SyntheticEvent, data: ResizeCallbackData)*/) => {},
    cellResizeHandle: defaultCellResizeHandle,
 });
 
@@ -89,13 +89,13 @@ const Cell = (
 ) => {
    const isTH = variant === "th";
    const {
-      CellResizableProps, getCellSize, cellResizeHandle, onColumnSizeChange
+      CellResizableProps, getCellSize, cellResizeHandle, onCellSizeChange
    } = useResizableTable();
    const {width, height} = getCellSize(rowId, columnId, variant, props);
    
    const onResize = useCallback(
       (...rest) => {
-         onColumnSizeChange(
+         onCellSizeChange(
             {
                rowId,
                columnId,
@@ -104,7 +104,7 @@ const Cell = (
          )
          ;
       },
-      [rowId, columnId, onColumnSizeChange]
+      [rowId, columnId, onCellSizeChange]
    );
    
    const cellStyle = useMemo(() => ({
@@ -143,8 +143,43 @@ const Cell = (
 const THComponent = (props) => <Cell variant={"th"} {...props}/>;
 const TDComponent = (props) => <Cell variant={"td"} {...props}/>;
 
+
+const defaultUseOnCellSizeChange = (setRowSizes, setColumnSizes) => {
+   return useCallback(
+      ({
+          rowId,
+          columnId,
+       }, event, {size, handle/*,element*/}) => {
+         handle === "s" && rowId > -1 && setRowSizes(
+            rowSizes => {
+               rowSizes = {...rowSizes};
+               rowSizes[rowId] = size.height;
+               return rowSizes;
+            });
+         
+         (handle === "e" || handle === "se") && columnId > -1 && setColumnSizes(
+            columnSizes => {
+               columnSizes = {...columnSizes};
+               columnSizes[columnId] = size.width;
+               return columnSizes;
+            });
+      },
+      [setRowSizes, setColumnSizes]
+   );
+};
+
+const defaultUseGetCellSize = (cellSizes) => {
+   return useCallback(
+      (rowId, columnId) => ({
+         width: cellSizes.columns[columnId] ?? 40,
+         height: cellSizes.rows[columnId] ?? 17,
+      }),
+      [cellSizes]
+   );
+};
+
 /*
-* HOC to create a component that accepts "CellResizableProps", "cellResizeHandle", "resizeDebounceWait", and "resizeDebounceMaxWait" props and uses them to set
+* HOC to create a component that accepts "CellResizableProps", "cellResizeHandle", "useOnCellSizeChange", "useGetCellSize", "resizeDebounceWait", and "resizeDebounceMaxWait" props and uses them to set
 * the current resizable table rendering components. This is intended to be used by the top-level inspector
 * components.
 * @param {Object} WrappedComponent - React component to be wrapped
@@ -154,6 +189,8 @@ export const resizableTableAcceptor = WrappedComponent => (
    {
       CellResizableProps = defaultCellResizableProps,
       cellResizeHandle = defaultCellResizeHandle,
+      useOnCellSizeChange = defaultUseOnCellSizeChange,
+      useGetCellSize = defaultUseGetCellSize,
       resizeDebounceWait = 50,
       resizeDebounceMaxWait = 100,
       ...props
@@ -163,46 +200,23 @@ export const resizableTableAcceptor = WrappedComponent => (
    const [_columnSizes, _setColumnSizes] = useState({});
    const [cellSizes, setCellSizes] = useState({rows: {}, columns: {}});
    
-   const onColumnSizeChange = useCallback(
-      ({
-          rowId,
-          columnId,
-       }, event, {size, handle/*,element*/}) => {
-         handle === "s" && rowId > -1 && _setRowSizes(_rowSizes => {
-            _rowSizes = {..._rowSizes};
-            _rowSizes[rowId] = size.height;
-            return _rowSizes;
-         });
-         
-         (handle === "e" || handle === "se") && columnId > -1 && _setColumnSizes(_columnSizes => {
-            _columnSizes = {..._columnSizes};
-            _columnSizes[columnId] = size.width;
-            return _columnSizes;
-         });
-      },
-      []
-   );
-   
+   const onCellSizeChange = useOnCellSizeChange(_setRowSizes, _setColumnSizes);
+   const getCellSize = useGetCellSize(cellSizes);
    
    const state = useMemo(
       () => {
-         const getCellSize = (rowId, columnId) => ({
-            width: cellSizes.columns[columnId] ?? 40,
-            height: cellSizes.rows[columnId] ?? 17,
-         });
          
          return {
             getCellSize,
-            onColumnSizeChange,
+            onCellSizeChange,
             CellResizableProps,
             cellResizeHandle,
          };
       },
       [
-         cellSizes, onColumnSizeChange, CellResizableProps, cellResizeHandle
+         getCellSize, onCellSizeChange, CellResizableProps, cellResizeHandle
       ]
    );
-   
    
    const timestampRef = useRef();
    
