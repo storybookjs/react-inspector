@@ -44,7 +44,7 @@ export function isArray(x) {
 }
 
 export function isIterable(x) {
-   return isObject(x) && x[SymbolIterator];
+   return isObject(x) && !!x[SymbolIterator];
 }
 
 //https://github.com/inspect-js/is-object/blob/main/index.js

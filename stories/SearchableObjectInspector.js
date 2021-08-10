@@ -1,19 +1,12 @@
 import React, {
    useContext,
    createContext,
-   useState,
-   useCallback,
-   useMemo,
-   useRef,
 } from 'react';
-
-import Highlighter from 'react-highlight-words';
 import {
    ObjectName as InspectorObjectName,
    ObjectValue as InspectorObjectValue,
    useStyles,
 } from '../src';
-import {propertyValueFormatter} from '../src/utils/propertyUtils';
 import {hasOwnProperty} from '../src/utils/objectPrototype';
 import {getPropertyValue} from "../src/utils/propertyUtils";
 import {getExpandedPaths} from '../src/tree-view/pathUtils';
@@ -186,55 +179,4 @@ export const getSearchableExpandedPaths = (searchWords) => (...params) => {
    }
    
    return {...nextExpandedPaths, ...nextObj};
-};
-
-
-export const useSearchableInspector = (defaultValue) => {
-   const controlledExpandedPaths = useRef({});
-   const [searchValue, setSearchValue] = useState(defaultValue);
-   
-   const handleChangeSearchValue = useCallback(
-      (event) => {
-         setSearchValue(event.target.value);
-      },
-      []
-   );
-   
-   const getControlledExpandedPath = useCallback(
-      (i) => {
-         controlledExpandedPaths.current[i] = controlledExpandedPaths.current[i] || {current: {}};
-         controlledExpandedPaths.current[i].handleChange = controlledExpandedPaths.current[i].handleChange || (() => {
-            controlledExpandedPaths.current[i].current.isMounted && controlledExpandedPaths.current[i].current.stateAndSetter[1]({});
-         });
-         return controlledExpandedPaths.current[i];
-      },
-      []
-   );
-   
-   const searchContext = useMemo(
-      () => {
-         const searchWords = searchValue.split(' ');
-         return [
-            searchWords,
-            (object, type) => {
-               return (searchValue.length ?
-                     <Highlighter
-                        autoEscape={true}
-                        searchWords={searchWords}
-                        textToHighlight={propertyValueFormatter(object, type)}
-                     />
-                     : propertyValueFormatter(object, type)
-               );
-            },
-            searchValue,
-            setSearchValue,
-            handleChangeSearchValue,
-            getSearchableExpandedPaths(searchWords),
-            getControlledExpandedPath,
-         ]
-      },
-      [searchValue]
-   );
-   
-   return searchContext;
 };

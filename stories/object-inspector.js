@@ -63,6 +63,7 @@ storiesOf('Arrays', module)
 storiesOf('Objects', module)
   .add('Object: Date', () => <Inspector data={new Date('2005-04-03')} />)
   .add('Object: Regular Expression', () => <Inspector data={/^.*$/} />)
+   .add('Object: Error type', () => <Inspector data={new Error("error message")} showNonenumerable />)
   .add('Object: Empty Object', () => <Inspector showNonenumerable expandLevel={1} data={{}} />)
   .add('Object: Empty String key', () => <Inspector data={{ '': 'hi' }} />)
   .add('Object: Object with getter property', () => (

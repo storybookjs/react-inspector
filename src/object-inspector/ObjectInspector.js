@@ -128,19 +128,24 @@ const ObjectInspector = ({
 ObjectInspector.propTypes = {
   /** An integer specifying to which level the tree should be initially expanded. */
   expandLevel: PropTypes.number,
+  
   /** An array containing all the paths that should be expanded when the component is initialized, or a string of just one path */
   expandPaths: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  /** A React reference to expose expandedPaths state, setter, isMounted, and cache, e.g. const expandedPathsRef = useRef({}); ... expandedPathsRef={expandedPathsRef}. To disable caching,  pass a ref with the key disableCache: true */
-  expandedPathsRef: PropTypes.object,
+  
+  /** An array containing controlled expandedPaths' state and setter, (e.g. const expandedPaths = useState({}); )*/
+  expandedPaths: PropTypes.array,
+  
   /** A custom function to  determiner if the path should be expanded (e.g. a search match) */
   getExpandedPaths:PropTypes.func,
   
   name: PropTypes.string,
+  
   /** Not required prop because we also allow undefined value */
   data: PropTypes.any,
 
   /** Show non-enumerable properties */
   showNonenumerable: PropTypes.bool,
+  
   /** Sort object keys with optional compare function. */
   sortObjectKeys: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
 

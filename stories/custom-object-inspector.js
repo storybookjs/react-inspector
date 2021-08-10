@@ -2,14 +2,13 @@ import React, {
    useState,
    useCallback,
    useMemo,
-   useRef,
+   useRef, useEffect,
 } from 'react';
 import {storiesOf} from '@storybook/react';
 import Highlighter from 'react-highlight-words';
 import Inspector from '../src';
 import {
    SearchContext,
-   useSearchableInspector,
    searchableNodeRenderer,
    getSearchableExpandedPaths
 } from "./SearchableObjectInspector";
@@ -41,6 +40,91 @@ const makeObjects = () => {
 };
 
 const objects = makeObjects();
+
+const useSearchContextValue = (initialSearchValue = 'LOL') => {
+   const [searchValue, setSearchValue] = useState(initialSearchValue);
+   
+   const handleChangeSearchValue = useCallback(
+      (event) => {
+         setSearchValue(event.target.value);
+      },
+      []
+   );
+   
+   return useMemo(
+      () => {
+         const searchWords = searchValue.split(' ');
+         return [
+            searchWords,
+            (object, type) => {
+               return (searchValue.length ?
+                     <Highlighter
+                        autoEscape={true}
+                        searchWords={searchWords}
+                        textToHighlight={propertyValueFormatter(object, type)}
+                     />
+                     : propertyValueFormatter(object, type)
+               );
+            },
+            getSearchableExpandedPaths(searchWords),
+            searchValue,
+            handleChangeSearchValue,
+         ]
+      },
+      [searchValue, handleChangeSearchValue]
+   );
+};
+
+
+const useRestorers = () => {
+   const restorersRef = useRef({});
+   const obtainRestorer = useCallback((i) => {
+      if (!restorersRef.current[i]) {
+         let _current = {};
+         const restore = () => _current;
+         const save = (current) => {
+            _current = current;
+         };
+         restorersRef.current[i] = {restore, save};
+      }
+      return restorersRef.current[i];
+   }, []);
+   
+   return [restorersRef, obtainRestorer];
+};
+
+const useExpandedPathsWithRestorer = (restorer) => {
+   const {restore, save} = restorer;
+   const expandedPathsState = useState(() => restore());
+   const [expandedPaths] = expandedPathsState;
+   
+   useEffect(() => {
+         return () => save(expandedPaths);
+      },
+      [save, expandedPaths]
+   );
+   
+   return expandedPathsState;
+}
+
+const ControlledInspector = ({restorer, ...inspectorProps}) => {
+   const expandedPathsState = useExpandedPathsWithRestorer(restorer);
+   const [, setExpandedPaths] = expandedPathsState;
+   const onMouseLeave = useCallback(
+      () => setExpandedPaths({}),
+      []
+   );
+   
+   return <div
+      onMouseLeave={onMouseLeave}
+   >
+      <Inspector
+         expandedPaths={expandedPathsState}
+         {...inspectorProps}
+      
+      />
+   </div>
+};
 
 storiesOf('Object Inspector (Searchable)', module)
    .add('Searchable Object Inspectors', () => {
@@ -175,88 +259,12 @@ storiesOf('Object Inspector (Searchable)', module)
       
    })
    .add('Searchable Object Inspectors with Auto-Expand and Controlled expandedPaths', () => {
-      const controlledExpandedPaths = useRef({});
-      const [searchValue, setSearchValue] = useState('LOL');
       
-      const handleChangeSearchValue = useCallback(
-         (event) => {
-            setSearchValue(event.target.value);
-         },
-         []
-      );
-      
-      const searchContext = useMemo(
-         () => {
-            const searchWords = searchValue.split(' ');
-            return [
-               searchWords,
-               (object, type) => {
-                  return (searchValue.length ?
-                        <Highlighter
-                           autoEscape={true}
-                           searchWords={searchWords}
-                           textToHighlight={propertyValueFormatter(object, type)}
-                        />
-                        : propertyValueFormatter(object, type)
-                  );
-               },
-               getSearchableExpandedPaths(searchWords),
-            ]
-         },
-         [searchValue]
-      );
-      
-      const [, , searchableExpandedPaths] = searchContext;
-      return (
-         <div>
-            <div
-               style={{height: 30}}
-            >
-               <input
-                  type="text"
-                  value={searchValue}
-                  onChange={handleChangeSearchValue}
-                  title={"The inspector auto compacts when cursor leaves the inspector"}
-               />
-            </div>
-            <SearchContext.Provider value={searchContext}>
-               <div
-                  style={{width: 800, height: 600, overflow: 'scroll'}}
-               >
-                  {objects.map((object, i) => {
-                        controlledExpandedPaths.current[i] = controlledExpandedPaths.current[i] || {current: {}};
-                        controlledExpandedPaths.current[i].handleChange = controlledExpandedPaths.current[i].handleChange || (() => {
-                           controlledExpandedPaths.current[i].current.isMounted && controlledExpandedPaths.current[i].current.stateAndSetter[1]({});
-                        });
-                        return (
-                           <div
-                              key={i}
-                              onMouseLeave={controlledExpandedPaths.current[i].handleChange}
-                           >
-                              <Inspector
-                                 nodeRenderer={searchableNodeRenderer}
-                                 getExpandedPaths={searchableExpandedPaths}
-                                 expandLevel={7}
-                                 data={object}
-                                 expandedPathsRef={controlledExpandedPaths.current[i]}
-                              />
-                           </div>
-                        );
-                     }
-                  )}
-               </div>
-            </SearchContext.Provider>
-         </div>
-      );
-      
-   })
-   .add('Searchable Object Inspectors with Auto-Expand and Controlled expandedPaths wrapped in a hook', () => {
-      
-      const searchContext = useSearchableInspector('LOL');
+      const [, obtainRestorer] = useRestorers();
+      const searchContext = useSearchContextValue();
       const [
-         , , searchValue, , handleChangeSearchValue, searchableExpandedPaths, getControlledExpandedPath
+         , , searchableExpandedPaths, searchValue, handleChangeSearchValue,
       ] = searchContext;
-      
       return (
          <div>
             <div
@@ -274,20 +282,15 @@ storiesOf('Object Inspector (Searchable)', module)
                   style={{width: 800, height: 600, overflow: 'scroll'}}
                >
                   {objects.map((object, i) => {
-                        const expandedPathsRef = getControlledExpandedPath(i);
                         return (
-                           <div
+                           <ControlledInspector
                               key={i}
-                              onMouseLeave={expandedPathsRef.handleChange}
-                           >
-                              <Inspector
-                                 nodeRenderer={searchableNodeRenderer}
-                                 getExpandedPaths={searchableExpandedPaths}
-                                 expandLevel={7}
-                                 data={object}
-                                 expandedPathsRef={expandedPathsRef}
-                              />
-                           </div>
+                              nodeRenderer={searchableNodeRenderer}
+                              getExpandedPaths={searchableExpandedPaths}
+                              expandLevel={7}
+                              data={object}
+                              restorer={obtainRestorer(i)}
+                           />
                         );
                      }
                   )}

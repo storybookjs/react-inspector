@@ -1,9 +1,9 @@
 import React, {
-  useContext,
-  useCallback,
-  useLayoutEffect,
-  useState,
-  memo,
+   useContext,
+   useCallback,
+   useLayoutEffect,
+   useState,
+   memo, useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
 import ExpandedPathsContext from './ExpandedPathsContext';
@@ -74,57 +74,15 @@ ConnectedTreeNode.propTypes = {
 };
 
 const TreeView = memo(
-  ({ name, data, dataIterator, nodeRenderer, expandPaths, expandLevel, expandedPathsRef, getExpandedPaths = defaultGetExpandedPaths }) => {
+  ({ name, data, dataIterator, nodeRenderer, expandPaths, expandLevel, expandedPaths, getExpandedPaths = defaultGetExpandedPaths }) => {
      const styles = useStyles('TreeView');
-    const stateAndSetter = useState({});
-    const [, setExpandedPaths] = stateAndSetter;
-
-    if (expandedPathsRef?.current) {
-      expandedPathsRef.current.stateAndSetter = stateAndSetter;
-    }
-
-    useLayoutEffect(
-      () => {
-        if (!expandedPathsRef) {
-          return;
-        }
-         if (!expandedPathsRef.current) {
-            expandedPathsRef.current = {stateAndSetter};
-         }
-
-        expandedPathsRef.current.isMounted = true;
-
-        if (expandedPathsRef.current.disableCache) {
-          return;
-        }
-
-        const cached = expandedPathsRef.current.cached;
-
-        if (cached && Object.keys(cached).length) {
-          expandedPathsRef.current.stateAndSetter[1](cached);
-          expandedPathsRef.current.cached = null;
-        }
-
-        return () => {
-          if (!expandedPathsRef?.current) {
-            return;
-          }
-
-          expandedPathsRef.current.isMounted = false;
-
-          if (expandedPathsRef.current.disableCache) {
-            return;
-          }
-
-          const value = expandedPathsRef.current.stateAndSetter[0];
-
-          if (value && Object.keys(value).length) {
-            expandedPathsRef.current.cached = value;
-          }
-        };
-      },
-      [expandedPathsRef]
-    );
+    const _stateAndSetter = useState({});
+     const [expandedPathsState, setExpandedPaths] = expandedPaths || _stateAndSetter;
+    const stateAndSetter= useMemo(()=>(
+       [expandedPathsState, setExpandedPaths]
+      ),
+       [expandedPathsState, setExpandedPaths]
+    ) ;
 
     useLayoutEffect(
       () =>
@@ -137,7 +95,7 @@ const TreeView = memo(
             prevExpandedPaths
           )
         ),
-      [data, dataIterator, expandPaths, expandLevel, getExpandedPaths]
+      [data, dataIterator, expandPaths, expandLevel, setExpandedPaths, getExpandedPaths]
     );
 
     return (
@@ -164,7 +122,7 @@ TreeView.propTypes = {
   nodeRenderer: PropTypes.func,
   expandPaths: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   expandLevel: PropTypes.number,
-  expandedPathsRef: PropTypes.object,
+   expandedPaths: PropTypes.array,
    getExpandedPaths: PropTypes.func,
 };
 
