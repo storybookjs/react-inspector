@@ -65,8 +65,8 @@ export default function getHeaders(data) {
       return colHeaders;
     }, []);
     return {
-      rowHeaders: rowHeaders,
-      colHeaders: colHeaders,
+      rowHeaders,
+      colHeaders,
     };
   }
   return undefined;

@@ -1,24 +1,31 @@
-import React from 'react';
-import ObjectValue from '../object/ObjectValue';
+import React, {useMemo} from 'react';
 
 import { hasOwnProperty } from '../utils/objectPrototype';
 
 import { useStyles } from '../styles';
+import {useTable} from "./Table";
 
 const DataContainer = ({ rows, columns, rowsData }) => {
-  const styles = useStyles('TableInspectorDataContainer');
-  const borderStyles = useStyles('TableInspectorLeftBorder');
+  const {table, tr, td, div} = useStyles('TableInspectorDataContainer');
+  const {solid, none} = useStyles('TableInspectorLeftBorder');
+  const [tdNone, tdSolid]=useMemo(
+     ()=>{
+       return [{ ...td, ...none }, { ...td, ...solid }];
+     },
+     [td, none, solid]
+  );
+  const {TRComponent, TDComponent, ObjectValue} = useTable();
 
   return (
-    <div style={styles.div}>
-      <table style={styles.table}>
+    <div style={div}>
+      <table style={table}>
         <colgroup />
         <tbody>
           {rows.map((row, i) => (
-            <tr key={row} style={styles.tr}>
-              <td style={{ ...styles.td, ...borderStyles.none }}>{row}</td>
+            <TRComponent key={row} style={tr} rowId={i}>
+              <TDComponent style={tdNone} rowId={i} columnId={columns.length}>{row}</TDComponent>
 
-              {columns.map(column => {
+              {columns.map((column, j) => {
                 const rowData = rowsData[i];
                 // rowData could be
                 //  object -> index by key
@@ -36,22 +43,27 @@ const DataContainer = ({ rows, columns, rowsData }) => {
                   hasOwnProperty.call(rowData, column)
                 ) {
                   return (
-                    <td
+                    <TDComponent
                       key={column}
-                      style={{ ...styles.td, ...borderStyles.solid }}>
+                      style={tdSolid}
+                      rowId={i}
+                      columnId={j}
+                    >
                       <ObjectValue object={rowData[column]} />
-                    </td>
+                    </TDComponent>
                   );
                 } else {
                   return (
-                    <td
+                    <TDComponent
                       key={column}
-                      style={{ ...styles.td, ...borderStyles.solid }}
+                      style={tdSolid}
+                      rowId={i}
+                      columnId={j}
                     />
                   );
                 }
               })}
-            </tr>
+            </TRComponent>
           ))}
         </tbody>
       </table>

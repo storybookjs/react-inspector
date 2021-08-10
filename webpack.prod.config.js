@@ -2,7 +2,7 @@ var path = require('path');
 
 var config = {
   mode: 'production',
-  devtool: 'sourcemap',
+  devtool: 'source-map',
   entry: {
     index: './src/index.js',
   },
@@ -33,6 +33,10 @@ var config = {
       commonjs: 'react',
       amd: 'react',
     },
+  },
+  devServer: {
+    inline: false,
+    contentBase: "./dist",
   },
 };
 

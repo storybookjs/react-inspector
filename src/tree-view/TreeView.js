@@ -1,9 +1,9 @@
 import React, {
-  useContext,
-  useCallback,
-  useLayoutEffect,
-  useState,
-  memo,
+   useContext,
+   useCallback,
+   useLayoutEffect,
+   useState,
+   memo, useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
 import ExpandedPathsContext from './ExpandedPathsContext';
@@ -11,7 +11,7 @@ import TreeNode from './TreeNode';
 import {
   DEFAULT_ROOT_PATH,
   hasChildNodes,
-  getExpandedPaths,
+  getExpandedPaths as defaultGetExpandedPaths,
 } from './pathUtils';
 
 import { useStyles } from '../styles';
@@ -44,8 +44,8 @@ const ConnectedTreeNode = memo(props => {
       nodeRenderer={nodeRenderer}
       {...props}>
       {// only render if the node is expanded
-      expanded
-        ? [...dataIterator(data)].map(({ name, data, ...renderNodeProps }) => {
+        expanded
+          ? [...dataIterator(data)].map(({ name, data, ...renderNodeProps }) => {
             return (
               <ConnectedTreeNode
                 name={name}
@@ -59,13 +59,13 @@ const ConnectedTreeNode = memo(props => {
               />
             );
           })
-        : null}
+          : null}
     </TreeNode>
   );
 });
 
 ConnectedTreeNode.propTypes = {
-  name: PropTypes.string,
+  name: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(RegExp)]),
   data: PropTypes.any,
   dataIterator: PropTypes.func,
   depth: PropTypes.number,
@@ -74,10 +74,15 @@ ConnectedTreeNode.propTypes = {
 };
 
 const TreeView = memo(
-  ({ name, data, dataIterator, nodeRenderer, expandPaths, expandLevel }) => {
-    const styles = useStyles('TreeView');
-    const stateAndSetter = useState({});
-    const [, setExpandedPaths] = stateAndSetter;
+  ({ name, data, dataIterator, nodeRenderer, expandPaths, expandLevel, expandedPaths, getExpandedPaths = defaultGetExpandedPaths }) => {
+     const styles = useStyles('TreeView');
+    const _stateAndSetter = useState({});
+     const [expandedPathsState, setExpandedPaths] = expandedPaths || _stateAndSetter;
+    const stateAndSetter= useMemo(()=>(
+       [expandedPathsState, setExpandedPaths]
+      ),
+       [expandedPathsState, setExpandedPaths]
+    ) ;
 
     useLayoutEffect(
       () =>
@@ -90,7 +95,7 @@ const TreeView = memo(
             prevExpandedPaths
           )
         ),
-      [data, dataIterator, expandPaths, expandLevel]
+      [data, dataIterator, expandPaths, expandLevel, setExpandedPaths, getExpandedPaths]
     );
 
     return (
@@ -111,12 +116,14 @@ const TreeView = memo(
 );
 
 TreeView.propTypes = {
-  name: PropTypes.string,
+  name: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(RegExp)]),
   data: PropTypes.any,
   dataIterator: PropTypes.func,
   nodeRenderer: PropTypes.func,
   expandPaths: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   expandLevel: PropTypes.number,
+   expandedPaths: PropTypes.array,
+   getExpandedPaths: PropTypes.func,
 };
 
 export default TreeView;

@@ -1,6 +1,7 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 
 import { useStyles } from '../styles';
+import {useTable} from "./Table";
 
 const SortIconContainer = props => (
   <div
@@ -22,38 +23,50 @@ const SortIcon = ({ sortAscending }) => {
   return <div style={styles}>{glyph}</div>;
 };
 
+const defaultStyle = {};
+
 const TH = ({
+   columnId,
   sortAscending = false,
   sorted = false,
   onClick = undefined,
-  borderStyle = {},
+  style = defaultStyle,
   children,
   ...thProps
 }) => {
-  const styles = useStyles('TableInspectorTH');
+  const {base, div} = useStyles('TableInspectorTH');
+  const {THComponent} = useTable();
   const [hovered, setHovered] = useState(false);
 
   const handleMouseEnter = useCallback(() => setHovered(true), []);
   const handleMouseLeave = useCallback(() => setHovered(false), []);
+   
+   const thStyle= useMemo(
+      () => {
+         return {
+            ...base,
+            ...(hovered ? base[':hover'] : {}),
+            ...style
+         };
+      },
+      [style, base, hovered]
+   );
 
   return (
-    <th
+    <THComponent
+       columnId={columnId}
       {...thProps}
-      style={{
-        ...styles.base,
-        ...borderStyle,
-        ...(hovered ? styles.base[':hover'] : {}),
-      }}
+      style={thStyle}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={onClick}>
-      <div style={styles.div}>{children}</div>
+      <div style={div}>{children}</div>
       {sorted && (
         <SortIconContainer>
           <SortIcon sortAscending={sortAscending} />
         </SortIconContainer>
       )}
-    </th>
+    </THComponent>
   );
 };
 

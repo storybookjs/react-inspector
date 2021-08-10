@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import PropTypes from 'prop-types';
 import TreeView from '../tree-view/TreeView';
 
@@ -7,22 +7,22 @@ import ObjectLabel from './ObjectLabel';
 
 import { propertyIsEnumerable } from '../utils/objectPrototype';
 import { getPropertyValue } from '../utils/propertyUtils';
+import {isObject, isArray, isIterable, isFunction} from '../utils/typeUtils';
 
 import { themeAcceptor } from '../styles';
 
-const createIterator = (showNonenumerable, sortObjectKeys) => {
+const createIterator = (showNonenumerable= false, sortObjectKeys) => {
   const objectIterator = function*(data) {
-    const shouldIterate =
-      (typeof data === 'object' && data !== null) || typeof data === 'function';
+    const shouldIterate = isObject(data) || isFunction(data);
     if (!shouldIterate) return;
 
-    const dataIsArray = Array.isArray(data);
+    const dataIsArray = isArray(data);
 
     // iterable objects (except arrays)
-    if (!dataIsArray && data[Symbol.iterator]) {
+    if (!dataIsArray && isIterable(data)) {
       let i = 0;
       for (let entry of data) {
-        if (Array.isArray(entry) && entry.length === 2) {
+        if (isArray(entry) && entry.length === 2) {
           const [k, v] = entry;
           yield {
             name: k,
@@ -96,20 +96,29 @@ const defaultNodeRenderer = ({ depth, name, data, isNonenumerable }) =>
   );
 
 /**
+ * Iterator for objects
+ */
+export const useObjectIterator = (showNonenumerable, sortObjectKeys)=>{
+  return useMemo(
+     ()=>createIterator(showNonenumerable, sortObjectKeys),
+     [showNonenumerable, sortObjectKeys]
+  );
+};
+
+/**
  * Tree-view for objects
  */
 const ObjectInspector = ({
-  showNonenumerable = false,
+  showNonenumerable,
   sortObjectKeys,
-  nodeRenderer,
+  nodeRenderer = defaultNodeRenderer,
   ...treeViewProps
 }) => {
-  const dataIterator = createIterator(showNonenumerable, sortObjectKeys);
-  const renderer = nodeRenderer ? nodeRenderer : defaultNodeRenderer;
+  const dataIterator = useObjectIterator(showNonenumerable, sortObjectKeys);
 
   return (
     <TreeView
-      nodeRenderer={renderer}
+      nodeRenderer={nodeRenderer}
       dataIterator={dataIterator}
       {...treeViewProps}
     />
@@ -119,15 +128,24 @@ const ObjectInspector = ({
 ObjectInspector.propTypes = {
   /** An integer specifying to which level the tree should be initially expanded. */
   expandLevel: PropTypes.number,
+  
   /** An array containing all the paths that should be expanded when the component is initialized, or a string of just one path */
   expandPaths: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-
+  
+  /** An array containing controlled expandedPaths' state and setter, (e.g. const expandedPaths = useState({}); )*/
+  expandedPaths: PropTypes.array,
+  
+  /** A custom function to  determiner if the path should be expanded (e.g. a search match) */
+  getExpandedPaths:PropTypes.func,
+  
   name: PropTypes.string,
+  
   /** Not required prop because we also allow undefined value */
   data: PropTypes.any,
 
   /** Show non-enumerable properties */
   showNonenumerable: PropTypes.bool,
+  
   /** Sort object keys with optional compare function. */
   sortObjectKeys: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
 

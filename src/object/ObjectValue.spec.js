@@ -11,7 +11,7 @@ describe('ObjectValue', () => {
   it('should render bigint', () => {
     const tree = TestRenderer.create(<ObjectValue object={9007199254740993n} />).toJSON();
     expect(tree.type).toBe('span');
-    expect(tree.children).toEqual(['9007199254740993', 'n']);
+    expect(tree.children).toEqual(['9007199254740993n']);
   });
 
   it('should render number', () => {
@@ -25,7 +25,7 @@ describe('ObjectValue', () => {
       <ObjectValue object={'octocat'} />
     ).toJSON();
     expect(tree.type).toBe('span');
-    expect(tree.children).toEqual(['"', 'octocat', '"']);
+    expect(tree.children).toEqual(['"octocat"']);
   });
 
   it('should render boolean', () => {
