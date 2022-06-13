@@ -89,7 +89,8 @@ storiesOf('Objects', module)
   ))
   .add('Object: Object with null prototype', () => (
     <Inspector showNonenumerable data={Object.assign(Object.create(null), { key: 'value' })} />
-  ));
+  ))
+  .add('Object: Window', () => <Inspector data={window} />);
 
 storiesOf('Maps', module)
 .add('Map: Empty Map', () => (<Inspector data={new Map()} />))
