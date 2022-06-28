@@ -10,8 +10,11 @@ jobs:
     steps:
     - uses: actions/setup-node@v1
       with:
-        node-version: '10.x'
-    - uses: actions/checkout@v2
+        node-version: '14.x'
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # 👈 Required to retrieve git history
     - name: Cache node modules
       uses: actions/cache@v1
       with:
