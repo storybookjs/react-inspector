@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FC } from 'react';
 import { useStyles } from '../styles';
 
 /**
@@ -11,7 +10,7 @@ import { useStyles } from '../styles';
  * If the property name is not enumerable (`Object.prototype.propertyIsEnumerable()`),
  * the property name will be dimmed to show the difference.
  */
-const ObjectName = ({ name, dimmed = false, styles = {} }) => {
+export const ObjectName: FC<any> = ({ name, dimmed = false, styles = {} }) => {
   const themeStyles = useStyles('ObjectName');
   const appliedStyles = {
     ...themeStyles.base,
@@ -22,11 +21,9 @@ const ObjectName = ({ name, dimmed = false, styles = {} }) => {
   return <span style={appliedStyles}>{name}</span>;
 };
 
-ObjectName.propTypes = {
-  /** Property name */
-  name: PropTypes.string,
-  /** Should property name be dimmed */
-  dimmed: PropTypes.bool,
-};
-
-export default ObjectName;
+// ObjectName.propTypes = {
+//   /** Property name */
+//   name: PropTypes.string,
+//   /** Should property name be dimmed */
+//   dimmed: PropTypes.bool,
+// };

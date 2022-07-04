@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import Inspector from '../src';
+import { Inspector } from '../src';
 
 storiesOf('DOM Node', module)
   // ELEMENT_NODE
@@ -44,6 +44,4 @@ storiesOf('DOM Node', module)
   // DOCUMENT_FRAGMENT_NODE
   // https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment
   // x-tags http://blog.vjeux.com/2013/javascript/custom-components-react-x-tags.html
-  .add('Document Fragment Node', () => (
-    <Inspector data={document.createElement('template').content} />
-  ));
+  .add('Document Fragment Node', () => <Inspector data={document.createElement('template').content} />);

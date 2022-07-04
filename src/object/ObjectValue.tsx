@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FC } from 'react';
 
 import { useStyles } from '../styles';
 
@@ -8,10 +7,10 @@ import { useStyles } from '../styles';
  * Can be used to render tree node in ObjectInspector
  * or render objects in TableInspector.
  */
-const ObjectValue = ({ object, styles }) => {
+export const ObjectValue: FC<any> = ({ object, styles }) => {
   const themeStyles = useStyles('ObjectValue');
 
-  const mkStyle = key => ({ ...themeStyles[key], ...styles });
+  const mkStyle = (key: any) => ({ ...themeStyles[key], ...styles });
 
   switch (typeof object) {
     case 'bigint':
@@ -21,9 +20,7 @@ const ObjectValue = ({ object, styles }) => {
     case 'string':
       return <span style={mkStyle('objectValueString')}>"{object}"</span>;
     case 'boolean':
-      return (
-        <span style={mkStyle('objectValueBoolean')}>{String(object)}</span>
-      );
+      return <span style={mkStyle('objectValueBoolean')}>{String(object)}</span>;
     case 'undefined':
       return <span style={mkStyle('objectValueUndefined')}>undefined</span>;
     case 'object':
@@ -34,9 +31,7 @@ const ObjectValue = ({ object, styles }) => {
         return <span>{object.toString()}</span>;
       }
       if (object instanceof RegExp) {
-        return (
-          <span style={mkStyle('objectValueRegExp')}>{object.toString()}</span>
-        );
+        return <span style={mkStyle('objectValueRegExp')}>{object.toString()}</span>;
       }
       if (Array.isArray(object)) {
         return <span>{`Array(${object.length})`}</span>;
@@ -44,10 +39,7 @@ const ObjectValue = ({ object, styles }) => {
       if (!object.constructor) {
         return <span>Object</span>;
       }
-      if (
-        typeof object.constructor.isBuffer === 'function' &&
-        object.constructor.isBuffer(object)
-      ) {
+      if (typeof object.constructor.isBuffer === 'function' && object.constructor.isBuffer(object)) {
         return <span>{`Buffer[${object.length}]`}</span>;
       }
 
@@ -56,23 +48,17 @@ const ObjectValue = ({ object, styles }) => {
       return (
         <span>
           <span style={mkStyle('objectValueFunctionPrefix')}>ƒ&nbsp;</span>
-          <span style={mkStyle('objectValueFunctionName')}>
-            {object.name}()
-          </span>
+          <span style={mkStyle('objectValueFunctionName')}>{object.name}()</span>
         </span>
       );
     case 'symbol':
-      return (
-        <span style={mkStyle('objectValueSymbol')}>{object.toString()}</span>
-      );
+      return <span style={mkStyle('objectValueSymbol')}>{object.toString()}</span>;
     default:
       return <span />;
   }
 };
 
-ObjectValue.propTypes = {
-  // the object to describe
-  object: PropTypes.any,
-};
-
-export default ObjectValue;
+// ObjectValue.propTypes = {
+//   // the object to describe
+//   object: PropTypes.any,
+// };

@@ -1,10 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FC, ReactChild } from 'react';
 
 import { useStyles } from '../styles';
-import shouldInline from './shouldInline';
+import { shouldInline } from './shouldInline';
 
-const OpenTag = ({ tagName, attributes, styles }) => {
+const OpenTag: FC<any> = ({ tagName, attributes, styles }) => {
   return (
     <span style={styles.base}>
       {'<'}
@@ -12,7 +11,7 @@ const OpenTag = ({ tagName, attributes, styles }) => {
 
       {(() => {
         if (attributes) {
-          let attributeNodes = [];
+          const attributeNodes: ReactChild[] = [];
           for (let i = 0; i < attributes.length; i++) {
             const attribute = attributes[i];
             attributeNodes.push(
@@ -36,8 +35,7 @@ const OpenTag = ({ tagName, attributes, styles }) => {
 
 // isChildNode style={{ marginLeft: -12 /* hack: offset placeholder */ }}
 const CloseTag = ({ tagName, isChildNode = false, styles }) => (
-  <span
-    style={Object.assign({}, styles.base, isChildNode && styles.offsetLeft)}>
+  <span style={Object.assign({}, styles.base, isChildNode && styles.offsetLeft)}>
     {'</'}
     <span style={styles.tagName}>{tagName}</span>
     {'>'}
@@ -54,34 +52,22 @@ const nameByNodeType = {
   11: 'DOCUMENT_FRAGMENT_NODE',
 };
 
-const DOMNodePreview = ({ isCloseTag, data, expanded }) => {
+export const DOMNodePreview: FC<any> = ({ isCloseTag, data, expanded }) => {
   const styles = useStyles('DOMNodePreview');
 
   if (isCloseTag) {
-    return (
-      <CloseTag
-        styles={styles.htmlCloseTag}
-        isChildNode
-        tagName={data.tagName}
-      />
-    );
+    return <CloseTag styles={styles.htmlCloseTag} isChildNode tagName={data.tagName} />;
   }
 
   switch (data.nodeType) {
     case Node.ELEMENT_NODE:
       return (
         <span>
-          <OpenTag
-            tagName={data.tagName}
-            attributes={data.attributes}
-            styles={styles.htmlOpenTag}
-          />
+          <OpenTag tagName={data.tagName} attributes={data.attributes} styles={styles.htmlOpenTag} />
 
           {shouldInline(data) ? data.textContent : !expanded && '…'}
 
-          {!expanded && (
-            <CloseTag tagName={data.tagName} styles={styles.htmlCloseTag} />
-          )}
+          {!expanded && <CloseTag tagName={data.tagName} styles={styles.htmlCloseTag} />}
         </span>
       );
     case Node.TEXT_NODE:
@@ -118,15 +104,13 @@ const DOMNodePreview = ({ isCloseTag, data, expanded }) => {
   }
 };
 
-DOMNodePreview.propTypes = {
-  /** If true, just render a close tag */
-  isCloseTag: PropTypes.bool,
-  /**  */
-  name: PropTypes.string,
-  /** The DOM Node */
-  data: PropTypes.object.isRequired,
-  /** Whether the DOM node has been expanded. */
-  expanded: PropTypes.bool.isRequired,
-};
-
-export default DOMNodePreview;
+// DOMNodePreview.propTypes = {
+//   /** If true, just render a close tag */
+//   isCloseTag: PropTypes.bool,
+//   /**  */
+//   name: PropTypes.string,
+//   /** The DOM Node */
+//   data: PropTypes.object.isRequired,
+//   /** Whether the DOM node has been expanded. */
+//   expanded: PropTypes.bool.isRequired,
+// };

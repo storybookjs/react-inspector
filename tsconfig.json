@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+      "module": "ES2022",
+      "target": "ES2022",
+      "allowJs": true,
+      "checkJs": false,
+      "jsx": "react",
+      "rootDir": ".",
+      "removeComments": true,
+      "noImplicitAny": false,
+      "noEmit": true,
+      "pretty": true,
+      "skipLibCheck": true,
+      "strict": true,
+      "moduleResolution": "node",
+      "esModuleInterop": true
+  },
+  "include": [
+      "./src/**/*"
+  ],
+  "exclude": [
+      "node_modules"
+  ]
+}

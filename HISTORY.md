@@ -1,3 +1,9 @@
+## 6.0.0 (04/07/2022)
+- Upgrade devDependencies
+- Remove all dependencies
+- Migrate to typescript (correct types are a WIP, please contribute!)
+- Migrate to use use TSup as a build tool, also outputting modern ESM
+
 ## 5.1.1 (04/02/2021)
 - Include support for React 17 in peerDependencies. [120](https://github.com/storybookjs/react-inspector/pull/120) [124](https://github.com/storybookjs/react-inspector/pull/124)
 - Only publish required files. [119](https://github.com/storybookjs/react-inspector/pull/119)

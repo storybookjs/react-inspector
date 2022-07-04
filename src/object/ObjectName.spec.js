@@ -1,6 +1,6 @@
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
-import ObjectName from './ObjectName';
+import { ObjectName } from './ObjectName';
 
 describe('ObjectName', () => {
   it('should render', () => {

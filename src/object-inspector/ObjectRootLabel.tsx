@@ -1,8 +1,8 @@
-import React from 'react';
-import ObjectName from '../object/ObjectName';
-import ObjectPreview from './ObjectPreview';
+import React, { FC } from 'react';
+import { ObjectName } from '../object/ObjectName';
+import { ObjectPreview } from './ObjectPreview';
 
-const ObjectRootLabel = ({ name, data }) => {
+export const ObjectRootLabel: FC<any> = ({ name, data }) => {
   if (typeof name === 'string') {
     return (
       <span>
@@ -15,5 +15,3 @@ const ObjectRootLabel = ({ name, data }) => {
     return <ObjectPreview data={data} />;
   }
 };
-
-export default ObjectRootLabel;

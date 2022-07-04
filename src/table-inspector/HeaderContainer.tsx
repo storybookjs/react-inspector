@@ -1,8 +1,8 @@
 import React from 'react';
 import { useStyles } from '../styles';
-import TH from './TH';
+import { TH } from './TH';
 
-const HeaderContainer = ({
+export const HeaderContainer = ({
   indexColumnText = '(index)',
   columns = [],
   sorted,
@@ -26,7 +26,7 @@ const HeaderContainer = ({
               onClick={onIndexTHClick}>
               {indexColumnText}
             </TH>
-            {columns.map(column => (
+            {columns.map((column) => (
               <TH
                 borderStyle={borderStyles.solid}
                 key={column}
@@ -42,5 +42,3 @@ const HeaderContainer = ({
     </div>
   );
 };
-
-export default HeaderContainer;

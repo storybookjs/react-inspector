@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import Inspector from '../src';
+import { Inspector } from '../src';
 
-function namedFunction() {}
+function namedFunction() {
+  //
+}
 
 // Primitives
 storiesOf('Numbers', module)
@@ -14,11 +17,11 @@ storiesOf('Numbers', module)
   .add('exponential', () => <Inspector data={1e100} />)
   .add('NaN', () => <Inspector data={NaN} />)
   .add('Infinity', () => <Inspector data={Infinity} />);
-       
+
 storiesOf('BigInts', module)
   .add('positive', () => <Inspector data={42n} />)
   .add('zero', () => <Inspector data={0n} />)
-  .add('negative', () => <Inspector data={-1n} />)
+  .add('negative', () => <Inspector data={-1n} />);
 
 storiesOf('Strings', module)
   .add('empty string', () => <Inspector data="" />)
@@ -39,23 +42,18 @@ storiesOf('Arrays', module)
   .add('Empty Array', () => <Inspector data={[]} />)
   .add('Empty Array (show non-enumerable properties)', () => <Inspector showNonenumerable data={[]} />)
   .add('Basic Array', () => <Inspector data={['cold', 'ice']} />)
-  .add('Array with different types of elements', () => (
-    <Inspector data={['a', 1, {}]} />
-  ))
-  .add('Long array', () => (
-    <Inspector data={new Array(1000).fill(0).map((x, i) => i + '')} />
-  ))
+  .add('Array with different types of elements', () => <Inspector data={['a', 1, {}]} />)
+  .add('Long array', () => <Inspector data={new Array(1000).fill(0).map((x, i) => i + '')} />)
   .add('Array with big objects', () => (
-    <Inspector data={
-      new Array(100).fill(0).map((x, i) => ({
+    <Inspector
+      data={new Array(100).fill(0).map((x, i) => ({
         key: i,
         name: `John #${i}`,
         dateOfBirth: new Date(i * 10e8),
         address: `${i} Main Street`,
         zip: 90210 + i,
-
-      }))
-    } />
+      }))}
+    />
   ))
   .add('Uint32Array', () => <Inspector data={new Uint32Array(1000)} />);
 
@@ -66,21 +64,31 @@ storiesOf('Objects', module)
   .add('Object: Empty Object', () => <Inspector showNonenumerable expandLevel={1} data={{}} />)
   .add('Object: Empty String key', () => <Inspector data={{ '': 'hi' }} />)
   .add('Object: Object with getter property', () => (
-    <Inspector expandLevel={2} data={{ get prop() { return "v" } }} />
+    <Inspector
+      expandLevel={2}
+      data={{
+        get prop() {
+          return 'v';
+        },
+      }}
+    />
   ))
   .add('Object: Object with getter property that throws', () => (
-    <Inspector expandLevel={2} data={{ get prop() { throw new Error() } }} />
+    <Inspector
+      expandLevel={2}
+      data={{
+        get prop() {
+          throw new Error();
+        },
+      }}
+    />
   ))
-  .add('Object: Simple Object', () => (
-    <Inspector showNonenumerable expandLevel={2} data={{ k: 'v' }} />
-  ))
+  .add('Object: Simple Object', () => <Inspector showNonenumerable expandLevel={2} data={{ k: 'v' }} />)
   .add('Object: Simple inherited object', () => (
     <Inspector showNonenumerable expandLevel={2} data={Object.create({ k: 'v' })} />
   ))
   .add('Object: `Object`', () => <Inspector showNonenumerable expandLevel={1} data={Object} />)
-  .add('Object: `Object.prototype`', () => (
-    <Inspector showNonenumerable expandLevel={1} data={Object.prototype} />
-  ))
+  .add('Object: `Object.prototype`', () => <Inspector showNonenumerable expandLevel={1} data={Object.prototype} />)
   .add('Object: Simple Object with name', () => (
     <Inspector showNonenumerable expandLevel={2} name="test" data={{ k: 'v' }} />
   ))
@@ -92,25 +100,80 @@ storiesOf('Objects', module)
   ));
 
 storiesOf('Maps', module)
-.add('Map: Empty Map', () => (<Inspector data={new Map()} />))
-.add('Map: Boolean keys', () => (<Inspector data={new Map([[true, 'one'], [false, 'two']])} />))
-.add('Map: Regex keys', () => (<Inspector data={new Map([[/\S/g, 'one'], [/\D/g, 'two']])} />))
-.add('Map: String keys', () => (<Inspector data={new Map([['one', 1], ['two', 2]])} />))
-.add('Map: Object keys', () => (<Inspector data={new Map([[{}, 1], [{key: 2}, 2]])} />))
-.add('Map: Array keys', () => (<Inspector data={new Map([[[1], 1], [[2], 2]])} />))
-.add('Map: Map keys', () => (<Inspector data={new Map([[new Map(), 1], [new Map([]), 2]])} />));
-
+  .add('Map: Empty Map', () => <Inspector data={new Map()} />)
+  .add('Map: Boolean keys', () => (
+    <Inspector
+      data={
+        new Map([
+          [true, 'one'],
+          [false, 'two'],
+        ])
+      }
+    />
+  ))
+  .add('Map: Regex keys', () => (
+    <Inspector
+      data={
+        new Map([
+          [/\S/g, 'one'],
+          [/\D/g, 'two'],
+        ])
+      }
+    />
+  ))
+  .add('Map: String keys', () => (
+    <Inspector
+      data={
+        new Map([
+          ['one', 1],
+          ['two', 2],
+        ])
+      }
+    />
+  ))
+  .add('Map: Object keys', () => (
+    <Inspector
+      data={
+        new Map([
+          [{}, 1],
+          [{ key: 2 }, 2],
+        ])
+      }
+    />
+  ))
+  .add('Map: Array keys', () => (
+    <Inspector
+      data={
+        new Map([
+          [[1], 1],
+          [[2], 2],
+        ])
+      }
+    />
+  ))
+  .add('Map: Map keys', () => (
+    <Inspector
+      data={
+        new Map([
+          [new Map(), 1],
+          [new Map([]), 2],
+        ])
+      }
+    />
+  ));
 
 storiesOf('Sets', module)
-  .add('Set: Empty Set', () => (<Inspector data={new Set()} />))
-  .add('Set: Simple Set', () => (<Inspector data={new Set([1, 2, 3, 4])} />))
-  .add('Set: Nested Set', () => (<Inspector data={new Set([1, 2, 3, new Set([1, 2])])} />));
+  .add('Set: Empty Set', () => <Inspector data={new Set()} />)
+  .add('Set: Simple Set', () => <Inspector data={new Set([1, 2, 3, 4])} />)
+  .add('Set: Nested Set', () => <Inspector data={new Set([1, 2, 3, new Set([1, 2])])} />);
 
 storiesOf('Functions', module)
-  .add('Functions: anonymous function', () => <Inspector data={function() {}} />)
+  .add('Functions: anonymous function', () => <Inspector data={function () {}} />)
   .add('Functions: anonymous arrow function', () => <Inspector data={() => {}} />)
   .add('Functions: named function', () => <Inspector data={namedFunction} />)
-  .add('Functions: named function (show non-enumerable properties)', () => <Inspector showNonenumerable data={namedFunction} />);
+  .add('Functions: named function (show non-enumerable properties)', () => (
+    <Inspector showNonenumerable data={namedFunction} />
+  ));
 
 storiesOf('Nested object examples', module)
   .add('Ice sculpture', () => (
@@ -210,7 +273,7 @@ storiesOf('Nested object examples', module)
           'a5-2': ['a5-2-1', 'a5-2-2'],
           'a5-3': {},
         },
-        a6: function() {
+        a6: function () {
           // eslint-disable-next-line
           console.log('hello world');
         },

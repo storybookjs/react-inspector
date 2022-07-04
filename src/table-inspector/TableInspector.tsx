@@ -4,16 +4,15 @@
  * https://developer.mozilla.org/en-US/docs/Web/API/Console/table
  */
 
-import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { FC, useCallback, useState } from 'react';
 
-import getHeaders from './getHeaders';
-import DataContainer from './DataContainer';
-import HeaderContainer from './HeaderContainer';
+import { getHeaders } from './getHeaders';
+import { DataContainer } from './DataContainer';
+import { HeaderContainer } from './HeaderContainer';
 
 import { themeAcceptor, useStyles } from '../styles';
 
-const TableInspector = ({
+const TableInspector: FC<any> = ({
   // The JS object you would like to inspect, either an array or an object
   data,
   // An array of the names of the columns you'd like to display in the table
@@ -21,10 +20,7 @@ const TableInspector = ({
 }) => {
   const styles = useStyles('TableInspector');
 
-  const [
-    { sorted, sortIndexColumn, sortColumn, sortAscending },
-    setState,
-  ] = useState({
+  const [{ sorted, sortIndexColumn, sortColumn, sortAscending }, setState] = useState({
     // has user ever clicked the <th> tag to sort?
     sorted: false,
     // is index column sorted?
@@ -45,7 +41,7 @@ const TableInspector = ({
     }));
   }, []);
 
-  const handleTHClick = useCallback(col => {
+  const handleTHClick = useCallback((col) => {
     setState(({ sortColumn, sortAscending }) => ({
       sorted: true,
       sortIndexColumn: false,
@@ -68,18 +64,15 @@ const TableInspector = ({
     colHeaders = columns;
   }
 
-  let rowsData = rowHeaders.map(rowHeader => data[rowHeader]);
+  let rowsData = rowHeaders.map((rowHeader) => data[rowHeader]);
 
   let columnDataWithRowIndexes; /* row indexes are [0..nRows-1] */
   // TODO: refactor
   if (sortColumn !== undefined) {
     // the column to be sorted (rowsData, column) => [[columnData, rowIndex]]
-    columnDataWithRowIndexes = rowsData.map((rowData, index) => {
+    columnDataWithRowIndexes = rowsData.map((rowData, index: number) => {
       // normalize rowData
-      if (
-        typeof rowData === 'object' &&
-        rowData !== null /*&& rowData.hasOwnProperty(sortColumn)*/
-      ) {
+      if (typeof rowData === 'object' && rowData !== null /*&& rowData.hasOwnProperty(sortColumn)*/) {
         const columnData = rowData[sortColumn];
         return [columnData, index];
       }
@@ -87,7 +80,7 @@ const TableInspector = ({
     });
   } else {
     if (sortIndexColumn) {
-      columnDataWithRowIndexes = rowHeaders.map((rowData, index) => {
+      columnDataWithRowIndexes = rowHeaders.map((rowData, index: number) => {
         const columnData = rowHeaders[index];
         return [columnData, index];
       });
@@ -133,10 +126,10 @@ const TableInspector = ({
       };
     };
     const sortedRowIndexes = columnDataWithRowIndexes
-      .sort(comparator(item => item[0], sortAscending))
-      .map(item => item[1]); // sorted row indexes
-    rowHeaders = sortedRowIndexes.map(i => rowHeaders[i]);
-    rowsData = sortedRowIndexes.map(i => rowsData[i]);
+      .sort(comparator((item) => item[0], sortAscending))
+      .map((item) => item[1]); // sorted row indexes
+    rowHeaders = sortedRowIndexes.map((i) => rowHeaders[i]);
+    rowsData = sortedRowIndexes.map((i) => rowsData[i]);
   }
 
   return (
@@ -151,24 +144,22 @@ const TableInspector = ({
         onTHClick={handleTHClick}
         onIndexTHClick={handleIndexTHClick}
       />
-      <DataContainer
-        rows={rowHeaders}
-        columns={colHeaders}
-        rowsData={rowsData}
-      />
+      <DataContainer rows={rowHeaders} columns={colHeaders} rowsData={rowsData} />
     </div>
   );
 };
 
-TableInspector.propTypes = {
-  /**
-   * the Javascript object you would like to inspect, either an array or an object
-   */
-  data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-  /**
-   * An array of the names of the columns you'd like to display in the table
-   */
-  columns: PropTypes.array,
-};
+// TableInspector.propTypes = {
+//   /**
+//    * the Javascript object you would like to inspect, either an array or an object
+//    */
+//   data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+//   /**
+//    * An array of the names of the columns you'd like to display in the table
+//    */
+//   columns: PropTypes.array,
+// };
 
-export default themeAcceptor(TableInspector);
+const themedTableInspector = themeAcceptor(TableInspector);
+
+export { themedTableInspector as TableInspector };
