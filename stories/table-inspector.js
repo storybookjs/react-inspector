@@ -1,11 +1,12 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import { TableInspector } from '../src';
+import { Inspector } from '../src';
 
 storiesOf('Table', module)
   .add('simple', () => (
-    <TableInspector
+    <Inspector
+      table
       data={[
         ['Name', 'Address', 'Age', 'Phone'],
         ['John Appleseed', '42 Galaxy drive', '20', '111-111-1111'],
@@ -13,7 +14,8 @@ storiesOf('Table', module)
     />
   ))
   .add('different columns', () => (
-    <TableInspector
+    <Inspector
+      table
       data={{
         0: { firstName: 'John', lastName: 'Smith' },
         1: { firstName: 'Martin', middleName: 'Luther', lastName: 'King' },
@@ -21,7 +23,8 @@ storiesOf('Table', module)
     />
   ))
   .add('different columns (with names)', () => (
-    <TableInspector
+    <Inspector
+      table
       data={{
         person1: { firstName: 'John', lastName: 'Smith' },
         person2: {
@@ -33,7 +36,8 @@ storiesOf('Table', module)
     />
   ))
   .add('data and columns props', () => (
-    <TableInspector
+    <Inspector
+      table
       data={{
         0: { firstName: 'John', lastName: 'Smith' },
         1: { firstName: 'Martin', middleName: 'Luther', lastName: 'King' },
@@ -42,7 +46,8 @@ storiesOf('Table', module)
     />
   ))
   .add('sudoku', () => (
-    <TableInspector
+    <Inspector
+      table
       data={[
         [0, 5, 2, 0, 4, 6, 9, 0, 0],
         [8, 0, 9, 0, 3, 0, 6, 0, 4],
@@ -57,12 +62,12 @@ storiesOf('Table', module)
     />
   ))
   // should be nothing
-  .add('null', () => <TableInspector data={null} />)
+  .add('null', () => <Inspector table data={null} />)
   // should be nothing
-  .add('undefined', () => <TableInspector data={undefined} />)
+  .add('undefined', () => <Inspector table data={undefined} />)
   // should be 1 * 0 table (chrome console.table is nothing)
-  .add('array of undefined', () => <TableInspector data={[undefined]} />)
+  .add('array of undefined', () => <Inspector table data={[undefined]} />)
   // should be 1 * 0 table
-  .add('array of an empty object', () => <TableInspector data={[{}]} />)
+  .add('array of an empty object', () => <Inspector table data={[{}]} />)
   // should be 2 * 1 table
-  .add('array of array', () => <TableInspector data={[[1, 2]]} />);
+  .add('array of array', () => <Inspector table data={[[1, 2]]} />);
