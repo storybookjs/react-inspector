@@ -20,11 +20,11 @@ export {
   ObjectName,
 };
 
-import React from 'react';
+import React, { FC } from 'react';
 import PropTypes from 'prop-types';
 import isDOM from 'is-dom';
 
-export const Inspector = ({ table = false, data, ...rest }) => {
+export const Inspector: FC<any> = ({ table = false, data, ...rest }) => {
   if (table) {
     return <TableInspector data={data} {...rest} />;
   }

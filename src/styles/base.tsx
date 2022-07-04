@@ -1,6 +1,6 @@
 import { unselectable } from './unselectable';
 
-export const createTheme = (theme) => ({
+export const createTheme = (theme: any) => ({
   DOMNodePreview: {
     htmlOpenTag: {
       base: {

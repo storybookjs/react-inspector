@@ -1,12 +1,13 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import {Inspector} from '../src';
-
+import { Inspector } from '../src';
 
 storiesOf('DOM Node', module)
   // ELEMENT_NODE
   .add('Element Node: body', () => <Inspector data={document.body} />)
-  .add('Element Node: div', () => <Inspector data={document.createElement('div')} />)
+  .add('Element Node: div', () => (
+    <Inspector data={document.createElement('div')} />
+  ))
   .add('Element Node: div with data attributes', () => {
     const div = document.createElement('div');
     div.setAttribute('data-test', 'test');
@@ -27,13 +28,23 @@ storiesOf('DOM Node', module)
     return <Inspector data={div} />;
   })
   // COMMENT_NODE
-  .add('Comment Node', () => <Inspector data={document.createComment('this is a comment')} />)
+  .add('Comment Node', () => (
+    <Inspector data={document.createComment('this is a comment')} />
+  ))
   // TEXT_NODE
-  .add('Text Node', () => <Inspector data={document.createTextNode('this is a text node')} />)
+  .add('Text Node', () => (
+    <Inspector data={document.createTextNode('this is a text node')} />
+  ))
   // PROCESSING_INSTRUCTION_NODE
   .add('Processing Instruction Node', () => {
-    var docu = new DOMParser().parseFromString('<xml></xml>', 'application/xml');
-    var pi = docu.createProcessingInstruction('xml-stylesheet', 'href="mycss.css" type="text/css"');
+    var docu = new DOMParser().parseFromString(
+      '<xml></xml>',
+      'application/xml'
+    );
+    var pi = docu.createProcessingInstruction(
+      'xml-stylesheet',
+      'href="mycss.css" type="text/css"'
+    );
     return <Inspector data={pi} />;
   })
   // DOCUMENT_TYPE_NODE

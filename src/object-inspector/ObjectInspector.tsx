@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import PropTypes from 'prop-types';
 import { TreeView } from '../tree-view/TreeView';
 
@@ -10,8 +10,8 @@ import { getPropertyValue } from '../utils/propertyUtils';
 
 import { themeAcceptor } from '../styles';
 
-const createIterator = (showNonenumerable, sortObjectKeys) => {
-  const objectIterator = function* (data) {
+const createIterator = (showNonenumerable: any, sortObjectKeys: any) => {
+  const objectIterator = function* (data: any) {
     const shouldIterate =
       (typeof data === 'object' && data !== null) || typeof data === 'function';
     if (!shouldIterate) return;
@@ -88,7 +88,7 @@ const createIterator = (showNonenumerable, sortObjectKeys) => {
   return objectIterator;
 };
 
-const defaultNodeRenderer = ({ depth, name, data, isNonenumerable }) =>
+const defaultNodeRenderer = ({ depth, name, data, isNonenumerable }: any) =>
   depth === 0 ? (
     <ObjectRootLabel name={name} data={data} />
   ) : (
@@ -98,7 +98,7 @@ const defaultNodeRenderer = ({ depth, name, data, isNonenumerable }) =>
 /**
  * Tree-view for objects
  */
-const ObjectInspector = ({
+const ObjectInspector: FC<any> = ({
   showNonenumerable = false,
   sortObjectKeys,
   nodeRenderer,

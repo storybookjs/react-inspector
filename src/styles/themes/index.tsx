@@ -1,4 +1,2 @@
-import chromeDark from './chromeDark';
-import chromeLight from './chromeLight';
-
-export { chromeDark, chromeLight };
+export { theme as chromeDark } from './chromeDark';
+export { theme as chromeLight } from './chromeLight';

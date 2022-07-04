@@ -11,7 +11,7 @@ import { useStyles } from '../styles';
 export const ObjectValue: FC<any> = ({ object, styles }) => {
   const themeStyles = useStyles('ObjectValue');
 
-  const mkStyle = (key) => ({ ...themeStyles[key], ...styles });
+  const mkStyle = (key: any) => ({ ...themeStyles[key], ...styles });
 
   switch (typeof object) {
     case 'bigint':

@@ -24,7 +24,11 @@ storiesOf('Table', module)
     <TableInspector
       data={{
         person1: { firstName: 'John', lastName: 'Smith' },
-        person2: { firstName: 'Martin', middleName: 'Luther', lastName: 'King' },
+        person2: {
+          firstName: 'Martin',
+          middleName: 'Luther',
+          lastName: 'King',
+        },
       }}
     />
   ))

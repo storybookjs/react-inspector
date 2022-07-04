@@ -1,4 +1,4 @@
-import React, { ReactChild } from 'react';
+import React, { FC, ReactChild } from 'react';
 
 import { ObjectValue } from '../object/ObjectValue';
 import { ObjectName } from '../object/ObjectName';
@@ -9,7 +9,7 @@ import { hasOwnProperty } from '../utils/objectPrototype';
 import { getPropertyValue } from '../utils/propertyUtils';
 
 /* intersperse arr with separator */
-function intersperse(arr, sep) {
+function intersperse(arr: any[], sep: string) {
   if (arr.length === 0) {
     return [];
   }
@@ -20,7 +20,7 @@ function intersperse(arr, sep) {
 /**
  * A preview of the object
  */
-export const ObjectPreview = ({ data }) => {
+export const ObjectPreview: FC<any> = ({ data }) => {
   const styles = useStyles('ObjectPreview');
   const object = data;
 
