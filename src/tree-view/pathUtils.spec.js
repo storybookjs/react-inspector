@@ -17,18 +17,9 @@ describe('PathUtils', () => {
 
     expect(wildcardPathsFromLevel(2)).toEqual([root, `${root}.*`]);
 
-    expect(wildcardPathsFromLevel(3)).toEqual([
-      root,
-      `${root}.*`,
-      `${root}.*.*`,
-    ]);
+    expect(wildcardPathsFromLevel(3)).toEqual([root, `${root}.*`, `${root}.*.*`]);
 
-    expect(wildcardPathsFromLevel(4)).toEqual([
-      root,
-      `${root}.*`,
-      `${root}.*.*`,
-      `${root}.*.*.*`,
-    ]);
+    expect(wildcardPathsFromLevel(4)).toEqual([root, `${root}.*`, `${root}.*.*`, `${root}.*.*.*`]);
   });
 
   // it('getExpandedPaths works', () => {

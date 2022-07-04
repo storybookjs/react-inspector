@@ -11,14 +11,7 @@ import { ObjectRootLabel } from './object-inspector/ObjectRootLabel';
 import { ObjectValue } from './object/ObjectValue';
 import { ObjectName } from './object/ObjectName';
 
-export {
-  ObjectInspector,
-  ObjectLabel,
-  ObjectPreview,
-  ObjectRootLabel,
-  ObjectValue,
-  ObjectName,
-};
+export { ObjectInspector, ObjectLabel, ObjectPreview, ObjectRootLabel, ObjectValue, ObjectName };
 
 import React, { FC } from 'react';
 // import PropTypes from 'prop-types';

@@ -15,9 +15,7 @@ describe('ObjectInspector', () => {
   it('passes `nodeRenderer` prop to <TreeView/>', () => {
     const nodeRenderer = () => <span>unit test</span>;
 
-    const tree = TestRenderer.create(
-      <ObjectInspector nodeRenderer={nodeRenderer} />
-    );
+    const tree = TestRenderer.create(<ObjectInspector nodeRenderer={nodeRenderer} />);
 
     expect(tree).toMatchSnapshot();
   });

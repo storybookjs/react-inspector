@@ -30,25 +30,14 @@ export const DataContainer = ({ rows, columns, rowsData }) => {
                 //  function -> pass
                 //  symbol
                 //  undefined -> pass
-                if (
-                  typeof rowData === 'object' &&
-                  rowData !== null &&
-                  hasOwnProperty.call(rowData, column)
-                ) {
+                if (typeof rowData === 'object' && rowData !== null && hasOwnProperty.call(rowData, column)) {
                   return (
-                    <td
-                      key={column}
-                      style={{ ...styles.td, ...borderStyles.solid }}>
+                    <td key={column} style={{ ...styles.td, ...borderStyles.solid }}>
                       <ObjectValue object={rowData[column]} />
                     </td>
                   );
                 } else {
-                  return (
-                    <td
-                      key={column}
-                      style={{ ...styles.td, ...borderStyles.solid }}
-                    />
-                  );
+                  return <td key={column} style={{ ...styles.td, ...borderStyles.solid }} />;
                 }
               })}
             </tr>

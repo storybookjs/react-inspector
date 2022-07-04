@@ -31,29 +31,19 @@ storiesOf('Booleans', module)
   .add('true', () => <Inspector data={true} />)
   .add('false', () => <Inspector data={false} />);
 
-storiesOf('Undefined', module).add('Undefined', () => (
-  <Inspector data={undefined} />
-));
+storiesOf('Undefined', module).add('Undefined', () => <Inspector data={undefined} />);
 
 storiesOf('Null', module).add('Null', () => <Inspector data={null} />);
 
-storiesOf('Symbols', module).add('test', () => (
-  <Inspector data={Symbol.for('test')} />
-));
+storiesOf('Symbols', module).add('test', () => <Inspector data={Symbol.for('test')} />);
 
 // Arrays
 storiesOf('Arrays', module)
   .add('Empty Array', () => <Inspector data={[]} />)
-  .add('Empty Array (show non-enumerable properties)', () => (
-    <Inspector showNonenumerable data={[]} />
-  ))
+  .add('Empty Array (show non-enumerable properties)', () => <Inspector showNonenumerable data={[]} />)
   .add('Basic Array', () => <Inspector data={['cold', 'ice']} />)
-  .add('Array with different types of elements', () => (
-    <Inspector data={['a', 1, {}]} />
-  ))
-  .add('Long array', () => (
-    <Inspector data={new Array(1000).fill(0).map((x, i) => i + '')} />
-  ))
+  .add('Array with different types of elements', () => <Inspector data={['a', 1, {}]} />)
+  .add('Long array', () => <Inspector data={new Array(1000).fill(0).map((x, i) => i + '')} />)
   .add('Array with big objects', () => (
     <Inspector
       data={new Array(100).fill(0).map((x, i) => ({
@@ -71,9 +61,7 @@ storiesOf('Arrays', module)
 storiesOf('Objects', module)
   .add('Object: Date', () => <Inspector data={new Date('2005-04-03')} />)
   .add('Object: Regular Expression', () => <Inspector data={/^.*$/} />)
-  .add('Object: Empty Object', () => (
-    <Inspector showNonenumerable expandLevel={1} data={{}} />
-  ))
+  .add('Object: Empty Object', () => <Inspector showNonenumerable expandLevel={1} data={{}} />)
   .add('Object: Empty String key', () => <Inspector data={{ '': 'hi' }} />)
   .add('Object: Object with getter property', () => (
     <Inspector
@@ -95,39 +83,20 @@ storiesOf('Objects', module)
       }}
     />
   ))
-  .add('Object: Simple Object', () => (
-    <Inspector showNonenumerable expandLevel={2} data={{ k: 'v' }} />
-  ))
+  .add('Object: Simple Object', () => <Inspector showNonenumerable expandLevel={2} data={{ k: 'v' }} />)
   .add('Object: Simple inherited object', () => (
-    <Inspector
-      showNonenumerable
-      expandLevel={2}
-      data={Object.create({ k: 'v' })}
-    />
+    <Inspector showNonenumerable expandLevel={2} data={Object.create({ k: 'v' })} />
   ))
-  .add('Object: `Object`', () => (
-    <Inspector showNonenumerable expandLevel={1} data={Object} />
-  ))
-  .add('Object: `Object.prototype`', () => (
-    <Inspector showNonenumerable expandLevel={1} data={Object.prototype} />
-  ))
+  .add('Object: `Object`', () => <Inspector showNonenumerable expandLevel={1} data={Object} />)
+  .add('Object: `Object.prototype`', () => <Inspector showNonenumerable expandLevel={1} data={Object.prototype} />)
   .add('Object: Simple Object with name', () => (
-    <Inspector
-      showNonenumerable
-      expandLevel={2}
-      name="test"
-      data={{ k: 'v' }}
-    />
+    <Inspector showNonenumerable expandLevel={2} name="test" data={{ k: 'v' }} />
   ))
-  .add(
-    'Object: `Object.create(null)` (Empty object with null prototype)',
-    () => <Inspector showNonenumerable data={Object.create(null)} />
-  )
+  .add('Object: `Object.create(null)` (Empty object with null prototype)', () => (
+    <Inspector showNonenumerable data={Object.create(null)} />
+  ))
   .add('Object: Object with null prototype', () => (
-    <Inspector
-      showNonenumerable
-      data={Object.assign(Object.create(null), { key: 'value' })}
-    />
+    <Inspector showNonenumerable data={Object.assign(Object.create(null), { key: 'value' })} />
   ));
 
 storiesOf('Maps', module)
@@ -196,17 +165,11 @@ storiesOf('Maps', module)
 storiesOf('Sets', module)
   .add('Set: Empty Set', () => <Inspector data={new Set()} />)
   .add('Set: Simple Set', () => <Inspector data={new Set([1, 2, 3, 4])} />)
-  .add('Set: Nested Set', () => (
-    <Inspector data={new Set([1, 2, 3, new Set([1, 2])])} />
-  ));
+  .add('Set: Nested Set', () => <Inspector data={new Set([1, 2, 3, new Set([1, 2])])} />);
 
 storiesOf('Functions', module)
-  .add('Functions: anonymous function', () => (
-    <Inspector data={function () {}} />
-  ))
-  .add('Functions: anonymous arrow function', () => (
-    <Inspector data={() => {}} />
-  ))
+  .add('Functions: anonymous function', () => <Inspector data={function () {}} />)
+  .add('Functions: anonymous arrow function', () => <Inspector data={() => {}} />)
   .add('Functions: named function', () => <Inspector data={namedFunction} />)
   .add('Functions: named function (show non-enumerable properties)', () => (
     <Inspector showNonenumerable data={namedFunction} />
@@ -244,17 +207,14 @@ storiesOf('Nested object examples', module)
         url: 'https://api.github.com/users/defunkt',
         html_url: 'https://github.com/defunkt',
         followers_url: 'https://api.github.com/users/defunkt/followers',
-        following_url:
-          'https://api.github.com/users/defunkt/following{/other_user}',
+        following_url: 'https://api.github.com/users/defunkt/following{/other_user}',
         gists_url: 'https://api.github.com/users/defunkt/gists{/gist_id}',
-        starred_url:
-          'https://api.github.com/users/defunkt/starred{/owner}{/repo}',
+        starred_url: 'https://api.github.com/users/defunkt/starred{/owner}{/repo}',
         subscriptions_url: 'https://api.github.com/users/defunkt/subscriptions',
         organizations_url: 'https://api.github.com/users/defunkt/orgs',
         repos_url: 'https://api.github.com/users/defunkt/repos',
         events_url: 'https://api.github.com/users/defunkt/events{/privacy}',
-        received_events_url:
-          'https://api.github.com/users/defunkt/received_events',
+        received_events_url: 'https://api.github.com/users/defunkt/received_events',
         type: 'User',
         site_admin: true,
         name: 'Chris Wanstrath',

@@ -21,17 +21,16 @@ const TableInspector: FC<any> = ({
 }) => {
   const styles = useStyles('TableInspector');
 
-  const [{ sorted, sortIndexColumn, sortColumn, sortAscending }, setState] =
-    useState({
-      // has user ever clicked the <th> tag to sort?
-      sorted: false,
-      // is index column sorted?
-      sortIndexColumn: false,
-      // which column is sorted?
-      sortColumn: undefined,
-      // is sorting ascending or descending?
-      sortAscending: false,
-    });
+  const [{ sorted, sortIndexColumn, sortColumn, sortAscending }, setState] = useState({
+    // has user ever clicked the <th> tag to sort?
+    sorted: false,
+    // is index column sorted?
+    sortIndexColumn: false,
+    // which column is sorted?
+    sortColumn: undefined,
+    // is sorting ascending or descending?
+    sortAscending: false,
+  });
 
   const handleIndexTHClick = useCallback(() => {
     setState(({ sortIndexColumn, sortAscending }) => ({
@@ -74,10 +73,7 @@ const TableInspector: FC<any> = ({
     // the column to be sorted (rowsData, column) => [[columnData, rowIndex]]
     columnDataWithRowIndexes = rowsData.map((rowData, index) => {
       // normalize rowData
-      if (
-        typeof rowData === 'object' &&
-        rowData !== null /*&& rowData.hasOwnProperty(sortColumn)*/
-      ) {
+      if (typeof rowData === 'object' && rowData !== null /*&& rowData.hasOwnProperty(sortColumn)*/) {
         const columnData = rowData[sortColumn];
         return [columnData, index];
       }
@@ -149,11 +145,7 @@ const TableInspector: FC<any> = ({
         onTHClick={handleTHClick}
         onIndexTHClick={handleIndexTHClick}
       />
-      <DataContainer
-        rows={rowHeaders}
-        columns={colHeaders}
-        rowsData={rowsData}
-      />
+      <DataContainer rows={rowHeaders} columns={colHeaders} rowsData={rowsData} />
     </div>
   );
 };

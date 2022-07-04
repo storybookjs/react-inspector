@@ -36,8 +36,7 @@ const OpenTag: FC<any> = ({ tagName, attributes, styles }) => {
 
 // isChildNode style={{ marginLeft: -12 /* hack: offset placeholder */ }}
 const CloseTag = ({ tagName, isChildNode = false, styles }) => (
-  <span
-    style={Object.assign({}, styles.base, isChildNode && styles.offsetLeft)}>
+  <span style={Object.assign({}, styles.base, isChildNode && styles.offsetLeft)}>
     {'</'}
     <span style={styles.tagName}>{tagName}</span>
     {'>'}
@@ -58,30 +57,18 @@ export const DOMNodePreview: FC<any> = ({ isCloseTag, data, expanded }) => {
   const styles = useStyles('DOMNodePreview');
 
   if (isCloseTag) {
-    return (
-      <CloseTag
-        styles={styles.htmlCloseTag}
-        isChildNode
-        tagName={data.tagName}
-      />
-    );
+    return <CloseTag styles={styles.htmlCloseTag} isChildNode tagName={data.tagName} />;
   }
 
   switch (data.nodeType) {
     case Node.ELEMENT_NODE:
       return (
         <span>
-          <OpenTag
-            tagName={data.tagName}
-            attributes={data.attributes}
-            styles={styles.htmlOpenTag}
-          />
+          <OpenTag tagName={data.tagName} attributes={data.attributes} styles={styles.htmlOpenTag} />
 
           {shouldInline(data) ? data.textContent : !expanded && '…'}
 
-          {!expanded && (
-            <CloseTag tagName={data.tagName} styles={styles.htmlCloseTag} />
-          )}
+          {!expanded && <CloseTag tagName={data.tagName} styles={styles.htmlCloseTag} />}
         </span>
       );
     case Node.TEXT_NODE:

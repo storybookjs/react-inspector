@@ -22,10 +22,7 @@ if (!Array.prototype.includes) {
     let currentElement;
     while (k < len) {
       currentElement = O[k];
-      if (
-        searchElement === currentElement ||
-        (searchElement !== searchElement && currentElement !== currentElement)
-      ) {
+      if (searchElement === currentElement || (searchElement !== searchElement && currentElement !== currentElement)) {
         // NaN !== NaN
         return true;
       }

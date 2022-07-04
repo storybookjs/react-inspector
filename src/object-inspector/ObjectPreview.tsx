@@ -24,12 +24,7 @@ export const ObjectPreview: FC<any> = ({ data }) => {
   const styles = useStyles('ObjectPreview');
   const object = data;
 
-  if (
-    typeof object !== 'object' ||
-    object === null ||
-    object instanceof Date ||
-    object instanceof RegExp
-  ) {
+  if (typeof object !== 'object' || object === null || object instanceof Date || object instanceof RegExp) {
     return <ObjectValue object={object} />;
   }
 
@@ -44,9 +39,7 @@ export const ObjectPreview: FC<any> = ({ data }) => {
     const arrayLength = object.length;
     return (
       <React.Fragment>
-        <span style={styles.objectDescription}>
-          {arrayLength === 0 ? `` : `(${arrayLength})\xa0`}
-        </span>
+        <span style={styles.objectDescription}>{arrayLength === 0 ? `` : `(${arrayLength})\xa0`}</span>
         <span style={styles.preview}>[{intersperse(previewArray, ', ')}]</span>
       </React.Fragment>
     );
@@ -56,10 +49,7 @@ export const ObjectPreview: FC<any> = ({ data }) => {
     for (const propertyName in object) {
       if (hasOwnProperty.call(object, propertyName)) {
         let ellipsis;
-        if (
-          propertyNodes.length === maxProperties - 1 &&
-          Object.keys(object).length > maxProperties
-        ) {
+        if (propertyNodes.length === maxProperties - 1 && Object.keys(object).length > maxProperties) {
           ellipsis = <span key={'ellipsis'}>…</span>;
         }
 
@@ -76,16 +66,12 @@ export const ObjectPreview: FC<any> = ({ data }) => {
       }
     }
 
-    const objectConstructorName = object.constructor
-      ? object.constructor.name
-      : 'Object';
+    const objectConstructorName = object.constructor ? object.constructor.name : 'Object';
 
     return (
       <React.Fragment>
         <span style={styles.objectDescription}>
-          {objectConstructorName === 'Object'
-            ? ''
-            : `${objectConstructorName} `}
+          {objectConstructorName === 'Object' ? '' : `${objectConstructorName} `}
         </span>
         <span style={styles.preview}>
           {'{'}

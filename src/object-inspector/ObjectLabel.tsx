@@ -7,20 +7,12 @@ import { ObjectPreview } from './ObjectPreview';
 /**
  * if isNonenumerable is specified, render the name dimmed
  */
-export const ObjectLabel: FC<any> = ({
-  name,
-  data,
-  isNonenumerable = false,
-}) => {
+export const ObjectLabel: FC<any> = ({ name, data, isNonenumerable = false }) => {
   const object = data;
 
   return (
     <span>
-      {typeof name === 'string' ? (
-        <ObjectName name={name} dimmed={isNonenumerable} />
-      ) : (
-        <ObjectPreview data={name} />
-      )}
+      {typeof name === 'string' ? <ObjectName name={name} dimmed={isNonenumerable} /> : <ObjectPreview data={name} />}
       <span>: </span>
       <ObjectValue object={object} />
     </span>

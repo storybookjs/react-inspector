@@ -22,32 +22,18 @@ export const TreeNode: FC<any> = memo((props) => {
     shouldShowPlaceholder: true,
     ...props,
   };
-  const {
-    expanded,
-    onClick,
-    children,
-    nodeRenderer,
-    title,
-    shouldShowArrow,
-    shouldShowPlaceholder,
-  } = props;
+  const { expanded, onClick, children, nodeRenderer, title, shouldShowArrow, shouldShowPlaceholder } = props;
 
   const styles = useStyles('TreeNode');
   const NodeRenderer = nodeRenderer;
 
   return (
-    <li
-      aria-expanded={expanded}
-      role="treeitem"
-      style={styles.treeNodeBase}
-      title={title}>
+    <li aria-expanded={expanded} role="treeitem" style={styles.treeNodeBase} title={title}>
       <div style={styles.treeNodePreviewContainer} onClick={onClick}>
         {shouldShowArrow || Children.count(children) > 0 ? (
           <Arrow expanded={expanded} styles={styles.treeNodeArrow} />
         ) : (
-          shouldShowPlaceholder && (
-            <span style={styles.treeNodePlaceholder}>&nbsp;</span>
-          )
+          shouldShowPlaceholder && <span style={styles.treeNodePlaceholder}>&nbsp;</span>
         )}
         <NodeRenderer {...props} />
       </div>

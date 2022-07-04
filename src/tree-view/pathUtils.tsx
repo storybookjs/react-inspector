@@ -13,13 +13,7 @@ export const wildcardPathsFromLevel = (level) => {
   );
 };
 
-export const getExpandedPaths = (
-  data,
-  dataIterator,
-  expandPaths,
-  expandLevel,
-  prevExpandedPaths
-) => {
+export const getExpandedPaths = (data, dataIterator, expandPaths, expandLevel, prevExpandedPaths) => {
   const wildcardPaths = []
     .concat(wildcardPathsFromLevel(expandLevel))
     .concat(expandPaths)
@@ -35,10 +29,7 @@ export const getExpandedPaths = (
       }
       const key = keyPaths[depth];
       if (depth === 0) {
-        if (
-          hasChildNodes(curData, dataIterator) &&
-          (key === DEFAULT_ROOT_PATH || key === WILDCARD)
-        ) {
+        if (hasChildNodes(curData, dataIterator) && (key === DEFAULT_ROOT_PATH || key === WILDCARD)) {
           populatePaths(curData, DEFAULT_ROOT_PATH, depth + 1);
         }
       } else {

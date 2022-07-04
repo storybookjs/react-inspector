@@ -15,17 +15,13 @@ export const ObjectValue: FC<any> = ({ object, styles }) => {
 
   switch (typeof object) {
     case 'bigint':
-      return (
-        <span style={mkStyle('objectValueNumber')}>{String(object)}n</span>
-      );
+      return <span style={mkStyle('objectValueNumber')}>{String(object)}n</span>;
     case 'number':
       return <span style={mkStyle('objectValueNumber')}>{String(object)}</span>;
     case 'string':
       return <span style={mkStyle('objectValueString')}>"{object}"</span>;
     case 'boolean':
-      return (
-        <span style={mkStyle('objectValueBoolean')}>{String(object)}</span>
-      );
+      return <span style={mkStyle('objectValueBoolean')}>{String(object)}</span>;
     case 'undefined':
       return <span style={mkStyle('objectValueUndefined')}>undefined</span>;
     case 'object':
@@ -36,9 +32,7 @@ export const ObjectValue: FC<any> = ({ object, styles }) => {
         return <span>{object.toString()}</span>;
       }
       if (object instanceof RegExp) {
-        return (
-          <span style={mkStyle('objectValueRegExp')}>{object.toString()}</span>
-        );
+        return <span style={mkStyle('objectValueRegExp')}>{object.toString()}</span>;
       }
       if (Array.isArray(object)) {
         return <span>{`Array(${object.length})`}</span>;
@@ -46,10 +40,7 @@ export const ObjectValue: FC<any> = ({ object, styles }) => {
       if (!object.constructor) {
         return <span>Object</span>;
       }
-      if (
-        typeof object.constructor.isBuffer === 'function' &&
-        object.constructor.isBuffer(object)
-      ) {
+      if (typeof object.constructor.isBuffer === 'function' && object.constructor.isBuffer(object)) {
         return <span>{`Buffer[${object.length}]`}</span>;
       }
 
@@ -58,15 +49,11 @@ export const ObjectValue: FC<any> = ({ object, styles }) => {
       return (
         <span>
           <span style={mkStyle('objectValueFunctionPrefix')}>ƒ&nbsp;</span>
-          <span style={mkStyle('objectValueFunctionName')}>
-            {object.name}()
-          </span>
+          <span style={mkStyle('objectValueFunctionName')}>{object.name}()</span>
         </span>
       );
     case 'symbol':
-      return (
-        <span style={mkStyle('objectValueSymbol')}>{object.toString()}</span>
-      );
+      return <span style={mkStyle('objectValueSymbol')}>{object.toString()}</span>;
     default:
       return <span />;
   }
