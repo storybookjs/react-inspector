@@ -53,7 +53,7 @@
     "build": "tsup",
     "build-storybook": "build-storybook",
     "chromatic": "chromatic --project-token=17yeg4lpa7q",
-    "lint": "eslint src stories --fix",
+    "lint": "eslint src stories",
     "prerelease": "npm run lint && npm run test && npm run build",
     "release": "npm publish . --access public",
     "storybook": "start-storybook -p 9001",
