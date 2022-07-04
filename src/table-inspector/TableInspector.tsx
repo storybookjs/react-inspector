@@ -5,7 +5,6 @@
  */
 
 import React, { FC, useCallback, useState } from 'react';
-// import PropTypes from 'prop-types';
 
 import { getHeaders } from './getHeaders';
 import { DataContainer } from './DataContainer';

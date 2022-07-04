@@ -1,5 +1,4 @@
 import React, { FC, ReactChild } from 'react';
-// import PropTypes from 'prop-types';
 
 import { useStyles } from '../styles';
 import { shouldInline } from './shouldInline';

@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { Children, FC, memo } from 'react';
-// import PropTypes from 'prop-types';
 import { useStyles } from '../styles';
 
 const Arrow: FC<any> = ({ expanded, styles }) => (

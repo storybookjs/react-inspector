@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-// import PropTypes from 'prop-types';
 import { TreeView } from '../tree-view/TreeView';
 
 import { ObjectRootLabel } from './ObjectRootLabel';

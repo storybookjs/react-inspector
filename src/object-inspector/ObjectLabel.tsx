@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-// import PropTypes from 'prop-types';
 import { ObjectName } from '../object/ObjectName';
 import { ObjectValue } from '../object/ObjectValue';
 import { ObjectPreview } from './ObjectPreview';

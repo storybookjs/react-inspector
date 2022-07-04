@@ -1,5 +1,4 @@
 import React, { useContext, useCallback, useLayoutEffect, useState, memo } from 'react';
-// import PropTypes from 'prop-types';
 import { ExpandedPathsContext } from './ExpandedPathsContext';
 import { TreeNode } from './TreeNode';
 import { DEFAULT_ROOT_PATH, hasChildNodes, getExpandedPaths } from './pathUtils';

@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import PropTypes from 'prop-types';
 
 import { DOMNodePreview } from './DOMNodePreview';
 import { TreeView } from '../tree-view/TreeView';
