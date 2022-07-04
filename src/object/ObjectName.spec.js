@@ -1,6 +1,6 @@
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
-import ObjectName from './ObjectName';
+import { ObjectName } from './ObjectName';
 
 describe('ObjectName', () => {
   it('should render', () => {
@@ -10,13 +10,17 @@ describe('ObjectName', () => {
   });
 
   it('should apply dimming if `dimmed` prop is true', () => {
-    const tree = TestRenderer.create(<ObjectName name="testvalue" dimmed={true} />);
+    const tree = TestRenderer.create(
+      <ObjectName name="testvalue" dimmed={true} />
+    );
 
     expect(tree).toMatchSnapshot();
   });
 
   it('should not apply dimming if `dimmed` prop is false', () => {
-    const tree = TestRenderer.create(<ObjectName name="testvalue" dimmed={false} />);
+    const tree = TestRenderer.create(
+      <ObjectName name="testvalue" dimmed={false} />
+    );
 
     expect(tree).toMatchSnapshot();
   });

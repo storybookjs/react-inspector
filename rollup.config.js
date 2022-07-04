@@ -12,7 +12,7 @@ export default [
   {
     input: 'src/index.js',
     output: {
-      file: 'dist/cjs/react-inspector.js',
+      file: 'dist/index.js',
       format: 'cjs',
       indent: false,
       sourcemap: true,
@@ -30,32 +30,32 @@ export default [
       cleanup()
     ],
   },
+  // {
+  //   input: 'src/index.js',
+  //   output: {
+  //     file: 'dist/es/index.js',
+  //     format: 'es',
+  //     indent: false,
+  //     sourcemap: true,
+  //     exports: 'named',
+  //   },
+  //   external: ['is-dom', 'prop-types', 'react'],
+  //   plugins: [
+  //     nodeResolve({
+  //       mainFields: ['module', 'jsnext:main', 'main'],
+  //     }),
+  //     commonjs({
+  //       include: 'node_modules/**',
+  //     }),
+  //     babel({ runtimeHelpers: true }),
+  //     cleanup()
+  //   ],
+  // },
   {
     input: 'src/index.js',
     output: {
-      file: 'dist/es/react-inspector.js',
-      format: 'es',
-      indent: false,
-      sourcemap: true,
-      exports: 'named',
-    },
-    external: ['is-dom', 'prop-types', 'react'],
-    plugins: [
-      nodeResolve({
-        mainFields: ['module', 'jsnext:main', 'main'],
-      }),
-      commonjs({
-        include: 'node_modules/**',
-      }),
-      babel({ runtimeHelpers: true }),
-      cleanup()
-    ],
-  },
-  {
-    input: 'src/index.js',
-    output: {
-      file: 'dist/umd/react-inspector.js',
-      format: 'umd',
+      file: 'dist/index.mjs',
+      format: 'esm',
       name: 'ReactInspector',
       indent: false,
       exports: 'named',
@@ -66,7 +66,7 @@ export default [
         mainFields: ['module', 'jsnext:main', 'main'],
       }),
       babel({
-        runtimeHelpers: true,
+        // runtimeHelpers: true,
         exclude: 'node_modules/**',
       }),
       commonjs({

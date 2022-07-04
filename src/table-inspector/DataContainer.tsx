@@ -1,11 +1,11 @@
 import React from 'react';
-import ObjectValue from '../object/ObjectValue';
+import { ObjectValue } from '../object/ObjectValue';
 
 import { hasOwnProperty } from '../utils/objectPrototype';
 
 import { useStyles } from '../styles';
 
-const DataContainer = ({ rows, columns, rowsData }) => {
+export const DataContainer = ({ rows, columns, rowsData }) => {
   const styles = useStyles('TableInspectorDataContainer');
   const borderStyles = useStyles('TableInspectorLeftBorder');
 
@@ -18,7 +18,7 @@ const DataContainer = ({ rows, columns, rowsData }) => {
             <tr key={row} style={styles.tr}>
               <td style={{ ...styles.td, ...borderStyles.none }}>{row}</td>
 
-              {columns.map(column => {
+              {columns.map((column) => {
                 const rowData = rowsData[i];
                 // rowData could be
                 //  object -> index by key
@@ -58,5 +58,3 @@ const DataContainer = ({ rows, columns, rowsData }) => {
     </div>
   );
 };
-
-export default DataContainer;

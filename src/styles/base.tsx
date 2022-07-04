@@ -1,6 +1,6 @@
-import unselectable from './unselectable';
+import { unselectable } from './unselectable';
 
-export default theme => ({
+export const createTheme = (theme) => ({
   DOMNodePreview: {
     htmlOpenTag: {
       base: {
@@ -94,7 +94,7 @@ export default theme => ({
       padding: 0,
       margin: 0,
       listStyleType: 'none',
-    }
+    },
   },
 
   TreeNode: {

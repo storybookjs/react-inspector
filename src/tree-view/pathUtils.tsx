@@ -6,10 +6,10 @@ export function hasChildNodes(data, dataIterator) {
   return !dataIterator(data).next().done;
 }
 
-export const wildcardPathsFromLevel = level => {
+export const wildcardPathsFromLevel = (level) => {
   // i is depth
-  return Array.from({length: level}, (_, i) =>
-    [DEFAULT_ROOT_PATH].concat(Array.from({length: i}, () => '*')).join('.'),
+  return Array.from({ length: level }, (_, i) =>
+    [DEFAULT_ROOT_PATH].concat(Array.from({ length: i }, () => '*')).join('.')
   );
 };
 
@@ -18,15 +18,15 @@ export const getExpandedPaths = (
   dataIterator,
   expandPaths,
   expandLevel,
-  prevExpandedPaths,
+  prevExpandedPaths
 ) => {
-  let wildcardPaths = []
+  const wildcardPaths = []
     .concat(wildcardPathsFromLevel(expandLevel))
     .concat(expandPaths)
-    .filter(path => typeof path === 'string'); // could be undefined
+    .filter((path) => typeof path === 'string'); // could be undefined
 
   const expandedPaths = [];
-  wildcardPaths.forEach(wildcardPath => {
+  wildcardPaths.forEach((wildcardPath) => {
     const keyPaths = wildcardPath.split('.');
     const populatePaths = (curData, curPath, depth) => {
       if (depth === keyPaths.length) {
@@ -43,7 +43,7 @@ export const getExpandedPaths = (
         }
       } else {
         if (key === WILDCARD) {
-          for (let {name, data} of dataIterator(curData)) {
+          for (const { name, data } of dataIterator(curData)) {
             if (hasChildNodes(data, dataIterator)) {
               populatePaths(data, `${curPath}.${name}`, depth + 1);
             }
@@ -65,6 +65,6 @@ export const getExpandedPaths = (
       obj[path] = true;
       return obj;
     },
-    {...prevExpandedPaths},
+    { ...prevExpandedPaths }
   );
 };

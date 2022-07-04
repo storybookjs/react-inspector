@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { ReactChild } from 'react';
 import PropTypes from 'prop-types';
 
 import { useStyles } from '../styles';
-import shouldInline from './shouldInline';
+import { shouldInline } from './shouldInline';
 
 const OpenTag = ({ tagName, attributes, styles }) => {
   return (
@@ -12,7 +12,7 @@ const OpenTag = ({ tagName, attributes, styles }) => {
 
       {(() => {
         if (attributes) {
-          let attributeNodes = [];
+          const attributeNodes: ReactChild[] = [];
           for (let i = 0; i < attributes.length; i++) {
             const attribute = attributes[i];
             attributeNodes.push(
@@ -54,7 +54,7 @@ const nameByNodeType = {
   11: 'DOCUMENT_FRAGMENT_NODE',
 };
 
-const DOMNodePreview = ({ isCloseTag, data, expanded }) => {
+export const DOMNodePreview = ({ isCloseTag, data, expanded }) => {
   const styles = useStyles('DOMNodePreview');
 
   if (isCloseTag) {
@@ -128,5 +128,3 @@ DOMNodePreview.propTypes = {
   /** Whether the DOM node has been expanded. */
   expanded: PropTypes.bool.isRequired,
 };
-
-export default DOMNodePreview;

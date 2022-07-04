@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import PropTypes from 'prop-types';
 
 import { useStyles } from '../styles';
@@ -8,14 +8,16 @@ import { useStyles } from '../styles';
  * Can be used to render tree node in ObjectInspector
  * or render objects in TableInspector.
  */
-const ObjectValue = ({ object, styles }) => {
+export const ObjectValue: FC<any> = ({ object, styles }) => {
   const themeStyles = useStyles('ObjectValue');
 
-  const mkStyle = key => ({ ...themeStyles[key], ...styles });
+  const mkStyle = (key) => ({ ...themeStyles[key], ...styles });
 
   switch (typeof object) {
     case 'bigint':
-      return <span style={mkStyle('objectValueNumber')}>{String(object)}n</span>;
+      return (
+        <span style={mkStyle('objectValueNumber')}>{String(object)}n</span>
+      );
     case 'number':
       return <span style={mkStyle('objectValueNumber')}>{String(object)}</span>;
     case 'string':
@@ -74,5 +76,3 @@ ObjectValue.propTypes = {
   // the object to describe
   object: PropTypes.any,
 };
-
-export default ObjectValue;

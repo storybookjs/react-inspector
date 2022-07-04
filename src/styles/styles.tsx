@@ -2,17 +2,17 @@ import PropTypes from 'prop-types';
 import React, { createContext, useContext, useMemo } from 'react';
 
 import * as themes from './themes';
-import base from './base';
+import { createTheme } from './base';
 
 const DEFAULT_THEME_NAME = 'chromeLight';
 
-const ThemeContext = createContext(base(themes[DEFAULT_THEME_NAME]));
+const ThemeContext = createContext(createTheme(themes[DEFAULT_THEME_NAME]));
 
 /**
  * Hook to get the component styles for the current theme.
  * @param {string} baseStylesKey - Name of the component to be styled
  */
-export const useStyles = baseStylesKey => {
+export const useStyles = (baseStylesKey) => {
   const themeStyles = useContext(ThemeContext);
   return themeStyles[baseStylesKey];
 };
@@ -23,16 +23,16 @@ export const useStyles = baseStylesKey => {
  * components.
  * @param {Object} WrappedComponent - React component to be wrapped
  */
-export const themeAcceptor = WrappedComponent => {
+export const themeAcceptor = (WrappedComponent) => {
   const ThemeAcceptor = ({ theme = DEFAULT_THEME_NAME, ...restProps }) => {
     const themeStyles = useMemo(() => {
       switch (Object.prototype.toString.call(theme)) {
         case '[object String]':
-          return base(themes[theme]);
+          return createTheme(themes[theme]);
         case '[object Object]':
-          return base(theme);
+          return createTheme(theme);
         default:
-          return base(themes[DEFAULT_THEME_NAME]);
+          return createTheme(themes[DEFAULT_THEME_NAME]);
       }
     }, [theme]);
 

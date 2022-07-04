@@ -3,14 +3,14 @@
  * `includes` is an ES2016 feature
  */
 if (!Array.prototype.includes) {
-  Array.prototype.includes = function(searchElement /*, fromIndex*/) {
-    var O = Object(this);
-    var len = parseInt(O.length) || 0;
+  Array.prototype.includes = function (searchElement, fromIndex) {
+    const O = Object(this);
+    const len = parseInt(O.length) || 0;
     if (len === 0) {
       return false;
     }
-    var n = parseInt(arguments[1]) || 0;
-    var k;
+    const n = fromIndex ? parseInt(fromIndex.toString()) || 0 : 0;
+    let k;
     if (n >= 0) {
       k = n;
     } else {
@@ -19,7 +19,7 @@ if (!Array.prototype.includes) {
         k = 0;
       }
     }
-    var currentElement;
+    let currentElement;
     while (k < len) {
       currentElement = O[k];
       if (
@@ -35,9 +35,9 @@ if (!Array.prototype.includes) {
   };
 }
 
-export default function getHeaders(data) {
+export function getHeaders(data: any) {
   if (typeof data === 'object') {
-    let rowHeaders;
+    let rowHeaders: any[] = [];
     // is an array
     if (Array.isArray(data)) {
       const nRows = data.length;

@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import DOMNodePreview from './DOMNodePreview';
-import TreeView from '../tree-view/TreeView';
+import { DOMNodePreview } from './DOMNodePreview';
+import { TreeView } from '../tree-view/TreeView';
 
-import shouldInline from './shouldInline';
+import { shouldInline } from './shouldInline';
 import { themeAcceptor } from '../styles';
 
-const domIterator = function*(data) {
+const domIterator = function* (data) {
   if (data && data.childNodes) {
     const textInlined = shouldInline(data);
 
@@ -43,7 +43,7 @@ const domIterator = function*(data) {
   }
 };
 
-const DOMInspector = props => {
+const DOMInspector = (props) => {
   return (
     <TreeView
       nodeRenderer={DOMNodePreview}
@@ -58,4 +58,6 @@ DOMInspector.propTypes = {
   data: PropTypes.object.isRequired,
 };
 
-export default themeAcceptor(DOMInspector);
+const themedDOMInspector = themeAcceptor(DOMInspector);
+
+export { themedDOMInspector as DOMInspector };

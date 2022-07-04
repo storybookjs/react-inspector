@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import Inspector from '../src';
+import {Inspector} from '../src';
 
-function namedFunction() {}
+function namedFunction() {
+  //
+}
 
 // Primitives
 storiesOf('Numbers', module)

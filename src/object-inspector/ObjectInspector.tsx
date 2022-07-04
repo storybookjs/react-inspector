@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TreeView from '../tree-view/TreeView';
+import { TreeView } from '../tree-view/TreeView';
 
-import ObjectRootLabel from './ObjectRootLabel';
-import ObjectLabel from './ObjectLabel';
+import { ObjectRootLabel } from './ObjectRootLabel';
+import { ObjectLabel } from './ObjectLabel';
 
 import { propertyIsEnumerable } from '../utils/objectPrototype';
 import { getPropertyValue } from '../utils/propertyUtils';
@@ -11,7 +11,7 @@ import { getPropertyValue } from '../utils/propertyUtils';
 import { themeAcceptor } from '../styles';
 
 const createIterator = (showNonenumerable, sortObjectKeys) => {
-  const objectIterator = function*(data) {
+  const objectIterator = function* (data) {
     const shouldIterate =
       (typeof data === 'object' && data !== null) || typeof data === 'function';
     if (!shouldIterate) return;
@@ -21,7 +21,7 @@ const createIterator = (showNonenumerable, sortObjectKeys) => {
     // iterable objects (except arrays)
     if (!dataIsArray && data[Symbol.iterator]) {
       let i = 0;
-      for (let entry of data) {
+      for (const entry of data) {
         if (Array.isArray(entry) && entry.length === 2) {
           const [k, v] = entry;
           yield {
@@ -135,4 +135,6 @@ ObjectInspector.propTypes = {
   nodeRenderer: PropTypes.func,
 };
 
-export default themeAcceptor(ObjectInspector);
+const themedObjectInspector = themeAcceptor(ObjectInspector);
+
+export { themedObjectInspector as ObjectInspector };

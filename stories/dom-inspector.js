@@ -1,6 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import Inspector from '../src';
+import {Inspector} from '../src';
+
 
 storiesOf('DOM Node', module)
   // ELEMENT_NODE

@@ -1,4 +1,4 @@
-const theme = {
+export const theme = {
   BASE_FONT_FAMILY: 'Menlo, monospace',
   BASE_FONT_SIZE: '11px',
   BASE_LINE_HEIGHT: 1.2,
@@ -44,5 +44,3 @@ const theme = {
     'linear-gradient(to bottom, white, white 50%, rgb(234, 243, 255) 50%, rgb(234, 243, 255))',
   TABLE_DATA_BACKGROUND_SIZE: '128px 32px',
 };
-
-export default theme;

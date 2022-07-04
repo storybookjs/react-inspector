@@ -1,8 +1,9 @@
-import React, { Children, memo } from 'react';
+/* eslint-disable @typescript-eslint/no-empty-function */
+import React, { Children, FC, memo } from 'react';
 import PropTypes from 'prop-types';
 import { useStyles } from '../styles';
 
-const Arrow = ({ expanded, styles }) => (
+const Arrow = ({ expanded, styles }: any) => (
   <span
     style={{
       ...styles.base,
@@ -12,10 +13,10 @@ const Arrow = ({ expanded, styles }) => (
   </span>
 );
 
-const TreeNode = memo(props => {
+export const TreeNode: FC<any> = memo((props) => {
   props = {
     expanded: true,
-    nodeRenderer: ({ name }) => <span>{name}</span>,
+    nodeRenderer: ({ name }: any) => <span>{name}</span>,
     onClick: () => {},
     shouldShowArrow: false,
     shouldShowPlaceholder: true,
@@ -67,5 +68,3 @@ TreeNode.propTypes = {
   nodeRenderer: PropTypes.func,
   onClick: PropTypes.func,
 };
-
-export default TreeNode;

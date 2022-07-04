@@ -1,15 +1,17 @@
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
-import ObjectValue from './ObjectValue';
+import { ObjectValue } from './ObjectValue';
 
 describe('ObjectValue', () => {
   it('should render', () => {
     const tree = TestRenderer.create(<ObjectValue object={0} />);
     expect(tree).toMatchSnapshot();
   });
-  
+
   it('should render bigint', () => {
-    const tree = TestRenderer.create(<ObjectValue object={9007199254740993n} />).toJSON();
+    const tree = TestRenderer.create(
+      <ObjectValue object={9007199254740993n} />
+    ).toJSON();
     expect(tree.type).toBe('span');
     expect(tree.children).toEqual(['9007199254740993', 'n']);
   });

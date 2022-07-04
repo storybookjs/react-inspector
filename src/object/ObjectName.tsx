@@ -11,7 +11,7 @@ import { useStyles } from '../styles';
  * If the property name is not enumerable (`Object.prototype.propertyIsEnumerable()`),
  * the property name will be dimmed to show the difference.
  */
-const ObjectName = ({ name, dimmed = false, styles = {} }) => {
+export const ObjectName = ({ name, dimmed = false, styles = {} }) => {
   const themeStyles = useStyles('ObjectName');
   const appliedStyles = {
     ...themeStyles.base,
@@ -28,5 +28,3 @@ ObjectName.propTypes = {
   /** Should property name be dimmed */
   dimmed: PropTypes.bool,
 };
-
-export default ObjectName;

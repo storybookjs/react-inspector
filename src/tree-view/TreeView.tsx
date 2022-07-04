@@ -5,9 +5,9 @@ import React, {
   useState,
   memo,
 } from 'react';
-import PropTypes from 'prop-types';
-import ExpandedPathsContext from './ExpandedPathsContext';
-import TreeNode from './TreeNode';
+// import PropTypes from 'prop-types';
+import { ExpandedPathsContext } from './ExpandedPathsContext';
+import { TreeNode } from './TreeNode';
 import {
   DEFAULT_ROOT_PATH,
   hasChildNodes,
@@ -16,7 +16,7 @@ import {
 
 import { useStyles } from '../styles';
 
-const ConnectedTreeNode = memo(props => {
+const ConnectedTreeNode = memo<any>((props) => {
   const { data, dataIterator, path, depth, nodeRenderer } = props;
   const [expandedPaths, setExpandedPaths] = useContext(ExpandedPathsContext);
   const nodeHasChildNodes = hasChildNodes(data, dataIterator);
@@ -25,7 +25,7 @@ const ConnectedTreeNode = memo(props => {
   const handleClick = useCallback(
     () =>
       nodeHasChildNodes &&
-      setExpandedPaths(prevExpandedPaths => ({
+      setExpandedPaths((prevExpandedPaths) => ({
         ...prevExpandedPaths,
         [path]: !expanded,
       })),
@@ -43,37 +43,41 @@ const ConnectedTreeNode = memo(props => {
       // Render a node from name and data (or possibly other props like isNonenumerable)
       nodeRenderer={nodeRenderer}
       {...props}>
-      {// only render if the node is expanded
-      expanded
-        ? [...dataIterator(data)].map(({ name, data, ...renderNodeProps }) => {
-            return (
-              <ConnectedTreeNode
-                name={name}
-                data={data}
-                depth={depth + 1}
-                path={`${path}.${name}`}
-                key={name}
-                dataIterator={dataIterator}
-                nodeRenderer={nodeRenderer}
-                {...renderNodeProps}
-              />
-            );
-          })
-        : null}
+      {
+        // only render if the node is expanded
+        expanded
+          ? [...dataIterator(data)].map(
+              ({ name, data, ...renderNodeProps }) => {
+                return (
+                  <ConnectedTreeNode
+                    name={name}
+                    data={data}
+                    depth={depth + 1}
+                    path={`${path}.${name}`}
+                    key={name}
+                    dataIterator={dataIterator}
+                    nodeRenderer={nodeRenderer}
+                    {...renderNodeProps}
+                  />
+                );
+              }
+            )
+          : null
+      }
     </TreeNode>
   );
 });
 
-ConnectedTreeNode.propTypes = {
-  name: PropTypes.string,
-  data: PropTypes.any,
-  dataIterator: PropTypes.func,
-  depth: PropTypes.number,
-  expanded: PropTypes.bool,
-  nodeRenderer: PropTypes.func,
-};
+// ConnectedTreeNode.propTypes = {
+//   name: PropTypes.string,
+//   data: PropTypes.any,
+//   dataIterator: PropTypes.func,
+//   depth: PropTypes.number,
+//   expanded: PropTypes.bool,
+//   nodeRenderer: PropTypes.func,
+// };
 
-const TreeView = memo(
+export const TreeView = memo<any>(
   ({ name, data, dataIterator, nodeRenderer, expandPaths, expandLevel }) => {
     const styles = useStyles('TreeView');
     const stateAndSetter = useState({});
@@ -81,7 +85,7 @@ const TreeView = memo(
 
     useLayoutEffect(
       () =>
-        setExpandedPaths(prevExpandedPaths =>
+        setExpandedPaths((prevExpandedPaths) =>
           getExpandedPaths(
             data,
             dataIterator,
@@ -110,13 +114,11 @@ const TreeView = memo(
   }
 );
 
-TreeView.propTypes = {
-  name: PropTypes.string,
-  data: PropTypes.any,
-  dataIterator: PropTypes.func,
-  nodeRenderer: PropTypes.func,
-  expandPaths: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  expandLevel: PropTypes.number,
-};
-
-export default TreeView;
+// TreeView.propTypes = {
+//   name: PropTypes.string,
+//   data: PropTypes.any,
+//   dataIterator: PropTypes.func,
+//   nodeRenderer: PropTypes.func,
+//   expandPaths: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+//   expandLevel: PropTypes.number,
+// };

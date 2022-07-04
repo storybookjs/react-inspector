@@ -1,4 +1,4 @@
-export default {
+export const unselectable = {
   WebkitTouchCallout: 'none',
   WebkitUserSelect: 'none',
   KhtmlUserSelect: 'none',

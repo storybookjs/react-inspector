@@ -1,32 +1,12 @@
 module.exports = {
-    "parser": "babel-eslint",
-    "parserOptions": {
-        "ecmaVersion": 8
-    },
-    "plugins": [
-        "react",
-        "jasmine"
-    ],
-    "extends": [
-        "eslint:recommended",
-        "plugin:react/recommended",
-        "plugin:jasmine/recommended"
-    ],
-    "env": {
-          "browser": true,
-          "node": true,
-          "es6": true,
-          "jasmine": true
-    },
-    "rules": {
-        "react/prop-types": [0],
-        "react/display-name": [0],
-        "jasmine/new-line-before-expect": [0],
-        "react/no-unescaped-entities": [0]
-    },
-    "settings": {
-        "react": {
-            "version": "16.8", // React version. "detect" automatically picks the version you have installed.
-        },
-    }
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    ecmaVersion: 2018,
+    sourceType: 'module',
+  },
+  plugins: ['@typescript-eslint', 'prettier'],
+  extends: ['plugin:@typescript-eslint/recommended', 'prettier'],
+  rules: {
+    'prettier/prettier': ['error'],
+  },
 };

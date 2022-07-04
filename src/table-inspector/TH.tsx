@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 
 import { useStyles } from '../styles';
 
-const SortIconContainer = props => (
+const SortIconContainer = (props) => (
   <div
     style={{
       position: 'absolute',
@@ -22,7 +22,7 @@ const SortIcon = ({ sortAscending }) => {
   return <div style={styles}>{glyph}</div>;
 };
 
-const TH = ({
+export const TH = ({
   sortAscending = false,
   sorted = false,
   onClick = undefined,
@@ -56,5 +56,3 @@ const TH = ({
     </th>
   );
 };
-
-export default TH;

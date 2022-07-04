@@ -7,9 +7,9 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import getHeaders from './getHeaders';
-import DataContainer from './DataContainer';
-import HeaderContainer from './HeaderContainer';
+import { getHeaders } from './getHeaders';
+import { DataContainer } from './DataContainer';
+import { HeaderContainer } from './HeaderContainer';
 
 import { themeAcceptor, useStyles } from '../styles';
 
@@ -21,19 +21,17 @@ const TableInspector = ({
 }) => {
   const styles = useStyles('TableInspector');
 
-  const [
-    { sorted, sortIndexColumn, sortColumn, sortAscending },
-    setState,
-  ] = useState({
-    // has user ever clicked the <th> tag to sort?
-    sorted: false,
-    // is index column sorted?
-    sortIndexColumn: false,
-    // which column is sorted?
-    sortColumn: undefined,
-    // is sorting ascending or descending?
-    sortAscending: false,
-  });
+  const [{ sorted, sortIndexColumn, sortColumn, sortAscending }, setState] =
+    useState({
+      // has user ever clicked the <th> tag to sort?
+      sorted: false,
+      // is index column sorted?
+      sortIndexColumn: false,
+      // which column is sorted?
+      sortColumn: undefined,
+      // is sorting ascending or descending?
+      sortAscending: false,
+    });
 
   const handleIndexTHClick = useCallback(() => {
     setState(({ sortIndexColumn, sortAscending }) => ({
@@ -45,7 +43,7 @@ const TableInspector = ({
     }));
   }, []);
 
-  const handleTHClick = useCallback(col => {
+  const handleTHClick = useCallback((col) => {
     setState(({ sortColumn, sortAscending }) => ({
       sorted: true,
       sortIndexColumn: false,
@@ -68,7 +66,7 @@ const TableInspector = ({
     colHeaders = columns;
   }
 
-  let rowsData = rowHeaders.map(rowHeader => data[rowHeader]);
+  let rowsData = rowHeaders.map((rowHeader) => data[rowHeader]);
 
   let columnDataWithRowIndexes; /* row indexes are [0..nRows-1] */
   // TODO: refactor
@@ -133,10 +131,10 @@ const TableInspector = ({
       };
     };
     const sortedRowIndexes = columnDataWithRowIndexes
-      .sort(comparator(item => item[0], sortAscending))
-      .map(item => item[1]); // sorted row indexes
-    rowHeaders = sortedRowIndexes.map(i => rowHeaders[i]);
-    rowsData = sortedRowIndexes.map(i => rowsData[i]);
+      .sort(comparator((item) => item[0], sortAscending))
+      .map((item) => item[1]); // sorted row indexes
+    rowHeaders = sortedRowIndexes.map((i) => rowHeaders[i]);
+    rowsData = sortedRowIndexes.map((i) => rowsData[i]);
   }
 
   return (
@@ -171,4 +169,6 @@ TableInspector.propTypes = {
   columns: PropTypes.array,
 };
 
-export default themeAcceptor(TableInspector);
+const themedTableInspector = themeAcceptor(TableInspector);
+
+export { themedTableInspector as TableInspector };

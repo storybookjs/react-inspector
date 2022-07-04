@@ -1,16 +1,19 @@
 import expect from 'expect';
-import getHeaders from './getHeaders';
+import { getHeaders } from './getHeaders';
 
 describe('getHeaders for arrays', () => {
   it('should return empty headers for empty array', () => {
     const data = [];
     const result = getHeaders(data);
-    
+
     expect(result).toEqual({ rowHeaders: [], colHeaders: [] });
   });
 
   it('should work for array of arrays', () => {
-    const data = [['a', 'b'], ['c', 'd']];
+    const data = [
+      ['a', 'b'],
+      ['c', 'd'],
+    ];
     const result = getHeaders(data);
     expect(result).toEqual({ rowHeaders: [0, 1], colHeaders: ['0', '1'] });
   });
@@ -74,6 +77,9 @@ describe('getHeaders for objects', () => {
     const data = { 0: { firstName: 'John' }, 1: [1, 2, 3] };
     const result = getHeaders(data);
     // Chrome has funny result: { rowHeaders: ['0', '1'], colHeaders: ['firstName', '0', '1', '2', 'length'] })
-    expect(result).toEqual({ rowHeaders: ['0', '1'], colHeaders: ['firstName', '0', '1', '2'] });
+    expect(result).toEqual({
+      rowHeaders: ['0', '1'],
+      colHeaders: ['firstName', '0', '1', '2'],
+    });
   });
 });

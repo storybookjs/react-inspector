@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { ReactChild } from 'react';
 
-import ObjectValue from '../object/ObjectValue';
-import ObjectName from '../object/ObjectName';
+import { ObjectValue } from '../object/ObjectValue';
+import { ObjectName } from '../object/ObjectName';
 
 import { useStyles } from '../styles';
 
 import { hasOwnProperty } from '../utils/objectPrototype';
-import { getPropertyValue } from "../utils/propertyUtils";
+import { getPropertyValue } from '../utils/propertyUtils';
 
 /* intersperse arr with separator */
 function intersperse(arr, sep) {
@@ -20,7 +20,7 @@ function intersperse(arr, sep) {
 /**
  * A preview of the object
  */
-const ObjectPreview = ({ data }) => {
+export const ObjectPreview = ({ data }) => {
   const styles = useStyles('ObjectPreview');
   const object = data;
 
@@ -52,7 +52,7 @@ const ObjectPreview = ({ data }) => {
     );
   } else {
     const maxProperties = styles.objectMaxProperties;
-    let propertyNodes = [];
+    const propertyNodes: ReactChild[] = [];
     for (const propertyName in object) {
       if (hasOwnProperty.call(object, propertyName)) {
         let ellipsis;
@@ -76,12 +76,16 @@ const ObjectPreview = ({ data }) => {
       }
     }
 
-    const objectConstructorName = object.constructor ? object.constructor.name : 'Object';
+    const objectConstructorName = object.constructor
+      ? object.constructor.name
+      : 'Object';
 
     return (
       <React.Fragment>
         <span style={styles.objectDescription}>
-          {objectConstructorName === 'Object' ? '' : `${objectConstructorName} `}
+          {objectConstructorName === 'Object'
+            ? ''
+            : `${objectConstructorName} `}
         </span>
         <span style={styles.preview}>
           {'{'}
@@ -92,5 +96,3 @@ const ObjectPreview = ({ data }) => {
     );
   }
 };
-
-export default ObjectPreview;
