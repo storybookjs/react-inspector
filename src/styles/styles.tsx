@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import React, { createContext, useContext, useMemo } from 'react';
 
 import * as themes from './themes';
@@ -12,8 +12,9 @@ const ThemeContext = createContext(createTheme(themes[DEFAULT_THEME_NAME]));
  * Hook to get the component styles for the current theme.
  * @param {string} baseStylesKey - Name of the component to be styled
  */
-export const useStyles = (baseStylesKey) => {
+export const useStyles = (baseStylesKey: any) => {
   const themeStyles = useContext(ThemeContext);
+  //@ts-ignore
   return themeStyles[baseStylesKey];
 };
 
@@ -23,11 +24,12 @@ export const useStyles = (baseStylesKey) => {
  * components.
  * @param {Object} WrappedComponent - React component to be wrapped
  */
-export const themeAcceptor = (WrappedComponent) => {
+export const themeAcceptor = (WrappedComponent: any) => {
   const ThemeAcceptor = ({ theme = DEFAULT_THEME_NAME, ...restProps }) => {
     const themeStyles = useMemo(() => {
       switch (Object.prototype.toString.call(theme)) {
         case '[object String]':
+          //@ts-ignore
           return createTheme(themes[theme]);
         case '[object Object]':
           return createTheme(theme);
@@ -43,9 +45,9 @@ export const themeAcceptor = (WrappedComponent) => {
     );
   };
 
-  ThemeAcceptor.propTypes = {
-    theme: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  };
+  // ThemeAcceptor.propTypes = {
+  //   theme: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  // };
 
   return ThemeAcceptor;
 };

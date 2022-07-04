@@ -1,10 +1,10 @@
-import React, { ReactChild } from 'react';
-import PropTypes from 'prop-types';
+import React, { FC, ReactChild } from 'react';
+// import PropTypes from 'prop-types';
 
 import { useStyles } from '../styles';
 import { shouldInline } from './shouldInline';
 
-const OpenTag = ({ tagName, attributes, styles }) => {
+const OpenTag: FC<any> = ({ tagName, attributes, styles }) => {
   return (
     <span style={styles.base}>
       {'<'}
@@ -54,7 +54,7 @@ const nameByNodeType = {
   11: 'DOCUMENT_FRAGMENT_NODE',
 };
 
-export const DOMNodePreview = ({ isCloseTag, data, expanded }) => {
+export const DOMNodePreview: FC<any> = ({ isCloseTag, data, expanded }) => {
   const styles = useStyles('DOMNodePreview');
 
   if (isCloseTag) {
@@ -118,13 +118,13 @@ export const DOMNodePreview = ({ isCloseTag, data, expanded }) => {
   }
 };
 
-DOMNodePreview.propTypes = {
-  /** If true, just render a close tag */
-  isCloseTag: PropTypes.bool,
-  /**  */
-  name: PropTypes.string,
-  /** The DOM Node */
-  data: PropTypes.object.isRequired,
-  /** Whether the DOM node has been expanded. */
-  expanded: PropTypes.bool.isRequired,
-};
+// DOMNodePreview.propTypes = {
+//   /** If true, just render a close tag */
+//   isCloseTag: PropTypes.bool,
+//   /**  */
+//   name: PropTypes.string,
+//   /** The DOM Node */
+//   data: PropTypes.object.isRequired,
+//   /** Whether the DOM node has been expanded. */
+//   expanded: PropTypes.bool.isRequired,
+// };

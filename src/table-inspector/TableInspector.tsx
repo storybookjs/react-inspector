@@ -4,8 +4,8 @@
  * https://developer.mozilla.org/en-US/docs/Web/API/Console/table
  */
 
-import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { FC, useCallback, useState } from 'react';
+// import PropTypes from 'prop-types';
 
 import { getHeaders } from './getHeaders';
 import { DataContainer } from './DataContainer';
@@ -13,7 +13,7 @@ import { HeaderContainer } from './HeaderContainer';
 
 import { themeAcceptor, useStyles } from '../styles';
 
-const TableInspector = ({
+const TableInspector: FC<any> = ({
   // The JS object you would like to inspect, either an array or an object
   data,
   // An array of the names of the columns you'd like to display in the table
@@ -158,16 +158,16 @@ const TableInspector = ({
   );
 };
 
-TableInspector.propTypes = {
-  /**
-   * the Javascript object you would like to inspect, either an array or an object
-   */
-  data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-  /**
-   * An array of the names of the columns you'd like to display in the table
-   */
-  columns: PropTypes.array,
-};
+// TableInspector.propTypes = {
+//   /**
+//    * the Javascript object you would like to inspect, either an array or an object
+//    */
+//   data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+//   /**
+//    * An array of the names of the columns you'd like to display in the table
+//    */
+//   columns: PropTypes.array,
+// };
 
 const themedTableInspector = themeAcceptor(TableInspector);
 

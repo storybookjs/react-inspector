@@ -21,7 +21,7 @@ export {
 };
 
 import React, { FC } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import isDOM from 'is-dom';
 
 export const Inspector: FC<any> = ({ table = false, data, ...rest }) => {
@@ -34,8 +34,8 @@ export const Inspector: FC<any> = ({ table = false, data, ...rest }) => {
   return <ObjectInspector data={data} {...rest} />;
 };
 
-Inspector.propTypes = {
-  data: PropTypes.any,
-  name: PropTypes.string,
-  table: PropTypes.bool,
-};
+// Inspector.propTypes = {
+//   data: PropTypes.any,
+//   name: PropTypes.string,
+//   table: PropTypes.bool,
+// };

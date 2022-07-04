@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 import { useStyles } from '../styles';
 
@@ -72,7 +72,7 @@ export const ObjectValue: FC<any> = ({ object, styles }) => {
   }
 };
 
-ObjectValue.propTypes = {
-  // the object to describe
-  object: PropTypes.any,
-};
+// ObjectValue.propTypes = {
+//   // the object to describe
+//   object: PropTypes.any,
+// };

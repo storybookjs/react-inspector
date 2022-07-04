@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { TreeView } from '../tree-view/TreeView';
 
 import { ObjectRootLabel } from './ObjectRootLabel';
@@ -116,24 +116,24 @@ const ObjectInspector: FC<any> = ({
   );
 };
 
-ObjectInspector.propTypes = {
-  /** An integer specifying to which level the tree should be initially expanded. */
-  expandLevel: PropTypes.number,
-  /** An array containing all the paths that should be expanded when the component is initialized, or a string of just one path */
-  expandPaths: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+// ObjectInspector.propTypes = {
+//   /** An integer specifying to which level the tree should be initially expanded. */
+//   expandLevel: PropTypes.number,
+//   /** An array containing all the paths that should be expanded when the component is initialized, or a string of just one path */
+//   expandPaths: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
 
-  name: PropTypes.string,
-  /** Not required prop because we also allow undefined value */
-  data: PropTypes.any,
+//   name: PropTypes.string,
+//   /** Not required prop because we also allow undefined value */
+//   data: PropTypes.any,
 
-  /** Show non-enumerable properties */
-  showNonenumerable: PropTypes.bool,
-  /** Sort object keys with optional compare function. */
-  sortObjectKeys: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+//   /** Show non-enumerable properties */
+//   showNonenumerable: PropTypes.bool,
+//   /** Sort object keys with optional compare function. */
+//   sortObjectKeys: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
 
-  /** Provide a custom nodeRenderer */
-  nodeRenderer: PropTypes.func,
-};
+//   /** Provide a custom nodeRenderer */
+//   nodeRenderer: PropTypes.func,
+// };
 
 const themedObjectInspector = themeAcceptor(ObjectInspector);
 

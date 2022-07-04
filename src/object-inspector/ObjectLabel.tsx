@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { ObjectName } from '../object/ObjectName';
 import { ObjectValue } from '../object/ObjectValue';
 import { ObjectPreview } from './ObjectPreview';
@@ -27,7 +27,7 @@ export const ObjectLabel: FC<any> = ({
   );
 };
 
-ObjectLabel.propTypes = {
-  /** Non enumerable object property will be dimmed */
-  isNonenumerable: PropTypes.bool,
-};
+// ObjectLabel.propTypes = {
+//   /** Non enumerable object property will be dimmed */
+//   isNonenumerable: PropTypes.bool,
+// };

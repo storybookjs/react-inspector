@@ -1,10 +1,11 @@
 {
   "presets": [
+    "@babel/preset-typescript",
     [
       "@babel/preset-env",
       {
         "targets": {
-          "browsers": ["chrome100"]
+          "chrome": 100
         }
       }
     ],

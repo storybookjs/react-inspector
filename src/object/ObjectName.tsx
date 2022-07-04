@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { useStyles } from '../styles';
 
 /**
@@ -22,9 +22,9 @@ export const ObjectName: FC<any> = ({ name, dimmed = false, styles = {} }) => {
   return <span style={appliedStyles}>{name}</span>;
 };
 
-ObjectName.propTypes = {
-  /** Property name */
-  name: PropTypes.string,
-  /** Should property name be dimmed */
-  dimmed: PropTypes.bool,
-};
+// ObjectName.propTypes = {
+//   /** Property name */
+//   name: PropTypes.string,
+//   /** Should property name be dimmed */
+//   dimmed: PropTypes.bool,
+// };
