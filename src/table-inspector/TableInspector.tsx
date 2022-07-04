@@ -71,7 +71,7 @@ const TableInspector: FC<any> = ({
   // TODO: refactor
   if (sortColumn !== undefined) {
     // the column to be sorted (rowsData, column) => [[columnData, rowIndex]]
-    columnDataWithRowIndexes = rowsData.map((rowData, index) => {
+    columnDataWithRowIndexes = rowsData.map((rowData, index: number) => {
       // normalize rowData
       if (typeof rowData === 'object' && rowData !== null /*&& rowData.hasOwnProperty(sortColumn)*/) {
         const columnData = rowData[sortColumn];
@@ -81,7 +81,7 @@ const TableInspector: FC<any> = ({
     });
   } else {
     if (sortIndexColumn) {
-      columnDataWithRowIndexes = rowHeaders.map((rowData, index) => {
+      columnDataWithRowIndexes = rowHeaders.map((rowData, index: number) => {
         const columnData = rowHeaders[index];
         return [columnData, index];
       });

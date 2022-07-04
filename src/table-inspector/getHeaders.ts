@@ -1,4 +1,4 @@
-export function getHeaders(data: any) {
+export function getHeaders(data) {
   if (typeof data === 'object') {
     let rowHeaders: any[] = [];
     // is an array

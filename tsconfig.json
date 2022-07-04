@@ -7,6 +7,7 @@
       "jsx": "react",
       "rootDir": ".",
       "removeComments": true,
+      "noImplicitAny": false,
       "noEmit": true,
       "pretty": true,
       "skipLibCheck": true,
