@@ -30,8 +30,17 @@
   },
   "license": "MIT",
   "author": "Xiaoyi Chen <cxychina@gmail.com> (http://github.com/xyc)",
-  "main": "dist/cjs/react-inspector.js",
-  "module": "dist/es/react-inspector.js",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/*/",
     "README.md",
