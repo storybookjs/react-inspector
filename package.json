@@ -42,11 +42,12 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
-    "dist/*/",
+    "dist/**/*",
     "README.md",
     "LICENSE",
     "HISTORY.md",
     ".js",
+    ".mjs",
     ".d.ts"
   ],
   "scripts": {
