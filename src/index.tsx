@@ -11,13 +11,12 @@ import { ObjectRootLabel } from './object-inspector/ObjectRootLabel';
 import { ObjectValue } from './object/ObjectValue';
 import { ObjectName } from './object/ObjectName';
 
-export { ObjectInspector, ObjectLabel, ObjectPreview, ObjectRootLabel, ObjectValue, ObjectName };
+export { TableInspector, ObjectInspector, ObjectLabel, ObjectPreview, ObjectRootLabel, ObjectValue, ObjectName };
 
-import React, { FC } from 'react';
-// import PropTypes from 'prop-types';
+import React, { ComponentProps, FC } from 'react';
 import isDOM from 'is-dom';
 
-export const Inspector: FC<any> = ({ table = false, data, ...rest }) => {
+export const Inspector: FC<TableInspectorProps | ObjectInspectorProps> = ({ table = false, data, ...rest }) => {
   if (table) {
     return <TableInspector data={data} {...rest} />;
   }
@@ -27,8 +26,9 @@ export const Inspector: FC<any> = ({ table = false, data, ...rest }) => {
   return <ObjectInspector data={data} {...rest} />;
 };
 
-// Inspector.propTypes = {
-//   data: PropTypes.any,
-//   name: PropTypes.string,
-//   table: PropTypes.bool,
-// };
+interface TableInspectorProps extends ComponentProps<typeof TableInspector> {
+  table: true;
+}
+interface ObjectInspectorProps extends ComponentProps<typeof ObjectInspector> {
+  table: false;
+}
