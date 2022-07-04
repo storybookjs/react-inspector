@@ -8,6 +8,7 @@ module.exports = {
   extends: ['plugin:@typescript-eslint/recommended', 'prettier'],
   rules: {
     'prettier/prettier': ['error'],
+    '@typescript-eslint/ban-ts-comment': 'warn',
   },
   ignorePatterns: ['dist', 'node_modules'],
 };
