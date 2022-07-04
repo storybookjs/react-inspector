@@ -74,8 +74,7 @@ When `sortObjectKeys={true}` is provided, keys of objects are sorted in alphabet
   nodeRender looks like this:
 
   ```js
-  import { ObjectRootLabel } from 'react-inspector'
-  import { ObjectLabel } from 'react-inspector'
+  import { ObjectRootLabel, ObjectLabel } from 'react-inspector'
 
   const defaultNodeRenderer = ({ depth, name, data, isNonenumerable, expanded }) =>
     depth === 0
@@ -106,10 +105,10 @@ The component accepts the following props:
 #### Usage
 
 ```js
-import {ObjectInspector, TableInspector} from 'react-inspector';
+import { ObjectInspector, TableInspector } from 'react-inspector';
 
 // or use the shorthand
-import Inspector from 'react-inspector';
+import { Inspector } from 'react-inspector';
 
 const MyComponent = ({ data }) =>
   <div>
