@@ -120,6 +120,9 @@ const ObjectInspector: FC<any> = ({ showNonenumerable = false, sortObjectKeys, n
 
 //   /** Provide a custom nodeRenderer */
 //   nodeRenderer: PropTypes.func,
+//
+//   /** Callback when node is clicked */
+//   onExpand: PropTypes.func,
 // };
 
 const themedObjectInspector = themeAcceptor(ObjectInspector);

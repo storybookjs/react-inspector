@@ -6,7 +6,7 @@ import { DEFAULT_ROOT_PATH, hasChildNodes, getExpandedPaths } from './pathUtils'
 import { useStyles } from '../styles';
 
 const ConnectedTreeNode = memo<any>((props) => {
-  const { data, dataIterator, path, depth, nodeRenderer } = props;
+  const { data, dataIterator, path, depth, nodeRenderer, onExpand } = props;
   const [expandedPaths, setExpandedPaths] = useContext(ExpandedPathsContext);
   const nodeHasChildNodes = hasChildNodes(data, dataIterator);
   const expanded = !!expandedPaths[path];
@@ -14,24 +14,33 @@ const ConnectedTreeNode = memo<any>((props) => {
   const handleClick = useCallback(
     () =>
       nodeHasChildNodes &&
-      setExpandedPaths((prevExpandedPaths) => ({
-        ...prevExpandedPaths,
-        [path]: !expanded,
-      })),
-    [nodeHasChildNodes, setExpandedPaths, path, expanded]
+      setExpandedPaths((prevExpandedPaths) => {
+        const newExpandedPaths = {
+          ...prevExpandedPaths,
+          [path]: !expanded,
+        };
+
+        if (typeof onExpand === 'function') {
+          onExpand(path, newExpandedPaths);
+        }
+
+        return newExpandedPaths;
+      }),
+    [nodeHasChildNodes, setExpandedPaths, path, expanded, onExpand]
   );
 
   return (
     <TreeNode
       expanded={expanded}
-      onClick={handleClick}
       // show arrow anyway even if not expanded and not rendering children
       shouldShowArrow={nodeHasChildNodes}
       // show placeholder only for non root nodes
       shouldShowPlaceholder={depth > 0}
       // Render a node from name and data (or possibly other props like isNonenumerable)
       nodeRenderer={nodeRenderer}
-      {...props}>
+      {...props}
+      // Do not allow override of `onClick`
+      onClick={handleClick}>
       {
         // only render if the node is expanded
         expanded
@@ -62,9 +71,10 @@ const ConnectedTreeNode = memo<any>((props) => {
 //   depth: PropTypes.number,
 //   expanded: PropTypes.bool,
 //   nodeRenderer: PropTypes.func,
+//   onExpand: PropTypes.func,
 // };
 
-export const TreeView = memo<any>(({ name, data, dataIterator, nodeRenderer, expandPaths, expandLevel }) => {
+export const TreeView = memo<any>(({ name, data, dataIterator, nodeRenderer, expandPaths, expandLevel, onExpand }) => {
   const styles = useStyles('TreeView');
   const stateAndSetter = useState({});
   const [, setExpandedPaths] = stateAndSetter;
@@ -87,6 +97,7 @@ export const TreeView = memo<any>(({ name, data, dataIterator, nodeRenderer, exp
           depth={0}
           path={DEFAULT_ROOT_PATH}
           nodeRenderer={nodeRenderer}
+          onExpand={onExpand}
         />
       </ol>
     </ExpandedPathsContext.Provider>
