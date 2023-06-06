@@ -5,7 +5,7 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['@typescript-eslint', 'prettier'],
-  extends: ['plugin:@typescript-eslint/recommended', 'prettier'],
+  extends: ['plugin:@typescript-eslint/recommended', 'prettier', 'plugin:storybook/recommended'],
   rules: {
     'prettier/prettier': ['error'],
     '@typescript-eslint/ban-ts-comment': 'warn',
