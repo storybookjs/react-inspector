@@ -15,7 +15,7 @@ var webpackConfig = {
   },
 };
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
@@ -41,12 +41,7 @@ module.exports = function(config) {
       'test/index.js': ['webpack'], // run the test bundle through webpack plugin
     },
 
-    plugins: [
-      'karma-jasmine',
-      'karma-phantomjs-launcher',
-      'karma-firefox-launcher',
-      require('karma-webpack'),
-    ],
+    plugins: ['karma-jasmine', 'karma-phantomjs-launcher', 'karma-firefox-launcher', require('karma-webpack')],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'

@@ -1,10 +1,13 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 
-import { Inspector } from '../src';
+import { Inspector } from '..';
 
-storiesOf('Table', module)
-  .add('simple', () => (
+export default {
+  title: 'Table',
+};
+
+export const Simple = {
+  render: () => (
     <Inspector
       table
       data={[
@@ -12,8 +15,13 @@ storiesOf('Table', module)
         ['John Appleseed', '42 Galaxy drive', '20', '111-111-1111'],
       ]}
     />
-  ))
-  .add('different columns', () => (
+  ),
+
+  name: 'simple',
+};
+
+export const DifferentColumns = {
+  render: () => (
     <Inspector
       table
       data={{
@@ -21,8 +29,13 @@ storiesOf('Table', module)
         1: { firstName: 'Martin', middleName: 'Luther', lastName: 'King' },
       }}
     />
-  ))
-  .add('different columns (with names)', () => (
+  ),
+
+  name: 'different columns',
+};
+
+export const DifferentColumnsWithNames = {
+  render: () => (
     <Inspector
       table
       data={{
@@ -34,8 +47,13 @@ storiesOf('Table', module)
         },
       }}
     />
-  ))
-  .add('data and columns props', () => (
+  ),
+
+  name: 'different columns (with names)',
+};
+
+export const DataAndColumnsProps = {
+  render: () => (
     <Inspector
       table
       data={{
@@ -44,8 +62,13 @@ storiesOf('Table', module)
       }}
       columns={['firstName', 'lastName']}
     />
-  ))
-  .add('sudoku', () => (
+  ),
+
+  name: 'data and columns props',
+};
+
+export const Sudoku = {
+  render: () => (
     <Inspector
       table
       data={[
@@ -60,14 +83,32 @@ storiesOf('Table', module)
         [0, 0, 7, 5, 8, 0, 3, 1, 0],
       ]}
     />
-  ))
-  // should be nothing
-  .add('null', () => <Inspector table data={null} />)
-  // should be nothing
-  .add('undefined', () => <Inspector table data={undefined} />)
-  // should be 1 * 0 table (chrome console.table is nothing)
-  .add('array of undefined', () => <Inspector table data={[undefined]} />)
-  // should be 1 * 0 table
-  .add('array of an empty object', () => <Inspector table data={[{}]} />)
-  // should be 2 * 1 table
-  .add('array of array', () => <Inspector table data={[[1, 2]]} />);
+  ),
+
+  name: 'sudoku',
+};
+
+export const Null = {
+  render: () => <Inspector table data={null} />,
+  name: 'null',
+};
+
+export const Undefined = {
+  render: () => <Inspector table data={undefined} />,
+  name: 'undefined',
+};
+
+export const ArrayOfUndefined = {
+  render: () => <Inspector table data={[undefined]} />,
+  name: 'array of undefined',
+};
+
+export const ArrayOfAnEmptyObject = {
+  render: () => <Inspector table data={[{}]} />,
+  name: 'array of an empty object',
+};
+
+export const ArrayOfArray = {
+  render: () => <Inspector table data={[[1, 2]]} />,
+  name: 'array of array',
+};
