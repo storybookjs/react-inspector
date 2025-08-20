@@ -26,9 +26,13 @@ jobs:
       - name: Prepare repository
         run: git fetch --unshallow --tags
 
-      - name: install
+      - name: Install
         run: |
-          yarn install --frozen-lockfile
+          yarn install
+
+      - name: Mask irrelevant lockfile changes
+        run: |
+          git checkout yarn.lock
 
       - name: Create canary release
         if: github.event_name == 'pull_request'
