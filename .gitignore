@@ -9,3 +9,5 @@ dist
 build
 *.log
 storybook-static
+.yarn/*
+.pnp.*

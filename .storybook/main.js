@@ -1,6 +1,9 @@
 module.exports = {
   stories: ['../stories/*.*'],
-  core: {
-    builder: 'webpack5'
-  }
+
+  framework: {
+    name: '@storybook/react-webpack5',
+  },
+
+  addons: ['@storybook/addon-webpack5-compiler-babel'],
 };

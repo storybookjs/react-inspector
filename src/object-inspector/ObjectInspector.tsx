@@ -57,6 +57,7 @@ const createIterator = (showNonenumerable: any, sortObjectKeys: any) => {
           let propertyValue;
           try {
             propertyValue = getPropertyValue(data, propertyName);
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
           } catch (e) {
             // console.warn(e)
           }
