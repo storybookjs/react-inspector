@@ -52,12 +52,12 @@
   ],
   "scripts": {
     "build": "tsup",
-    "build-storybook": "build-storybook",
+    "build-storybook": "storybook build",
     "chromatic": "chromatic --project-token=17yeg4lpa7q",
     "lint": "eslint src stories",
-    "prerelease": "npm run lint && npm run test && npm run build",
-    "release": "npm publish . --access public",
-    "release:canary": "npm build && auto canary",
+    "prerelease": "run lint && run test && run build",
+    "release": "publish . --access public",
+    "release:canary": "build && auto canary",
     "storybook": "storybook dev -p 9001",
     "test": "jest src"
   },
@@ -97,11 +97,15 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-test-renderer": "^18.0.0",
+    "storybook": "^9.1.2",
     "tsup": "^8",
     "typescript": "^5.9.2",
     "webpack": "^5"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0 || ^18.0.0 || ^19.0.0"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.28.3"
   }
 }

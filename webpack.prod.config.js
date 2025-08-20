@@ -24,7 +24,7 @@ var config = {
   },
   plugins: [],
   resolve: {
-    extensions: ['.js'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
   },
   externals: {
     react: {
