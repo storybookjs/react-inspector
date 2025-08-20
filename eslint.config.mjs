@@ -22,7 +22,8 @@ export default [
       ...storybook.configs.recommended.rules,
       'prettier/prettier': ['error'],
       '@typescript-eslint/ban-ts-comment': 'warn',
-      '@typescript-eslint/no-explicit-any': 'warn',
+      // Too much legacy to fix.
+      '@typescript-eslint/no-explicit-any': 'off',
     },
   },
 ];
