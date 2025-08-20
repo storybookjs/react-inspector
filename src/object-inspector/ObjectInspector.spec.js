@@ -1,50 +1,34 @@
 import React from 'react';
-import TestRenderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { ObjectInspector } from './ObjectInspector';
-import { createRoot } from 'react-dom/client';
-
-let container;
 
 describe('ObjectInspector', () => {
   it('should render', () => {
-    const tree = TestRenderer.create(<ObjectInspector />);
-    expect(tree).toMatchSnapshot();
+    const { container } = render(<ObjectInspector />);
+    expect(container).toMatchSnapshot();
   });
 
   it('passes `nodeRenderer` prop to <TreeView/>', () => {
     const nodeRenderer = () => <span>unit test</span>;
 
-    const tree = TestRenderer.create(<ObjectInspector nodeRenderer={nodeRenderer} />);
-
-    expect(tree).toMatchSnapshot();
+    const { container } = render(<ObjectInspector nodeRenderer={nodeRenderer} />);
+    expect(container).toMatchSnapshot();
   });
 });
 
 describe('ObjectInspector Content', () => {
-  beforeEach(() => {
-    container = document.createElement('div');
-    document.body.appendChild(container);
-  });
-
-  afterEach(() => {
-    document.body.removeChild(container);
-    container = null;
-  });
-
   it('should render with Maps with Regex and Maps keys', async () => {
+    const user = userEvent.setup();
     const data = new Map([[/\S/g, 'Regular Expression key']]);
 
-    // Replacing "act" as Jest throws errors when using it, see
-    // https://github.com/testing-library/react-testing-library/issues/1061#issuecomment-2906288290
-    const root = createRoot(container);
-    root.render(<ObjectInspector data={data} />);
+    const { container } = render(<ObjectInspector data={data} />);
+
     await new Promise((resolve) => setTimeout(resolve, 0));
 
-    // Replacing "act" again
     const button = container.querySelector('div');
-    button.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await user.click(button);
 
-    expect(container.innerHTML).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 });

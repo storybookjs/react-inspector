@@ -1,5 +1,6 @@
 
 ## 7.0.0 (20/08/2025)
+- Port to React 18/19 syntax
 - Add Storybook 9 to peer dependencies
 - Port local package to Storybook 9
 - Update CI runners and jobs
