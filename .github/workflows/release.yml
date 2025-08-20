@@ -1,0 +1,44 @@
+name: Release
+
+on:
+  pull_request:
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  id-token: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22]
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare repository
+        run: git fetch --unshallow --tags
+
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+
+      - name: install
+        run: |
+          yarn install --frozen-lockfile
+
+      - name: Create canary release
+        if: github.event_name == 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: yarn release:canary

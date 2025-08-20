@@ -55,9 +55,9 @@
     "build-storybook": "storybook build",
     "chromatic": "chromatic --project-token=17yeg4lpa7q",
     "lint": "eslint src stories",
-    "prerelease": "run lint && run test && run build",
+    "prerelease": "yarn lint && yarn test && yarn build",
     "release": "publish . --access public",
-    "release:canary": "build && auto canary",
+    "release:canary": "yarn build && auto canary",
     "storybook": "storybook dev -p 9001",
     "test": "jest src"
   },
