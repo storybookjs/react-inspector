@@ -3,6 +3,10 @@ import React from 'react';
 
 import { Inspector } from '../src';
 
+function namedFunction() {
+  //
+}
+
 export default {
   title: 'Object Inspector',
   component: Inspector,
@@ -140,7 +144,7 @@ export const ArrayWithBigObjects = {
   name: 'Array: With big objects',
 };
 
-export const Uint32Array = {
+export const ArrayUint32Array = {
   render: () => <Inspector data={new Uint32Array(1000)} />,
   name: 'Array: Uint32Array',
 };
