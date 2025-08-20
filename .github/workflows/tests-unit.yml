@@ -10,24 +10,24 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22.x'
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Cache node modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+
       - name: install
         run: |
           yarn
+
       - name: test
         run: |
           yarn test
+
       - name: lint
         run: |
           yarn lint
+
       - name: chromatic
         run: |
           yarn chromatic
