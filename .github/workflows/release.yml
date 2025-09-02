@@ -20,6 +20,9 @@ jobs:
         with:
           node-version: '22.x'
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Checkout
         uses: actions/checkout@v4
 
