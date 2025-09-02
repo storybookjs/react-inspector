@@ -4,6 +4,9 @@ on:
   pull_request:
     types: [opened, synchronize, reopened, labeled, unlabeled]
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -36,11 +39,7 @@ jobs:
 
       - name: Install
         run: |
-          yarn install
-
-      - name: Mask irrelevant lockfile changes
-        run: |
-          git checkout yarn.lock
+          yarn install --frozen-lockfile
 
       - name: Create canary release
         if: github.event_name == 'pull_request'
@@ -48,3 +47,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: yarn release:canary
+
+      - name: Create release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: yarn release

@@ -54,8 +54,8 @@
     "chromatic": "chromatic --project-token=17yeg4lpa7q",
     "lint": "eslint src stories",
     "prerelease": "yarn lint && yarn test && yarn build",
-    "release": "publish . --access public",
-    "release:canary": "yarn build && auto canary",
+    "release": "auto latest",
+    "release:canary": "auto canary",
     "storybook": "storybook dev -p 9001",
     "test": "vitest src"
   },
@@ -90,5 +90,11 @@
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0"
   },
-  "packageManager": "yarn@4.9.4"
+  "packageManager": "yarn@4.9.4",
+  "auto": {
+    "plugins": [
+      "npm",
+      "released"
+    ]
+  }
 }
