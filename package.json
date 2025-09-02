@@ -33,11 +33,12 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
     },
     "./package.json": "./package.json"
   },
+  "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -72,13 +73,11 @@
     "@typescript-eslint/eslint-plugin": "^8.40.0",
     "@typescript-eslint/parser": "^8.40.0",
     "auto": "^11.3.0",
-    "babel-loader": "^8",
-    "chromatic": "^6.7.0",
+    "chromatic": "^13.1.4",
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-storybook": "^9.1.2",
-    "expect": "^26.4.2",
     "happy-dom": "^18.0.1",
     "is-dom": "^1.1.0",
     "prettier": "^3.6.2",
@@ -93,9 +92,6 @@
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0"
-  },
-  "dependencies": {
-    "@babel/runtime": "^7.28.3"
   },
   "packageManager": "yarn@4.9.4"
 }
