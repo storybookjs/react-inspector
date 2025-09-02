@@ -6,7 +6,6 @@ import { Inspector } from '../src';
 function namedFunction() {
   //
 }
-namedFunction.name = 'namedFunction';
 
 export default {
   title: 'Object Inspector',
