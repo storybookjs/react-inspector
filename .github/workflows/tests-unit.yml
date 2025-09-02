@@ -1,34 +1,41 @@
 name: Unit tests
 
-on: [push, pull_request, workflow_dispatch]
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
 
 jobs:
   build:
-
     name: Core Unit Tests
     runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
     steps:
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '14.x'
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: Cache node modules
-      uses: actions/cache@v1
-      with:
-        path: node_modules
-        key: ${{ hashFiles('**/yarn.lock') }}
-    - name: install
-      run: |
-        yarn
-    - name: test
-      run: |
-        yarn test
-    - name: lint
-      run: |
-        yarn lint
-    - name: chromatic
-      run: |
-        yarn chromatic
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: install
+        run: |
+          yarn
+
+      - name: test
+        run: |
+          yarn test
+
+      - name: lint
+        run: |
+          yarn lint
+
+      - name: chromatic
+        run: |
+          yarn chromatic

@@ -1,4 +1,4 @@
-import React, { FC, ReactChild } from 'react';
+import React, { FC, ReactNode } from 'react';
 
 import { ObjectValue } from '../object/ObjectValue';
 import { ObjectName } from '../object/ObjectName';
@@ -45,7 +45,7 @@ export const ObjectPreview: FC<any> = ({ data }) => {
     );
   } else {
     const maxProperties = styles.objectMaxProperties;
-    const propertyNodes: ReactChild[] = [];
+    const propertyNodes: ReactNode[] = [];
     for (const propertyName in object) {
       if (hasOwnProperty.call(object, propertyName)) {
         let ellipsis;

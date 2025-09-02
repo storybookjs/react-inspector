@@ -1,11 +1,8 @@
 node_modules
 .DS_Store
 .vscode
-jsconfig.json
 
-react-codemod
-gh-pages/
 dist
-build
 *.log
 storybook-static
+.yarn/*
