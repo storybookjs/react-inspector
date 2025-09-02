@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { ObjectValue } from './ObjectValue';
-import '@testing-library/jest-dom';
 import { describe, it, expect } from 'vitest';
 
 describe('ObjectValue', () => {
