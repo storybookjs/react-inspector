@@ -30,6 +30,7 @@
   },
   "license": "MIT",
   "author": "Xiaoyi Chen <cxychina@gmail.com> (http://github.com/xyc)",
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -38,7 +39,6 @@
     },
     "./package.json": "./package.json"
   },
-  "type": "module",
   "files": [
     "dist/**/*",
     "README.md",
