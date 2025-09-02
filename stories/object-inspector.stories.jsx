@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import React from 'react';
 
 import { Inspector } from '../src';
@@ -472,7 +471,6 @@ export const NestedContrived = {
           'a5-3': {},
         },
         a6: function () {
-          // eslint-disable-next-line
           console.log('hello world');
         },
         a7: new Date('2005-04-03'),
