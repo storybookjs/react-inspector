@@ -2,6 +2,8 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { ObjectName } from './ObjectName';
 
+import { describe, it, expect } from 'vitest';
+
 describe('ObjectName', () => {
   it('should render', () => {
     const { container } = render(<ObjectName name="testvalue" />);

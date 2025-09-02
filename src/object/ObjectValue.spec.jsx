@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { ObjectValue } from './ObjectValue';
 import '@testing-library/jest-dom';
+import { describe, it, expect } from 'vitest';
 
 describe('ObjectValue', () => {
   it('should render', () => {
@@ -133,6 +134,18 @@ describe('ObjectValue', () => {
     const style = { color: 'blue' };
     render(<ObjectValue styles={style} object={''} />);
     const element = screen.getByText('""');
-    expect(element).toHaveStyle('color: blue');
+    expect(element.style).toMatchInlineSnapshot(`
+      CSSStyleDeclaration {
+        "0": "color",
+        "_importants": {
+          "color": undefined,
+        },
+        "_length": 1,
+        "_onChange": [Function],
+        "_values": {
+          "color": "blue",
+        },
+      }
+    `);
   });
 });
