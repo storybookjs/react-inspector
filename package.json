@@ -79,6 +79,7 @@
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-storybook": "^9.1.2",
     "expect": "^26.4.2",
+    "happy-dom": "^18.0.1",
     "is-dom": "^1.1.0",
     "prettier": "^3.6.2",
     "react": "^19.0.0",

@@ -65,7 +65,7 @@ exports[`ObjectInspector Content > should render with Maps with Regex and Maps k
     >
       <div>
         <span
-          style="color: rgb(110, 110, 110); display: inline-block; font-size: 12px; margin-right: 3px; user-select: none; transform: rotateZ(90deg);"
+          style="color: #6e6e6e; display: inline-block; font-size: 12px; margin-right: 3px; user-select: none; transform: rotateZ(90deg);"
         >
           ▶
         </span>
