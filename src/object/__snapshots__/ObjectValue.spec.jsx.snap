@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ObjectValue > should render 1`] = `
+<div>
+  <span
+    style="color: rgb(28, 0, 207);"
+  >
+    0
+  </span>
+</div>
+`;

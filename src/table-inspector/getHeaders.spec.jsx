@@ -1,5 +1,5 @@
-import expect from 'expect';
 import { getHeaders } from './getHeaders';
+import { describe, it, expect } from 'vitest';
 
 describe('getHeaders for arrays', () => {
   it('should return empty headers for empty array', () => {

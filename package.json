@@ -1,6 +1,6 @@
 {
   "name": "react-inspector",
-  "version": "6.0.1",
+  "version": "7.0.0",
   "description": "Power of Browser DevTools inspectors right inside your React app",
   "keywords": [
     "devtools",
@@ -30,17 +30,15 @@
   },
   "license": "MIT",
   "author": "Xiaoyi Chen <cxychina@gmail.com> (http://github.com/xyc)",
+  "type": "module",
   "exports": {
     ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
     },
     "./package.json": "./package.json"
   },
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -52,53 +50,51 @@
   ],
   "scripts": {
     "build": "tsup",
-    "build-storybook": "build-storybook",
+    "build-storybook": "storybook build",
     "chromatic": "chromatic --project-token=17yeg4lpa7q",
     "lint": "eslint src stories",
-    "prerelease": "npm run lint && npm run test && npm run build",
-    "release": "npm publish . --access public",
-    "storybook": "start-storybook -p 9001",
-    "test": "jest src"
+    "prerelease": "yarn lint && yarn test && yarn build",
+    "release": "auto latest",
+    "release:canary": "auto canary",
+    "storybook": "storybook dev -p 9001",
+    "test": "vitest src"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.6",
-    "@babel/plugin-proposal-class-properties": "^7.10.4",
-    "@babel/plugin-proposal-do-expressions": "^7.10.4",
-    "@babel/plugin-proposal-logical-assignment-operators": "^7.11.0",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.10.4",
-    "@babel/plugin-proposal-object-rest-spread": "^7.11.0",
-    "@babel/plugin-proposal-optional-chaining": "^7.11.0",
-    "@babel/plugin-syntax-bigint": "^7.8.3",
-    "@babel/plugin-transform-object-assign": "^7.10.4",
-    "@babel/plugin-transform-runtime": "^7.11.5",
-    "@babel/preset-env": "^7.11.5",
-    "@babel/preset-react": "^7.10.4",
-    "@babel/preset-typescript": "^7.18.6",
-    "@babel/register": "^7.11.5",
-    "@storybook/builder-webpack5": "^6.5.9",
-    "@storybook/manager-webpack5": "^6.5.9",
-    "@storybook/react": "^6.5.9",
-    "@types/is-dom": "^1.1.0",
-    "@types/react": "^16",
-    "@typescript-eslint/eslint-plugin": "^5.30.4",
-    "@typescript-eslint/parser": "^5.30.4",
-    "babel-loader": "^8.1.0",
-    "chromatic": "^6.7.0",
-    "eslint": "^8.19.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "expect": "^26.4.2",
+    "@storybook/react": "^9.1.4",
+    "@storybook/react-vite": "^9.1.4",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/is-dom": "^1.1.2",
+    "@types/react": "^19.1.12",
+    "@typescript-eslint/eslint-plugin": "^8.42.0",
+    "@typescript-eslint/parser": "^8.42.0",
+    "auto": "^11.3.0",
+    "chromatic": "^13.1.4",
+    "eslint": "^9.34.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-storybook": "^9.1.4",
+    "happy-dom": "^18.0.1",
     "is-dom": "^1.1.0",
-    "jest": "^26.4.2",
-    "prettier": "^2.1.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-test-renderer": "^16.13.1",
-    "tsup": "^6.1.3",
-    "typescript": "^4.7.4",
-    "webpack": "^5"
+    "prettier": "^3.6.2",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-test-renderer": "^19.1.1",
+    "storybook": "^9.1.4",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.4",
+    "vitest": "^3.2.4"
   },
   "peerDependencies": {
-    "react": "^16.8.4 || ^17.0.0 || ^18.0.0"
+    "react": "^18.0.0 || ^19.0.0"
+  },
+  "packageManager": "yarn@4.9.4",
+  "auto": {
+    "plugins": [
+      "npm",
+      "released"
+    ]
   }
 }

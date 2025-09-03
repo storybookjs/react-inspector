@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-import expect from 'expect';
+import { describe, it, expect, beforeEach } from 'vitest';
 
 import { DEFAULT_ROOT_PATH, wildcardPathsFromLevel } from './pathUtils';
 

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import React, { Children, FC, memo } from 'react';
 import { useStyles } from '../styles';
 

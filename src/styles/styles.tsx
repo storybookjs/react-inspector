@@ -13,7 +13,6 @@ const ThemeContext = createContext(createTheme(themes[DEFAULT_THEME_NAME]));
  */
 export const useStyles = (baseStylesKey: any) => {
   const themeStyles = useContext(ThemeContext);
-  //@ts-ignore
   return themeStyles[baseStylesKey];
 };
 
@@ -28,7 +27,6 @@ export const themeAcceptor = (WrappedComponent: any) => {
     const themeStyles = useMemo(() => {
       switch (Object.prototype.toString.call(theme)) {
         case '[object String]':
-          //@ts-ignore
           return createTheme(themes[theme]);
         case '[object Object]':
           return createTheme(theme);
