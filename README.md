@@ -82,6 +82,25 @@ When `sortObjectKeys={true}` is provided, keys of objects are sorted in alphabet
       : <ObjectLabel name={name} data={data} isNonenumerable={isNonenumerable} />;
   ```
 
+**`replacer: PropTypes.func`:** Use a custom `replacer` to replace the object properties like `replacer` argument in `JSON.stringify` (optional)
+
+```js
+import { ObjectInspector } from 'react-inspector'
+
+const replacer = ({ data }) => {
+  // replace the array data with the first 10 elements
+  if (Array.isArray(data)) {
+    return data.slice(0, 10);
+  }
+  return data;
+}
+
+const MyComponent = ({ data }) =>
+  <div>
+    <ObjectInspector data={data} replacer={replacer} />
+  </div>
+```
+
 ### &lt;TableInspector />
 
 Like `console.table`.
