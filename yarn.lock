@@ -3158,14 +3158,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"happy-dom@npm:^18.0.1":
-  version: 18.0.1
-  resolution: "happy-dom@npm:18.0.1"
+"happy-dom@npm:^20.0.2":
+  version: 20.0.2
+  resolution: "happy-dom@npm:20.0.2"
   dependencies:
     "@types/node": "npm:^20.0.0"
     "@types/whatwg-mimetype": "npm:^3.0.2"
     whatwg-mimetype: "npm:^3.0.0"
-  checksum: 10c0/10f2115f5001fdaf1aedcbda89c15248a1c2e43a25d7e774cb641a35bf6763cef9097b438ef3c2248ab59a0ef33b3e88cb94da096f2bb0fc109ba3f43f7c66d4
+  checksum: 10c0/d4449e087cb7566fb493f9e6ee99221c64177732bf944ec3e2f464033107832c637e201e3e78e81a8b35871d41aa510806f3f1a2f18b924fc6120226f337a845
   languageName: node
   linkType: hard
 
@@ -4579,7 +4579,7 @@ __metadata:
     eslint-config-prettier: "npm:^10.1.8"
     eslint-plugin-prettier: "npm:^5.5.4"
     eslint-plugin-storybook: "npm:^9.1.4"
-    happy-dom: "npm:^18.0.1"
+    happy-dom: "npm:^20.0.2"
     is-dom: "npm:^1.1.0"
     prettier: "npm:^3.6.2"
     react: "npm:^19.1.1"
