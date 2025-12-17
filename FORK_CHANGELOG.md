@@ -34,7 +34,8 @@ Each entry should include:
 
 ### Added
 
-*No changes yet - fork just initialized.*
+- **2024-12-17:** Add `netlify.toml` for Storybook deployment ([PR #204](https://github.com/storybookjs/react-inspector/pull/204))
+  - Configures Netlify with Node 22, corepack, and correct build/publish settings
 
 ### Changed
 
