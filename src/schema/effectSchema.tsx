@@ -38,7 +38,13 @@ export const getDisplayName = (annotations: SchemaAnnotations): string | undefin
 export const formatWithPretty = (value: unknown, annotations: SchemaAnnotations): string | undefined => {
   if (annotations.pretty) {
     try {
-      return annotations.pretty(value);
+      const result = annotations.pretty(value);
+      // Effect's built-in schemas may have pretty annotations that return functions (hooks)
+      // rather than formatted strings. Only return the result if it's actually a string.
+      if (typeof result === 'string') {
+        return result;
+      }
+      return undefined;
     } catch {
       return undefined;
     }

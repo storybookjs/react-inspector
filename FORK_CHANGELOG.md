@@ -88,11 +88,36 @@ const SchemaInspector = withSchemaSupport(ObjectInspector);
 
 ### Changed
 
-*No changes yet.*
+#### Condensed Preview for Expanded Nodes (2024-12-17)
+
+When using schema-aware inspectors, expanded objects now show only the type identifier instead of the full inline preview.
+
+**Before**: `Order {orderId: "ORD-2024-001", customer: "John Doe", items: Array(2), ...}` (always)
+
+**After**:
+- Collapsed: `Order {orderId: "ORD-2024-001", customer: "John Doe", ...}` (full preview)
+- Expanded: `Order` (just identifier, since children are visible below)
+
+This reduces visual clutter when exploring expanded objects, as the full preview is redundant when all properties are already visible in the tree.
+
+**Files modified**:
+- `src/schema/SchemaAwareNodeRenderer.tsx` - Added `expanded` prop handling to show condensed view
+
+**New story added**:
+- `stories/effect-schema.stories.tsx` - Added "Expanded vs collapsed preview" story to demonstrate
 
 ### Fixed
 
-*No changes yet.*
+#### Date values not rendering with Effect Schema (2024-12-17)
+
+Fixed an issue where `Date` values were not being rendered when using schema-aware inspectors with Effect's `Schema.DateFromSelf` or similar built-in schemas.
+
+**Root cause**: Effect's built-in schemas have `Pretty` annotations that return formatter functions (hooks) rather than formatted strings directly. The `formatWithPretty` function was treating these function returns as valid output.
+
+**Fix**: Added a type check to ensure `formatWithPretty` only returns string results, falling back to default rendering for non-string returns.
+
+**Files modified**:
+- `src/schema/effectSchema.tsx` - Added `typeof result === 'string'` check in `formatWithPretty`
 
 ---
 

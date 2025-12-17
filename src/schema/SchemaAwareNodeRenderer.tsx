@@ -69,7 +69,20 @@ export const createSchemaAwareNodeRenderer = ({
     data: unknown;
     path: string;
     isNonenumerable?: boolean;
-  }> = ({ name, data, path, isNonenumerable = false }) => {
+    expanded?: boolean;
+  }> = ({ name, data, path, isNonenumerable = false, expanded }) => {
+    const rootCtx = useSchemaContext();
+    const schemaCtx = rootCtx.getContextForPath(path);
+    const schemaDisplayName = schemaCtx.getDisplayName();
+
+    const isComplexObject =
+      typeof data === 'object' &&
+      data !== null &&
+      !(data instanceof Date) &&
+      !(data instanceof RegExp) &&
+      !Array.isArray(data) &&
+      data.constructor?.name === 'Object';
+
     return (
       <span>
         {typeof name === 'string' ? (
@@ -78,13 +91,22 @@ export const createSchemaAwareNodeRenderer = ({
           <SchemaAwareObjectPreview data={name} path={path} />
         )}
         <span>: </span>
-        <SchemaAwareObjectValue object={data} path={path} />
+        {isComplexObject ? (
+          <SchemaAwareObjectPreviewWithName data={data} schemaDisplayName={schemaDisplayName} expanded={expanded} />
+        ) : (
+          <SchemaAwareObjectValue object={data} path={path} />
+        )}
       </span>
     );
   };
 
   /** Schema-aware ObjectRootLabel */
-  const SchemaAwareObjectRootLabel: FC<{ name?: string; data: unknown; path: string }> = ({ name, data, path }) => {
+  const SchemaAwareObjectRootLabel: FC<{ name?: string; data: unknown; path: string; expanded?: boolean }> = ({
+    name,
+    data,
+    path,
+    expanded,
+  }) => {
     const rootCtx = useSchemaContext();
     const schemaCtx = rootCtx.getContextForPath(path);
 
@@ -109,27 +131,34 @@ export const createSchemaAwareNodeRenderer = ({
         <span>
           <ObjectName name={name} />
           <span>: </span>
-          <SchemaAwareObjectPreviewWithName data={data} schemaDisplayName={schemaDisplayName} />
+          <SchemaAwareObjectPreviewWithName data={data} schemaDisplayName={schemaDisplayName} expanded={expanded} />
         </span>
       );
     }
 
-    return <SchemaAwareObjectPreviewWithName data={data} schemaDisplayName={schemaDisplayName} />;
+    return <SchemaAwareObjectPreviewWithName data={data} schemaDisplayName={schemaDisplayName} expanded={expanded} />;
   };
 
   /** Helper for root preview with schema name */
   const SchemaAwareObjectPreviewWithName: FC<{
     data: unknown;
     schemaDisplayName?: string;
-  }> = ({ data, schemaDisplayName }) => {
-    if (
-      schemaDisplayName &&
+    expanded?: boolean;
+  }> = ({ data, schemaDisplayName, expanded }) => {
+    const isComplexObject =
       typeof data === 'object' &&
       data !== null &&
       !(data instanceof Date) &&
       !(data instanceof RegExp) &&
-      data.constructor?.name === 'Object'
-    ) {
+      data.constructor?.name === 'Object';
+
+    /** When expanded, show only the type identifier (no inline preview needed since children are visible) */
+    if (expanded && schemaDisplayName && isComplexObject) {
+      return <span style={{ fontStyle: 'italic' }}>{schemaDisplayName}</span>;
+    }
+
+    /** When collapsed, show the full preview with schema name prefix */
+    if (schemaDisplayName && isComplexObject) {
       return (
         <span>
           <span style={{ fontStyle: 'italic' }}>{schemaDisplayName} </span>
@@ -151,18 +180,22 @@ export const createSchemaAwareNodeRenderer = ({
     data,
     path,
     isNonenumerable,
+    expanded,
   }: {
     depth: number;
     name: string;
     data: unknown;
     path: string;
     isNonenumerable?: boolean;
+    expanded?: boolean;
   }) => {
     if (depth === 0) {
-      return <SchemaAwareObjectRootLabel name={name} data={data} path={path} />;
+      return <SchemaAwareObjectRootLabel name={name} data={data} path={path} expanded={expanded} />;
     }
 
-    return <SchemaAwareObjectLabel name={name} data={data} path={path} isNonenumerable={isNonenumerable} />;
+    return (
+      <SchemaAwareObjectLabel name={name} data={data} path={path} isNonenumerable={isNonenumerable} expanded={expanded} />
+    );
   };
 
   return schemaAwareNodeRenderer;

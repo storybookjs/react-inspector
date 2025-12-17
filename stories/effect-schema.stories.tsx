@@ -322,3 +322,30 @@ export const UsingSchemaProviderDirectly = {
   ),
   name: 'Using SchemaProvider directly',
 };
+
+/**
+ * Demonstrates expanded vs collapsed behavior:
+ * - Collapsed: Shows full inline preview "Order {orderId: "ORD-2024-001", customer: "John Doe", ...}"
+ * - Expanded: Shows only the type identifier "Order" since children are visible below
+ */
+export const ExpandedVsCollapsedPreview = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '60px' }}>
+      <div>
+        <h4 style={{ marginBottom: '8px' }}>Collapsed (expandLevel=0)</h4>
+        <p style={{ fontSize: '12px', color: '#666', marginBottom: '8px' }}>
+          Shows full preview: <code>Order {'{'} orderId: "...", customer: "...", ... {'}'}</code>
+        </p>
+        <SchemaObjectInspector data={sampleOrder} schema={OrderSchema} expandLevel={0} />
+      </div>
+      <div>
+        <h4 style={{ marginBottom: '8px' }}>Expanded (expandLevel=1)</h4>
+        <p style={{ fontSize: '12px', color: '#666', marginBottom: '8px' }}>
+          Shows only identifier: <code>Order</code> (children visible below)
+        </p>
+        <SchemaObjectInspector data={sampleOrder} schema={OrderSchema} expandLevel={1} />
+      </div>
+    </div>
+  ),
+  name: 'Expanded vs collapsed preview',
+};
