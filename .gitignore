@@ -6,3 +6,6 @@ dist
 *.log
 storybook-static
 .yarn/*
+
+# Temporary files
+tmp-bin/
