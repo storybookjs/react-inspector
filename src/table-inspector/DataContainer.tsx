@@ -1,13 +1,14 @@
 import React from 'react';
 import { ObjectValue } from '../object/ObjectValue';
 
-import { hasOwnProperty } from '../utils/objectPrototype';
+import { useDataAccessor } from '../DataAccessorContext';
 
 import { useStyles } from '../styles';
 
 export const DataContainer = ({ rows, columns, rowsData }) => {
   const styles = useStyles('TableInspectorDataContainer');
   const borderStyles = useStyles('TableInspectorLeftBorder');
+  const accessor = useDataAccessor();
 
   return (
     <div style={styles.div}>
@@ -30,10 +31,11 @@ export const DataContainer = ({ rows, columns, rowsData }) => {
                 //  function -> pass
                 //  symbol
                 //  undefined -> pass
-                if (typeof rowData === 'object' && rowData !== null && hasOwnProperty.call(rowData, column)) {
+                const rowType = accessor.typeof(rowData);
+                if (rowType === 'object' && !accessor.isNull(rowData) && accessor.hasOwnProperty(rowData, column)) {
                   return (
                     <td key={column} style={{ ...styles.td, ...borderStyles.solid }}>
-                      <ObjectValue object={rowData[column]} />
+                      <ObjectValue object={accessor.getProperty(rowData, column)} />
                     </td>
                   );
                 } else {

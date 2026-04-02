@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 
 import { useStyles } from '../styles';
+import { useDataAccessor } from '../DataAccessorContext';
 
 /**
  * A short description of the object values.
@@ -9,50 +10,55 @@ import { useStyles } from '../styles';
  */
 export const ObjectValue: FC<any> = ({ object, styles }) => {
   const themeStyles = useStyles('ObjectValue');
+  const accessor = useDataAccessor();
 
   const mkStyle = (key: any) => ({ ...themeStyles[key], ...styles });
 
-  switch (typeof object) {
+  const type = accessor.typeof(object);
+  switch (type) {
     case 'bigint':
-      return <span style={mkStyle('objectValueNumber')}>{String(object)}n</span>;
+      return <span style={mkStyle('objectValueNumber')}>{accessor.toString(object)}n</span>;
     case 'number':
-      return <span style={mkStyle('objectValueNumber')}>{String(object)}</span>;
+      return <span style={mkStyle('objectValueNumber')}>{accessor.toString(object)}</span>;
     case 'string':
-      return <span style={mkStyle('objectValueString')}>"{object}"</span>;
+      return <span style={mkStyle('objectValueString')}>"{accessor.toString(object)}"</span>;
     case 'boolean':
-      return <span style={mkStyle('objectValueBoolean')}>{String(object)}</span>;
+      return <span style={mkStyle('objectValueBoolean')}>{accessor.toString(object)}</span>;
     case 'undefined':
       return <span style={mkStyle('objectValueUndefined')}>undefined</span>;
     case 'object':
-      if (object === null) {
+      if (accessor.isNull(object)) {
         return <span style={mkStyle('objectValueNull')}>null</span>;
       }
-      if (object instanceof Date) {
-        return <span>{object.toString()}</span>;
+      if (accessor.isDate(object)) {
+        return <span>{accessor.toString(object)}</span>;
       }
-      if (object instanceof RegExp) {
-        return <span style={mkStyle('objectValueRegExp')}>{object.toString()}</span>;
+      if (accessor.isRegExp(object)) {
+        return <span style={mkStyle('objectValueRegExp')}>{accessor.toString(object)}</span>;
       }
-      if (Array.isArray(object)) {
-        return <span>{`Array(${object.length})`}</span>;
+      if (accessor.isArray(object)) {
+        return <span>{`Array(${accessor.length(object)})`}</span>;
       }
-      if (!object.constructor) {
-        return <span>Object</span>;
-      }
-      if (typeof object.constructor.isBuffer === 'function' && object.constructor.isBuffer(object)) {
-        return <span>{`Buffer[${object.length}]`}</span>;
+      if (accessor.isBuffer(object)) {
+        return <span>{`Buffer[${accessor.length(object)}]`}</span>;
       }
 
-      return <span>{object.constructor.name}</span>;
+      {
+        const constructorName = accessor.getConstructorName(object);
+        if (!constructorName) {
+          return <span>Object</span>;
+        }
+        return <span>{constructorName}</span>;
+      }
     case 'function':
       return (
         <span>
           <span style={mkStyle('objectValueFunctionPrefix')}>ƒ&nbsp;</span>
-          <span style={mkStyle('objectValueFunctionName')}>{object.name}()</span>
+          <span style={mkStyle('objectValueFunctionName')}>{accessor.getFunctionName(object)}()</span>
         </span>
       );
     case 'symbol':
-      return <span style={mkStyle('objectValueSymbol')}>{object.toString()}</span>;
+      return <span style={mkStyle('objectValueSymbol')}>{accessor.toString(object)}</span>;
     default:
       return <span />;
   }
