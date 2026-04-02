@@ -33,7 +33,9 @@ export const ObjectPreview: FC<any> = ({ data }) => {
     const arrayLength = accessor.length(object);
     const previewArray: ReactNode[] = [];
     for (let i = 0; i < Math.min(arrayLength, maxProperties); i++) {
-      previewArray.push(<ObjectValue key={i} object={accessor.getProperty(object, String(i))} />);
+      if (accessor.hasOwnProperty(object, String(i))) {
+        previewArray.push(<ObjectValue key={i} object={accessor.getProperty(object, String(i))} />);
+      }
     }
     if (arrayLength > maxProperties) {
       previewArray.push(<span key="ellipsis">…</span>);

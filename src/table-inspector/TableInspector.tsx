@@ -11,7 +11,7 @@ import { DataContainer } from './DataContainer';
 import { HeaderContainer } from './HeaderContainer';
 
 import { themeAcceptor, useStyles } from '../styles';
-import { DataAccessor, defaultDataAccessor } from '../DataAccessor';
+import { defaultDataAccessor } from '../DataAccessor';
 import { DataAccessorContext } from '../DataAccessorContext';
 
 const TableInspector: FC<any> = ({
@@ -98,8 +98,8 @@ const TableInspector: FC<any> = ({
       return (a, b) => {
         const v1 = mapper(a); // the datum
         const v2 = mapper(b);
-        const type1 = typeof v1;
-        const type2 = typeof v2;
+        const type1 = accessor.typeof(v1);
+        const type2 = accessor.typeof(v2);
         // use '<' operator to compare same type of values or compare type precedence order #
         const lt = (v1, v2) => {
           if (v1 < v2) {

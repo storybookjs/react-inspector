@@ -4,7 +4,7 @@ import { TreeNode } from './TreeNode';
 import { DEFAULT_ROOT_PATH, hasChildNodes, getExpandedPaths } from './pathUtils';
 
 import { useStyles } from '../styles';
-import { DataAccessor, defaultDataAccessor } from '../DataAccessor';
+import { defaultDataAccessor } from '../DataAccessor';
 import { DataAccessorContext } from '../DataAccessorContext';
 
 const ConnectedTreeNode = memo<any>((props) => {

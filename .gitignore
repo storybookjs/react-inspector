@@ -6,3 +6,4 @@ dist
 *.log
 storybook-static
 .yarn/*
+package.tgz

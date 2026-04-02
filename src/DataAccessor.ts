@@ -199,7 +199,7 @@ export const defaultDataAccessor: DataAccessor = {
     const propertyDescriptor = Object.getOwnPropertyDescriptor(value, prop);
     if (propertyDescriptor && propertyDescriptor.get) {
       try {
-        return propertyDescriptor.get();
+        return propertyDescriptor.get.call(value);
       } catch {
         return propertyDescriptor.get;
       }
