@@ -4,9 +4,7 @@ import { ObjectValue } from '../object/ObjectValue';
 import { ObjectName } from '../object/ObjectName';
 
 import { useStyles } from '../styles';
-
-import { hasOwnProperty } from '../utils/objectPrototype';
-import { getPropertyValue } from '../utils/propertyUtils';
+import { useDataAccessor } from '../DataAccessorContext';
 
 /* intersperse arr with separator */
 function intersperse(arr: any[], sep: string) {
@@ -22,21 +20,24 @@ function intersperse(arr: any[], sep: string) {
  */
 export const ObjectPreview: FC<any> = ({ data }) => {
   const styles = useStyles('ObjectPreview');
+  const accessor = useDataAccessor();
   const object = data;
 
-  if (typeof object !== 'object' || object === null || object instanceof Date || object instanceof RegExp) {
+  const type = accessor.typeof(object);
+  if (type !== 'object' || accessor.isNull(object) || accessor.isDate(object) || accessor.isRegExp(object)) {
     return <ObjectValue object={object} />;
   }
 
-  if (Array.isArray(object)) {
+  if (accessor.isArray(object)) {
     const maxProperties = styles.arrayMaxProperties;
-    const previewArray = object
-      .slice(0, maxProperties)
-      .map((element, index) => <ObjectValue key={index} object={element} />);
-    if (object.length > maxProperties) {
+    const arrayLength = accessor.length(object);
+    const previewArray: ReactNode[] = [];
+    for (let i = 0; i < Math.min(arrayLength, maxProperties); i++) {
+      previewArray.push(<ObjectValue key={i} object={accessor.getProperty(object, String(i))} />);
+    }
+    if (arrayLength > maxProperties) {
       previewArray.push(<span key="ellipsis">…</span>);
     }
-    const arrayLength = object.length;
     return (
       <React.Fragment>
         <span style={styles.objectDescription}>{arrayLength === 0 ? `` : `(${arrayLength})\xa0`}</span>
@@ -46,14 +47,16 @@ export const ObjectPreview: FC<any> = ({ data }) => {
   } else {
     const maxProperties = styles.objectMaxProperties;
     const propertyNodes: ReactNode[] = [];
-    for (const propertyName in object) {
-      if (hasOwnProperty.call(object, propertyName)) {
+    const allKeys = accessor.keys(object);
+
+    for (const propertyName of allKeys) {
+      if (accessor.hasOwnProperty(object, propertyName)) {
         let ellipsis;
-        if (propertyNodes.length === maxProperties - 1 && Object.keys(object).length > maxProperties) {
+        if (propertyNodes.length === maxProperties - 1 && allKeys.length > maxProperties) {
           ellipsis = <span key={'ellipsis'}>…</span>;
         }
 
-        const propertyValue = getPropertyValue(object, propertyName);
+        const propertyValue = accessor.getProperty(object, propertyName);
         propertyNodes.push(
           <span key={propertyName}>
             <ObjectName name={propertyName || `""`} />
@@ -66,7 +69,7 @@ export const ObjectPreview: FC<any> = ({ data }) => {
       }
     }
 
-    const objectConstructorName = object.constructor ? object.constructor.name : 'Object';
+    const objectConstructorName = accessor.getConstructorName(object) || 'Object';
 
     return (
       <React.Fragment>

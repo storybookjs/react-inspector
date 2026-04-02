@@ -1,3 +1,5 @@
+import { DataAccessor, defaultDataAccessor } from '../DataAccessor';
+
 export const DEFAULT_ROOT_PATH = '$';
 
 const WILDCARD = '*';
@@ -13,7 +15,14 @@ export const wildcardPathsFromLevel = (level) => {
   );
 };
 
-export const getExpandedPaths = (data, dataIterator, expandPaths, expandLevel, prevExpandedPaths) => {
+export const getExpandedPaths = (
+  data,
+  dataIterator,
+  expandPaths,
+  expandLevel,
+  prevExpandedPaths,
+  accessor: DataAccessor = defaultDataAccessor
+) => {
   const wildcardPaths = []
     .concat(wildcardPathsFromLevel(expandLevel))
     .concat(expandPaths)
@@ -40,7 +49,7 @@ export const getExpandedPaths = (data, dataIterator, expandPaths, expandLevel, p
             }
           }
         } else {
-          const value = curData[key];
+          const value = accessor.getProperty(curData, key);
           if (hasChildNodes(value, dataIterator)) {
             populatePaths(value, `${curPath}.${key}`, depth + 1);
           }

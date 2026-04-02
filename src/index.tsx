@@ -1,5 +1,8 @@
 export { chromeLight, chromeDark } from './styles/themes';
 
+export type { DataAccessor } from './DataAccessor';
+export { defaultDataAccessor } from './DataAccessor';
+
 import { ObjectInspector } from './object-inspector/ObjectInspector';
 import { TableInspector } from './table-inspector/TableInspector';
 import { DOMInspector } from './dom-inspector/DOMInspector';
