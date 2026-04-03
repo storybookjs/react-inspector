@@ -9,7 +9,7 @@ import { getPropertyValue } from '../utils/propertyUtils';
 
 import { themeAcceptor } from '../styles';
 
-const createIterator = (showNonenumerable: any, sortObjectKeys: any) => {
+const createIterator = (showNonenumerable: any, sortObjectKeys: any, replacer?: (args: { name: any, data: any }) => any) => {
   const objectIterator = function* (data: any) {
     const shouldIterate = (typeof data === 'object' && data !== null) || typeof data === 'function';
     if (!shouldIterate) return;
@@ -24,12 +24,13 @@ const createIterator = (showNonenumerable: any, sortObjectKeys: any) => {
           const [k, v] = entry;
           yield {
             name: k,
-            data: v,
+            data: replacer?.({ name: k, data: v }) ?? v,
           };
         } else {
+          const name = i.toString();
           yield {
-            name: i.toString(),
-            data: entry,
+            name: name,
+            data: replacer?.({ name, data: entry }) ?? entry,
           };
         }
         i++;
@@ -46,9 +47,10 @@ const createIterator = (showNonenumerable: any, sortObjectKeys: any) => {
       for (const propertyName of keys) {
         if (propertyIsEnumerable.call(data, propertyName)) {
           const propertyValue = getPropertyValue(data, propertyName);
+          const name = propertyName || `""`;
           yield {
-            name: propertyName || `""`,
-            data: propertyValue,
+            name,
+            data: replacer?.({ name, data: propertyValue }) ?? propertyValue,
           };
         } else if (showNonenumerable) {
           // To work around the error (happens some time when propertyName === 'caller' || propertyName === 'arguments')
@@ -65,7 +67,7 @@ const createIterator = (showNonenumerable: any, sortObjectKeys: any) => {
           if (propertyValue !== undefined) {
             yield {
               name: propertyName,
-              data: propertyValue,
+              data: replacer?.({ name: propertyName, data: propertyValue }) ?? propertyValue,
               isNonenumerable: true,
             };
           }
@@ -75,9 +77,11 @@ const createIterator = (showNonenumerable: any, sortObjectKeys: any) => {
       // [[Prototype]] of the object: `Object.getPrototypeOf(data)`
       // the property name is shown as "__proto__"
       if (showNonenumerable && data !== Object.prototype /* already added */) {
+        const name = '__proto__';
+        const _data = Object.getPrototypeOf(data);
         yield {
           name: '__proto__',
-          data: Object.getPrototypeOf(data),
+          data: replacer?.({ name, data: _data }) ?? _data,
           isNonenumerable: true,
         };
       }
@@ -97,8 +101,8 @@ const defaultNodeRenderer = ({ depth, name, data, isNonenumerable }: any) =>
 /**
  * Tree-view for objects
  */
-const ObjectInspector: FC<any> = ({ showNonenumerable = false, sortObjectKeys, nodeRenderer, ...treeViewProps }) => {
-  const dataIterator = createIterator(showNonenumerable, sortObjectKeys);
+const ObjectInspector: FC<any> = ({ showNonenumerable = false, sortObjectKeys, nodeRenderer, replacer, ...treeViewProps }) => {
+  const dataIterator = createIterator(showNonenumerable, sortObjectKeys, replacer);
   const renderer = nodeRenderer ? nodeRenderer : defaultNodeRenderer;
 
   return <TreeView nodeRenderer={renderer} dataIterator={dataIterator} {...treeViewProps} />;
