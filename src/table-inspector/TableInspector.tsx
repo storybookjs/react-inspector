@@ -11,12 +11,16 @@ import { DataContainer } from './DataContainer';
 import { HeaderContainer } from './HeaderContainer';
 
 import { themeAcceptor, useStyles } from '../styles';
+import { defaultDataAccessor } from '../DataAccessor';
+import { DataAccessorContext } from '../DataAccessorContext';
 
 const TableInspector: FC<any> = ({
   // The JS object you would like to inspect, either an array or an object
   data,
   // An array of the names of the columns you'd like to display in the table
   columns,
+  // Custom data accessor
+  dataAccessor: accessor = defaultDataAccessor,
 }) => {
   const styles = useStyles('TableInspector');
 
@@ -52,11 +56,12 @@ const TableInspector: FC<any> = ({
     }));
   }, []);
 
-  if (typeof data !== 'object' || data === null) {
+  const dataType = accessor.typeof(data);
+  if (dataType !== 'object' || accessor.isNull(data)) {
     return <div />;
   }
 
-  let { rowHeaders, colHeaders } = getHeaders(data);
+  let { rowHeaders, colHeaders } = getHeaders(data, accessor);
 
   // columns to be displayed are specified
   // NOTE: there's some space for optimization here
@@ -64,7 +69,7 @@ const TableInspector: FC<any> = ({
     colHeaders = columns;
   }
 
-  let rowsData = rowHeaders.map((rowHeader) => data[rowHeader]);
+  let rowsData = rowHeaders.map((rowHeader) => accessor.getProperty(data, String(rowHeader)));
 
   let columnDataWithRowIndexes; /* row indexes are [0..nRows-1] */
   // TODO: refactor
@@ -72,8 +77,9 @@ const TableInspector: FC<any> = ({
     // the column to be sorted (rowsData, column) => [[columnData, rowIndex]]
     columnDataWithRowIndexes = rowsData.map((rowData, index: number) => {
       // normalize rowData
-      if (typeof rowData === 'object' && rowData !== null /*&& rowData.hasOwnProperty(sortColumn)*/) {
-        const columnData = rowData[sortColumn];
+      const rowType = accessor.typeof(rowData);
+      if (rowType === 'object' && !accessor.isNull(rowData) /*&& rowData.hasOwnProperty(sortColumn)*/) {
+        const columnData = accessor.getProperty(rowData, sortColumn);
         return [columnData, index];
       }
       return [undefined, index];
@@ -92,8 +98,8 @@ const TableInspector: FC<any> = ({
       return (a, b) => {
         const v1 = mapper(a); // the datum
         const v2 = mapper(b);
-        const type1 = typeof v1;
-        const type2 = typeof v2;
+        const type1 = accessor.typeof(v1);
+        const type2 = accessor.typeof(v2);
         // use '<' operator to compare same type of values or compare type precedence order #
         const lt = (v1, v2) => {
           if (v1 < v2) {
@@ -133,19 +139,21 @@ const TableInspector: FC<any> = ({
   }
 
   return (
-    <div style={styles.base}>
-      <HeaderContainer
-        columns={colHeaders}
-        /* for sorting */
-        sorted={sorted}
-        sortIndexColumn={sortIndexColumn}
-        sortColumn={sortColumn}
-        sortAscending={sortAscending}
-        onTHClick={handleTHClick}
-        onIndexTHClick={handleIndexTHClick}
-      />
-      <DataContainer rows={rowHeaders} columns={colHeaders} rowsData={rowsData} />
-    </div>
+    <DataAccessorContext.Provider value={accessor}>
+      <div style={styles.base}>
+        <HeaderContainer
+          columns={colHeaders}
+          /* for sorting */
+          sorted={sorted}
+          sortIndexColumn={sortIndexColumn}
+          sortColumn={sortColumn}
+          sortAscending={sortAscending}
+          onTHClick={handleTHClick}
+          onIndexTHClick={handleIndexTHClick}
+        />
+        <DataContainer rows={rowHeaders} columns={colHeaders} rowsData={rowsData} />
+      </div>
+    </DataAccessorContext.Provider>
   );
 };
 

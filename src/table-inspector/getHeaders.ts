@@ -1,22 +1,26 @@
-export function getHeaders(data): any {
-  if (typeof data === 'object') {
+import { DataAccessor, defaultDataAccessor } from '../DataAccessor';
+
+export function getHeaders(data, accessor: DataAccessor = defaultDataAccessor): any {
+  const type = accessor.typeof(data);
+  if (type === 'object' && !accessor.isNull(data)) {
     let rowHeaders: any[] = [];
     // is an array
-    if (Array.isArray(data)) {
-      const nRows = data.length;
+    if (accessor.isArray(data)) {
+      const nRows = accessor.length(data);
       rowHeaders = [...Array(nRows).keys()];
-    } else if (data !== null) {
+    } else {
       // is an object
       // keys are row indexes
-      rowHeaders = Object.keys(data);
+      rowHeaders = accessor.keys(data);
     }
 
     // Time: O(nRows * nCols)
     const colHeaders = rowHeaders.reduce((colHeaders, rowHeader) => {
-      const row = data[rowHeader];
-      if (typeof row === 'object' && row !== null) {
+      const row = accessor.getProperty(data, String(rowHeader));
+      const rowType = accessor.typeof(row);
+      if (rowType === 'object' && !accessor.isNull(row)) {
         /* O(nCols) Could optimize `includes` here */
-        const cols = Object.keys(row);
+        const cols = accessor.keys(row);
         cols.reduce((xs, x) => {
           if (!xs.includes(x)) {
             /* xs is the colHeaders to be filled by searching the row's indexes */

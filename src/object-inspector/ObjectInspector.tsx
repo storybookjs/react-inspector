@@ -4,24 +4,26 @@ import { TreeView } from '../tree-view/TreeView';
 import { ObjectRootLabel } from './ObjectRootLabel';
 import { ObjectLabel } from './ObjectLabel';
 
-import { propertyIsEnumerable } from '../utils/objectPrototype';
-import { getPropertyValue } from '../utils/propertyUtils';
+import { DataAccessor, defaultDataAccessor, UNEVALUATED_GETTER } from '../DataAccessor';
 
 import { themeAcceptor } from '../styles';
 
-const createIterator = (showNonenumerable: any, sortObjectKeys: any) => {
+const createIterator = (showNonenumerable: any, sortObjectKeys: any, accessor: DataAccessor) => {
   const objectIterator = function* (data: any) {
-    const shouldIterate = (typeof data === 'object' && data !== null) || typeof data === 'function';
-    if (!shouldIterate) return;
+    // A getter that hasn't been invoked yet has no children to iterate;
+    // this sentinel never reaches the DataAccessor.
+    if (data === UNEVALUATED_GETTER) return;
+    if (!accessor.hasChildren(data)) return;
 
-    const dataIsArray = Array.isArray(data);
+    const dataIsArray = accessor.isArray(data);
 
     // iterable objects (except arrays)
-    if (!dataIsArray && data[Symbol.iterator]) {
+    if (!dataIsArray && accessor.isIterable(data)) {
       let i = 0;
-      for (const entry of data) {
-        if (Array.isArray(entry) && entry.length === 2) {
-          const [k, v] = entry;
+      for (const entry of accessor.iterate(data)) {
+        if (accessor.isArray(entry) && accessor.length(entry) === 2) {
+          const k = accessor.getProperty(entry, '0');
+          const v = accessor.getProperty(entry, '1');
           yield {
             name: k,
             data: v,
@@ -35,7 +37,7 @@ const createIterator = (showNonenumerable: any, sortObjectKeys: any) => {
         i++;
       }
     } else {
-      const keys = Object.getOwnPropertyNames(data);
+      const keys = accessor.getOwnPropertyNames(data);
       if (sortObjectKeys === true && !dataIsArray) {
         // Array keys should not be sorted in alphabetical order
         keys.sort();
@@ -44,22 +46,45 @@ const createIterator = (showNonenumerable: any, sortObjectKeys: any) => {
       }
 
       for (const propertyName of keys) {
-        if (propertyIsEnumerable.call(data, propertyName)) {
-          const propertyValue = getPropertyValue(data, propertyName);
+        const isEnumerable = accessor.propertyIsEnumerable(data, propertyName);
+        if (!isEnumerable && !showNonenumerable) continue;
+
+        // When the accessor supports descriptor reads, use them: data
+        // properties are read without triggering [[Get]], and accessor
+        // properties are rendered as a lazy "(...)" (Chrome DevTools
+        // style) so that rendering never invokes getters.
+        const descriptor = accessor.getOwnPropertyDescriptor?.(data, propertyName);
+        if (descriptor && descriptor.get) {
+          yield {
+            name: propertyName || `""`,
+            data: UNEVALUATED_GETTER,
+            isAccessor: true,
+            parentData: data,
+            ...(isEnumerable ? {} : { isNonenumerable: true }),
+          };
+          continue;
+        }
+
+        if (isEnumerable) {
+          const propertyValue = descriptor ? descriptor.value : accessor.getProperty(data, propertyName);
           yield {
             name: propertyName || `""`,
             data: propertyValue,
           };
-        } else if (showNonenumerable) {
+        } else {
           // To work around the error (happens some time when propertyName === 'caller' || propertyName === 'arguments')
           // 'caller' and 'arguments' are restricted function properties and cannot be accessed in this context
           // http://stackoverflow.com/questions/31921189/caller-and-arguments-are-restricted-function-properties-and-cannot-be-access
           let propertyValue;
-          try {
-            propertyValue = getPropertyValue(data, propertyName);
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          } catch (e) {
-            // console.warn(e)
+          if (descriptor) {
+            propertyValue = descriptor.value;
+          } else {
+            try {
+              propertyValue = accessor.getProperty(data, propertyName);
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            } catch (e) {
+              // console.warn(e)
+            }
           }
 
           if (propertyValue !== undefined) {
@@ -74,10 +99,10 @@ const createIterator = (showNonenumerable: any, sortObjectKeys: any) => {
 
       // [[Prototype]] of the object: `Object.getPrototypeOf(data)`
       // the property name is shown as "__proto__"
-      if (showNonenumerable && data !== Object.prototype /* already added */) {
+      if (showNonenumerable && !accessor.isObjectPrototype(data) /* already added */) {
         yield {
           name: '__proto__',
-          data: Object.getPrototypeOf(data),
+          data: accessor.getPrototypeOf(data),
           isNonenumerable: true,
         };
       }
@@ -87,21 +112,36 @@ const createIterator = (showNonenumerable: any, sortObjectKeys: any) => {
   return objectIterator;
 };
 
-const defaultNodeRenderer = ({ depth, name, data, isNonenumerable }: any) =>
+const defaultNodeRenderer = ({ depth, name, data, isNonenumerable, isAccessor, getterEvaluated, onInvokeGetter }: any) =>
   depth === 0 ? (
     <ObjectRootLabel name={name} data={data} />
   ) : (
-    <ObjectLabel name={name} data={data} isNonenumerable={isNonenumerable} />
+    <ObjectLabel
+      name={name}
+      data={data}
+      isNonenumerable={isNonenumerable}
+      isAccessor={isAccessor}
+      getterEvaluated={getterEvaluated}
+      onInvokeGetter={onInvokeGetter}
+    />
   );
 
 /**
  * Tree-view for objects
  */
-const ObjectInspector: FC<any> = ({ showNonenumerable = false, sortObjectKeys, nodeRenderer, ...treeViewProps }) => {
-  const dataIterator = createIterator(showNonenumerable, sortObjectKeys);
+const ObjectInspector: FC<any> = ({
+  showNonenumerable = false,
+  sortObjectKeys,
+  nodeRenderer,
+  dataAccessor = defaultDataAccessor,
+  ...treeViewProps
+}) => {
+  const dataIterator = createIterator(showNonenumerable, sortObjectKeys, dataAccessor);
   const renderer = nodeRenderer ? nodeRenderer : defaultNodeRenderer;
 
-  return <TreeView nodeRenderer={renderer} dataIterator={dataIterator} {...treeViewProps} />;
+  return (
+    <TreeView nodeRenderer={renderer} dataIterator={dataIterator} dataAccessor={dataAccessor} {...treeViewProps} />
+  );
 };
 
 // ObjectInspector.propTypes = {

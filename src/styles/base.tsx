@@ -58,6 +58,13 @@ export const createTheme = (theme: any) => ({
     },
   },
 
+  ObjectLabel: {
+    getterLabel: {
+      color: theme.OBJECT_VALUE_UNDEFINED_COLOR,
+      cursor: 'pointer',
+    },
+  },
+
   ObjectValue: {
     objectValueNull: {
       color: theme.OBJECT_VALUE_NULL_COLOR,
