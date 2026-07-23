@@ -6,6 +6,40 @@
  * inspect proxy objects, remote values, or values in a different runtime (e.g. QuickJS)
  * that don't support native JS introspection.
  */
+/**
+ * The result of {@link DataAccessor.getOwnPropertyDescriptor}. Mirrors the
+ * shape of `Object.getOwnPropertyDescriptor()`:
+ *
+ * - A data property carries `value` (+ `writable`).
+ * - An accessor property carries `get` / `set`.
+ *
+ * IMPORTANT: `get`/`set` must be absent (or `undefined`) when the accessor
+ * half does not exist. Accessors for foreign runtimes must translate their
+ * runtime's "undefined" representation to host `undefined` here — the
+ * inspector uses the truthiness of `get` to decide whether a property is
+ * rendered as a lazy `(...)` getter.
+ */
+export interface InspectedPropertyDescriptor {
+  /** Present for data properties. May be any accessor-domain value. */
+  value?: unknown;
+  /** The getter, for accessor properties. May be any accessor-domain value (e.g. a remote function handle) — it is never invoked by the inspector, only tested for presence. */
+  get?: unknown;
+  /** The setter, for accessor properties. Never invoked. */
+  set?: unknown;
+  /** Present for data properties. */
+  writable?: boolean;
+  enumerable?: boolean;
+  configurable?: boolean;
+}
+
+/**
+ * Sentinel used as the `data` of a tree node whose value is behind a getter
+ * that has not been invoked yet. Custom `nodeRenderer`s can compare against
+ * this to render their own "(...)" affordance. DataAccessor methods are
+ * never called with this sentinel.
+ */
+export const UNEVALUATED_GETTER: unique symbol = Symbol('react-inspector.unevaluated-getter');
+
 export interface DataAccessor {
   /**
    * Returns the type of the value as a string.
@@ -92,8 +126,27 @@ export interface DataAccessor {
   /**
    * Gets the value of a property on the object.
    * Equivalent to `value[prop]`, but should handle getter properties safely.
+   *
+   * When `getOwnPropertyDescriptor` is implemented, this is only called for
+   * data properties during rendering — accessor properties are rendered as a
+   * lazy `(...)` and this method is invoked on demand when the user clicks
+   * it (so it MAY run the getter at that point).
    */
   getProperty(value: unknown, prop: string): unknown;
+
+  /**
+   * Optional. Returns the own property descriptor for a property WITHOUT
+   * invoking its getter, or undefined if there is no such own property.
+   * Equivalent to `Object.getOwnPropertyDescriptor(value, prop)`.
+   *
+   * When implemented, the inspector renders accessor properties as a lazy,
+   * clickable `(...)` (like Chrome DevTools) instead of eagerly invoking
+   * getters via `getProperty` — rendering becomes side-effect free.
+   *
+   * When not implemented, the inspector falls back to eager `getProperty`
+   * calls for all properties (the pre-existing behavior).
+   */
+  getOwnPropertyDescriptor?(value: unknown, prop: string): InspectedPropertyDescriptor | undefined;
 
   /**
    * Returns the prototype of the value, or null if it has none.
@@ -205,6 +258,10 @@ export const defaultDataAccessor: DataAccessor = {
       }
     }
     return (value as any)[prop];
+  },
+
+  getOwnPropertyDescriptor(value: unknown, prop: string): InspectedPropertyDescriptor | undefined {
+    return Object.getOwnPropertyDescriptor(value, prop);
   },
 
   getPrototypeOf(value: unknown): unknown {

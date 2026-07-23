@@ -4,13 +4,23 @@ import { TreeNode } from './TreeNode';
 import { DEFAULT_ROOT_PATH, hasChildNodes, getExpandedPaths } from './pathUtils';
 
 import { useStyles } from '../styles';
-import { defaultDataAccessor } from '../DataAccessor';
-import { DataAccessorContext } from '../DataAccessorContext';
+import { defaultDataAccessor, UNEVALUATED_GETTER } from '../DataAccessor';
+import { DataAccessorContext, useDataAccessor } from '../DataAccessorContext';
 
 const ConnectedTreeNode = memo<any>((props) => {
-  const { data, dataIterator, path, depth, nodeRenderer } = props;
+  const { data, dataIterator, path, depth, nodeRenderer, isAccessor, parentData, name } = props;
   const [expandedPaths, setExpandedPaths] = useContext(ExpandedPathsContext);
-  const nodeHasChildNodes = hasChildNodes(data, dataIterator);
+  const accessor = useDataAccessor();
+
+  // Lazily-evaluated getter support: an accessor property starts out as
+  // the UNEVALUATED_GETTER sentinel and is only computed (via
+  // accessor.getProperty, which may run the getter) when the user clicks
+  // the "(...)" affordance.
+  const [evaluation, setEvaluation] = useState<{ evaluated: boolean; value?: unknown }>({ evaluated: false });
+  const getterEvaluated = !isAccessor || evaluation.evaluated;
+  const effectiveData = isAccessor ? (evaluation.evaluated ? evaluation.value : UNEVALUATED_GETTER) : data;
+
+  const nodeHasChildNodes = getterEvaluated && hasChildNodes(effectiveData, dataIterator);
   const expanded = !!expandedPaths[path];
 
   const handleClick = useCallback(
@@ -21,6 +31,24 @@ const ConnectedTreeNode = memo<any>((props) => {
         [path]: !expanded,
       })),
     [nodeHasChildNodes, setExpandedPaths, path, expanded]
+  );
+
+  const onInvokeGetter = useCallback(
+    (event?: { stopPropagation?: () => void }) => {
+      // Don't let the click toggle expansion of the (still empty) node
+      event?.stopPropagation?.();
+      setEvaluation((prev) => {
+        if (prev.evaluated) return prev;
+        let value: unknown;
+        try {
+          value = accessor.getProperty(parentData, name);
+        } catch (e) {
+          value = e;
+        }
+        return { evaluated: true, value };
+      });
+    },
+    [accessor, parentData, name]
   );
 
   return (
@@ -34,11 +62,14 @@ const ConnectedTreeNode = memo<any>((props) => {
       // Render a node from name and data (or possibly other props like isNonenumerable)
       nodeRenderer={nodeRenderer}
       {...props}
+      data={effectiveData}
+      getterEvaluated={getterEvaluated}
+      onInvokeGetter={onInvokeGetter}
     >
       {
         // only render if the node is expanded
-        expanded
-          ? [...dataIterator(data)].map(({ name, data, ...renderNodeProps }) => {
+        expanded && getterEvaluated
+          ? [...dataIterator(effectiveData)].map(({ name, data, ...renderNodeProps }) => {
               return (
                 <ConnectedTreeNode
                   name={name}

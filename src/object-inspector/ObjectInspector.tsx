@@ -4,12 +4,15 @@ import { TreeView } from '../tree-view/TreeView';
 import { ObjectRootLabel } from './ObjectRootLabel';
 import { ObjectLabel } from './ObjectLabel';
 
-import { DataAccessor, defaultDataAccessor } from '../DataAccessor';
+import { DataAccessor, defaultDataAccessor, UNEVALUATED_GETTER } from '../DataAccessor';
 
 import { themeAcceptor } from '../styles';
 
 const createIterator = (showNonenumerable: any, sortObjectKeys: any, accessor: DataAccessor) => {
   const objectIterator = function* (data: any) {
+    // A getter that hasn't been invoked yet has no children to iterate;
+    // this sentinel never reaches the DataAccessor.
+    if (data === UNEVALUATED_GETTER) return;
     if (!accessor.hasChildren(data)) return;
 
     const dataIsArray = accessor.isArray(data);
@@ -43,22 +46,45 @@ const createIterator = (showNonenumerable: any, sortObjectKeys: any, accessor: D
       }
 
       for (const propertyName of keys) {
-        if (accessor.propertyIsEnumerable(data, propertyName)) {
-          const propertyValue = accessor.getProperty(data, propertyName);
+        const isEnumerable = accessor.propertyIsEnumerable(data, propertyName);
+        if (!isEnumerable && !showNonenumerable) continue;
+
+        // When the accessor supports descriptor reads, use them: data
+        // properties are read without triggering [[Get]], and accessor
+        // properties are rendered as a lazy "(...)" (Chrome DevTools
+        // style) so that rendering never invokes getters.
+        const descriptor = accessor.getOwnPropertyDescriptor?.(data, propertyName);
+        if (descriptor && descriptor.get) {
+          yield {
+            name: propertyName || `""`,
+            data: UNEVALUATED_GETTER,
+            isAccessor: true,
+            parentData: data,
+            ...(isEnumerable ? {} : { isNonenumerable: true }),
+          };
+          continue;
+        }
+
+        if (isEnumerable) {
+          const propertyValue = descriptor ? descriptor.value : accessor.getProperty(data, propertyName);
           yield {
             name: propertyName || `""`,
             data: propertyValue,
           };
-        } else if (showNonenumerable) {
+        } else {
           // To work around the error (happens some time when propertyName === 'caller' || propertyName === 'arguments')
           // 'caller' and 'arguments' are restricted function properties and cannot be accessed in this context
           // http://stackoverflow.com/questions/31921189/caller-and-arguments-are-restricted-function-properties-and-cannot-be-access
           let propertyValue;
-          try {
-            propertyValue = accessor.getProperty(data, propertyName);
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          } catch (e) {
-            // console.warn(e)
+          if (descriptor) {
+            propertyValue = descriptor.value;
+          } else {
+            try {
+              propertyValue = accessor.getProperty(data, propertyName);
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            } catch (e) {
+              // console.warn(e)
+            }
           }
 
           if (propertyValue !== undefined) {
@@ -86,11 +112,18 @@ const createIterator = (showNonenumerable: any, sortObjectKeys: any, accessor: D
   return objectIterator;
 };
 
-const defaultNodeRenderer = ({ depth, name, data, isNonenumerable }: any) =>
+const defaultNodeRenderer = ({ depth, name, data, isNonenumerable, isAccessor, getterEvaluated, onInvokeGetter }: any) =>
   depth === 0 ? (
     <ObjectRootLabel name={name} data={data} />
   ) : (
-    <ObjectLabel name={name} data={data} isNonenumerable={isNonenumerable} />
+    <ObjectLabel
+      name={name}
+      data={data}
+      isNonenumerable={isNonenumerable}
+      isAccessor={isAccessor}
+      getterEvaluated={getterEvaluated}
+      onInvokeGetter={onInvokeGetter}
+    />
   );
 
 /**

@@ -58,12 +58,20 @@ export const ObjectPreview: FC<any> = ({ data }) => {
           ellipsis = <span key={'ellipsis'}>…</span>;
         }
 
-        const propertyValue = accessor.getProperty(object, propertyName);
+        // When descriptor reads are supported, don't invoke getters just to
+        // render a preview — show "(...)" like Chrome DevTools.
+        const descriptor = accessor.getOwnPropertyDescriptor?.(object, propertyName);
+        const valueNode =
+          descriptor && descriptor.get ? (
+            <span>(...)</span>
+          ) : (
+            <ObjectValue object={descriptor ? descriptor.value : accessor.getProperty(object, propertyName)} />
+          );
         propertyNodes.push(
           <span key={propertyName}>
             <ObjectName name={propertyName || `""`} />
             :&nbsp;
-            <ObjectValue object={propertyValue} />
+            {valueNode}
             {ellipsis}
           </span>
         );
